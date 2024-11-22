@@ -78,9 +78,40 @@ CREATE TABLE DanhGia (
 );
 
 -- phân hệ nhân viên
+CREATE TABLE NhanVien (
+	MaNhanVien VARCHAR(10),
+	HoTen NVARCHAR(50),
+	NgaySinh DATE,
+	GioiTinh NVARCHAR(4),
+	Luong DECIMAL(8,0),
+	NgayVaoLam DATE,
+	NgayNghiViec DATE,
+	MaBoPhan VARCHAR(10),
+	DiemSo DECIMAL(9,0)
+	
+);
 
+
+CREATE TABLE BoPhan (
+	MaBoPhan VARCHAR(10),
+	TenBoPhan NVARCHAR(30)
+);
+
+
+CREATE TABLE LichSuLamViec (
+	MaNhanVien VARCHAR(10),
+	MaBoPhan VARCHAR(10),
+	MaChiNhanh INT,
+	NgayBatDau DATE,
+	NgayKetThuc DATE
+); 
 
 -- ràng buộc constraint 
 -- phân hệ chi nhánh
 -- phân hệ khách hàng
 -- phân hệ nhân viên
+CONSTRAINT PK_NV PRIMARY KEY (MaNhanVien),
+CONSTRAINT FK_NV_BP FOREIGN KEY(MaBoPhan) REFERENCES BoPhan(MaBoPhan)
+CONSTRAINT PK_BP PRIMARY KEY (MaBoPhan)
+CONSTRAINT FK_LSLV_BP FOREIGN KEY(MaBoPhan) REFERENCES BoPhan(MaBoPhan),
+CONSTRAINT FK_LSLV_CN FOREIGN KEY(MaChiNhanh) REFERENCES ChiNhanh(MaChiNhanh)
