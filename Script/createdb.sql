@@ -77,6 +77,38 @@ CREATE TABLE DanhGia (
     FOREIGN KEY (MaPhieu) REFERENCES PhieuDatMon(MaPhieu)
 );
 
+CREATE TABLE KhachHang (
+	MaKhachHang INT PRIMARY KEY, -- Mã định danh duy nhất cho khách hàng
+	SoCCCD VARCHAR(12) UNIQUE NOT NULL, --Số CCCD của khách hàng, giới hạn 12 kí tự và không trùng lặp
+	SoDienThoai VARCHAR(15) UNIQUE, -- Số điện thoại của khách hàng
+	Email VARCHAR(50) UNIQUE, -- Email của khách hàng
+	HoTen NVARCHAR(50) NOT NULL, -- Họ tên của khách hàng
+	GioiTinh NVARCHAR(10) CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')) -- giới tính của khách hàng.
+);	
+
+CREATE TABLE TheKhachHang (
+	MaSoThe INT PRIMARY KEY, -- Mã định danh duy nhất cho thẻ khách hàng
+	MaKhachHang INT, -- Mã khách hàng, tham chiếu tới KhachHang
+	NgayLap DATETIME, --Ngày, giờ lập thẻ khách hàng
+	NhanVienLap VARCHAR(10), -- Mã nhân viên lập thẻ, tham chiếu tới NhanVien
+	TrangThaiThe BIT DEFAULT 1 CHECK (TrangThaiThe IN (0,1)), -- Trạng thái thẻ khách hàng (0: đóng, 1:mở)
+	DiemHienTai INT DEFAULT 0 CHECK (DiemHienTai >= 0), -- Điểm hiện tại trong thẻ, mặc định là 0
+	DiemTichLuy INT DEFAULT 0 CHECK (DiemTichLuy >= 0), -- Điểm tích lũy, mặc định là 0
+	LoaiThe NVARCHAR(20) DEFAULT N'Membership' CHECK --Loại thẻ, mặc định là Membership
+		(LoaiThe IN (N'Membership', N'Silver', N'Gold')),
+	FOREIGN KEY MaKhachHang REFERENCES KhachHang(MaKhachHang),
+	FOREIGN KEY NhanVienLap REFERENCES NhanVien(MaNhanVien)
+);
+
+CREATE TABLE ThongTinTruyCap (
+	MaKhachHang INT, --Khóa ngoại liên kết đến 'KhachHang'
+	MaDatTruoc INT, -- Khóa ngoại liên kết đến 'DatTruoc'
+	ThoiGianTruyCap INT, -- Thời lượng khách hàng thao tác với website
+	ThoiDiemTruyCap DATETIME, -- Thời điểm khách hàng truy cập vào website
+	PRIMARY KEY (MaKhachHang, MaDatTruoc), --Kết hợp 2 cột làm khóa chính
+	FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang)
+	FOREIGN KEY (MaDatTruoc) REFERENCES DatTruoc(MaDatTruoc)
+);
 -- phân hệ nhân viên
 CREATE TABLE NhanVien (
 	MaNhanVien VARCHAR(10),
