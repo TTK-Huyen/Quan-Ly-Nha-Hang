@@ -1,6 +1,79 @@
 ﻿-- Tạo bảng 
 
 -- phân hệ chi nhánh
+CREATE TABLE KhuVuc
+(
+	MaKhuVuc INT,
+	TenKhuVuc NVARCHAR(255)
+	CONSTRAINT PK_KhuVuc PRIMARY KEY (MaKhuVuc)
+)
+
+CREATE TABLE ChiNhanh
+(
+	MaChiNhanh INT,
+	TenChiNhanh NVARCHAR(255),
+	DiaChi NVARCHAR(255),
+	ThoiGianMoCua TIME,
+	ThoiGianDongCua TIME,
+	SoDienThoai VARCHAR(10),
+	BaiDoXeHoi BIT CHECK (BaiDoXeHoi IN (0,1)),
+	BaiDoXeMay BIT CHECK (BaiDoXeMay IN (0,1)),
+	NhanVienQuanLy VARCHAR(10),
+	MaKhuVuc INT,
+	GiaoHang BIT CHECK (GiaoHang IN (0,1)),
+	CONSTRAINT PK_ChiNhanh PRIMARY KEY(MaChiNhanh),
+	CONSTRAINT FK_ChiNhanh_KhuVuc FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc(MaKhuVuc),
+	CONSTRAINT PK_ChiNhanh_NhanVien FOREIGN KEY (NhanVienQuanLy) REFERENCES NhanVien(MaNhanVien)
+)
+
+CREATE TABLE MucThucDon
+(
+	MaMuc INT,
+	TenMuc NVARCHAR(255),
+	CONSTRAINT PK_MucThucDon PRIMARY KEY (MaMuc)
+)
+
+CREATE TABLE ThucDon
+(
+	MaThucDon INT,
+	TenThucDon NVARCHAR(255),
+	MaKhuVuc INT,
+	CONSTRAINT PK_ThucDon PRIMARY KEY (MaThucDon),
+	CONSTRAINT FK_ThucDon_KhuVuc FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc(MaKhuVuc)
+)
+
+
+CREATE TABLE Mon
+(
+	MaMon INT,
+	MaMuc INT,
+	TenMon NVARCHAR(255),
+	GiaHienTai INT,
+	GiaoHang BIT CHECK (GiaoHang IN (0,1)),
+	CONSTRAINT PK_Mon PRIMARY KEY (MaMon),
+	CONSTRAINT FK_Mon_MucThucDon FOREIGN KEY (MaMuc) REFERENCES MucThucDon (MaMuc)
+)
+
+
+CREATE TABLE ThucDon_Mon
+(
+	MaThucDon INT,
+	MaMon INT,
+	CONSTRAINT FK_ThucDon_Mon_ThucDon FOREIGN KEY (MaThucDon) REFERENCES ThucDon (MaThucDon),
+	CONSTRAINT FK_ThucDon_Mon_Mon FOREIGN KEY (MaMon) REFERENCES Mon(MaMon)
+)
+
+
+
+
+CREATE TABLE PhucVu
+(
+	MaChiNhanh INT,
+	MaMon INT,
+	CoPhucVuKhong BIT CHECK (CoPhucVuKhong IN (0,1)),
+	CONSTRAINT FK_PhucVu_ChiNhanh FOREIGN KEY (MaChiNhanh) REFERENCES ChiNhanh(MaChiNhanh),
+	CONSTRAINT FK_PhucVu_Mon FOREIGN KEY (MaMon) REFERENCES Mon(MaMon)
+)
 -- phân hệ khách hàng
 
 
