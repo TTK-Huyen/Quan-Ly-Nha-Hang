@@ -79,11 +79,9 @@ CREATE TABLE PhucVu
 	CoPhucVuKhong BIT CHECK (CoPhucVuKhong IN (0,1)),
 	
 )
-CREATE TABLE BoPhan (
-	MaBoPhan VARCHAR(10),
-	TenBoPhan NVARCHAR(30)
-	CONSTRAINT PK_BP PRIMARY KEY (MaBoPhan)
-);
+
+	
+--Phân hệ nhân viên
 CREATE TABLE NhanVien (
 	MaNhanVien VARCHAR(10),
 	HoTen NVARCHAR(50),
@@ -97,6 +95,13 @@ CREATE TABLE NhanVien (
 	CONSTRAINT PK_NV PRIMARY KEY (MaNhanVien),
 	
 );
+	
+CREATE TABLE BoPhan (
+	MaBoPhan VARCHAR(10),
+	TenBoPhan NVARCHAR(30)
+	CONSTRAINT PK_BP PRIMARY KEY (MaBoPhan)
+);
+
 
 CREATE TABLE LichSuLamViec (
 	MaNhanVien VARCHAR(10),
