@@ -156,14 +156,14 @@ GO
 
 --TRIGGER PHÂN HỆ NHÂN VIÊN
 
---Mã chi nhánh và mã b? ph?n ph?i có s?n trong h? th?ng tr??c khi thêm m?t nhân
---viên vào m?t chi nhánh ho?c b? ph?n.
+--Mã chi nhánh và mã bộ phận phải có sẵn trong hệ thống trước khi thêm mộtt nhân
+--viên vào mộtt chi nhánh hoặc bộ phận.
 CREATE TRIGGER THEMNV
 ON NhanVien
 AFTER INSERT, UPDATE
 AS
 BEGIN
-    -- Ki?m tra mã b? ph?n
+    -- Ki?m tra mã bộ phận
     IF EXISTS (
         SELECT 1
         FROM INSERTED i
@@ -174,12 +174,12 @@ BEGIN
         )
     )
     BEGIN
-        RAISERROR (N'Mã b? ph?n không n?m trong h? th?ng', 16, 1);
+        RAISERROR (N'Mã bộ phận không nằm trong hệ thống', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END;
 
-    -- Ki?m tra mã chi nhánh
+    -- Kiểm tra mã chi nhánh
     IF EXISTS (
         SELECT 1
         FROM INSERTED i
@@ -191,7 +191,7 @@ BEGIN
         )
     )
     BEGIN
-        RAISERROR (N'Mã chi nhánh không n?m trong h? th?ng ho?c nhân viên ch?a có chi nhánh làm vi?c', 16, 1);
+        RAISERROR (N'Mã chi nhánh không nằm trong hệ thống hoặc nhân viên chưa có chi nhánh làm việc', 16, 1);
         ROLLBACK TRANSACTION;
         RETURN;
     END;
@@ -200,7 +200,7 @@ GO
 
 
 
---Ngày ngh? vi?c c?a nhân viên (n?u có), ph?i l?n h?n ngày vào làm.
+--Ngày nghỉ việc của nhân viên (nếu có), phải lớn hơnhơn ngày vào làm.
 CREATE TRIGGER CHECK_NGAYNGHIVIEC
 ON NhanVien
 AFTER INSERT, UPDATE
@@ -218,7 +218,7 @@ BEGIN
         FROM INSERTED i
         WHERE i.NgayNghiViec IS NOT NULL AND i.NgayVaoLam >= i.NgayNghiViec;
         RAISERROR (
-            N'Ngày ngh? vi?c ph?i l?n h?n ngày vào làm. Vui lòng ki?m tra l?i (Mã nhân viên: %s)',
+            N'Ngày nghỉ việc phải lớn hơn ngày vào làm. Vui lòng kiểm tra lại (Mã nhân viên: %s)',
             16, 1, 
             @MaNhanVien
         );
@@ -229,7 +229,7 @@ END;
 GO
 
 
---Thu?c tính NgayBatDau ph?i nh? h?n NgayKetThuc trong b?ng
+--Thuộc tính NgayBatDau phải nhỏ hơn NgayKetThuc trong bảbảng
 CREATE TRIGGER CHECK_NGAYKETTHUC
 ON LichSuLamViec
 AFTER INSERT, UPDATE
@@ -243,7 +243,7 @@ BEGIN
     )
     BEGIN
         RAISERROR (
-            N'Ngày k?t thúc ph?i l?n h?n ngày b?t ??u. Vui lòng ki?m tra l?i ', 16, 1 );
+            N'Ngày kết thúc phải lớn hơn ngày bắt đầu. Vui lòng kiểm tra lại ', 16, 1 );
         ROLLBACK TRANSACTION;
         RETURN;
     END;
@@ -251,7 +251,7 @@ END;
 GO
 
 
---M?i nhân viên ch? làm vi?c ? m?t chi nhánh t?i m?t th?i ?i?m.
+--Mỗi nhân viên chỉ làm việc tại một chi nhánh tại một thời điểm
 CREATE TRIGGER CHECK_NVCN
 ON LichSuLamViec
 AFTER INSERT, UPDATE
@@ -270,10 +270,7 @@ BEGIN
     )
     BEGIN
         RAISERROR (
-            N'M?i nhân viên ch? làm vi?c ? m?t chi nhánh t?i m?t th?i ?i?m.', 
-            16, 
-            1
-        );
+            N'Mỗi nhân viên chỉ làm việc tại một chi nhánh tại một thời điểm.',16, 1 );
         ROLLBACK TRANSACTION;
         RETURN;
     END;
@@ -281,7 +278,7 @@ END;
 GO
 
 
---Mã nhân viên là duy nh?t cho m?i nhân viên, H? tên, ngày sinh, gi?i tính, l??ng,...=> THÊM NOT NULL KHI CÀI ĐẶT 
+--Mã nhân viên là duy nhất cho mỗi nhân viên, Họ tên, ngày sinh, giới tính, lươlương,...=> THÊM NOT NULL KHI CÀI ĐẶT 
 CREATE TRIGGER KTRTTNV
 ON NhanVien
 AFTER INSERT, UPDATE
