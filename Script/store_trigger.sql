@@ -299,5 +299,22 @@ BEGIN
     END;
 END;
 GO
-
+--Điểm số nhân viên ban đầu phải bằng không.
+CREATE TRIGGER KTRDIEMNV
+ON NhanVien
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM INSERTED i
+        WHERE i.DiemSo <> 0
+    )
+    BEGIN
+        RAISERROR (N'Lỗi: Điểm số ban đầu phải bằng 0.', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+END;
+GO
 
