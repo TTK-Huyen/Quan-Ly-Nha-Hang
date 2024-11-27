@@ -145,3 +145,162 @@ BEGIN
 		END
 END
 GO
+
+
+
+
+
+
+
+
+
+--TRIGGER PHÂN HỆ NHÂN VIÊN
+
+--Mã chi nhánh và mã b? ph?n ph?i có s?n trong h? th?ng tr??c khi thêm m?t nhân
+--viên vào m?t chi nhánh ho?c b? ph?n.
+CREATE TRIGGER THEMNV
+ON NhanVien
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    -- Ki?m tra mã b? ph?n
+    IF EXISTS (
+        SELECT 1
+        FROM INSERTED i
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM BoPhan
+            WHERE BoPhan.MaBoPhan = i.MaBoPhan
+        )
+    )
+    BEGIN
+        RAISERROR (N'Mã b? ph?n không n?m trong h? th?ng', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Ki?m tra mã chi nhánh
+    IF EXISTS (
+        SELECT 1
+        FROM INSERTED i
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM LichSuLamViec l
+            JOIN ChiNhanh c ON l.MaChiNhanh = c.MaChiNhanh
+            WHERE l.MaNhanVien = i.MaNhanVien AND l.NgayKetThuc IS NULL
+        )
+    )
+    BEGIN
+        RAISERROR (N'Mã chi nhánh không n?m trong h? th?ng ho?c nhân viên ch?a có chi nhánh làm vi?c', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+END;
+GO
+
+
+
+--Ngày ngh? vi?c c?a nhân viên (n?u có), ph?i l?n h?n ngày vào làm.
+CREATE TRIGGER CHECK_NGAYNGHIVIEC
+ON NhanVien
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    DECLARE @MaNhanVien NVARCHAR(50);
+    IF EXISTS
+    (
+        SELECT 1 
+        FROM INSERTED i
+        WHERE i.NgayNghiViec IS NOT NULL AND i.NgayVaoLam >= i.NgayNghiViec
+    )
+    BEGIN
+        SELECT TOP 1 @MaNhanVien = i.MaNhanVien
+        FROM INSERTED i
+        WHERE i.NgayNghiViec IS NOT NULL AND i.NgayVaoLam >= i.NgayNghiViec;
+        RAISERROR (
+            N'Ngày ngh? vi?c ph?i l?n h?n ngày vào làm. Vui lòng ki?m tra l?i (Mã nhân viên: %s)',
+            16, 1, 
+            @MaNhanVien
+        );
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+END;
+GO
+
+
+--Thu?c tính NgayBatDau ph?i nh? h?n NgayKetThuc trong b?ng
+CREATE TRIGGER CHECK_NGAYKETTHUC
+ON LichSuLamViec
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS
+    (
+        SELECT 1 
+        FROM INSERTED i
+        WHERE i.NgayKetThuc IS NOT NULL AND i.NgayBatDau >= i.NgayKetThuc
+    )
+    BEGIN
+        RAISERROR (
+            N'Ngày k?t thúc ph?i l?n h?n ngày b?t ??u. Vui lòng ki?m tra l?i ', 16, 1 );
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+END;
+GO
+
+
+--M?i nhân viên ch? làm vi?c ? m?t chi nhánh t?i m?t th?i ?i?m.
+CREATE TRIGGER CHECK_NVCN
+ON LichSuLamViec
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS 
+    (
+        SELECT 1
+        FROM INSERTED i
+        WHERE 
+        (
+            SELECT COUNT(*) 
+            FROM LichSuLamViec l
+            WHERE l.MaNhanVien = i.MaNhanVien AND l.NgayKetThuc IS NULL
+        ) > 1
+    )
+    BEGIN
+        RAISERROR (
+            N'M?i nhân viên ch? làm vi?c ? m?t chi nhánh t?i m?t th?i ?i?m.', 
+            16, 
+            1
+        );
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+END;
+GO
+
+
+--Mã nhân viên là duy nh?t cho m?i nhân viên, H? tên, ngày sinh, gi?i tính, l??ng,...=> THÊM NOT NULL KHI CÀI ĐẶT 
+CREATE TRIGGER KTRTTNV
+ON NhanVien
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM INSERTED i
+        JOIN NhanVien n ON i.MaNhanVien = n.MaNhanVien
+        WHERE i.MaNhanVien IS NOT NULL 
+          AND i.MaNhanVien <> ''         
+          AND i.MaNhanVien <> n.MaNhanVien
+    )
+    BEGIN
+        RAISERROR (N'Lỗi: Mã nhân viên vừa thêm hoặc cập nhật đã tồn tại trong hệ thống với nhân viên khác.', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+END;
+GO
+
+
