@@ -83,15 +83,15 @@ CREATE TABLE PhucVu
 	
 --Phân hệ nhân viên
 CREATE TABLE NhanVien (
-	MaNhanVien VARCHAR(10),
-	HoTen NVARCHAR(50),
-	NgaySinh DATE,
-	GioiTinh NVARCHAR(4),
-	Luong DECIMAL(8,0),
-	NgayVaoLam DATE,
-	NgayNghiViec DATE,
-	MaBoPhan VARCHAR(10),
-	DiemSo DECIMAL(9,0)
+	MaNhanVien VARCHAR(10) NOT NULL,
+	HoTen NVARCHAR(50) NOT NULL,
+	NgaySinh DATE NOT NULL,
+	GioiTinh NVARCHAR(4) NOT NULL,
+	Luong DECIMAL(8,0) NOT NULL,
+	NgayVaoLam DATE NOT NULL,
+	NgayNghiViec DATE NOT NULL,
+	MaBoPhan VARCHAR(10) NOT NULL,
+	DiemSo DECIMAL(9,0) NOT NULL
 	CONSTRAINT PK_NV PRIMARY KEY (MaNhanVien),
 	
 );
