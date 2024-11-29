@@ -270,3 +270,484 @@ BEGIN
 		END
 END
 GO
+
+
+--Store procedure PHÂN HỆ NHÂN VIÊN SP  TẠO PHIẾU ĐẶT MÓN
+CREATE PROC THEMPDM
+	@NhanVienLap VARCHAR(10),
+	@MaSoBan INT,
+	@MaKhachHang INT
+AS
+BEGIN
+	--Kiểm tra nhân viên có tồn tại không
+	IF NOT EXISTS (SELECT 1
+	FROM NhanVien
+	WHERE MaNhanVien = @NhanVienLap
+	)
+	BEGIN
+		RAISERROR (N'Mã nhân viên nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Kiểm tra mã số bàn có tồn tại không
+	IF NOT EXISTS (SELECT 1
+	FROM Ban
+	WHERE MaSoBan = @MaSoBan
+	)
+	BEGIN
+		RAISERROR (N'Mã bàn nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Kiểm tra mã khách hàng có tồn tại không
+	IF NOT EXISTS (SELECT 1
+	FROM KhachHang
+	WHERE MaKhachHang = @MaKhachHang
+	)
+	BEGIN
+		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+
+	DECLARE @MaPhieu INT
+	SET @MaPhieu = (SELECT ISNULL(MAX(MaPhieu), 0) + 1 FROM PhieuDatMon);
+	INSERT INTO PhieuDatMon
+	VALUES (@MaPhieu,GETDATE(),@NhanVienLap, @MaSoBan, @MaKhachHang);
+	
+END
+GO
+
+
+
+--SP CẬP NHẬT PHIẾU ĐẶT MÓN: THÊM HOẶC CHỈNH SỬA, KHÔNG ĐƯỢC XÓA
+CREATE PROC NVSUAPDM
+	@MaPhieu INT,
+	@MaMon INT,
+	@SoLuong INT,
+	@GhiChu NVARCHAR(200)
+AS
+BEGIN
+	--Kiểm tra mã phiếu có tồn tại chưa
+	IF NOT EXISTS (SELECT 1
+	FROM PhieuDatMon
+	WHERE MaPhieu = @MaPhieu
+	)
+	BEGIN
+		RAISERROR (N'Mã phiếu đặt món nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Kiểm tra mã món có tồn tại trong chi nhánh đó không
+	IF NOT EXISTS (SELECT 1
+	FROM PhucVu p
+	WHERE p.MaMon = @MaMon AND p.MaChiNhanh  = 
+	(SELECT MaChiNhanh
+	FROM LichSuLamViec l
+	WHERE l.NgayKetThuc IS NULL AND l.MaNhanVien = 
+	(SELECT NhanVienLap
+	FROM PhieuDatMon d
+	WHERE d.MaPhieu = @MaPhieu)
+	))
+	BEGIN
+		RAISERROR (N'Mã món ăn nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Số lượng phải lớn hơn không
+	IF @SoLuong <= 0
+	BEGIN
+		RAISERROR (N'Số lượng món nhập vào phải lớn hơn không',16,1);
+		RETURN;
+	END;
+
+	--insert
+	-- Insert or Update logic
+	IF EXISTS (
+		SELECT 1 
+		FROM ChiTietPhieu
+		WHERE MaPhieu = @MaPhieu AND MaMon = @MaMon
+	)
+	BEGIN
+		-- Update existing record
+		UPDATE ChiTietPhieu
+		SET SoLuong = @SoLuong, GhiChu = @GhiChu
+		WHERE MaPhieu = @MaPhieu AND MaMon = @MaMon;
+	END
+	ELSE
+	BEGIN
+		-- Insert new record
+		INSERT INTO ChiTietPhieu (MaPhieu, MaMon, SoLuong, GhiChu)
+		VALUES (@MaPhieu, @MaMon, @SoLuong, @GhiChu);
+	END;
+	
+END;
+GO
+--SP XEM PDM THEO MÃ PDM
+CREATE FUNCTION THEODOIPDM (@MaPhieu INT)
+RETURNS @KETQUA TABLE (MAPHIEU INT, NGAYLAP DATETIME, NHANVIENLAP INT, MASOBAN INT, MAKHACHHANG INT)
+AS
+BEGIN
+	INSERT INTO @KETQUA  (MAPHIEU, NGAYLAP, NHANVIENLAP , MASOBAN , MAKHACHHANG )
+	SELECT MaPhieu, NgayLap, NhanVienLap, MaSoBan, MaKhachHang
+	FROM PhieuDatMon
+	WHERE MaPhieu = @MaPhieu
+
+	RETURN;
+END;
+GO
+
+
+
+
+--SP TẠO HÓA ĐƠN DỰA VÀO MÃ PDM
+CREATE PROC TAOHOADON
+	@MaPhieu INT
+AS
+BEGIN
+	--Kiểm tra mã phiếu đầu vào
+	IF NOT EXISTS (SELECT 1
+	FROM PhieuDatMon
+	WHERE MaPhieu= @MaPhieu
+	)
+	BEGIN
+		RAISERROR (N'Mã phiếu nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Tạo các thông tin cho HÓA ĐƠN
+	DECLARE @TongTien DECIMAL(10, 2)
+    DECLARE @GiamGia DECIMAL(5, 2)
+    DECLARE @ThanhTien DECIMAL(10, 2)
+
+	SET @TongTien = 
+	(SELECT SUM(m.GiaHienTai * c.SoLuong)
+	 FROM ChiTietPhieu c INNER JOIN Mon m ON m.MaMon = c.MaMon
+	 WHERE c.MaPhieu = @MaPhieu
+			)
+
+
+	DECLARE @Loai NVARCHAR(20)
+	SET @Loai = 
+	(SELECT LoaiThe
+	FROM TheKhachHang 
+	WHERE TrangThaiThe = 1 AND MaKhachHang = 
+	(SELECT MaKhachHang
+	FROM PhieuDatMon p
+	WHERE p.MaPhieu = @MaPhieu
+	)
+	)
+	IF @Loai IS NULL
+	BEGIN
+		 RAISERROR (N'Không tìm thấy loại thẻ hợp lệ cho khách hàng này', 16, 1);
+    RETURN;
+	END;
+	IF(@Loai = N'Membership')
+	BEGIN
+		SET @GiamGia = 0;
+	END;
+	ELSE IF(@Loai = N'Silver')
+	BEGIN
+		SET @GiamGia = 5;
+	END;
+	ELSE IF(@Loai = N'Gold')
+	BEGIN
+		SET @GiamGia = 10;
+	END;
+
+	SET @ThanhTien = @TongTien * (100 - @GiamGia) / 100.0;
+
+	INSERT INTO HoaDon (MaPhieu, NgayLap, TongTien, GiamGia,ThanhTien)
+	VALUES (@MaPhieu, Getdate(),@TongTien, @GiamGia, @ThanhTien)
+
+END;
+GO
+	
+
+CREATE PROC INHOADON
+    @MaPhieu INT
+AS
+BEGIN
+    -- Kiểm tra mã phiếu
+    IF NOT EXISTS (SELECT 1 FROM HoaDon WHERE MaPhieu = @MaPhieu)
+    BEGIN
+        RAISERROR (N'Hóa đơn không tồn tại cho mã phiếu đã nhập', 16, 1);
+        RETURN;
+    END;
+
+    -- Thông tin hóa đơn
+    PRINT N'========== THÔNG TIN HÓA ĐƠN =========='
+    SELECT 
+        h.MaPhieu AS [Số hóa đơn],
+        h.NgayLap AS [Ngày lập hóa đơn],
+        p.MaKhachHang AS [Mã khách hàng],
+        k.HoTen AS [Tên khách hàng]
+    FROM HoaDon h
+    INNER JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
+    LEFT JOIN KhachHang k ON p.MaKhachHang = k.MaKhachHang
+    WHERE h.MaPhieu = @MaPhieu;
+
+    PRINT N'---------- DANH SÁCH MÓN ĂN -----------'
+    -- Chi tiết phiếu
+    SELECT 
+        m.TenMon AS [Tên món ăn],
+        c.SoLuong AS [Số lượng],
+        m.GiaHienTai AS [Đơn giá (VND)],
+        (m.GiaHienTai * c.SoLuong) AS [Thành tiền (VND)]
+    FROM ChiTietPhieu c
+    INNER JOIN Mon m ON c.MaMon = m.MaMon
+    WHERE c.MaPhieu = @MaPhieu;
+
+	PRINT N'========== THÔNG TIN THANH TOÁN =========='
+    SELECT 
+        h.TongTien AS [Tổng tiền (VND)],
+        h.GiamGia AS [Giảm giá (%)],
+        h.ThanhTien AS [Thành tiền (VND)]
+    FROM HoaDon h
+    INNER JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
+    WHERE h.MaPhieu = @MaPhieu;
+
+    PRINT N'========================================'
+    PRINT N'Cảm ơn quý khách đã sử dụng dịch vụ. Hẹn gặp lại!'
+END;
+GO
+
+--SP XEM THÔNG TIN NHÂN VIÊN CHÍNH MÌNH -- LIÊN QUAN ĐẾN PHÂN QUYỀN
+
+
+
+
+---------STORE PROCEDURE PHÂN HỆ CHI NHÁNH
+--SP TÌM KIẾM THÔNG TIN NHÂN VIÊN BẰNG MÃ NHÂN VIÊN/ TÊN NHÂN VIÊN/...
+CREATE PROC TIMTTNV
+    @MaNhanVien VARCHAR(10)
+AS
+BEGIN
+    -- Kiểm tra mã nhân viên
+    IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @MaNhanVien)
+    BEGIN
+        RAISERROR (N'Mã nhân viên nhập vào không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+    -- In thông tin nhân viên
+    PRINT N'========== THÔNG TIN NHÂN VIÊN =========='
+    SELECT 
+        MaNhanVien AS [Mã nhân viên], 
+        HoTen AS [Họ và tên], 
+        FORMAT(NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
+        CASE GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
+        FORMAT(Luong, 'N0') AS [Lương (VND)'],
+        FORMAT(NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
+        FORMAT(NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc], 
+        MaBoPhan AS [Mã bộ phận], 
+        DiemSo AS [Điểm số]
+    FROM NhanVien
+    WHERE MaNhanVien = @MaNhanVien;
+
+    -- In lịch sử làm việc
+    PRINT N'========== LỊCH SỬ LÀM VIỆC =========='
+    SELECT 
+        MaChiNhanh AS [Mã chi nhánh],
+        FORMAT(NgayBatDau, 'dd/MM/yyyy') AS [Ngày bắt đầu],
+        FORMAT(NgayKetThuc, 'dd/MM/yyyy') AS [Ngày kết thúc]
+    FROM LichSuLamViec
+    WHERE MaNhanVien = @MaNhanVien
+    ORDER BY NgayBatDau DESC;
+
+END;
+GO
+
+--EXEC TIMTTNV @MaNhanVien = 'NV001';
+--SP XEM DANH SÁCH TẤT CẢ NHÂN VIÊN THUỘC HỆ THỐNG/KHU VỰC/ CHI NHÁNH
+CREATE PROC XEMNVHT
+AS
+BEGIN
+    PRINT N'========== DANH SÁCH TẤT CẢ NHÂN VIÊN =========='
+    SELECT 
+        MaNhanVien AS [Mã nhân viên], 
+        HoTen AS [Họ và tên], 
+        FORMAT(NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
+        CASE GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
+        FORMAT(Luong, 'N0') AS [Lương (VND)'],
+        FORMAT(NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
+        FORMAT(NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc], 
+        MaBoPhan AS [Mã bộ phận], 
+        DiemSo AS [Điểm số]
+    FROM NhanVien;
+END;
+GO
+
+
+CREATE PROC XEMNVKHUVUC
+    @MaKhuVuc INT
+AS
+BEGIN
+    -- Kiểm tra mã khu vực
+    IF NOT EXISTS (SELECT 1 FROM KhuVuc WHERE MaKhuVuc = @MaKhuVuc)
+    BEGIN
+        RAISERROR (N'Mã khu vực nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+    PRINT N'========== DANH SÁCH NHÂN VIÊN KHU VỰC =========='
+    SELECT 
+        n.MaNhanVien AS [Mã nhân viên], 
+        n.HoTen AS [Họ và tên], 
+        FORMAT(n.NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
+        CASE n.GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
+        FORMAT(n.Luong, 'N0') AS [Lương (VND)'],
+        FORMAT(n.NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
+        FORMAT(n.NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc]
+    FROM 
+        NhanVien n 
+    INNER JOIN 
+        LichSuLamViec l ON n.MaNhanVien = l.MaNhanVien
+    WHERE 
+        l.NgayKetThuc IS NULL 
+        AND l.MaChiNhanh IN (SELECT MaChiNhanh FROM ChiNhanh WHERE MaKhuVuc = @MaKhuVuc);
+END;
+GO
+
+
+CREATE PROC XEMNVCN
+    @MaChiNhanh INT
+AS
+BEGIN
+    -- Kiểm tra mã chi nhánh
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
+    BEGIN
+        RAISERROR (N'Mã chi nhánh nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+    PRINT N'========== DANH SÁCH NHÂN VIÊN CHI NHÁNH =========='
+    SELECT 
+        n.MaNhanVien AS [Mã nhân viên], 
+        n.HoTen AS [Họ và tên], 
+        FORMAT(n.NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
+        CASE n.GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
+        FORMAT(n.Luong, 'N0') AS [Lương (VND)'],
+        FORMAT(n.NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
+        FORMAT(n.NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc]
+    FROM 
+        NhanVien n 
+    INNER JOIN 
+        LichSuLamViec l ON n.MaNhanVien = l.MaNhanVien
+    WHERE 
+        l.NgayKetThuc IS NULL 
+        AND l.MaChiNhanh = @MaChiNhanh;
+END;
+GO
+--SP THÊM NHÂN VIÊN MỚI VÀO BẢNG NHÂN VIÊN
+CREATE PROC THEMNV
+	@HoTen NVARCHAR(50),
+	@NgaySinh DATE,
+	@GioiTinh nvarchar(4),
+	@Luong DECIMAL(8,0),
+	@MaBoPhan VARCHAR(10)
+AS
+BEGIN
+	--Kiểm tra mã bộ phận có tồn tại không
+    IF NOT EXISTS (SELECT 1 FROM BoPhan WHERE MaBoPhan = @MaBoPhan)
+    BEGIN
+        RAISERROR (N'Mã bộ phận nhập vào không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+	DECLARE @MaNhanVien VARCHAR(10);
+    SET @MaNhanVien = 
+    (SELECT RIGHT('NV' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaNhanVien, 3, LEN(MaNhanVien) - 2) AS INT)), 0) + 1 AS VARCHAR), 8)
+     FROM NhanVien);
+
+	INSERT INTO NhanVien (MaNhanVien, HoTen, NgaySinh, 
+	GioiTinh, Luong, NgayVaoLam, NgayNghiViec,MaBoPhan,DiemSo)
+	VALUES (@MaNhanVien, @HoTen, @NgaySinh, @GioiTinh, @Luong, GETDATE(),NULL, @MaBoPhan, 0 );
+	PRINT N'Thêm nhân viên thành công. Mã nhân viên mới là ' + @MaNhanVien;
+END;
+GO
+
+--SP CẬP NHẬT THÔNG TIN NHÂN VIÊN: SỬA ĐIỂM, LƯƠNG, THÊM NGÀY NGHỈ VIỆC
+CREATE PROCEDURE CAPNHAT_NHANVIEN @MANHANVIEN varchar(10), @HOTEN NVARCHAR(50), @NGAYSINH DATE,@GIOITINH NVARCHAR(4), @LUONG DECIMAL(8,0), @NGAYVAOLAM DATE, @NGAYNGHIVIEC DATE, @MABOPHAN CHAR(10), @DIEMSO DECIMAL(9,0)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @MANHANVIEN)
+		BEGIN
+			RAISERROR(N'Nhân viên không tồn tại',16,1)
+		END
+	ELSE
+		BEGIN
+			UPDATE NhanVien
+				SET 
+					HoTen = COALESCE(@HOTEN, HoTen),
+					NgaySinh = COALESCE(@NGAYSINH, NgaySinh),
+					GioiTinh = COALESCE(@GIOITINH, GioiTinh),
+					Luong = COALESCE(@LUONG, Luong),
+					NgayVaoLam = COALESCE(@NGAYVAOLAM, NgayVaoLam),
+					NgayNghiViec = COALESCE(@NGAYNGHIVIEC, NgayNghiViec),
+					MaBoPhan = COALESCE(@MABOPHAN, MaBoPhan),
+					DiemSo = COALESCE(@DIEMSO, DiemSo)
+				WHERE MaNhanVien = @MANHANVIEN;
+
+    PRINT 'Cập nhật thông tin nhân viên thành công.';
+		END
+END
+GO
+--SP SỬA THÔNG TIN TRÊN BẢNG LỊCH SỬ LÀM VIỆC KHI NHÂN VIÊN NGHỈ VIỆC 
+CREATE PROC NVNGHIVIEC
+	@MANHANVIEN VARCHAR(10)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @MaNhanVien)
+    BEGIN
+        RAISERROR (N'Mã nhân viên nhập vào không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+	UPDATE LichSuLamViec
+	SET NgayKetThuc = GETDATE()
+	WHERE NgayKetThuc = NULL
+	PRINT N'Thêm thông tin thành công';
+END;
+GO
+-- SP ĐIỀU ĐỘNG SANG CHI NHÁNH KHÁC
+CREATE PROC DIEUDONGNV
+	@MANHANVIEN VARCHAR(10), @MACHINHANHCU INT, @MACHINHANHMOI INT
+AS
+BEGIN
+	--KIEM TRA MA NHAN VIEN
+	IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @MaNhanVien)
+    BEGIN
+        RAISERROR (N'Mã nhân viên nhập vào không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	-- Kiểm tra mã chi nhánh
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MACHINHANHCU)
+    BEGIN
+        RAISERROR (N'Mã chi nhánh cũ nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	-- Kiểm tra mã chi nhánh
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MACHINHANHMOI)
+    BEGIN
+        RAISERROR (N'Mã chi nhánh mới nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+	UPDATE LichSuLamViec
+	SET NgayKetThuc = GETDATE()
+	WHERE NgayKetThuc = NULL AND MaChiNhanh = @MACHINHANHCU
+
+	INSERT INTO LichSuLamViec (MaNhanVien, MaChiNhanh, NgayBatDau,NgayKetThuc)
+	VALUES (@MANHANVIEN, @MACHINHANHMOI, GETDATE(),NULL)
+
+	PRINT N'Thực hiện đổi chi nhánh thành công';
+END;
+GO
+
+--SP CHỈNH SỬA TRẠNG THÁI PHỤC VỤ CỦA MÓN ĂN TRONG THỰC ĐƠN
+CREATE PROC 
+
+--SP THỐNG KÊ DOANH THƯ: TỔNG HỢP TỔNG DANH THU CỦA TẤT CẢ CÁC HÓA DƠN THEO NGÀY/THÁNG/NĂM
+
+--SP CHỈNH SỬA XÓA THÔNG TIN TRÊN PHIẾU ĐẶT MÓN.
+
+--SP THÊM THÔNG TIN THẺ KHÁCH HÀNG 
+--SP CẬP NHẬT THÔNG TIN ĐIỂM KHÁCH HÀNG
+--SP XÓA THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
+
+
