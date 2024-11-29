@@ -751,3 +751,221 @@ CREATE PROC
 --SP XÓA THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
 
 
+--STORED PROCEDURE PH KHACH HANG
+-- Stored procedure phân hệ KHÁCH HÀNG
+
+--1. ĐĂNG KÍ TÀI KHOẢN
+CREATE PROCEDURE SP_DANGKI_TAIKHOAN
+	@HoTen NVARCHAR(50), @SoDienThoai VARCHAR(15),
+	@Email NVARCHAR (50), @SoCCCD VARCHAR (12),
+	@GioiTinh NVARCHAR(10)
+AS
+BEGIN
+	IF EXISTS (SELECT 1 FROM KhachHang WHERE SoCCCD = @SoCCCD 
+		OR SoDienThoai = @SoDienThoai OR Email = @Email)
+		BEGIN
+			RAISERROR(N'Thông tin khách hàng đã tồn tại',16,1);
+			RETURN;
+		END;
+
+		INSERT INTO KhachHang (SoCCCD, SoDienThoai, Email, HoTen, GioiTinh)
+		VALUES (@SoCCCD, @SoDienThoai, @Email, @HoTen, @GioiTinh)
+END;
+
+--2. ĐĂNG NHẬP
+/*
+CREATE PROCEDURE SP_DANGNHAP
+    @Email NVARCHAR(50),
+    @MatKhau VARCHAR(100)
+AS
+BEGIN
+    SELECT * 
+    FROM KhachHang
+    WHERE Email = @Email AND MatKhau = @MatKhau;
+END;
+
+*/
+
+--3. QUẢN LÝ THÔNG TIN CÁ NHÂN
+CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN
+	@MaKhachHang INT, @SoDienThoai VARCHAR(15),@Email NVARCHAR(15), @GioiTinh NVARCHAR(10)
+AS
+BEGIN
+	IF EXISTS (SELECT 1 FROM KhachHang WHERE (SoDienThoai = @SoDienThoai OR Email = @Email)
+			AND MaKhachHang != @MaKhachHang)
+	BEGIN 
+		RAISERROR('Thông tin vừa cập nhật giống với thông tin đã tồn tại',16,1);
+		RETURN;
+	END;
+
+	UPDATE KhachHang
+	SET SoDienThoai = COALESCE(@SoDienThoai, SoDienThoai),
+		Email = COALESCE(@Email, Email),
+		GioiTinh = COALESCE (@GioiTinh, GioiTinh)
+	WHERE MaKhachHang = @MaKhachHang;
+END;
+--4. ĐẶT BÀN TRỰC TUYẾN
+CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
+	@MaKhachHang INT, @MaChiNhanh INT, @SoLuongKhach INT,
+	@GioDen DATETIME, @GhiChu NVARCHAR(200)
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)
+	BEGIN
+		RAISERROR(N'Không tìm thấy mã khách hàng!', 16,1);
+		RETURN;
+	END;
+
+	IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
+	BEGIN
+		RAISERROR(N'Không tìm thấy mã chi nhánh', 16,1);
+		RETURN;
+	END;
+
+	INSERT INTO DatTruoc (MaKhachHang, MaChiNhanh, SoLuongKhach, GioDen, GhiChu)
+	VALUES (@MaKhachHang, @MaChiNhanh, @SoLuongKhach, @GioDen, @GhiChu);
+END;
+--5. ĐẶT MÓN TRỰC TUYẾN
+CREATE PROCEDURE SP_DATMON_TRUCTUYEN
+	@MaPhieu INT, @MaMon INT, @SoLuong INT, @GhiChu NVARCHAR(200)
+AS 
+BEGIN
+	IF NOT EXISTS (
+		SELECT 1 FROM Mon M
+		JOIN PhucVu P ON M.MaMon = P.MaMon
+		WHERE M.MaMon = @MaMon AND P.CoPhucVuKhong = 0 )
+	BEGIN 
+		RAISERROR(N'Món ăn không tồn tại hoặc không được phục vụ', 16, 1);
+		RETURN;
+	END;
+	
+	INSERT INTO ChiTietPhieu (MaPhieu, MaMon, SoLuong, GhiChu)
+	VALUES (@MaPhieu, @MaMon, @SoLuong, @GhiChu);
+END;
+--6. THANH TOÁN TRỰC TUYỂN
+
+CREATE PROCEDURE SP_THANHTOAN_TRUCTUYEN
+    @MaPhieu INT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM HoaDon WHERE MaPhieu = @MaPhieu)
+    BEGIN
+        RAISERROR(N'Phiếu đặt món đã được thanh toán!', 16, 1);
+        RETURN;
+    END;
+
+    DECLARE @TongTien DECIMAL(10, 2);
+    SELECT @TongTien = SUM(CTP.SoLuong * M.GiaHienTai)
+    FROM ChiTietPhieu CTP
+    JOIN Mon M ON CTP.MaMon = M.MaMon
+    WHERE CTP.MaPhieu = @MaPhieu;
+
+    IF @TongTien IS NULL
+    BEGIN
+        RAISERROR(N'Không tìm thấy chi tiết phiếu đặt món!', 16, 1);
+        RETURN;
+    END;
+
+    DECLARE @MaKhachHang INT;
+    SELECT @MaKhachHang = PD.MaKhachHang
+    FROM PhieuDatMon PD
+    WHERE PD.MaPhieu = @MaPhieu;
+
+    IF @MaKhachHang IS NULL
+    BEGIN
+        RAISERROR(N'Không tìm thấy khách hàng liên quan đến phiếu đặt món!', 16, 1);
+        RETURN;
+    END;
+
+    DECLARE @LoaiThe NVARCHAR(20) = N'Membership';
+    DECLARE @GiamGia DECIMAL(5, 2) = 0;
+
+    SELECT @LoaiThe = TK.LoaiThe
+    FROM TheKhachHang TK
+    WHERE TK.MaKhachHang = @MaKhachHang;
+
+    SET @GiamGia = CASE 
+                      WHEN @LoaiThe = N'Gold' THEN @TongTien * 0.1
+                      WHEN @LoaiThe = N'Silver' THEN @TongTien * 0.05
+                      ELSE 0
+                   END;
+
+    INSERT INTO HoaDon (MaPhieu, NgayLap, TongTien, GiamGia, ThanhTien)
+    VALUES (@MaPhieu, GETDATE(), @TongTien, @GiamGia, @TongTien - @GiamGia);
+
+    PRINT N'Thanh toán thành công. Hóa đơn đã được tạo!';
+END;
+
+
+--7. ĐÁNH GIÁ DỊCH VỤ
+CREATE PROCEDURE SP_DANHGIA_DICHVU
+	@MaPhieu INT, @DiemPhucVu INT,  @DiemViTri INT,
+    @DiemChatLuong INT, @DiemKhongGian INT, @BinhLuan NVARCHAR(MAX)
+AS 
+BEGIN
+	IF @DiemPhucVu NOT BETWEEN 1 AND 5
+	OR @DiemViTri NOT BETWEEN 1 AND 5
+	OR @DiemChatLuong NOT BETWEEN 1 AND 5
+	OR @DiemKhongGian NOT BETWEEN 1 AND 5
+	BEGIN
+		RAISERROR(N'Điểm đánh giá phải từ 1 đến 5!', 16, 1);
+		RETURN;
+	END;
+
+	INSERT INTO DanhGia(MaPhieu, DiemPhucVu, DiemViTri, DiemChatLuong, DiemKhongGian, BinhLuan)
+	VALUES (@MaPhieu, @DiemPhucVu, @DiemViTri, @DiemChatLuong, @DiemKhongGian, @BinhLuan);
+END;
+
+--8. THEO DÕI LỊCH SỬ ĐẶT BÀN
+CREATE PROCEDURE SP_LICHSU_DATBAN
+	@MaKhachHang INT
+AS
+BEGIN
+	SELECT MaDatTruoc, MaChiNhanh, SoLuongKhach, GioDen, GhiChu
+	FROM DatTruoc
+	WHERE MaKhachHang = @MaKhachHang;
+END;
+--9. THEO DÕI LỊCH SỬ ĐẶT MÓN
+
+CREATE PROCEDURE SP_LICHSU_DATMON
+	@MaKhachHang INT
+AS
+BEGIN 
+	SELECT PD.MaPhieu, CTP.MaMon, CTP.SoLuong
+	FROM PhieuDatMon PD
+	JOIN ChiTietPhieu CTP ON PD.MaPhieu = CTP.MaPhieu
+	WHERE PD.MaKhachHang = @MaKhachHang;
+END;
+
+
+--10. XEM THÔNG TIN THẺ THÀNH VIÊN
+CREATE PROCEDURE SP_XEMTHONGTIN_THETHANHVIEN
+    @MaKhachHang INT
+AS
+BEGIN
+    SELECT LoaiThe, DiemHienTai, DiemTichLuy
+    FROM TheKhachHang
+    WHERE MaKhachHang = @MaKhachHang;
+END;
+
+--11. GỬI PHẢN HỒI (CÁI NÀY GIỐNG ĐÁNH GIÁ)
+
+--12. HỖ TRỢ GIAO HÀNG (THUỘC VỀ VẬN CHUYỂN)
+
+--13. HỦY ĐƠN HÀNG
+CREATE PROCEDURE SP_HUYDONHANG
+    @MaPhieu INT
+AS
+BEGIN
+    DELETE FROM PhieuDatMon WHERE MaPhieu = @MaPhieu;
+END;
+
+--14. ĐĂNG XUẤT - QUẢN LÝ SESSIONN Ở ỨNG DỤNG
+
+--15. QUÊN MẬT KHẨU
+CREATE PROCEDURE SP_QUENMATKHAU
+    @Email VARCHAR(50)
+AS
+BEGIN
+    PRINT 'Mã đặt lại mật khẩu đã được gửi qua email.';
+END;
