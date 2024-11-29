@@ -272,6 +272,11 @@ END
 GO
 
 
+
+
+
+
+									
 --Store procedure PHÂN HỆ NHÂN VIÊN SP  TẠO PHIẾU ĐẶT MÓN
 CREATE PROC THEMPDM
 	@NhanVienLap VARCHAR(10),
@@ -740,15 +745,198 @@ END;
 GO
 
 --SP CHỈNH SỬA TRẠNG THÁI PHỤC VỤ CỦA MÓN ĂN TRONG THỰC ĐƠN
-CREATE PROC 
+CREATE PROC TRANGTHAIMONAN
+	@MACHINHANH INT, @MAMON INT
+AS
+BEGIN
+	-- Kiểm tra mã chi nhánh
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MACHINHANH)
+    BEGIN
+        RAISERROR (N'Mã chi nhánh cũ nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	-- Kiểm tra mã món
+    IF NOT EXISTS (SELECT 1 FROM Mon WHERE MaMon = @MAMON)
+    BEGIN
+        RAISERROR (N'Mã món nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	-- Kiểm tra mã món TRONG PHUC VU
+    IF NOT EXISTS (SELECT 1 FROM PhucVu WHERE MaMon = @MAMON AND MaChiNhanh= @MACHINHANH)
+    BEGIN
+        RAISERROR (N'Chi nhánh này hiện chưa phục vụ món ăn bạn đang tìm. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
 
---SP THỐNG KÊ DOANH THƯ: TỔNG HỢP TỔNG DANH THU CỦA TẤT CẢ CÁC HÓA DƠN THEO NGÀY/THÁNG/NĂM
+	UPDATE PhucVu
+	SET CoPhucVuKhong = 0
+	WHERE MaMon = @MAMON
 
---SP CHỈNH SỬA XÓA THÔNG TIN TRÊN PHIẾU ĐẶT MÓN.
+	PRINT N'Sửa thông tin món ăn thành công';
+END;
+GO
 
+--SP XÓA PHIEU DAT MON
+CREATE PROC XOAPDM
+	@MAPHIEU INT
+AS
+BEGIN
+	IF NOT EXISTS (SELECT 1
+	FROM PhieuDatMon
+	WHERE MaPhieu = @MAPHIEU
+	)
+	BEGIN
+		RAISERROR (N'Mã phiếu đặt món nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+
+	DELETE FROM PhieuDatMon
+	WHERE MaPhieu = @MAPHIEU
+	PRINT N'Xóa phiếu đặt món thành công';
+END;
+GO
+
+--XÓA THÔNG TIN MÓN TRÊN PHIẾU ĐẶT MÓN.
+CREATE PROC XOATTPDM
+	@MAPHIEU INT , @MAMON INT
+AS
+BEGIN
+	--Kiểm tra mã phiếu 
+	IF NOT EXISTS (SELECT 1
+	FROM PhieuDatMon
+	WHERE MaPhieu = @MAPHIEU
+	)
+	BEGIN
+		RAISERROR (N'Mã phiếu đặt món nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Kiểm tra mã món
+	IF NOT EXISTS (SELECT 1 FROM Mon WHERE MaMon = @MAMON)
+    BEGIN
+        RAISERROR (N'Mã món nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	--Kiểm tra món có nằm trong phiếu đó không
+	IF NOT EXISTS 
+	(SELECT 1
+	FROM ChiTietPhieu
+	WHERE MaPhieu = @MAPHIEU AND MaMon = @MAMON)
+	BEGIN
+        RAISERROR (N'Món ăn này không có trong phiếu đặt món trên. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+	DELETE FROM ChiTietPhieu
+	WHERE MaMon = @MAMON AND MaPhieu = @MAPHIEU
+	PRINT N'Xóa món thành công';
+END;
+GO
 --SP THÊM THÔNG TIN THẺ KHÁCH HÀNG 
+CREATE PROC THEMTHEKH
+	@MAKHACHHANG INT, @NGAYLAP DATETIME, @NHANVIENLAP VARCHAR(10), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
+AS
+BEGIN
+	--Kiểm tra mã khách hàng có tồn tại không
+	IF NOT EXISTS (SELECT 1
+	FROM KhachHang
+	WHERE MaKhachHang = @MAKHACHHANG
+	)
+	BEGIN
+		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--KIỂM TRA NHÂN VIÊN
+	IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @NHANVIENLAP)
+    BEGIN
+        RAISERROR (N'Mã nhân viên nhập vào không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+	DECLARE @MASOTHE INT
+	SET @MASOTHE = (SELECT ISNULL(MAX(MaSoThe), 0) + 1 FROM TheKhachHang);
+	--note
+	INSERT INTO TheKhachHang(MaSoThe, MaKhachHang, NgayLap, NhanVienLap, TrangThaiThe, DiemHienTai, DiemTichLuy, LoaiThe)
+	VALUES (@MASOTHE, @MAKHACHHANG, @NGAYLAP, @NHANVIENLAP, @TRANGTHAITHE, @DIEMHIENTAI, @DIEMTICHLUY,@LOAITHE)
+	PRINT N'Thêm thẻ khách hàng thành công';
+END;
+GO
+
+
 --SP CẬP NHẬT THÔNG TIN ĐIỂM KHÁCH HÀNG
+--NOTE
+CREATE PROCEDURE CAPNHAT_THEKHACHHANG
+	@MASOTHE INT, @MAKHACHHANG INT, @NGAYLAP DATE, @NHANVIENLAP VARCHAR(10), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
+AS
+BEGIN
+	--Kiểm tra mã số thẻ khách hàng có tồn tại không
+	IF NOT EXISTS (SELECT 1
+	FROM TheKhachHang
+	WHERE MaSoThe = @MASOTHE
+	)
+	BEGIN
+		RAISERROR (N'Mã số thẻ khách hàng nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Kiểm tra mã khách hàng có tồn tại không
+	IF NOT EXISTS (SELECT 1
+	FROM KhachHang
+	WHERE MaKhachHang = @MAKHACHHANG
+	)
+	BEGIN
+		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--KIỂM TRA NHÂN VIÊN
+	IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @NHANVIENLAP)
+    BEGIN
+        RAISERROR (N'Mã nhân viên nhập vào không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+	UPDATE TheKhachHang
+	SET 
+					MaKhachHang = COALESCE(@MAKHACHHANG, MaKhachHang),
+					NgayLap = COALESCE(@NGAYLAP, NgayLap),
+					NhanVienLap = COALESCE(@NHANVIENLAP,NhanVienLap),
+					TrangThaiThe = COALESCE(@TRANGTHAITHE, TrangThaiThe),
+					DiemHienTai = COALESCE(@DIEMHIENTAI, DiemHienTai),
+					DiemTichLuy = COALESCE(@DIEMTICHLUY, DiemTichLuy),
+					--NgayDatThe = COALESCE(@MABOPHAN, MaBoPhan),
+					LoaiThe = COALESCE(@LOAITHE, LoaiThe)
+				WHERE MaSoThe = @MASOTHE;
+
+    PRINT 'Cập nhật thông tin thẻ khách hàng thành công.';
+END
+GO
 --SP XÓA THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
+CREATE PROC XOATHEKH
+	@SOCCCD INT, @HOTEN NVARCHAR(50), @SODIENTHOAI VARCHAR(15)
+AS
+BEGIN
+	--KIỂM TRA SCCCD
+	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE SoCCCD = @SOCCCD)
+    BEGIN
+        RAISERROR (N'Số CCCD này không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	--KIỂM TRA KHÁCH HÀNG CÓ THẺ KHÁCH HÀNG KHÔNG
+	IF NOT EXISTS (SELECT 1 FROM TheKhachHang WHERE MaKhachHang = 
+	(SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD))
+    BEGIN
+        RAISERROR (N'Khách hàng này không có thẻ khách hàng trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+
+	DELETE FROM TheKhachHang
+	WHERE MaKhachHang = (SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD)
+	PRINT N'Xóa thẻ khách hàng thành công';
+END;
+GO
+
+
+
+
+	
 
 
 --STORED PROCEDURE PH KHACH HANG
