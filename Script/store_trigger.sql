@@ -376,19 +376,6 @@ BEGIN
     PRINT 'Thẻ khách hàng đã được đăng ký. Bạn sẽ nhận được các ưu đãi chiết khấu và khuyến mãi.'
 END;
 
---	Loại thẻ khách hàng gồm 3 loại: Membership, Silver, Gold. Khách hàng mới đăng ký sẽ mặc định là Membership. 
-CREATE TABLE TheKhachHang (
-    MaSoThe INT PRIMARY KEY,
-    MaKhachHang INT,
-    NgayLap DATETIME,
-    NhanVienLap VARCHAR(10),
-    TrangThaiThe BIT DEFAULT 1 CHECK (TrangThaiThe IN (0, 1)),
-    DiemHienTai INT DEFAULT 0 CHECK (DiemHienTai >= 0),
-    DiemTichLuy INT DEFAULT 0 CHECK (DiemTichLuy >= 0),
-    LoaiThe NVARCHAR(20) DEFAULT N'Membership' CHECK (LoaiThe IN (N'Membership', N'Silver', N'Gold'))
-);
-
-
 --	Các điều kiện nâng/giữ/hạ hạng thẻ: 
 --o	− MemberShip → Silver: điểm tích lũy từ 100 điểm từ ngày lập thẻ − Silver → Gold: điểm tích lũy trong 1 năm từ 100 điểm trở lên 19
 --o	 − Gold → Silver: điểm tích lũy trong 1 năm dưới 100 điểm kể từ ngày đạt hạng 
