@@ -365,6 +365,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 
 --	Đăng ký thẻ giúp khách hàng được hưởng ưu đãi chiết khấu, giảm giá, tặng sản phẩm tùy theo chương trình. 
 CREATE TRIGGER trg_RegisterCardDiscount
@@ -416,6 +417,7 @@ BEGIN
     -- Thông báo giữ nguyên hạng nếu không đủ điều kiện nâng/hạ
     PRINT 'Hạng thẻ không thay đổi nếu không đủ điều kiện nâng/hạ.';
 END;
+GO
 
 --	Nếu khách hàng làm mất thẻ, có thể liên hệ để đóng thẻ cũ và cấp thẻ mới mới 
 CREATE TRIGGER trg_ReplaceLostCard
@@ -432,6 +434,7 @@ BEGIN
         PRINT 'Thẻ khách hàng đã được đóng. Hãy cấp thẻ mới cho khách hàng nếu cần.'
     END;
 END;
+GO
 
 
 --BANG KHACH HANG
@@ -456,6 +459,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 
 -- Số điện thoại của khách phải là số có 10 chữ số.
 CREATE TRIGGER trg_ValidatePhoneNumber
@@ -479,6 +483,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 
 -- Số CCCD phải đúng định dạng (12 chữ số), không trùng lặp.
 CREATE TRIGGER trg_ValidateCCCD
@@ -502,6 +507,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 --	Khách hàng phải cung cấp đầy đủ thông tin gồm: số căn cước công dân, số điện thoại, email, họ tên, giới tính khi đăng kí thẻ thành viên. 
 CREATE TRIGGER trg_ValidateCustomerInfo
 ON KhachHang
@@ -523,7 +529,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
-
+GO
 --BANG PHIEUDATMON
 
 --	Phiếu đặt món bắt buộc phải có các thuộc tính bao gồm mã phiếu, ngày lập, nhân viên lập, mã số bàn, mã khách hàng. 
@@ -547,7 +553,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
-
+GO
 --	Mã phiếu trong phiếu đặt món phải là duy nhất để phân biệt với các mã phiếu khác. Mã bàn trong mỗi chi nhánh phải là duy nhất và tuân theo quy tắc sau: 
 --o	o Đối với khách sử dụng dịch vụ trực tiếp tại bàn, mã số bàn sẽ là số thứ tự của các bàn trong chi nhánh (ví dụ: 1, 2, 3, …).
 --o	 o Đối với khách mang về hoặc không sử dụng bàn tại quán, mã số bàn sẽ mang mã đặc biệt là MV (Mang Về).
@@ -573,6 +579,8 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
+
 CREATE TRIGGER trg_ValidateTableID_DirectService
 ON Ban
 INSTEAD OF INSERT
@@ -598,6 +606,8 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
+
 CREATE TRIGGER trg_ValidateTableID_Takeaway
 ON Ban
 INSTEAD OF INSERT
@@ -619,6 +629,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 
 
 --	Khách hàng có thể đặt hàng qua số điện thoại chi nhánh hoặc website. 
@@ -651,6 +662,8 @@ BEGIN
         PRINT 'Đơn đặt món qua website đã được tiếp nhận.';
     END;
 END;
+GO
+	
 --	Khi khách hàng cần thanh toán, nhân viên sẽ xuất hóa đơn thanh toán cho khách hàng
 CREATE TRIGGER trg_GenerateInvoice
 ON PhieuDatMon
@@ -676,6 +689,7 @@ BEGIN
 
     PRINT 'Hóa đơn thanh toán đã được tạo và xuất cho khách hàng.';
 END;
+GO
 -- Phiếu đặt món phải có đầy đủ thông tin.
 CREATE TRIGGER trg_CheckOrderAttributes
 ON PhieuDatMon
@@ -697,6 +711,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 
 -- Mã phiếu phải là duy nhất.
 CREATE TRIGGER trg_UniqueOrderID
@@ -719,6 +734,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 -- BANG HOA DON
 
 -- Kiểm tra thời gian xuất hóa đơn phải sau thời gian lập phiếu.
@@ -738,6 +754,7 @@ BEGIN
         ROLLBACK TRANSACTION;
     END
 END;
+GO
 
 -- Cập nhật điểm tích lũy dựa trên tổng tiền của hóa đơn.
 CREATE TRIGGER trg_UpdateLoyaltyPoints
@@ -752,6 +769,7 @@ BEGIN
     JOIN PhieuDatMon pd ON tk.MaKhachHang = pd.MaKhachHang
     JOIN inserted i ON pd.MaPhieu = i.MaPhieu;
 END;
+GO
 
 -- Sau khi thanh toán hóa đơn, nhờ khách hàng đánh giá.
 CREATE TRIGGER trg_RequestFeedback
@@ -783,7 +801,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
-
+GO
 --	Dựa vào tổng tiền tiêu dùng (sau khi đã giảm) trên hoá đơn, hệ thống sẽ tích luỹ cộng dồn điểm vào thẻ khách hàng: 1 điểm tương ứng 100.000 VNĐ. 
 CREATE TRIGGER trg_UpdateLoyaltyPoints
 ON HoaDon
@@ -797,7 +815,7 @@ BEGIN
     JOIN PhieuDatMon pd ON tk.MaKhachHang = pd.MaKhachHang
     JOIN inserted i ON pd.MaPhieu = i.MaPhieu;
 END;
-
+GO
 --	Hoá đơn phải có tổng tiền, số tiền được giảm nếu có sử dụng thẻ thành viên 
 CREATE TRIGGER trg_CheckBill
 ON HoaDon
@@ -819,7 +837,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
-
+GO
 
 -- BANG DANH GIA
 -- Cập nhật điểm của nhân viên khi thêm đánh giá.
@@ -843,6 +861,7 @@ BEGIN
         WHERE NhanVien.MaNhanVien = pd.NhanVienLap
     );
 END;
+GO
 -- khi thêm một đánh giá vào bảng đánh giá thì sẽ cập nhật điểm của nhân viên lập phiếu
 CREATE TRIGGER trg_UpdateEmployeeScore
 ON DanhGia
@@ -867,6 +886,7 @@ BEGIN
 
     PRINT 'Điểm số của nhân viên lập phiếu đã được cập nhật dựa trên đánh giá.';
 END;
+GO
 --	Đánh giá khách hàng: Điểm số nằm trong khoảng từ 1 đến 5.
 CREATE TRIGGER trg_CheckRating
 ON DanhGia
@@ -891,7 +911,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
-
+GO
 --	Điểm phục vụ do khách hàng đánh giá là điểm của nhân viên lập phiếu. 
 CREATE TRIGGER trg_UpdateServiceScore
 ON DanhGia
@@ -902,7 +922,7 @@ BEGIN
     SET DiemSo = DiemSo + (SELECT DiemPhucVu FROM inserted)
     WHERE MaNhanVien = (SELECT NhanVienLap FROM PhieuDatMon WHERE MaPhieu = (SELECT MaPhieu FROM inserted));
 END;
-
+GO
 --BANG DAT CHO
 -- Thời gian nhận bàn phải trễ hơn thời gian đặt trước.
 CREATE TRIGGER trg_CheckReservationTime
@@ -926,6 +946,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 --	Bàn được chọn phải có sức chứa lớn hơn số lượng khách của đơn đặt trước.
 CREATE TRIGGER trg_CheckTableCapacity
 ON DatCho
@@ -949,6 +970,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
+GO
 -- BANG THONG TIN TRUY CAP
 -- Thời gian truy cập phải nhỏ hơn giờ đến trong đặt trước.
 CREATE TRIGGER trg_ValidateAccessTime
@@ -967,7 +989,7 @@ BEGIN
         ROLLBACK TRANSACTION;
     END;
 END;
-
+GO
 --	Đối với khách trực tuyến, hệ thống ghi nhận thêm thời điểm truy cập, thời gian truy cập nhằm cải thiện trải nghiệm của khách hàng. 
 CREATE TRIGGER trg_RecordOnlineAccess
 ON ThongTinTruyCap
@@ -977,6 +999,7 @@ BEGIN
     -- Ghi nhận thời gian truy cập và thời điểm truy cập
     PRINT 'Thời điểm truy cập và thời gian truy cập đã được ghi nhận.'
 END;
+GO
 -- bang CHITIETPHIEU
 
 --	Khách hàng có thể đặt trước một số món để nhà hàng chuẩn bị sẵn. 
@@ -997,7 +1020,7 @@ BEGIN
         PRINT 'Nhà hàng đã nhận thông tin đặt trước các món. Đang chuẩn bị.';
     END;
 END;
-
+GO
 --	Trong quá trình đặt món nếu khách có yêu cầu thêm món, nhân viên sẽ bổ sung thêm thông tin và phiếu đặt món. 
 CREATE TRIGGER trg_UpdateOrderWithAdditionalDishes
 ON ChiTietPhieu
@@ -1006,7 +1029,7 @@ AS
 BEGIN
     PRINT 'Thông tin món thêm đã được cập nhật vào phiếu đặt món.'
 END;
-
+GO
 --BANG DAT TRUOC
 --	Khách hàng đặt món trực tuyến phải lựa chọn khu vực và chi nhánh, số lượng khách, ngày đặt, giờ đến, một số ghi chú khác. 
 CREATE TRIGGER trg_ValidateOnlineOrder
@@ -1029,7 +1052,7 @@ BEGIN
         SELECT * FROM inserted;
     END
 END;
-
+GO
 
 
 
