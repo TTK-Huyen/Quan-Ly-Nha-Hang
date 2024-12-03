@@ -27,7 +27,7 @@ CREATE TABLE ChiNhanh
 	SoDienThoai VARCHAR(10),
 	BaiDoXeHoi BIT CHECK (BaiDoXeHoi IN (0,1)),
 	BaiDoXeMay BIT CHECK (BaiDoXeMay IN (0,1)),
-	NhanVienQuanLy VARCHAR(10),
+	NhanVienQuanLy CHAR(6),
 	MaKhuVuc INT,
 	GiaoHang BIT CHECK (GiaoHang IN (0,1)),
 	CONSTRAINT PK_ChiNhanh PRIMARY KEY(MaChiNhanh),
@@ -82,8 +82,6 @@ CREATE TABLE PhucVu
 
 	
 --Phân hệ nhân viên
-
---Phân hệ nhân viên
 CREATE TABLE NhanVien (
 	MaNhanVien CHAR(6) NOT NULL,
 	HoTen NVARCHAR(200) NOT NULL,
@@ -91,12 +89,13 @@ CREATE TABLE NhanVien (
 	GioiTinh NVARCHAR(3) NOT NULL,
 	Luong DECIMAL(8,0) NOT NULL,
 	NgayVaoLam DATE NOT NULL,
-	NgayNghiViec DATE ,
+	NgayNghiViec DATE NULL,
 	MaBoPhan CHAR(4) NOT NULL,
 	DiemSo DECIMAL(9,0) DEFAULT 0 CHECK (DiemSo >= 0),
 	CONSTRAINT PK_NV PRIMARY KEY (MaNhanVien),
-	
+	CONSTRAINT CK_NgayNghiViec CHECK (NgayNghiViec IS NULL OR NgayNghiViec >= NgayVaoLam)
 );
+	
 	
 CREATE TABLE BoPhan (
 	MaBoPhan CHAR(4),
@@ -138,7 +137,7 @@ CREATE TABLE TheKhachHang (
 	MaSoThe INT PRIMARY KEY, -- Mã định danh duy nhất cho thẻ khách hàng
 	MaKhachHang INT, -- Mã khách hàng, tham chiếu tới KhachHang
 	NgayLap DATETIME, -- Ngày, giờ lập thẻ khách hàng
-	NhanVienLap VARCHAR(10), -- Mã nhân viên lập thẻ, tham chiếu tới NhanVien
+	NhanVienLap CHAR(6), -- Mã nhân viên lập thẻ, tham chiếu tới NhanVien
 	TrangThaiThe BIT DEFAULT 1 CHECK (TrangThaiThe IN (0, 1)), -- Trạng thái thẻ khách hàng (0: đóng, 1: mở)
 	DiemHienTai INT DEFAULT 0 CHECK (DiemHienTai >= 0), -- Điểm hiện tại trong thẻ, mặc định là 0
 	DiemTichLuy INT DEFAULT 0 CHECK (DiemTichLuy >= 0), -- Điểm tích lũy, mặc định là 0
@@ -150,7 +149,7 @@ CREATE TABLE TheKhachHang (
 CREATE TABLE PhieuDatMon (
     MaPhieu INT PRIMARY KEY, -- Dùng INT vì đây là mã định danh duy nhất và tăng dần.
     NgayLap DATETIME, -- Dùng DATE để lưu trữ ngày tạo phiếu.
-    NhanVienLap VARCHAR(10), -- NVARCHAR để hỗ trợ tên nhân viên với khả năng lưu Unicode.
+    NhanVienLap CHAR(6), -- NVARCHAR để hỗ trợ tên nhân viên với khả năng lưu Unicode.
     MaSoBan INT, -- Dùng varchar vì có thể là MV.
     MaKhachHang INT,-- Dùng INT để liên kết đến bảng khách hàng.
 	MaChiNhanh INT
