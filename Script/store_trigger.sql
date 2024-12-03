@@ -197,58 +197,6 @@ END;
 GO
 
 
-
---Ngày nghỉ việc của nhân viên (nếu có), phải lớn hơnhơn ngày vào làm.
-CREATE TRIGGER CHECK_NGAYNGHIVIEC
-ON NhanVien
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    DECLARE @MaNhanVien NVARCHAR(50);
-    IF EXISTS
-    (
-        SELECT 1 
-        FROM INSERTED i
-        WHERE i.NgayNghiViec IS NOT NULL AND i.NgayVaoLam >= i.NgayNghiViec
-    )
-    BEGIN
-        SELECT TOP 1 @MaNhanVien = i.MaNhanVien
-        FROM INSERTED i
-        WHERE i.NgayNghiViec IS NOT NULL AND i.NgayVaoLam >= i.NgayNghiViec;
-        RAISERROR (
-            N'Ngày nghỉ việc phải lớn hơn ngày vào làm. Vui lòng kiểm tra lại (Mã nhân viên: %s)',
-            16, 1, 
-            @MaNhanVien
-        );
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-END;
-GO
-
-
---Thuộc tính NgayBatDau phải nhỏ hơn NgayKetThuc trong bảbảng
-CREATE TRIGGER CHECK_NGAYKETTHUC
-ON LichSuLamViec
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    IF EXISTS
-    (
-        SELECT 1 
-        FROM INSERTED i
-        WHERE i.NgayKetThuc IS NOT NULL AND i.NgayBatDau >= i.NgayKetThuc
-    )
-    BEGIN
-        RAISERROR (
-            N'Ngày kết thúc phải lớn hơn ngày bắt đầu. Vui lòng kiểm tra lại ', 16, 1 );
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-END;
-GO
-
-
 --Mỗi nhân viên chỉ làm việc tại một chi nhánh tại một thời điểm
 CREATE TRIGGER CHECK_NVCN
 ON LichSuLamViec
@@ -276,45 +224,6 @@ END;
 GO
 
 
---Mã nhân viên là duy nhất cho mỗi nhân viên, Họ tên, ngày sinh, giới tính, lươlương,...=> THÊM NOT NULL KHI CÀI ĐẶT 
-CREATE TRIGGER KTRTTNV
-ON NhanVien
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM INSERTED i
-        JOIN NhanVien n ON i.MaNhanVien = n.MaNhanVien
-        WHERE i.MaNhanVien IS NOT NULL 
-          AND i.MaNhanVien <> ''         
-          AND i.MaNhanVien <> n.MaNhanVien
-    )
-    BEGIN
-        RAISERROR (N'Lỗi: Mã nhân viên vừa thêm hoặc cập nhật đã tồn tại trong hệ thống với nhân viên khác.', 16, 1);
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-END;
-GO
---Điểm số nhân viên ban đầu phải bằng không.
-CREATE TRIGGER KTRDIEMNV
-ON NhanVien
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM INSERTED i
-        WHERE i.DiemSo <> 0
-    )
-    BEGIN
-        RAISERROR (N'Lỗi: Điểm số ban đầu phải bằng 0.', 16, 1);
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-END;
-GO
 --Trigger: phan he khach hang 
 
 
