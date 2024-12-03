@@ -82,34 +82,35 @@ CREATE TABLE PhucVu
 
 	
 --Phân hệ nhân viên
+
+--Phân hệ nhân viên
 CREATE TABLE NhanVien (
-	MaNhanVien VARCHAR(10) NOT NULL,
-	HoTen NVARCHAR(50) NOT NULL,
+	MaNhanVien CHAR(6) NOT NULL,
+	HoTen NVARCHAR(200) NOT NULL,
 	NgaySinh DATE NOT NULL,
-	GioiTinh NVARCHAR(4) NOT NULL,
+	GioiTinh NVARCHAR(3) NOT NULL,
 	Luong DECIMAL(8,0) NOT NULL,
 	NgayVaoLam DATE NOT NULL,
 	NgayNghiViec DATE ,
-	MaBoPhan VARCHAR(10) NOT NULL,
-	DiemSo DECIMAL(9,0) NOT NULL
+	MaBoPhan CHAR(4) NOT NULL,
+	DiemSo DECIMAL(9,0) DEFAULT 0 CHECK (DiemSo >= 0),
 	CONSTRAINT PK_NV PRIMARY KEY (MaNhanVien),
 	
 );
 	
 CREATE TABLE BoPhan (
-	MaBoPhan VARCHAR(10),
-	TenBoPhan NVARCHAR(30)
+	MaBoPhan CHAR(4),
+	TenBoPhan NVARCHAR(50)
 	CONSTRAINT PK_BP PRIMARY KEY (MaBoPhan)
 );
 
 
 CREATE TABLE LichSuLamViec (
-	MaNhanVien VARCHAR(10),
+	MaNhanVien CHAR(6),
 	MaChiNhanh INT,
 	NgayBatDau DATE,
 	NgayKetThuc DATE
 	CONSTRAINT PK_LSLV PRIMARY KEY(MaNhanVien,MaChiNhanh), 
-	
 ); 
 
 -- phân hệ khách hàng
