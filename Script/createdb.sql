@@ -12,19 +12,19 @@ USE QLNHAHANG
 GO
 CREATE TABLE KhuVuc
 (
-	MaKhuVuc TINYINT INDENTITY(1,1),
-	TenKhuVuc NVARCHAR(100),
+	MaKhuVuc TINYINT IDENTITY(1,1),
+	TenKhuVuc NVARCHAR(100) NOT NULL UNIQUE,
 	CONSTRAINT PK_KhuVuc PRIMARY KEY (MaKhuVuc)
 )
 
 CREATE TABLE ChiNhanh
 (
 	MaChiNhanh SMALLINT IDENTITY(1,1),
-	TenChiNhanh NVARCHAR(100),
-	DiaChi NVARCHAR(255),
+	TenChiNhanh NVARCHAR(100) NOT NULL UNIQUE,
+	DiaChi NVARCHAR(255) NOT NULL,
 	ThoiGianMoCua TIME,
 	ThoiGianDongCua TIME,
-	SoDienThoai VARCHAR(10),
+	SoDienThoai VARCHAR(10) UNIQUE,
 	BaiDoXeHoi  BIT DEFAULT 1 CHECK (BaiDoXeHoi IN (0,1)),
 	BaiDoXeMay BIT DEFAULT 1 CHECK (BaiDoXeMay IN (0,1)),
 	NhanVienQuanLy CHAR(6),
@@ -37,14 +37,14 @@ CREATE TABLE ChiNhanh
 CREATE TABLE MucThucDon
 (
 	MaMuc TINYINT IDENTITY(1,1) ,
-	TenMuc NVARCHAR(100),
+	TenMuc NVARCHAR(100) NOT NULL,
 	CONSTRAINT PK_MucThucDon PRIMARY KEY (MaMuc)
 )
 
 CREATE TABLE ThucDon
 (
 	MaThucDon TINYINT IDENTITY(1,1),
-	TenThucDon NVARCHAR(100),
+	TenThucDon NVARCHAR(100) NOT NULL,
 	MaKhuVuc TINYINT,
 	CONSTRAINT PK_ThucDon PRIMARY KEY (MaThucDon),
 	
@@ -55,8 +55,8 @@ CREATE TABLE Mon
 (
 	MaMon SMALLINT IDENTITY(1,1),
 	MaMuc TINYINT,
-	TenMon NVARCHAR(100),
-	GiaHienTai DECIMAL(18,3),
+	TenMon NVARCHAR(100) NOT NULL UNIQUE,
+	GiaHienTai DECIMAL(18,3) (GiaHienTai >= 0),
 	GiaoHang BIT DEFAULT 1 CHECK (GiaoHang IN (0,1)),
 	CONSTRAINT PK_Mon PRIMARY KEY (MaMon),
 	
@@ -65,8 +65,8 @@ CREATE TABLE Mon
 
 CREATE TABLE ThucDon_Mon
 (
-	MaThucDon TINYINT,
-	MaMon SMALLINT,
+	MaThucDon TINYINT NOT NULL,
+	MaMon SMALLINT NOT NULL,
 )
 
 
@@ -74,8 +74,8 @@ CREATE TABLE ThucDon_Mon
 
 CREATE TABLE PhucVu
 (
-	MaChiNhanh TINYINT,
-	MaMon SMALLINT,
+	MaChiNhanh TINYINT NOT NULL,
+	MaMon SMALLINT NOT NULL,
 	CoPhucVuKhong BIT DEFAULT 1 CHECK (CoPhucVuKhong IN (0,1)),
 	
 )
@@ -83,14 +83,14 @@ CREATE TABLE PhucVu
 	
 --Phân hệ nhân viên
 CREATE TABLE NhanVien (
-	MaNhanVien CHAR(6),
-	HoTen NVARCHAR(255),
-	NgaySinh DATE,
-	GioiTinh NVARCHAR(3) ,
-	Luong DECIMAL(18,3) ,
-	NgayVaoLam DATE ,
-	NgayNghiViec DATE,
-	MaBoPhan CHAR(4) ,
+	MaNhanVien CHAR(6) NOT NULL,
+	HoTen NVARCHAR(255) NOT NULL,
+	NgaySinh DATE NOT NULL,
+	GioiTinh NVARCHAR(3)  NOT NULL CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')),
+	Luong DECIMAL(18,3) DEFAULT 0 CHECK (Luong >= 0) ,
+	NgayVaoLam DATE NOT NULL,
+	NgayNghiViec DATE NULL,
+	MaBoPhan CHAR(4) NOT NULL,
 	DiemSo DECIMAL(9,0) DEFAULT 0 CHECK (DiemSo >= 0),
 	-- note RCM THÊM THUỘC TÍNH SỐ LƯỢNG ĐÁNH GIÁ ĐỂ TÍNH TRUNG BÌNH ĐIỂM SỐ, CHỨ TÍNH TỔNG KÌ QUÁ
 	CONSTRAINT PK_NV PRIMARY KEY (MaNhanVien),
@@ -100,7 +100,7 @@ CREATE TABLE NhanVien (
 	
 CREATE TABLE BoPhan (
 	MaBoPhan CHAR(4),
-	TenBoPhan NVARCHAR(50),
+	TenBoPhan NVARCHAR(50) NOT NULL UNIQUE,
 	CONSTRAINT PK_BP PRIMARY KEY (MaBoPhan)
 );
 
@@ -108,8 +108,8 @@ CREATE TABLE BoPhan (
 CREATE TABLE LichSuLamViec (
 	MaNhanVien CHAR(6),
 	MaChiNhanh TINYINT,
-	NgayBatDau DATE,
-	NgayKetThuc DATE
+	NgayBatDau DATE NOT NULL,
+	NgayKetThuc DATE NULL,
 	CONSTRAINT PK_LSLV PRIMARY KEY(MaNhanVien,MaChiNhanh), 
 ); 
 
@@ -137,7 +137,7 @@ CREATE TABLE KhachHang (
 CREATE TABLE TheKhachHang (
 	MaSoThe INT IDENTITY(1,1) PRIMARY KEY, -- Mã định danh duy nhất cho thẻ khách hàng
 	MaKhachHang BIGINT, -- Mã khách hàng, tham chiếu tới KhachHang
-	NgayLap DATE, -- Ngày lập thẻ khách hàng
+	NgayLap DATE NOT NULL, -- Ngày lập thẻ khách hàng
 	NhanVienLap CHAR(6), -- Mã nhân viên lập thẻ, tham chiếu tới NhanVien
 	TrangThaiThe BIT DEFAULT 1 CHECK (TrangThaiThe IN (0, 1)), -- Trạng thái thẻ khách hàng (0: đóng, 1: mở)
 	DiemHienTai INT DEFAULT 0 CHECK (DiemHienTai >= 0), -- Điểm hiện tại trong thẻ, mặc định là 0
@@ -149,7 +149,7 @@ CREATE TABLE TheKhachHang (
 
 CREATE TABLE PhieuDatMon (
     MaPhieu BIGINT IDENTITY(1,1) PRIMARY KEY, -- Dùng INT vì đây là mã định danh duy nhất và tăng dần.
-    NgayLap DATETIME, -- Dùng DATE để lưu trữ ngày tạo phiếu.
+    NgayLap DATETIME NOT NULL, -- Dùng DATE để lưu trữ ngày tạo phiếu.
     NhanVienLap CHAR(6), -- NVARCHAR để hỗ trợ tên nhân viên với khả năng lưu Unicode.
     MaSoBan CHAR(2), -- Dùng varchar vì có thể là MV.
     MaKhachHang BIGINT,-- Dùng INT để liên kết đến bảng khách hàng.
@@ -160,7 +160,7 @@ CREATE TABLE PhieuDatMon (
 CREATE TABLE ChiTietPhieu (
     MaPhieu BIGINT, -- Khóa ngoại liên kết tới `PhieuDatMon`.
     MaMon SMALLINT, -- Mã món ăn (số nguyên).
-    SoLuong TINYINT, -- Số lượng món ăn đặt (nguyên dương).
+    SoLuong TINYINT CHECK (SoLuong > 0), -- Số lượng món ăn đặt (nguyên dương).
     GhiChu NVARCHAR(200), -- Ghi chú bổ sung.
     PRIMARY KEY (MaPhieu, MaMon), -- Kết hợp 2 cột làm khóa chính.
 );
@@ -176,36 +176,36 @@ CREATE TABLE DanhGia (
 
 CREATE TABLE HoaDon (
     MaPhieu BIGINT PRIMARY KEY, -- Khóa chính và khóa ngoại tham chiếu từ `PhieuDatMon`.
-    NgayLap DATETIME, -- Dùng DATETIME để lưu ngày lập hóa đơn.
-    TongTien DECIMAL(18, 3), -- Dùng DECIMAL để lưu số tiền chính xác đến 2 chữ số thập phân.
-    GiamGia DECIMAL(3, 2), -- Tương tự DECIMAL, thường dùng cho tỷ lệ giảm giá (% hoặc giá trị cố định).
-    ThanhTien DECIMAL(18, 3) -- Tổng tiền sau giảm giá.
+    NgayLap DATETIME NOT NULL, -- Dùng DATETIME để lưu ngày lập hóa đơn.
+    TongTien DECIMAL(18, 3) NOT NULL, -- Dùng DECIMAL để lưu số tiền chính xác đến 2 chữ số thập phân.
+    GiamGia DECIMAL(3, 2) NOT NULL DEFAULT 0.00, -- Tương tự DECIMAL, thường dùng cho tỷ lệ giảm giá (% hoặc giá trị cố định).
+    ThanhTien DECIMAL(18, 3) NOT NULL  -- Tổng tiền sau giảm giá.
     
 );
 --note 404: NGHI VẤN HACK
 CREATE TABLE DatTruoc (
     MaDatTruoc INT PRIMARY KEY,
-    MaKhachHang BIGINT,
-    MaChiNhanh TINYINT,
-    SoLuongKhach TINYINT,
-    GioDen DATETIME,
+    MaKhachHang BIGINT NOT NULL,
+    MaChiNhanh TINYINT NOT NULL,
+    SoLuongKhach TINYINT NOT NULL CHECK (SoLuongKhach > 0),
+    GioDen DATETIME NOTNULL,
     GhiChu NVARCHAR(255)
 
 );
 
 CREATE TABLE DatCho (
-    MaSoBan CHAR(2),
-    MaChiNhanh TINYINT,
-    MaDatTruoc INT,
+    MaSoBan CHAR(2) NOT NULL,
+    MaChiNhanh TINYINT NOT NULL,
+    MaDatTruoc INT NOT NULL,
     PRIMARY KEY (MaSoBan, MaChiNhanh, MaDatTruoc),
 
 );
 --404
 CREATE TABLE ThongTinTruyCap (
-	MaKhachHang BIGINT, --Khóa ngoại liên kết đến 'KhachHang'
-	MaDatTruoc INT, -- Khóa ngoại liên kết đến 'DatTruoc'
-	ThoiGianTruyCap TINYINT, -- Thời lượng khách hàng thao tác với website
-	ThoiDiemTruyCap DATETIME, -- Thời điểm khách hàng truy cập vào website
+	MaKhachHang BIGINT NOT NULL, --Khóa ngoại liên kết đến 'KhachHang'
+	MaDatTruoc INT  NOT NULL, -- Khóa ngoại liên kết đến 'DatTruoc'
+	ThoiGianTruyCap TINYINT DEFAULT 0, -- Thời lượng khách hàng thao tác với website
+	ThoiDiemTruyCap DATETIME  NOT NULL, -- Thời điểm khách hàng truy cập vào website
 	PRIMARY KEY (MaKhachHang, MaDatTruoc), --Kết hợp 2 cột làm khóa chính
 	--note
 	--Khóa chính vì sao lại có mã đặt trước, những khách truy cập web mà không đặt thì sao, 
@@ -215,16 +215,16 @@ CREATE TABLE ThongTinTruyCap (
 -- ràng buộc constraint 
 ALTER TABLE ChiNhanh
 ADD CONSTRAINT FK_ChiNhanh_KhuVuc FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc(MaKhuVuc),
-    CONSTRAINT FK_ChiNhanh_NhanVien FOREIGN KEY (NhanVienQuanLy) REFERENCES NhanVien(MaNhanVien);
-
+    CONSTRAINT FK_ChiNhanh_NhanVien FOREIGN KEY (NhanVienQuanLy) REFERENCES NhanVien(MaNhanVien),
+	CONSTRAINT CK_ChiNhanh_ThoiGianMoCua CHECK (ThoiGianMoCua < ThoiGianDongCua);
 -- Ràng buộc thực đơn
 ALTER TABLE ThucDon
 ADD CONSTRAINT FK_ThucDon_KhuVuc FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc(MaKhuVuc);
 
 -- Ràng buộc món ăn
 ALTER TABLE Mon
-ADD CONSTRAINT FK_Mon_MucThucDon FOREIGN KEY (MaMuc) REFERENCES MucThucDon(MaMuc);
-
+ADD CONSTRAINT FK_Mon_MucThucDon FOREIGN KEY (MaMuc) REFERENCES MucThucDon(MaMuc),
+	CONSTRAINT CK_Mon_Gia CHECK (GiaHienTai >= 0);
 -- Ràng buộc Thực đơn_Món
 ALTER TABLE ThucDon_Mon
 ADD CONSTRAINT FK_ThucDon_Mon_ThucDon FOREIGN KEY (MaThucDon) REFERENCES ThucDon(MaThucDon),
