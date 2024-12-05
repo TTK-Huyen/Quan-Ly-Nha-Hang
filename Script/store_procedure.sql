@@ -277,50 +277,6 @@ GO
 
 
 									
---Store procedure PHÂN HỆ NHÂN VIÊN SP  TẠO PHIẾU ĐẶT MÓN
-CREATE PROC THEMPDM
-	@NhanVienLap VARCHAR(10),
-	@MaSoBan INT,
-	@MaKhachHang INT
-AS
-BEGIN
-	--Kiểm tra nhân viên có tồn tại không
-	IF NOT EXISTS (SELECT 1
-	FROM NhanVien
-	WHERE MaNhanVien = @NhanVienLap
-	)
-	BEGIN
-		RAISERROR (N'Mã nhân viên nhập vào không có trong hệ thống',16,1);
-		RETURN;
-	END;
-	--Kiểm tra mã số bàn có tồn tại không
-	IF NOT EXISTS (SELECT 1
-	FROM Ban
-	WHERE MaSoBan = @MaSoBan
-	)
-	BEGIN
-		RAISERROR (N'Mã bàn nhập vào không có trong hệ thống',16,1);
-		RETURN;
-	END;
-	--Kiểm tra mã khách hàng có tồn tại không
-	IF NOT EXISTS (SELECT 1
-	FROM KhachHang
-	WHERE MaKhachHang = @MaKhachHang
-	)
-	BEGIN
-		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
-		RETURN;
-	END;
-
-	DECLARE @MaPhieu INT
-	SET @MaPhieu = (SELECT ISNULL(MAX(MaPhieu), 0) + 1 FROM PhieuDatMon);
-	INSERT INTO PhieuDatMon
-	VALUES (@MaPhieu,GETDATE(),@NhanVienLap, @MaSoBan, @MaKhachHang);
-	
-END
-GO
-
-
 
 
 							
@@ -1053,6 +1009,7 @@ BEGIN
 	PRINT N'Xóa thẻ khách hàng thành công';
 END;
 GO
+
 
 
 
