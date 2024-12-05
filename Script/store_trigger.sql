@@ -119,56 +119,13 @@ GO
 
 --TRIGGER PHÂN HỆ NHÂN VIÊN
 
---Mã chi nhánh và mã bộ phận phải có sẵn trong hệ thống trước khi thêm mộtt nhân
---viên vào mộtt chi nhánh hoặc bộ phận.
-CREATE TRIGGER THEMNV
-ON NhanVien
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    -- Ki?m tra mã bộ phận
-    IF EXISTS (
-        SELECT 1
-        FROM INSERTED i
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM BoPhan
-            WHERE BoPhan.MaBoPhan = i.MaBoPhan
-        )
-    )
-    BEGIN
-        RAISERROR (N'Mã bộ phận không nằm trong hệ thống', 16, 1);
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-
-    -- Kiểm tra mã chi nhánh
-    IF EXISTS (
-        SELECT 1
-        FROM INSERTED i
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM LichSuLamViec l
-            JOIN ChiNhanh c ON l.MaChiNhanh = c.MaChiNhanh
-            WHERE l.MaNhanVien = i.MaNhanVien AND l.NgayKetThuc IS NULL
-        )
-    )
-    BEGIN
-        RAISERROR (N'Mã chi nhánh không nằm trong hệ thống hoặc nhân viên chưa có chi nhánh làm việc', 16, 1);
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-END;
-GO
-
-
---Mỗi nhân viên chỉ làm việc tại một chi nhánh tại một thời điểm
+--NHÂN VIÊN CHỈ ĐƯỢC LÀM VIỆC TẠI 1 CHI NHÁNH TẠI 1 THỜI ĐIỂM
 CREATE TRIGGER CHECK_NVCN
 ON LichSuLamViec
 AFTER INSERT, UPDATE
 AS
 BEGIN
-    IF EXISTS 
+    IF EXISTS
     (
         SELECT 1
         FROM INSERTED i
@@ -187,9 +144,6 @@ BEGIN
     END;
 END;
 GO
-
-
---Trigger: phan he khach hang 
 
 
 --Nhân viên quản lý phải làm việc tại chi nhánh
