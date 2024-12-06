@@ -159,12 +159,13 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM inserted c
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM LichSuLamViec l
-            WHERE l.MaNhanVien = c.NhanVienQuanLy
-              AND l.MaChiNhanh = c.MaChiNhanh
-        )
+        WHERE c.NhanVienQuanLy IS NOT NULL -- Chỉ kiểm tra khi NhanVienQuanLy không phải NULL
+          AND NOT EXISTS (
+              SELECT 1
+              FROM LichSuLamViec l
+              WHERE l.MaNhanVien = c.NhanVienQuanLy
+                AND l.MaChiNhanh = c.MaChiNhanh
+          )
     )
     BEGIN
         RAISERROR ('Nhân viên quản lý phải làm việc tại chi nhánh mà họ quản lý!', 16, 1);
