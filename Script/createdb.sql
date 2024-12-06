@@ -24,7 +24,7 @@ CREATE TABLE ChiNhanh
 	DiaChi NVARCHAR(255) NOT NULL,
 	ThoiGianMoCua TIME,
 	ThoiGianDongCua TIME,
-	SoDienThoai VARCHAR(10) UNIQUE,
+	SoDienThoai VARCHAR(10) UNIQUE NOT NULL,
 	BaiDoXeHoi  BIT DEFAULT 1 CHECK (BaiDoXeHoi IN (0,1)),
 	BaiDoXeMay BIT DEFAULT 1 CHECK (BaiDoXeMay IN (0,1)),
 	NhanVienQuanLy CHAR(6),
@@ -86,7 +86,7 @@ CREATE TABLE NhanVien (
 	MaNhanVien CHAR(6) NOT NULL,
 	HoTen NVARCHAR(255) NOT NULL,
 	NgaySinh DATE NOT NULL,
-	GioiTinh NVARCHAR(3)  NOT NULL CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')),
+	GioiTinh NVARCHAR(4)  NOT NULL CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')),
 	Luong DECIMAL(18,3) DEFAULT 0 CHECK (Luong >= 0) ,
 	NgayVaoLam DATE NOT NULL,
 	NgayNghiViec DATE NULL,
@@ -116,7 +116,7 @@ CREATE TABLE LichSuLamViec (
 -- phân hệ khách hàng
 
 CREATE TABLE Ban (
-    MaSoBan CHAR(2) ,
+    MaSoBan VARCHAR(3) ,
     MaChiNhanh TINYINT,
     TrangThai BIT DEFAULT 0 CHECK (TrangThai IN (0, 1)),  -- 0: Trống, 1: Đang sử dụng
     SucChua TINYINT CHECK (SucChua > 0),
@@ -151,7 +151,7 @@ CREATE TABLE PhieuDatMon (
     MaPhieu BIGINT IDENTITY(1,1) PRIMARY KEY, -- Dùng INT vì đây là mã định danh duy nhất và tăng dần.
     NgayLap DATETIME NOT NULL, -- Dùng DATE để lưu trữ ngày tạo phiếu.
     NhanVienLap CHAR(6), -- NVARCHAR để hỗ trợ tên nhân viên với khả năng lưu Unicode.
-    MaSoBan CHAR(2), -- Dùng varchar vì có thể là MV.
+    MaSoBan VARCHAR(3), -- Dùng varchar vì có thể là MV.
     MaKhachHang BIGINT,-- Dùng INT để liên kết đến bảng khách hàng.
 	MaChiNhanh TINYINT
 
@@ -194,7 +194,7 @@ CREATE TABLE DatTruoc (
 );
 
 CREATE TABLE DatCho (
-    MaSoBan CHAR(2) NOT NULL,
+    MaSoBan VARCHAR(3)NOT NULL,
     MaChiNhanh TINYINT NOT NULL,
     MaDatTruoc INT NOT NULL,
     PRIMARY KEY (MaSoBan, MaChiNhanh, MaDatTruoc),
