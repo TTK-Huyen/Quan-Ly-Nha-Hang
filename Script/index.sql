@@ -2,6 +2,7 @@
 
 
 -- phân hệ chi nhánh
-CREATE INDEX idx_ChiNhanh on ChiNhanh (MaChiNhanh, MaKhuVuc)
 -- phân hệ khách hàng
+CREATE INDEX idx_DatTruoc on DatTruoc(NgayDat, SoLuongKhach)
+CREATE INDEX idx_ThongTinTruyCap on ThongTinTruyCap(ThoiGianTruyCap, ThoiDiemTruyCap)
 -- phân hệ nhân viên
