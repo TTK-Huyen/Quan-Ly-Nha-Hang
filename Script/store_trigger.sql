@@ -172,7 +172,7 @@ BEGIN
         ROLLBACK TRANSACTION;
     END
 END;
-
+GO
 
 --BANG THE KHACH HANG
 --	Tại 1 thời điểm, mỗi khách hàng chỉ có thể sở hữu 1 thẻ khách hàng đang hoạt động.
@@ -300,7 +300,6 @@ GO
 --o	o Đối với khách sử dụng dịch vụ trực tiếp tại bàn, mã số bàn sẽ là số thứ tự của các bàn trong chi nhánh (ví dụ: 1, 2, 3, …).
 --o	 o Đối với khách mang về hoặc không sử dụng bàn tại quán, mã số bàn sẽ mang mã đặc biệt là MV (Mang Về).
 
-
 CREATE TRIGGER trg_UniqueOrderID
 ON PhieuDatMon
 INSTEAD OF INSERT
@@ -390,6 +389,8 @@ BEGIN
         PRINT 'Đơn đặt món qua số điện thoại chi nhánh đã được tiếp nhận.';
     END;
 END;
+GO
+
 CREATE TRIGGER trg_OrderViaWebsite
 ON PhieuDatMon
 AFTER INSERT
@@ -430,28 +431,6 @@ BEGIN
     FROM inserted i;
 
     PRINT 'Hóa đơn thanh toán đã được tạo và xuất cho khách hàng.';
-END;
-GO
--- Phiếu đặt món phải có đầy đủ thông tin.
-CREATE TRIGGER trg_CheckOrderAttributes
-ON PhieuDatMon
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1 
-        FROM inserted
-        WHERE NgayLap IS NULL OR NhanVienLap IS NULL OR MaSoBan IS NULL OR MaKhachHang IS NULL
-    )
-    BEGIN
-        RAISERROR ('Phiếu đặt món phải có đủ thông tin.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO PhieuDatMon
-        SELECT * FROM inserted;
-    END
 END;
 GO
 
@@ -527,7 +506,6 @@ BEGIN
 END;
 GO
 
-
 -- Sau khi thanh toán hóa đơn, nhờ khách hàng đánh giá.
 CREATE TRIGGER trg_RequestFeedback
 ON HoaDon
@@ -535,15 +513,6 @@ AFTER INSERT
 AS
 BEGIN
     PRINT 'Hóa đơn đã được thanh toán. Vui lòng nhờ khách hàng đánh giá dịch vụ.';
-END;
-GO
--- nhac danh gia
-CREATE TRIGGER trg_RequestFeedback
-ON HoaDon
-AFTER INSERT
-AS
-BEGIN
-    PRINT N'Hóa đơn đã được thanh toán. Vui lòng nhờ khách hàng đánh giá dịch vụ.';
 END;
 GO
 
@@ -568,31 +537,6 @@ BEGIN
         JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
         WHERE NhanVien.MaNhanVien = pd.NhanVienLap
     );
-END;
-GO
--- khi thêm một đánh giá vào bảng đánh giá thì sẽ cập nhật điểm của nhân viên lập phiếu
-CREATE TRIGGER trg_UpdateEmployeeScore
-ON DanhGia
-AFTER INSERT
-AS
-BEGIN
-    -- Cập nhật điểm số cho nhân viên dựa trên đánh giá mới
-    UPDATE NhanVien
-    SET DiemSo = DiemSo + (
-        SELECT 
-            ISNULL(DiemPhucVu, 0) + ISNULL(DiemViTri, 0) + ISNULL(DiemChatLuong, 0) + ISNULL(DiemKhongGian, 0)
-        FROM inserted dg
-        JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
-        WHERE NhanVien.MaNhanVien = pd.NhanVienLap
-    )
-    WHERE EXISTS (
-        SELECT 1
-        FROM inserted dg
-        JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
-        WHERE NhanVien.MaNhanVien = pd.NhanVienLap
-    );
-
-    PRINT 'Điểm số của nhân viên lập phiếu đã được cập nhật dựa trên đánh giá.';
 END;
 GO
 
