@@ -569,6 +569,38 @@ BEGIN
 END;
 GO
 -- BANG HOA DON
+--Thanh Tien = TongTien- GiamGia
+CREATE TRIGGER trg_ValidateHoaDon
+ON HoaDon
+INSTEAD OF INSERT
+AS
+BEGIN
+    -- Kiểm tra tính hợp lệ của `TongTien` và `GiamGia`
+    IF EXISTS (
+        SELECT 1 
+        FROM inserted
+        WHERE TongTien <= 0 -- Tổng tiền phải lớn hơn 0
+          OR GiamGia < 0 -- Giảm giá không được âm
+          OR TongTien < GiamGia -- Tổng tiền phải lớn hơn hoặc bằng giảm giá
+    )
+    BEGIN
+        RAISERROR (N'Dữ liệu không hợp lệ: Tổng tiền phải lớn hơn 0 và giảm giá không được vượt quá tổng tiền!', 16, 1);
+        ROLLBACK TRANSACTION;
+    END
+    ELSE
+    BEGIN
+        -- Tính toán `ThanhTien` dựa trên `TongTien` và `GiamGia`
+        INSERT INTO HoaDon (MaPhieu, NgayLap, TongTien, GiamGia, ThanhTien)
+        SELECT 
+            MaPhieu, 
+            NgayLap, 
+            TongTien, 
+            GiamGia, 
+            (TongTien - GiamGia) AS ThanhTien
+        FROM inserted;
+    END
+END;
+GO
 
 -- Kiểm tra thời gian xuất hóa đơn phải sau thời gian lập phiếu.
 CREATE TRIGGER trg_ValidateInvoiceTime
@@ -589,20 +621,22 @@ BEGIN
 END;
 GO
 
--- Cập nhật điểm tích lũy dựa trên tổng tiền của hóa đơn.
 CREATE TRIGGER trg_UpdateLoyaltyPoints
 ON HoaDon
 AFTER INSERT
 AS
 BEGIN
-    UPDATE TheKhachHang
-    SET DiemTichLuy = DiemTichLuy + (i.ThanhTien / 100000),
-        DiemHienTai = DiemHienTai + (i.ThanhTien / 100000)
+    -- Cập nhật điểm tích lũy dựa trên `ThanhTien`
+    UPDATE tk
+    SET 
+        tk.DiemTichLuy = tk.DiemTichLuy + CAST(i.ThanhTien / 100000 AS INT),
+        tk.DiemHienTai = tk.DiemHienTai + CAST(i.ThanhTien / 100000 AS INT)
     FROM TheKhachHang tk
     JOIN PhieuDatMon pd ON tk.MaKhachHang = pd.MaKhachHang
     JOIN inserted i ON pd.MaPhieu = i.MaPhieu;
 END;
 GO
+
 
 -- Sau khi thanh toán hóa đơn, nhờ khách hàng đánh giá.
 CREATE TRIGGER trg_RequestFeedback
@@ -614,7 +648,7 @@ BEGIN
 END;
 
 --	Số tiền giảm giá trong hóa đơn phải thấp hơn tổng tiền. 
-CREATE TRIGGER trg_ValidateDiscount
+CREATE TRIGGER trg_ValidateHoaDon
 ON HoaDon
 INSTEAD OF INSERT
 AS
@@ -622,10 +656,12 @@ BEGIN
     IF EXISTS (
         SELECT 1 
         FROM inserted
-        WHERE GiamGia >= TongTien
+        WHERE GiamGia < 0 -- Không cho phép giảm giá âm
+          OR TongTien < GiamGia -- Tổng tiền phải lớn hơn hoặc bằng số tiền giảm giá
+          OR ThanhTien != (TongTien - GiamGia) -- Thành tiền phải chính xác
     )
     BEGIN
-        RAISERROR ('Số tiền giảm giá phải thấp hơn tổng tiền!', 16, 1);
+        RAISERROR (N'Tổng tiền phải lớn hơn giảm giá và thành tiền phải bằng tổng tiền trừ giảm giá!', 16, 1);
         ROLLBACK TRANSACTION;
     END
     ELSE
@@ -635,6 +671,7 @@ BEGIN
     END
 END;
 GO
+
 --	Dựa vào tổng tiền tiêu dùng (sau khi đã giảm) trên hoá đơn, hệ thống sẽ tích luỹ cộng dồn điểm vào thẻ khách hàng: 1 điểm tương ứng 100.000 VNĐ. 
 CREATE TRIGGER trg_UpdateLoyaltyPoints
 ON HoaDon
@@ -642,13 +679,15 @@ AFTER INSERT
 AS
 BEGIN
     UPDATE TheKhachHang
-    SET DiemTichLuy = DiemTichLuy + (i.ThanhTien / 100000),
-        DiemHienTai = DiemHienTai + (i.ThanhTien / 100000)
+    SET 
+        DiemTichLuy = DiemTichLuy + CAST(i.ThanhTien / 100000 AS INT),
+        DiemHienTai = DiemHienTai + CAST(i.ThanhTien / 100000 AS INT)
     FROM TheKhachHang tk
     JOIN PhieuDatMon pd ON tk.MaKhachHang = pd.MaKhachHang
     JOIN inserted i ON pd.MaPhieu = i.MaPhieu;
 END;
 GO
+
 --	Hoá đơn phải có tổng tiền, số tiền được giảm nếu có sử dụng thẻ thành viên 
 CREATE TRIGGER trg_CheckBill
 ON HoaDon
@@ -669,6 +708,15 @@ BEGIN
         INSERT INTO HoaDon
         SELECT * FROM inserted;
     END
+END;
+GO
+-- nhac danh gia
+CREATE TRIGGER trg_RequestFeedback
+ON HoaDon
+AFTER INSERT
+AS
+BEGIN
+    PRINT N'Hóa đơn đã được thanh toán. Vui lòng nhờ khách hàng đánh giá dịch vụ.';
 END;
 GO
 
@@ -811,18 +859,20 @@ ON ThongTinTruyCap
 AFTER INSERT
 AS
 BEGIN
+    -- Kiểm tra thời gian truy cập phải trước giờ đến đặt trước
     IF EXISTS (
         SELECT 1
-        FROM inserted tt
-        JOIN DatTruoc dt ON tt.MaDatTruoc = dt.MaDatTruoc
-        WHERE tt.ThoiGianTruyCap >= DATEDIFF(MINUTE, GETDATE(), dt.GioDen)
+        FROM inserted i
+        JOIN DatTruoc dt ON i.MaDatTruoc = dt.MaDatTruoc
+        WHERE i.ThoiDiemTruyCap >= dt.GioDen
     )
     BEGIN
-        RAISERROR ('Thời gian truy cập phải nhỏ hơn giờ đến.', 16, 1);
+        RAISERROR (N'Thời gian truy cập phải trước giờ đến.', 16, 1);
         ROLLBACK TRANSACTION;
     END;
 END;
 GO
+
 --	Đối với khách trực tuyến, hệ thống ghi nhận thêm thời điểm truy cập, thời gian truy cập nhằm cải thiện trải nghiệm của khách hàng. 
 CREATE TRIGGER trg_RecordOnlineAccess
 ON ThongTinTruyCap
@@ -870,21 +920,27 @@ ON DatTruoc
 INSTEAD OF INSERT
 AS
 BEGIN
+    -- Kiểm tra thông tin cần thiết của đơn đặt trước
     IF EXISTS (
         SELECT 1
         FROM inserted
-        WHERE MaKhuVuc IS NULL OR MaChiNhanh IS NULL OR SoLuongKhach IS NULL OR GioDen IS NULL
+        WHERE MaChiNhanh IS NULL 
+          OR SoLuongKhach IS NULL 
+          OR SoLuongKhach <= 0
+          OR GioDen IS NULL
     )
     BEGIN
-        RAISERROR ('Đơn đặt trước phải có đầy đủ khu vực, chi nhánh, số lượng khách, ngày đặt, giờ đến!', 16, 1);
+        RAISERROR (N'Đơn đặt trước phải có đầy đủ thông tin: chi nhánh, số lượng khách hợp lệ, và giờ đến!', 16, 1);
         ROLLBACK TRANSACTION;
     END
     ELSE
     BEGIN
         INSERT INTO DatTruoc
         SELECT * FROM inserted;
-    END
+    END;
 END;
 GO
+
+
 
 
