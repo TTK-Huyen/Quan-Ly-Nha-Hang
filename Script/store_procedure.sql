@@ -26,7 +26,14 @@ BEGIN
 							ELSE
 								IF(@THOIGIANMOCUA<@THOIGIANDONGCUA)
 									BEGIN
-										INSERT INTO ChiNhanh(MaChiNhanh, TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) values (@MACHINHANH, @TENCHINHANH, @DIACHI, @THOIGIANMOCUA, @THOIGIANDONGCUA, @SDT, @BAIDOXEHOI, @BAIDOXEMAY, @NVQL, @MAKV, @GIAOHANG)
+										IF EXISTS (SELECT 1 FROM KhuVuc WHERE MaKhuVuc=@MAKV)
+											BEGIN
+												INSERT INTO ChiNhanh(MaChiNhanh, TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) values (@MACHINHANH, @TENCHINHANH, @DIACHI, @THOIGIANMOCUA, @THOIGIANDONGCUA, @SDT, @BAIDOXEHOI, @BAIDOXEMAY, @NVQL, @MAKV, @GIAOHANG)
+											END
+										ELSE
+											BEGIN
+												RAISERROR(N'Không tìm thấy mã khu vực',16,1)
+											END
 									END
 								ELSE
 									BEGIN
