@@ -177,9 +177,9 @@ CREATE TABLE DanhGia (
 CREATE TABLE HoaDon (
     MaPhieu BIGINT PRIMARY KEY, -- Khóa chính và khóa ngoại tham chiếu từ `PhieuDatMon`.
     NgayLap DATETIME NOT NULL, -- Dùng DATETIME để lưu ngày lập hóa đơn.
-    TongTien DECIMAL(18, 3) NOT NULL, -- Dùng DECIMAL để lưu số tiền chính xác đến 2 chữ số thập phân.
+    TongTien INT NOT NULL, -- Dùng DECIMAL để lưu số tiền chính xác đến 2 chữ số thập phân.
     GiamGia DECIMAL(3, 2) NOT NULL DEFAULT 0.00, -- Tương tự DECIMAL, thường dùng cho tỷ lệ giảm giá (% hoặc giá trị cố định).
-    ThanhTien DECIMAL(18, 3) NOT NULL  -- Tổng tiền sau giảm giá.
+    ThanhTien INT NOT NULL  -- Tổng tiền sau giảm giá.
     
 );
 --note 404: NGHI VẤN HACK
