@@ -1,0 +1,119 @@
+/* Toàn bộ CSS */
+body {
+  background-color: #F7F5F2;
+  /* Màu nền sáng */
+  font-family: 'Rubik', sans-serif;
+  /* Phông chữ nhẹ nhàng */
+  color: #2C2C2C;
+  /* Màu chữ chủ đạo */
+  display: flex;
+  flex-direction: column;
+  /* Đặt các phần tử theo cột */
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Container chứa logo */
+.header-container {
+  text-align: center;
+  margin-bottom: 20px;
+  /* Khoảng cách giữa logo và khung đăng nhập */
+}
+
+/* Định dạng logo */
+.logo {
+  width: 200px;
+  /* Kích thước logo */
+  height: auto;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Khung chứa form đăng nhập */
+.signup-container {
+  background-color: rgba(230, 57, 70, 0.9);
+  /* Màu đỏ đậm */
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  /* Hiệu ứng bóng */
+  padding: 30px 40px;
+  /* Khoảng cách nội dung trong khung */
+  max-width: 400px;
+  /* Chiều rộng tối đa */
+  text-align: center;
+}
+
+/* Tiêu đề form đăng nhập */
+.signup-title {
+  font-family: 'Abril Fatface', sans-serif;
+  /* Phông chữ sang trọng */
+  color: #F7C843;
+  /* Màu vàng nhạt */
+  font-size: 36px;
+  /* Kích thước chữ */
+  margin-bottom: 20px;
+}
+
+/* Ô nhập liệu */
+.signup-container input {
+  width: 100%;
+  background-color: #FFFFFF;
+  /* Màu nền trắng */
+  border: 1px solid #E63946;
+  /* Viền đỏ đậm */
+  padding: 10px;
+  /* Khoảng cách trong ô nhập liệu */
+  color: #2C2C2C;
+  /* Màu chữ */
+  border-radius: 6px;
+  /* Bo góc */
+  margin-bottom: 20px;
+  /* Khoảng cách giữa các ô nhập liệu */
+  transition: all 0.3s ease;
+  /* Hiệu ứng chuyển đổi */
+}
+
+/* Hiệu ứng khi focus vào ô nhập liệu */
+.signup-container input:focus {
+  border-color: #F7C843;
+  /* Màu viền khi focus */
+  box-shadow: 0 0 5px rgba(247, 200, 67, 0.5);
+  /* Hiệu ứng ánh sáng */
+  outline: none;
+  /* Loại bỏ viền outline mặc định */
+}
+
+/* Nút đăng nhập */
+.signup-container button {
+  background-color: #F7C843;
+  /* Màu vàng nhạt */
+  color: #2C2C2C;
+  /* Màu chữ đậm */
+  font-weight: bold;
+  /* Chữ in đậm */
+  text-transform: uppercase;
+  /* Chữ viết hoa */
+  border: none;
+  border-radius: 8px;
+  /* Bo góc nút */
+  padding: 12px 20px;
+  /* Khoảng cách nội dung trong nút */
+  width: 100%;
+  transition: all 0.3s ease;
+  /* Hiệu ứng mượt */
+  cursor: pointer;
+  /* Con trỏ chuột thay đổi khi hover */
+}
+
+/* Hiệu ứng khi hover vào nút đăng nhập */
+.signup-container button:hover {
+  background-color: #E63946;
+  /* Màu đỏ khi hover */
+  color: white;
+  /* Màu chữ trắng khi hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  /* Hiệu ứng bóng */
+}
