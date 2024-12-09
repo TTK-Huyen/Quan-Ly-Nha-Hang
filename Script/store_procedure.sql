@@ -1,6 +1,6 @@
 USE QLNHAHANG
 GO
---PROCEDURE phân hệ ChiNhanh
+--PROCEDURE phân hệ ChiNhanh -- sửa lại các sp có mã thuc đơn thành mã khu vực
 GO
 CREATE PROCEDURE THEM_CHI_NHANH @MACHINHANH TINYINT,@TENCHINHANH NVARCHAR(100), @DIACHI NVARCHAR(255), @THOIGIANMOCUA TIME, @THOIGIANDONGCUA TIME, @SDT VARCHAR(10), @BAIDOXEHOI BIT, @BAIDOXEMAY BIT, @NVQL CHAR(6), @MAKV TINYINT, @GIAOHANG BIT
 AS
@@ -1067,6 +1067,7 @@ END;
 */
 
 --3. QUẢN LÝ THÔNG TIN CÁ NHÂN
+----NOTE THÊM CHỈNH SỬA SOCCCD
 CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN
 	@MaKhachHang INT, @SoDienThoai VARCHAR(15),@Email NVARCHAR(15), @GioiTinh NVARCHAR(10)
 AS
@@ -1106,6 +1107,7 @@ BEGIN
 	VALUES (@MaKhachHang, @MaChiNhanh, @SoLuongKhach, @GioDen, @GhiChu);
 END;
 --5. ĐẶT MÓN TRỰC TUYẾN
+--Phải tạo trước phiếu đặt món trước rồi mới thêm món được, không có nhập vào mã phiếu được
 CREATE PROCEDURE SP_DATMON_TRUCTUYEN
 	@MaPhieu INT, @MaMon INT, @SoLuong INT, @GhiChu NVARCHAR(200)
 AS 
