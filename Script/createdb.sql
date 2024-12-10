@@ -227,7 +227,7 @@ ADD CONSTRAINT FK_Mon_MucThucDon FOREIGN KEY (MaMuc) REFERENCES MucThucDon(MaMuc
 	CONSTRAINT CK_Mon_Gia CHECK (GiaHienTai >= 0);
 -- Ràng buộc Thực đơn_Món
 ALTER TABLE ThucDon_Mon
-ADD CONSTRAINT FK_ThucDon_Mon_ThucDon FOREIGN KEY (MaThucDon) REFERENCES ThucDon(MaThucDon),
+ADD CONSTRAINT FK_ThucDon_Mon_ThucDon FOREIGN KEY (MaKhuVuc) REFERENCES ThucDon(MaKhuVuc),
     CONSTRAINT FK_ThucDon_Mon_Mon FOREIGN KEY (MaMon) REFERENCES Mon(MaMon);
 
 -- Ràng buộc phục vụ
