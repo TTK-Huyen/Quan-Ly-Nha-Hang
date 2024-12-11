@@ -96,7 +96,7 @@ CREATE TABLE NhanVien (
 	
 	
 CREATE TABLE BoPhan (
-	MaBoPhan CHAR(4),
+	MaBoPhan CHAR(4) default 'BP99',
 	TenBoPhan NVARCHAR(50) NOT NULL UNIQUE,
 	CONSTRAINT PK_BP PRIMARY KEY (MaBoPhan)
 );
