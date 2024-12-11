@@ -1,6 +1,8 @@
---PROCEDURE phân hệ ChiNhanh
+USE QLNHAHANG
 GO
-CREATE PROCEDURE THEM_CHI_NHANH @MACHINHANH INT,@TENCHINHANH NVARCHAR(255), @DIACHI VARCHAR(255), @THOIGIANMOCUA BIT, @THOIGIANDONGCUA BIT, @SDT CHAR(10), @BAIDOXEHOI BIT, @BAIDOXEMAY BIT, @NVQL INT, @MAKV INT, @GIAOHANG BIT
+--PROCEDURE phân hệ ChiNhanh -- sửa lại các sp có mã thuc đơn thành mã khu vực
+GO
+CREATE PROCEDURE THEM_CHI_NHANH @MACHINHANH TINYINT,@TENCHINHANH NVARCHAR(100), @DIACHI NVARCHAR(255), @THOIGIANMOCUA TIME, @THOIGIANDONGCUA TIME, @SDT VARCHAR(10), @BAIDOXEHOI BIT, @BAIDOXEMAY BIT, @NVQL CHAR(6), @MAKV TINYINT, @GIAOHANG BIT
 AS
 BEGIN
 	IF(@BAIDOXEHOI!=0 OR @BAIDOXEHOI!=1)
@@ -22,9 +24,22 @@ BEGIN
 									RAISERROR(N'Giá trị của thuộc tính giao hàng chỉ có thể là 0 hoặc 1',16,1)
 								END
 							ELSE
-								BEGIN
-									INSERT INTO ChiNhanh(MaChiNhanh, TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) values (@MACHINHANH, @TENCHINHANH, @DIACHI, @THOIGIANMOCUA, @THOIGIANDONGCUA, @SDT, @BAIDOXEHOI, @BAIDOXEMAY, @NVQL, @MAKV, @GIAOHANG)
-								END
+								IF(@THOIGIANMOCUA<@THOIGIANDONGCUA)
+									BEGIN
+										IF EXISTS (SELECT 1 FROM KhuVuc WHERE MaKhuVuc=@MAKV)
+											BEGIN
+												INSERT INTO ChiNhanh(MaChiNhanh, TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) values (@MACHINHANH, @TENCHINHANH, @DIACHI, @THOIGIANMOCUA, @THOIGIANDONGCUA, @SDT, @BAIDOXEHOI, @BAIDOXEMAY, @NVQL, @MAKV, @GIAOHANG)
+											END
+										ELSE
+											BEGIN
+												RAISERROR(N'Không tìm thấy mã khu vực',16,1)
+											END
+									END
+								ELSE
+									BEGIN
+										RAISERROR(N'Thời gian mở cửa phải trước thời gian đóng cửa',16,1)
+									END
+								
 						END
 					ELSE
 						BEGIN
@@ -35,7 +50,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE XOA_CHINHANH @MACHINHANH INT
+CREATE PROCEDURE XOA_CHINHANH @MACHINHANH TINYINT
 AS
 BEGIN
 	BEGIN TRY
@@ -53,7 +68,7 @@ BEGIN
 	END TRY
 	BEGIN CATCH
 		PRINT 'Đã xảy ra lỗi. Giao dịch bị hủy.';
-        ROLLBACK
+        ROLLBACK;
         THROW
     END CATCH
 END
@@ -61,7 +76,7 @@ GO
 
 
 GO
-CREATE PROCEDURE CAPNHAT_CHINHANH @MACHINHANH INT, @TENCHINHANH NVARCHAR(255),@DiaChi NVARCHAR(255), @ThoiGianMoCua TIME, @ThoiGianDongCua TIME, @SoDienThoai VARCHAR(10), @BaiDoXeHoi BIT, @BaiDoXeMay BIT, @NhanVienQuanLy VARCHAR(10), @MaKhuVuc INT, @GiaoHang BIT
+CREATE PROCEDURE CAPNHAT_CHINHANH @MACHINHANH TINYINT, @TENCHINHANH NVARCHAR(100),@DiaChi NVARCHAR(255), @ThoiGianMoCua TIME, @ThoiGianDongCua TIME, @SoDienThoai VARCHAR(10), @BaiDoXeHoi BIT, @BaiDoXeMay BIT, @NhanVienQuanLy CHAR(6), @MaKhuVuc TINYINT, @GiaoHang BIT
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
@@ -90,7 +105,7 @@ END
 GO
 
 GO
-CREATE PROCEDURE THONGKE_DOANHTHU_CHINHANH (@MACN INT, @START_DAY DATE, @END_DAY DATE)
+CREATE PROCEDURE THONGKE_DOANHTHU_CHINHANH (@MACN TINYINT, @START_DAY DATE, @END_DAY DATE)
 AS
 BEGIN
 	DECLARE @SLCN INT, @SLP INT, @SLHD INT, @DT DECIMAL(18,3)
@@ -146,7 +161,7 @@ GO
 
 
 GO
-CREATE PROCEDURE THONGKE_DOANHTHU_KHUVUC @MAKHUVUC INT, @START_DAY DATE, @END_DAY DATE
+CREATE PROCEDURE THONGKE_DOANHTHU_KHUVUC @MAKHUVUC TINYINT, @START_DAY DATE, @END_DAY DATE
 AS
 BEGIN
 	IF EXISTS (SELECT 1 FROM KhuVuc AS KV WHERE KV.MaKhuVuc=@MAKHUVUC)
@@ -169,7 +184,7 @@ GO
 
 
 GO
-CREATE PROCEDURE DIEUDONG_QUANLI @MACN INT, @NVQL VARCHAR(10)
+CREATE PROCEDURE DIEUDONG_QUANLI @MACN TINYINT, @NVQL CHAR(6)
 AS
 BEGIN
 	IF EXISTS (SELECT 1 FROM ChiNhanh AS CN WHERE CN.MaChiNhanh=@MACN)
@@ -191,7 +206,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE THEM_MON @MAMON INT, @MAMUC INT, @TENMON NVARCHAR(255), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT
+CREATE PROCEDURE THEM_MON @MAMON SMALLINT, @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM Mon AS M WHERE M.MaMon=@MAMON)
@@ -210,7 +225,7 @@ BEGIN
 								END
 							ELSE
 								BEGIN
-									RAISERROR(N'Giá món phải lớn hơn 0')
+									RAISERROR(N'Giá món phải lớn hơn 0',16,1);
 								END
 						END
 				END
@@ -227,7 +242,7 @@ END
 GO
 
 
-CREATE PROCEDURE THEMMON_VAOTHUCDON @MATHUCDON INT, @MAMON INT
+CREATE PROCEDURE THEMMON_VAOTHUCDON @MATHUCDON TINYINT, @MAMON SMALLINT
 AS
 BEGIN
 	IF EXISTS(SELECT 1 FROM ThucDon AS TD WHERE TD.MaThucDon=@MATHUCDON)
@@ -250,7 +265,7 @@ GO
 
 
 
-CREATE PROCEDURE XOAMON_KHOITHUCDON @MATHUCDON INT, @MAMON INT
+CREATE PROCEDURE XOAMON_KHOITHUCDON @MATHUCDON TINYINT, @MAMON SMALLINT
 AS
 BEGIN
 	IF EXISTS(SELECT 1 FROM ThucDon AS TD WHERE TD.MaThucDon=@MATHUCDON)
@@ -277,11 +292,15 @@ GO
 
 
 									
+
+
+							
 --Store procedure PHÂN HỆ NHÂN VIÊN SP  TẠO PHIẾU ĐẶT MÓN
 CREATE PROC THEMPDM
-	@NhanVienLap VARCHAR(10),
-	@MaSoBan INT,
-	@MaKhachHang INT
+	@NhanVienLap CHAR(6),
+	@MaSoBan CHAR(2),
+	@MaKhachHang BIGINT,
+	@MaChiNhanh TINYINT
 AS
 BEGIN
 	--Kiểm tra nhân viên có tồn tại không
@@ -311,22 +330,27 @@ BEGIN
 		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
 		RETURN;
 	END;
+	 -- Kiểm tra mã chi nhánh
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
+    BEGIN
+        RAISERROR (N'Mã chi nhánh nhập vào không tồn tại trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
 
-	DECLARE @MaPhieu INT
-	SET @MaPhieu = (SELECT ISNULL(MAX(MaPhieu), 0) + 1 FROM PhieuDatMon);
+	
 	INSERT INTO PhieuDatMon
-	VALUES (@MaPhieu,GETDATE(),@NhanVienLap, @MaSoBan, @MaKhachHang);
+	VALUES (GETDATE(),@NhanVienLap, @MaSoBan, @MaKhachHang,@MaChiNhanh);
 	
 END
 GO
 
 
 
---SP CẬP NHẬT PHIẾU ĐẶT MÓN: THÊM HOẶC CHỈNH SỬA, KHÔNG ĐƯỢC XÓA
+--SP CẬP NHẬT PHIẾU ĐẶT MÓN: CHỈNH SỬA SỐ LƯỢNG VÀ GHI CHÚ MÓN, KHÔNG ĐƯỢC XÓA
 CREATE PROC NVSUAPDM
-	@MaPhieu INT,
-	@MaMon INT,
-	@SoLuong INT,
+	@MaPhieu BIGINT,
+	@MaMon TINYINT,
+	@SoLuong TINYINT,
 	@GhiChu NVARCHAR(200)
 AS
 BEGIN
@@ -377,15 +401,16 @@ BEGIN
 	ELSE
 	BEGIN
 		-- Insert new record
-		INSERT INTO ChiTietPhieu (MaPhieu, MaMon, SoLuong, GhiChu)
-		VALUES (@MaPhieu, @MaMon, @SoLuong, @GhiChu);
+		INSERT INTO ChiTietPhieu ( MaMon, SoLuong, GhiChu)
+		VALUES (@MaMon, @SoLuong, @GhiChu);
 	END;
 	
 END;
 GO
+
 --SP XEM PDM THEO MÃ PDM
-CREATE FUNCTION THEODOIPDM (@MaPhieu INT)
-RETURNS @KETQUA TABLE (MAPHIEU INT, NGAYLAP DATETIME, NHANVIENLAP INT, MASOBAN INT, MAKHACHHANG INT)
+CREATE FUNCTION THEODOIPDM (@MaPhieu BIGINT)
+RETURNS @KETQUA TABLE (MAPHIEU BIGINT, NGAYLAP DATETIME, NHANVIENLAP CHAR(6), MASOBAN CHAR(2), MAKHACHHANG BIGINT)
 AS
 BEGIN
 	INSERT INTO @KETQUA  (MAPHIEU, NGAYLAP, NHANVIENLAP , MASOBAN , MAKHACHHANG )
@@ -402,7 +427,7 @@ GO
 
 --SP TẠO HÓA ĐƠN DỰA VÀO MÃ PDM
 CREATE PROC TAOHOADON
-	@MaPhieu INT
+	@MaPhieu BIGINT
 AS
 BEGIN
 	--Kiểm tra mã phiếu đầu vào
@@ -464,7 +489,7 @@ GO
 	
 
 CREATE PROC INHOADON
-    @MaPhieu INT
+    @MaPhieu BIGINT
 AS
 BEGIN
     -- Kiểm tra mã phiếu
@@ -519,7 +544,7 @@ GO
 ---------STORE PROCEDURE PHÂN HỆ CHI NHÁNH
 --SP TÌM KIẾM THÔNG TIN NHÂN VIÊN BẰNG MÃ NHÂN VIÊN/ TÊN NHÂN VIÊN/...
 CREATE PROC TIMTTNV
-    @MaNhanVien VARCHAR(10)
+    @MaNhanVien CHAR(6)
 AS
 BEGIN
     -- Kiểm tra mã nhân viên
@@ -579,7 +604,7 @@ GO
 
 
 CREATE PROC XEMNVKHUVUC
-    @MaKhuVuc INT
+    @MaKhuVuc TINYINT
 AS
 BEGIN
     -- Kiểm tra mã khu vực
@@ -610,7 +635,7 @@ GO
 
 
 CREATE PROC XEMNVCN
-    @MaChiNhanh INT
+    @MaChiNhanh TINYINT
 AS
 BEGIN
     -- Kiểm tra mã chi nhánh
@@ -638,15 +663,27 @@ BEGIN
         AND l.MaChiNhanh = @MaChiNhanh;
 END;
 GO
+
+
 --SP THÊM NHÂN VIÊN MỚI VÀO BẢNG NHÂN VIÊN
 CREATE PROC THEMNV
-	@HoTen NVARCHAR(50),
+	@HoTen NVARCHAR(255),
 	@NgaySinh DATE,
 	@GioiTinh nvarchar(4),
-	@Luong DECIMAL(8,0),
-	@MaBoPhan VARCHAR(10)
+	@Luong DECIMAL(18,3),
+	@NgayVaoLam DATE,
+	@MaBoPhan CHAR(4),
+	@MaChiNhanh TINYINT
+	
 AS
 BEGIN
+	--Kiểm tra mã chi nhánh có tồn tại không
+	--Kiểm tra mã bộ phận có tồn tại không
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
+    BEGIN
+        RAISERROR (N'Mã chi nhánh nhập vào không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
 	--Kiểm tra mã bộ phận có tồn tại không
     IF NOT EXISTS (SELECT 1 FROM BoPhan WHERE MaBoPhan = @MaBoPhan)
     BEGIN
@@ -654,20 +691,65 @@ BEGIN
         RETURN;
     END;
 
-	DECLARE @MaNhanVien VARCHAR(10);
+	DECLARE @MaNhanVien CHAR(6);
+
+    -- Tìm số thứ tự bị thiếu trong dãy mã nhân viên
     SET @MaNhanVien = 
-    (SELECT RIGHT('NV' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaNhanVien, 3, LEN(MaNhanVien) - 2) AS INT)), 0) + 1 AS VARCHAR), 8)
-     FROM NhanVien);
+(
+    SELECT TOP 1 
+           'NV' + RIGHT('0000' + CAST(MissingNumber AS VARCHAR), 4)
+    FROM 
+    (
+        SELECT t.Number + 1 AS MissingNumber
+        FROM 
+        (
+            SELECT CAST(SUBSTRING(MaNhanVien, 3, LEN(MaNhanVien) - 2) AS INT) AS Number
+            FROM NhanVien
+        ) t
+        WHERE NOT EXISTS 
+        (
+            SELECT 1
+            FROM NhanVien n
+            WHERE CAST(SUBSTRING(n.MaNhanVien, 3, LEN(n.MaNhanVien) - 2) AS INT) = t.Number + 1
+        )
+    ) MissingNumbers
+    ORDER BY MissingNumber
+);
+
+    -- Nếu không tìm thấy số bị thiếu, tạo mã mới dựa trên số lớn nhất
+    IF @MaNhanVien IS NULL
+    BEGIN
+        SET @MaNhanVien = 
+        (
+            SELECT 'NV' + RIGHT('0000' + CAST(ISNULL(MAX(CAST(SUBSTRING(MaNhanVien, 3, LEN(MaNhanVien) - 2) AS INT)), 0) + 1 AS VARCHAR), 4)
+            FROM NhanVien
+        );
+    END;
+
+
+    -- Kiểm tra lần cuối nếu @MaNhanVien vẫn NULL
+    IF @MaNhanVien IS NULL
+    BEGIN
+        RAISERROR (N'Không thể tạo mã nhân viên mới. Vui lòng kiểm tra lại dữ liệu.', 16, 1);
+        RETURN;
+    END;
+
+
 
 	INSERT INTO NhanVien (MaNhanVien, HoTen, NgaySinh, 
-	GioiTinh, Luong, NgayVaoLam, NgayNghiViec,MaBoPhan,DiemSo)
-	VALUES (@MaNhanVien, @HoTen, @NgaySinh, @GioiTinh, @Luong, GETDATE(),NULL, @MaBoPhan, 0 );
+	GioiTinh, Luong, NgayVaoLam, NgayNghiViec,MaBoPhan)
+	VALUES (@MaNhanVien, @HoTen, @NgaySinh, @GioiTinh, @Luong, GETDATE(),NULL, @MaBoPhan);
+
+	INSERT INTO LichSuLamViec(MaNhanVien,MaChiNhanh, NgayBatDau, NgayKetThuc)
+	VALUES (@MaNhanVien, @MaChiNhanh, @NgayVaoLam,NULL)
+
 	PRINT N'Thêm nhân viên thành công. Mã nhân viên mới là ' + @MaNhanVien;
 END;
 GO
 
+
 --SP CẬP NHẬT THÔNG TIN NHÂN VIÊN: SỬA ĐIỂM, LƯƠNG, THÊM NGÀY NGHỈ VIỆC
-CREATE PROCEDURE CAPNHAT_NHANVIEN @MANHANVIEN varchar(10), @HOTEN NVARCHAR(50), @NGAYSINH DATE,@GIOITINH NVARCHAR(4), @LUONG DECIMAL(8,0), @NGAYVAOLAM DATE, @NGAYNGHIVIEC DATE, @MABOPHAN CHAR(10), @DIEMSO DECIMAL(9,0)
+CREATE PROCEDURE CAPNHAT_NHANVIEN @MANHANVIEN CHAR(6), @HOTEN NVARCHAR(255), @NGAYSINH DATE,@GIOITINH NVARCHAR(4), @LUONG DECIMAL(18,3), @NGAYVAOLAM DATE, @NGAYNGHIVIEC DATE, @MABOPHAN CHAR(4), @DIEMSO DECIMAL(9,0)
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @MANHANVIEN)
@@ -692,9 +774,11 @@ BEGIN
 		END
 END
 GO
+
+
 --SP SỬA THÔNG TIN TRÊN BẢNG LỊCH SỬ LÀM VIỆC KHI NHÂN VIÊN NGHỈ VIỆC 
 CREATE PROC NVNGHIVIEC
-	@MANHANVIEN VARCHAR(10)
+	@MANHANVIEN CHAR(6)
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM NhanVien WHERE MaNhanVien = @MaNhanVien)
@@ -709,9 +793,11 @@ BEGIN
 	PRINT N'Thêm thông tin thành công';
 END;
 GO
+
+
 -- SP ĐIỀU ĐỘNG SANG CHI NHÁNH KHÁC
 CREATE PROC DIEUDONGNV
-	@MANHANVIEN VARCHAR(10), @MACHINHANHCU INT, @MACHINHANHMOI INT
+	@MANHANVIEN CHAR(6), @MACHINHANHCU TINYINT, @MACHINHANHMOI TINYINT
 AS
 BEGIN
 	--KIEM TRA MA NHAN VIEN
@@ -744,9 +830,11 @@ BEGIN
 END;
 GO
 
+
+
 --SP CHỈNH SỬA TRẠNG THÁI PHỤC VỤ CỦA MÓN ĂN TRONG THỰC ĐƠN
 CREATE PROC TRANGTHAIMONAN
-	@MACHINHANH INT, @MAMON INT
+	@MACHINHANH TINYINT, @MAMON TINYINT
 AS
 BEGIN
 	-- Kiểm tra mã chi nhánh
@@ -778,7 +866,7 @@ GO
 
 --SP XÓA PHIEU DAT MON
 CREATE PROC XOAPDM
-	@MAPHIEU INT
+	@MAPHIEU BIGINT
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1
@@ -798,7 +886,7 @@ GO
 
 --XÓA THÔNG TIN MÓN TRÊN PHIẾU ĐẶT MÓN.
 CREATE PROC XOATTPDM
-	@MAPHIEU INT , @MAMON INT
+	@MAPHIEU BIGINT , @MAMON TINYINT
 AS
 BEGIN
 	--Kiểm tra mã phiếu 
@@ -831,9 +919,11 @@ BEGIN
 	PRINT N'Xóa món thành công';
 END;
 GO
+
+
 --SP THÊM THÔNG TIN THẺ KHÁCH HÀNG 
 CREATE PROC THEMTHEKH
-	@MAKHACHHANG INT, @NGAYLAP DATETIME, @NHANVIENLAP VARCHAR(10), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
+	@MAKHACHHANG BIGINT, @NGAYLAP DATETIME, @NHANVIENLAP CHAR(6), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
 AS
 BEGIN
 	--Kiểm tra mã khách hàng có tồn tại không
@@ -865,7 +955,7 @@ GO
 --SP CẬP NHẬT THÔNG TIN ĐIỂM KHÁCH HÀNG
 --NOTE
 CREATE PROCEDURE CAPNHAT_THEKHACHHANG
-	@MASOTHE INT, @MAKHACHHANG INT, @NGAYLAP DATE, @NHANVIENLAP VARCHAR(10), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
+	@MASOTHE CHAR(12), @MAKHACHHANG BIGINT, @NGAYLAP DATE, @NHANVIENLAP CHAR(6), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
 AS
 BEGIN
 	--Kiểm tra mã số thẻ khách hàng có tồn tại không
@@ -908,9 +998,11 @@ BEGIN
     PRINT 'Cập nhật thông tin thẻ khách hàng thành công.';
 END
 GO
+
+
 --SP XÓA THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
 CREATE PROC XOATHEKH
-	@SOCCCD INT, @HOTEN NVARCHAR(50), @SODIENTHOAI VARCHAR(15)
+	@SOCCCD CHAR(12), @HOTEN NVARCHAR(255), @SODIENTHOAI CHAR(10)
 AS
 BEGIN
 	--KIỂM TRA SCCCD
@@ -944,9 +1036,9 @@ GO
 
 --1. ĐĂNG KÍ TÀI KHOẢN
 CREATE PROCEDURE SP_DANGKI_TAIKHOAN
-	@HoTen NVARCHAR(50), @SoDienThoai VARCHAR(15),
-	@Email NVARCHAR (50), @SoCCCD VARCHAR (12),
-	@GioiTinh NVARCHAR(10)
+	@HoTen NVARCHAR(255), @SoDienThoai CHAR(10),
+	@Email VARCHAR (255), @SoCCCD CHAR (12),
+	@GioiTinh NVARCHAR(4)
 AS
 BEGIN
 	IF EXISTS (SELECT 1 FROM KhachHang WHERE SoCCCD = @SoCCCD 
@@ -975,8 +1067,9 @@ END;
 */
 
 --3. QUẢN LÝ THÔNG TIN CÁ NHÂN
+----NOTE THÊM CHỈNH SỬA SOCCCD
 CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN
-	@MaKhachHang INT, @SoDienThoai VARCHAR(15),@Email NVARCHAR(15), @GioiTinh NVARCHAR(10)
+	@MaKhachHang BIGINT, @SoDienThoai CHAR(10),@Email VARCHAR(255), @GioiTinh NVARCHAR(4)
 AS
 BEGIN
 	IF EXISTS (SELECT 1 FROM KhachHang WHERE (SoDienThoai = @SoDienThoai OR Email = @Email)
@@ -995,8 +1088,8 @@ END;
 --4. ĐẶT BÀN TRỰC TUYẾN -- khi khách hàng đến, nhân viên sẽ kiểm tra các phiếu đặt món của khách hàng mà chưa có hóa đơn
 -- Bổ sung thêm như quy trình trên mess đã miêu tả
 CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
-	@MaKhachHang INT, @MaChiNhanh INT, @SoLuongKhach INT,
-	@GioDen DATETIME, @GhiChu NVARCHAR(200)
+	@MaKhachHang BIGINT, @MaChiNhanh TINYINT, @SoLuongKhach TINYINT,
+	@GioDen DATETIME, @GhiChu NVARCHAR(255)
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)
@@ -1015,8 +1108,9 @@ BEGIN
 	VALUES (@MaKhachHang, @MaChiNhanh, @SoLuongKhach, @GioDen, @GhiChu);
 END;
 --5. ĐẶT MÓN TRỰC TUYẾN
+--Phải tạo trước phiếu đặt món trước rồi mới thêm món được, không có nhập vào mã phiếu được
 CREATE PROCEDURE SP_DATMON_TRUCTUYEN
-	@MaPhieu INT, @MaMon INT, @SoLuong INT, @GhiChu NVARCHAR(200)
+	@MaPhieu BIGINT, @MaMon SMALLINT, @SoLuong TINYINT, @GhiChu NVARCHAR(200)
 AS 
 BEGIN
 	IF NOT EXISTS (
@@ -1034,7 +1128,7 @@ END;
 --6. THANH TOÁN TRỰC TUYỂN
 
 CREATE PROCEDURE SP_THANHTOAN_TRUCTUYEN
-    @MaPhieu INT
+    @MaPhieu BIGINT
 AS
 BEGIN
     IF EXISTS (SELECT 1 FROM HoaDon WHERE MaPhieu = @MaPhieu)
@@ -1088,8 +1182,8 @@ END;
 
 --7. ĐÁNH GIÁ DỊCH VỤ
 CREATE PROCEDURE SP_DANHGIA_DICHVU
-	@MaPhieu INT, @DiemPhucVu INT,  @DiemViTri INT,
-    @DiemChatLuong INT, @DiemKhongGian INT, @BinhLuan NVARCHAR(MAX)
+	@MaPhieu BIGINT, @DiemPhucVu TINYINT,  @DiemViTri TINYINT,
+    @DiemChatLuong TINYINT, @DiemKhongGian TINYINT, @BinhLuan NVARCHAR(MAX)
 AS 
 BEGIN
 	IF @DiemPhucVu NOT BETWEEN 1 AND 5
@@ -1107,7 +1201,7 @@ END;
 
 --8. THEO DÕI LỊCH SỬ ĐẶT BÀN
 CREATE PROCEDURE SP_LICHSU_DATBAN
-	@MaKhachHang INT
+	@MaKhachHang BIGINT
 AS
 BEGIN
 	SELECT MaDatTruoc, MaChiNhanh, SoLuongKhach, GioDen, GhiChu
@@ -1117,7 +1211,7 @@ END;
 --9. THEO DÕI LỊCH SỬ ĐẶT MÓN
 
 CREATE PROCEDURE SP_LICHSU_DATMON
-	@MaKhachHang INT
+	@MaKhachHang BIGINT
 AS
 BEGIN 
 	SELECT PD.MaPhieu, CTP.MaMon, CTP.SoLuong
@@ -1129,7 +1223,7 @@ END;
 
 --10. XEM THÔNG TIN THẺ THÀNH VIÊN
 CREATE PROCEDURE SP_XEMTHONGTIN_THETHANHVIEN
-    @MaKhachHang INT
+    @MaKhachHang BIGINT
 AS
 BEGIN
     SELECT LoaiThe, DiemHienTai, DiemTichLuy
@@ -1143,7 +1237,7 @@ END;
 
 --13. HỦY ĐƠN HÀNG
 CREATE PROCEDURE SP_HUYDONHANG
-    @MaPhieu INT
+    @MaPhieu BIGINT
 AS
 BEGIN
     DELETE FROM PhieuDatMon WHERE MaPhieu = @MaPhieu;
@@ -1153,8 +1247,48 @@ END;
 
 --15. QUÊN MẬT KHẨU
 CREATE PROCEDURE SP_QUENMATKHAU
-    @Email VARCHAR(50)
+    @Email VARCHAR(255)
 AS
 BEGIN
     PRINT 'Mã đặt lại mật khẩu đã được gửi qua email.';
+END;
+-- CẬP NHẬT LOẠI THẺ KHÁCH HÀNG
+CREATE PROCEDURE SP_CAPNHAT_LOAITHEKHACHHANG
+AS
+BEGIN
+    -- Cập nhật từ GOLD xuống SILVER
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Silver',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Gold'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy < 100;
+
+    -- Cập nhật từ SILVER xuống Membership
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Membership',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Silver'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy < 50;
+
+    -- Nâng từ SILVER lên GOLD
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Gold',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Silver'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy >= 100;
+
+    -- Cập nhật hạng SILVER
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Silver',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Membership'
+      AND DiemTichLuy >= 100;
+
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Membership',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe NOT IN (N'Membership', N'Silver', N'Gold');
 END;
