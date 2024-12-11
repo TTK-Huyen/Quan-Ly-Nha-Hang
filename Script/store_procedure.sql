@@ -1251,3 +1251,43 @@ AS
 BEGIN
     PRINT 'Mã đặt lại mật khẩu đã được gửi qua email.';
 END;
+-- CẬP NHẬT LOẠI THẺ KHÁCH HÀNG
+CREATE PROCEDURE SP_CAPNHAT_LOAITHEKHACHHANG
+AS
+BEGIN
+    -- Cập nhật từ GOLD xuống SILVER
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Silver',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Gold'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy < 100;
+
+    -- Cập nhật từ SILVER xuống Membership
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Membership',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Silver'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy < 50;
+
+    -- Nâng từ SILVER lên GOLD
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Gold',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Silver'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy >= 100;
+
+    -- Cập nhật hạng SILVER
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Silver',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Membership'
+      AND DiemTichLuy >= 100;
+
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Membership',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe NOT IN (N'Membership', N'Silver', N'Gold');
+END;
