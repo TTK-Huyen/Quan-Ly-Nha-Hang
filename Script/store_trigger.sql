@@ -199,16 +199,6 @@ BEGIN
 END;
 GO
 
---	Đăng ký thẻ giúp khách hàng được hưởng ưu đãi chiết khấu, giảm giá, tặng sản phẩm tùy theo chương trình. 
-CREATE TRIGGER trg_RegisterCardDiscount
-ON TheKhachHang
-AFTER INSERT
-AS
-BEGIN
-    -- Thông báo ưu đãi sau khi đăng ký thẻ
-    PRINT 'Thẻ khách hàng đã được đăng ký. Bạn sẽ nhận được các ưu đãi chiết khấu và khuyến mãi.'
-END;
-GO
 
 --	Các điều kiện nâng/giữ/hạ hạng thẻ: 
 --o	− MemberShip → Silver: điểm tích lũy từ 100 điểm từ ngày lập thẻ − Silver → Gold: điểm tích lũy trong 1 năm từ 100 điểm trở lên 19
