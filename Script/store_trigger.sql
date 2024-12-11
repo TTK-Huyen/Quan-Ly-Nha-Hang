@@ -1,5 +1,8 @@
 USE QLNHAHANG
 GO
+
+
+
 --TRIGGER Phân hệ Chi Nhánh
 GO
 CREATE TRIGGER CHECK_TGIANDONGCUA_TGIANMOCUA
@@ -24,24 +27,7 @@ GO
 
 
 
-CREATE TRIGGER CHECK_SDT
-ON CHINHANH
-AFTER INSERT, UPDATE
-AS
-BEGIN
-	DECLARE @SDT VARCHAR(10)
 
-	SELECT
-		@SDT=inserted.SoDienThoai
-	FROM inserted
-
-	IF(@SDT=NULL)
-		BEGIN
-			RAISERROR(N'Số điện thoại chi nhánh không được để trống',16,1)
-			ROLLBACK
-		END
-END
-GO
 
 
 GO
@@ -50,7 +36,7 @@ ON CHINHANH
 AFTER INSERT, UPDATE
 AS
 BEGIN
-	DECLARE @MAKV INT
+	DECLARE @MAKV TINYINT
 	
 	SELECT
 		@MAKV=inserted.MaKhuVuc
@@ -88,24 +74,6 @@ GO
 
 
 
-CREATE TRIGGER CHECK_GIA_MON
-ON Mon
-AFTER INSERT, UPDATE
-AS
-BEGIN
-	DECLARE @GIA DECIMAL(18,3)
-
-	SELECT
-		@GIA=inserted.GiaHienTai
-	FROM inserted
-
-	IF(@GIA <=0)
-		BEGIN
-			RAISERROR(N'Giá món phải lớn hơn 0',16,1)
-			ROLLBACK
-		END
-END
-GO
 
 GO
 CREATE TRIGGER CHECK_IU_MON
@@ -134,7 +102,7 @@ ON MucThucDon
 AFTER DELETE
 AS
 BEGIN
-	DECLARE @MAMUC INT
+	DECLARE @MAMUC TINYINT
 
 	SELECT
 		@MAMUC=deleted.MaMuc
@@ -154,56 +122,13 @@ GO
 
 --TRIGGER PHÂN HỆ NHÂN VIÊN
 
---Mã chi nhánh và mã bộ phận phải có sẵn trong hệ thống trước khi thêm mộtt nhân
---viên vào mộtt chi nhánh hoặc bộ phận.
-CREATE TRIGGER THEMNV
-ON NhanVien
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    -- Ki?m tra mã bộ phận
-    IF EXISTS (
-        SELECT 1
-        FROM INSERTED i
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM BoPhan
-            WHERE BoPhan.MaBoPhan = i.MaBoPhan
-        )
-    )
-    BEGIN
-        RAISERROR (N'Mã bộ phận không nằm trong hệ thống', 16, 1);
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-
-    -- Kiểm tra mã chi nhánh
-    IF EXISTS (
-        SELECT 1
-        FROM INSERTED i
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM LichSuLamViec l
-            JOIN ChiNhanh c ON l.MaChiNhanh = c.MaChiNhanh
-            WHERE l.MaNhanVien = i.MaNhanVien AND l.NgayKetThuc IS NULL
-        )
-    )
-    BEGIN
-        RAISERROR (N'Mã chi nhánh không nằm trong hệ thống hoặc nhân viên chưa có chi nhánh làm việc', 16, 1);
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
-END;
-GO
-
-
---Mỗi nhân viên chỉ làm việc tại một chi nhánh tại một thời điểm
+--NHÂN VIÊN CHỈ ĐƯỢC LÀM VIỆC TẠI 1 CHI NHÁNH TẠI 1 THỜI ĐIỂM
 CREATE TRIGGER CHECK_NVCN
 ON LichSuLamViec
 AFTER INSERT, UPDATE
 AS
 BEGIN
-    IF EXISTS 
+    IF EXISTS
     (
         SELECT 1
         FROM INSERTED i
@@ -224,9 +149,6 @@ END;
 GO
 
 
---Trigger: phan he khach hang 
-
-
 --Nhân viên quản lý phải làm việc tại chi nhánh
 CREATE TRIGGER trg_ManagerMustWorkAtBranch
 ON ChiNhanh
@@ -237,19 +159,20 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM inserted c
-        WHERE NOT EXISTS (
-            SELECT 1
-            FROM LichSuLamViec l
-            WHERE l.MaNhanVien = c.NhanVienQuanLy
-              AND l.MaChiNhanh = c.MaChiNhanh
-        )
+        WHERE c.NhanVienQuanLy IS NOT NULL -- Chỉ kiểm tra khi NhanVienQuanLy không phải NULL
+          AND NOT EXISTS (
+              SELECT 1
+              FROM LichSuLamViec l
+              WHERE l.MaNhanVien = c.NhanVienQuanLy
+                AND l.MaChiNhanh = c.MaChiNhanh
+          )
     )
     BEGIN
         RAISERROR ('Nhân viên quản lý phải làm việc tại chi nhánh mà họ quản lý!', 16, 1);
         ROLLBACK TRANSACTION;
     END
 END;
-
+GO
 
 --BANG THE KHACH HANG
 --	Tại 1 thời điểm, mỗi khách hàng chỉ có thể sở hữu 1 thẻ khách hàng đang hoạt động.
@@ -276,16 +199,6 @@ BEGIN
 END;
 GO
 
---	Đăng ký thẻ giúp khách hàng được hưởng ưu đãi chiết khấu, giảm giá, tặng sản phẩm tùy theo chương trình. 
-CREATE TRIGGER trg_RegisterCardDiscount
-ON TheKhachHang
-AFTER INSERT
-AS
-BEGIN
-    -- Thông báo ưu đãi sau khi đăng ký thẻ
-    PRINT 'Thẻ khách hàng đã được đăng ký. Bạn sẽ nhận được các ưu đãi chiết khấu và khuyến mãi.'
-END;
-GO
 
 --	Các điều kiện nâng/giữ/hạ hạng thẻ: 
 --o	− MemberShip → Silver: điểm tích lũy từ 100 điểm từ ngày lập thẻ − Silver → Gold: điểm tích lũy trong 1 năm từ 100 điểm trở lên 19
@@ -371,103 +284,11 @@ BEGIN
 END;
 GO
 
--- Số điện thoại của khách phải là số có 10 chữ số.
-CREATE TRIGGER trg_ValidatePhoneNumber
-ON KhachHang
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM inserted
-        WHERE LEN(SoDienThoai) != 10
-          OR SoDienThoai NOT LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
-    )
-    BEGIN
-        RAISERROR ('Số điện thoại không hợp lệ! Phải là số có 10 chữ số.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO KhachHang
-        SELECT * FROM inserted;
-    END
-END;
-GO
-
--- Số CCCD phải đúng định dạng (12 chữ số), không trùng lặp.
-CREATE TRIGGER trg_ValidateCCCD
-ON KhachHang
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1 
-        FROM inserted
-        WHERE SoCCCD NOT LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
-          OR EXISTS (SELECT 1 FROM KhachHang WHERE SoCCCD = inserted.SoCCCD)
-    )
-    BEGIN
-        RAISERROR ('Số CCCD không hợp lệ hoặc bị trùng lặp!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO KhachHang
-        SELECT * FROM inserted;
-    END
-END;
-GO
---	Khách hàng phải cung cấp đầy đủ thông tin gồm: số căn cước công dân, số điện thoại, email, họ tên, giới tính khi đăng kí thẻ thành viên. 
-CREATE TRIGGER trg_ValidateCustomerInfo
-ON KhachHang
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM inserted
-        WHERE SoCCCD IS NULL OR SoDienThoai IS NULL OR Email IS NULL OR HoTen IS NULL OR GioiTinh IS NULL
-    )
-    BEGIN
-        RAISERROR ('Khách hàng phải cung cấp đầy đủ thông tin khi đăng ký!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO KhachHang
-        SELECT * FROM inserted;
-    END
-END;
-GO
 --BANG PHIEUDATMON
 
---	Phiếu đặt món bắt buộc phải có các thuộc tính bao gồm mã phiếu, ngày lập, nhân viên lập, mã số bàn, mã khách hàng. 
-CREATE TRIGGER trg_CheckOrderAttributes
-ON PhieuDatMon
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1 
-        FROM inserted
-        WHERE NgayLap IS NULL OR NhanVienLap IS NULL OR MaSoBan IS NULL OR MaKhachHang IS NULL
-    )
-    BEGIN
-        RAISERROR ('Phiếu đặt món phải có đủ các thuộc tính: ngày lập, nhân viên lập, mã số bàn, mã khách hàng!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO PhieuDatMon
-        SELECT * FROM inserted;
-    END
-END;
-GO
 --	Mã phiếu trong phiếu đặt món phải là duy nhất để phân biệt với các mã phiếu khác. Mã bàn trong mỗi chi nhánh phải là duy nhất và tuân theo quy tắc sau: 
 --o	o Đối với khách sử dụng dịch vụ trực tiếp tại bàn, mã số bàn sẽ là số thứ tự của các bàn trong chi nhánh (ví dụ: 1, 2, 3, …).
 --o	 o Đối với khách mang về hoặc không sử dụng bàn tại quán, mã số bàn sẽ mang mã đặc biệt là MV (Mang Về).
-
 
 CREATE TRIGGER trg_UniqueOrderID
 ON PhieuDatMon
@@ -558,6 +379,8 @@ BEGIN
         PRINT 'Đơn đặt món qua số điện thoại chi nhánh đã được tiếp nhận.';
     END;
 END;
+GO
+
 CREATE TRIGGER trg_OrderViaWebsite
 ON PhieuDatMon
 AFTER INSERT
@@ -600,52 +423,43 @@ BEGIN
     PRINT 'Hóa đơn thanh toán đã được tạo và xuất cho khách hàng.';
 END;
 GO
--- Phiếu đặt món phải có đầy đủ thông tin.
-CREATE TRIGGER trg_CheckOrderAttributes
-ON PhieuDatMon
+
+
+-- BANG HOA DON
+--Thanh Tien = TongTien- GiamGia
+CREATE TRIGGER trg_ValidateHoaDon
+ON HoaDon
 INSTEAD OF INSERT
 AS
 BEGIN
+    -- Kiểm tra tính hợp lệ của `TongTien` và `GiamGia`
     IF EXISTS (
         SELECT 1 
         FROM inserted
-        WHERE NgayLap IS NULL OR NhanVienLap IS NULL OR MaSoBan IS NULL OR MaKhachHang IS NULL
+        WHERE TongTien <= 0 -- Tổng tiền phải lớn hơn 0
+          OR GiamGia < 0 -- Phần trăm giảm giá không được âm
+          OR GiamGia > 100.00 -- Phần trăm giảm giá không được vượt quá 100%
+		  OR TongTien < GiamGia -- Giảm giá không được lớn hơn tổng tiền
     )
     BEGIN
-        RAISERROR ('Phiếu đặt món phải có đủ thông tin.', 16, 1);
+        RAISERROR (N'Dữ liệu không hợp lệ: Tổng tiền phải lớn hơn 0 và giảm giá phải nằm trong khoảng 0-100%.', 16, 1);
         ROLLBACK TRANSACTION;
     END
     ELSE
     BEGIN
-        INSERT INTO PhieuDatMon
-        SELECT * FROM inserted;
+        -- Tính `ThanhTien` dựa trên `TongTien` và `GiamGia`
+        INSERT INTO HoaDon (MaPhieu, NgayLap, TongTien, GiamGia, ThanhTien)
+        SELECT 
+            MaPhieu, 
+            NgayLap, 
+            TongTien, 
+            GiamGia, 
+            TongTien * (1 - GiamGia / 100.0) AS ThanhTien
+        FROM inserted;
     END
 END;
 GO
 
--- Mã phiếu phải là duy nhất.
-CREATE TRIGGER trg_UniqueOrderID
-ON PhieuDatMon
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM PhieuDatMon
-        WHERE MaPhieu IN (SELECT MaPhieu FROM inserted)
-    )
-    BEGIN
-        RAISERROR ('Mã phiếu phải là duy nhất!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO PhieuDatMon
-        SELECT * FROM inserted;
-    END
-END;
-GO
--- BANG HOA DON
 
 -- Kiểm tra thời gian xuất hóa đơn phải sau thời gian lập phiếu.
 CREATE TRIGGER trg_ValidateInvoiceTime
@@ -666,15 +480,16 @@ BEGIN
 END;
 GO
 
--- Cập nhật điểm tích lũy dựa trên tổng tiền của hóa đơn.
 CREATE TRIGGER trg_UpdateLoyaltyPoints
 ON HoaDon
 AFTER INSERT
 AS
 BEGIN
-    UPDATE TheKhachHang
-    SET DiemTichLuy = DiemTichLuy + (i.ThanhTien / 100000),
-        DiemHienTai = DiemHienTai + (i.ThanhTien / 100000)
+    -- Cập nhật điểm tích lũy dựa trên `ThanhTien`
+    UPDATE tk
+    SET 
+        tk.DiemTichLuy = tk.DiemTichLuy + (i.ThanhTien / 100000 ),
+        tk.DiemHienTai = tk.DiemHienTai + (i.ThanhTien / 100000 )
     FROM TheKhachHang tk
     JOIN PhieuDatMon pd ON tk.MaKhachHang = pd.MaKhachHang
     JOIN inserted i ON pd.MaPhieu = i.MaPhieu;
@@ -688,64 +503,6 @@ AFTER INSERT
 AS
 BEGIN
     PRINT 'Hóa đơn đã được thanh toán. Vui lòng nhờ khách hàng đánh giá dịch vụ.';
-END;
-
---	Số tiền giảm giá trong hóa đơn phải thấp hơn tổng tiền. 
-CREATE TRIGGER trg_ValidateDiscount
-ON HoaDon
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1 
-        FROM inserted
-        WHERE GiamGia >= TongTien
-    )
-    BEGIN
-        RAISERROR ('Số tiền giảm giá phải thấp hơn tổng tiền!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO HoaDon
-        SELECT * FROM inserted;
-    END
-END;
-GO
---	Dựa vào tổng tiền tiêu dùng (sau khi đã giảm) trên hoá đơn, hệ thống sẽ tích luỹ cộng dồn điểm vào thẻ khách hàng: 1 điểm tương ứng 100.000 VNĐ. 
-CREATE TRIGGER trg_UpdateLoyaltyPoints
-ON HoaDon
-AFTER INSERT
-AS
-BEGIN
-    UPDATE TheKhachHang
-    SET DiemTichLuy = DiemTichLuy + (i.ThanhTien / 100000),
-        DiemHienTai = DiemHienTai + (i.ThanhTien / 100000)
-    FROM TheKhachHang tk
-    JOIN PhieuDatMon pd ON tk.MaKhachHang = pd.MaKhachHang
-    JOIN inserted i ON pd.MaPhieu = i.MaPhieu;
-END;
-GO
---	Hoá đơn phải có tổng tiền, số tiền được giảm nếu có sử dụng thẻ thành viên 
-CREATE TRIGGER trg_CheckBill
-ON HoaDon
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM inserted
-        WHERE TongTien IS NULL OR GiamGia IS NULL
-    )
-    BEGIN
-        RAISERROR ('Hóa đơn phải có tổng tiền và số tiền giảm!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO HoaDon
-        SELECT * FROM inserted;
-    END
 END;
 GO
 
@@ -772,56 +529,7 @@ BEGIN
     );
 END;
 GO
--- khi thêm một đánh giá vào bảng đánh giá thì sẽ cập nhật điểm của nhân viên lập phiếu
-CREATE TRIGGER trg_UpdateEmployeeScore
-ON DanhGia
-AFTER INSERT
-AS
-BEGIN
-    -- Cập nhật điểm số cho nhân viên dựa trên đánh giá mới
-    UPDATE NhanVien
-    SET DiemSo = DiemSo + (
-        SELECT 
-            ISNULL(DiemPhucVu, 0) + ISNULL(DiemViTri, 0) + ISNULL(DiemChatLuong, 0) + ISNULL(DiemKhongGian, 0)
-        FROM inserted dg
-        JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
-        WHERE NhanVien.MaNhanVien = pd.NhanVienLap
-    )
-    WHERE EXISTS (
-        SELECT 1
-        FROM inserted dg
-        JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
-        WHERE NhanVien.MaNhanVien = pd.NhanVienLap
-    );
 
-    PRINT 'Điểm số của nhân viên lập phiếu đã được cập nhật dựa trên đánh giá.';
-END;
-GO
---	Đánh giá khách hàng: Điểm số nằm trong khoảng từ 1 đến 5.
-CREATE TRIGGER trg_CheckRating
-ON DanhGia
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1 
-        FROM inserted
-        WHERE DiemPhucVu NOT BETWEEN 1 AND 5 
-           OR DiemViTri NOT BETWEEN 1 AND 5 
-           OR DiemChatLuong NOT BETWEEN 1 AND 5 
-           OR DiemKhongGian NOT BETWEEN 1 AND 5
-    )
-    BEGIN
-        RAISERROR ('Điểm đánh giá phải nằm trong khoảng từ 1 đến 5!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO DanhGia
-        SELECT * FROM inserted;
-    END
-END;
-GO
 --	Điểm phục vụ do khách hàng đánh giá là điểm của nhân viên lập phiếu. 
 CREATE TRIGGER trg_UpdateServiceScore
 ON DanhGia
@@ -888,18 +596,20 @@ ON ThongTinTruyCap
 AFTER INSERT
 AS
 BEGIN
+    -- Kiểm tra thời gian truy cập phải trước giờ đến đặt trước
     IF EXISTS (
         SELECT 1
-        FROM inserted tt
-        JOIN DatTruoc dt ON tt.MaDatTruoc = dt.MaDatTruoc
-        WHERE tt.ThoiGianTruyCap >= DATEDIFF(MINUTE, GETDATE(), dt.GioDen)
+        FROM inserted i
+        JOIN DatTruoc dt ON i.MaDatTruoc = dt.MaDatTruoc
+        WHERE i.ThoiDiemTruyCap >= dt.GioDen
     )
     BEGIN
-        RAISERROR ('Thời gian truy cập phải nhỏ hơn giờ đến.', 16, 1);
+        RAISERROR (N'Thời gian truy cập phải trước giờ đến.', 16, 1);
         ROLLBACK TRANSACTION;
     END;
 END;
 GO
+
 --	Đối với khách trực tuyến, hệ thống ghi nhận thêm thời điểm truy cập, thời gian truy cập nhằm cải thiện trải nghiệm của khách hàng. 
 CREATE TRIGGER trg_RecordOnlineAccess
 ON ThongTinTruyCap
@@ -940,29 +650,5 @@ BEGIN
     PRINT 'Thông tin món thêm đã được cập nhật vào phiếu đặt món.'
 END;
 GO
---BANG DAT TRUOC
---	Khách hàng đặt món trực tuyến phải lựa chọn khu vực và chi nhánh, số lượng khách, ngày đặt, giờ đến, một số ghi chú khác. 
-CREATE TRIGGER trg_ValidateOnlineOrder
-ON DatTruoc
-INSTEAD OF INSERT
-AS
-BEGIN
-    IF EXISTS (
-        SELECT 1
-        FROM inserted
-        WHERE MaKhuVuc IS NULL OR MaChiNhanh IS NULL OR SoLuongKhach IS NULL OR GioDen IS NULL
-    )
-    BEGIN
-        RAISERROR ('Đơn đặt trước phải có đầy đủ khu vực, chi nhánh, số lượng khách, ngày đặt, giờ đến!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO DatTruoc
-        SELECT * FROM inserted;
-    END
-END;
-GO
-
 
 

@@ -1,8 +1,9 @@
-﻿-- Tạo bảng 
--- phân hệ nhân viên
--- phân hệ chi nhánh
+--Them thay doi thu
 USE MASTER
 GO
+ALTER DATABASE QLNHAHANG SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+DROP DATABASE QLNHAHANG;
+
 IF DB_ID('QLNHAHANG') IS NOT NULL
 	DROP DATABASE QLNHAHANG
 GO
@@ -42,10 +43,9 @@ CREATE TABLE MucThucDon
 
 CREATE TABLE ThucDon
 (
-	MaThucDon TINYINT IDENTITY(1,1),
+	MaKhuVuc TINYINT,
 	TenThucDon NVARCHAR(100) NOT NULL,
-	MaKhuVuc TINYINT NOT NULL UNIQUE,
-	CONSTRAINT PK_ThucDon PRIMARY KEY (MaThucDon),
+	CONSTRAINT PK_ThucDon PRIMARY KEY (MaKhuVuc),
 	
 )
 
@@ -89,6 +89,7 @@ CREATE TABLE NhanVien (
 	NgayNghiViec DATE NULL,
 	MaBoPhan CHAR(4) NOT NULL,
 	DiemSo DECIMAL(9,0) DEFAULT 0 CHECK (DiemSo >= 0),
+	-- note RCM THÊM THUỘC TÍNH SỐ LƯỢNG ĐÁNH GIÁ ĐỂ TÍNH TRUNG BÌNH ĐIỂM SỐ, CHỨ TÍNH TỔNG KÌ QUÁ
 	CONSTRAINT PK_NV PRIMARY KEY (MaNhanVien),
 	CONSTRAINT CK_NgayNghiViec CHECK (NgayNghiViec IS NULL OR NgayNghiViec >= NgayVaoLam)
 );
@@ -177,7 +178,7 @@ CREATE TABLE HoaDon (
     ThanhTien INT NOT NULL  -- Tổng tiền sau giảm giá.
     
 );
-
+--note 404: NGHI VẤN HACK
 CREATE TABLE DatTruoc (
     MaDatTruoc INT IDENTITY(1,1) PRIMARY KEY,
     MaKhachHang INT NOT NULL,
@@ -193,7 +194,7 @@ CREATE TABLE DatCho (
     PRIMARY KEY (MaDatTruoc),
 
 );
-
+--404
 CREATE TABLE ThongTinTruyCap (
 	MaKhachHang INT NOT NULL, --Khóa ngoại liên kết đến 'KhachHang'
 	MaDatTruoc INT  NOT NULL, -- Khóa ngoại liên kết đến 'DatTruoc'
@@ -220,7 +221,7 @@ ADD CONSTRAINT FK_Mon_MucThucDon FOREIGN KEY (MaMuc) REFERENCES MucThucDon(MaMuc
 	CONSTRAINT CK_Mon_Gia CHECK (GiaHienTai >= 0);
 -- Ràng buộc Thực đơn_Món
 ALTER TABLE ThucDon_Mon
-ADD CONSTRAINT FK_ThucDon_Mon_ThucDon FOREIGN KEY (MaThucDon) REFERENCES ThucDon(MaThucDon),
+ADD CONSTRAINT FK_ThucDon_Mon_ThucDon FOREIGN KEY (MaThucDon) REFERENCES ThucDon(MaKhuVuc),
     CONSTRAINT FK_ThucDon_Mon_Mon FOREIGN KEY (MaMon) REFERENCES Mon(MaMon);
 
 -- Ràng buộc phục vụ
