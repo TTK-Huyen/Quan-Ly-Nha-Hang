@@ -992,7 +992,8 @@ BEGIN
 		GioiTinh = COALESCE (@GioiTinh, GioiTinh)
 	WHERE MaKhachHang = @MaKhachHang;
 END;
---4. ĐẶT BÀN TRỰC TUYẾN
+--4. ĐẶT BÀN TRỰC TUYẾN -- khi khách hàng đến, nhân viên sẽ kiểm tra các phiếu đặt món của khách hàng mà chưa có hóa đơn
+-- Bổ sung thêm như quy trình trên mess đã miêu tả
 CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
 	@MaKhachHang INT, @MaChiNhanh INT, @SoLuongKhach INT,
 	@GioDen DATETIME, @GhiChu NVARCHAR(200)

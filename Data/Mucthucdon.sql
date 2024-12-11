@@ -1,8 +1,9 @@
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (1, N'Khai vị');
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (2, N'Sashimi combo');
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (3, N'Nigiri');
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (4, N'Tempura');
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (5, N'Udon');
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (6, N'Hotpot (lẩu Nhật)');
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (7, N'Lunch set');
-INSERT INTO MucThucDon (MaMuc, TenMuc) VALUES (8, N'Các món nước');
+-- Insert statements for MucThucDon
+INSERT INTO MucThucDon (TenMuc) VALUES ('Khai Vị');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Sashimi Combo');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Nigiri');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Tempura');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Udon');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Hotpot');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Lunch Set');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Món Nước');
