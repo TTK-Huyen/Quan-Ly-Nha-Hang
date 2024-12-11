@@ -2,7 +2,6 @@ USE QLNHAHANG
 GO
 
 
-
 --TRIGGER Phân hệ Chi Nhánh
 GO
 CREATE TRIGGER CHECK_TGIANDONGCUA_TGIANMOCUA
@@ -24,6 +23,8 @@ BEGIN
 		END
 END
 GO
+
+
 
 
 
@@ -117,36 +118,39 @@ END
 GO
 
 
-
-
-
---TRIGGER PHÂN HỆ NHÂN VIÊN
-
---NHÂN VIÊN CHỈ ĐƯỢC LÀM VIỆC TẠI 1 CHI NHÁNH TẠI 1 THỜI ĐIỂM
-CREATE TRIGGER CHECK_NVCN
-ON LichSuLamViec
-AFTER INSERT, UPDATE
+-- Thêm bộ phận và tự động tạo mã bộ phận khi không được cung cấp
+CREATE TRIGGER THEMBP
+ON BoPhan
+AFTER INSERT
 AS
 BEGIN
-    IF EXISTS
-    (
-        SELECT 1
-        FROM INSERTED i
-        WHERE 
-        (
-            SELECT COUNT(*) 
-            FROM LichSuLamViec l
-            WHERE l.MaNhanVien = i.MaNhanVien AND l.NgayKetThuc IS NULL
-        ) > 1
-    )
+    DECLARE @InsertedMaBoPhan CHAR(4);
+    DECLARE @GeneratedMaBoPhan CHAR(4);
+    DECLARE @InsertedTenBoPhan NVARCHAR(50);
+
+    -- Lấy mã bộ phận và tên bộ phận từ bảng INSERTED
+    SELECT TOP 1 @InsertedMaBoPhan = MaBoPhan, @InsertedTenBoPhan = TenBoPhan
+    FROM INSERTED;
+
+    -- Kiểm tra nếu mã bộ phận là 'BP99'
+    IF @InsertedMaBoPhan = 'BP99'
     BEGIN
-        RAISERROR (
-            N'Mỗi nhân viên chỉ làm việc tại một chi nhánh tại một thời điểm.',16, 1 );
-        ROLLBACK TRANSACTION;
-        RETURN;
+        -- Tìm mã lớn nhất trong bảng, bỏ qua BP99
+        SET @GeneratedMaBoPhan = 
+        (
+            SELECT 'BP' + RIGHT('00' + CAST(MAX(CAST(SUBSTRING(MaBoPhan, 3, LEN(MaBoPhan) - 2) AS INT)) + 1 AS VARCHAR), 2)
+            FROM BoPhan
+            WHERE MaBoPhan LIKE 'BP[0-9][0-9]' AND MaBoPhan <> 'BP99'
+        );
+
+        -- Cập nhật dòng vừa chèn với mã bộ phận mới
+        UPDATE BoPhan
+        SET MaBoPhan = @GeneratedMaBoPhan
+        WHERE MaBoPhan = 'BP99' AND TenBoPhan = @InsertedTenBoPhan;
     END;
 END;
 GO
+
 
 
 --Nhân viên quản lý phải làm việc tại chi nhánh
