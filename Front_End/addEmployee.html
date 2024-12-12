@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Nhân Viên</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 500px; margin: auto; }
+        label { display: block; margin-bottom: 5px; }
+        input, select, button { width: 100%; margin-bottom: 15px; padding: 10px; font-size: 16px; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <h1>Thêm Nhân Viên</h1>
+    <form id="addEmployeeForm">
+        <label for="HoTen">Họ tên:</label>
+        <input type="text" id="HoTen" name="HoTen" required>
+
+        <label for="NgaySinh">Ngày sinh:</label>
+        <input type="date" id="NgaySinh" name="NgaySinh" required>
+
+        <label for="GioiTinh">Giới tính:</label>
+        <select id="GioiTinh" name="GioiTinh" required>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+        </select>
+
+        <label for="Luong">Lương:</label>
+        <input type="number" id="Luong" name="Luong" step="0.01" required>
+
+        <label for="NgayVaoLam">Ngày vào làm:</label>
+        <input type="date" id="NgayVaoLam" name="NgayVaoLam" required>
+
+        <label for="MaBoPhan">Mã bộ phận:</label>
+        <input type="text" id="MaBoPhan" name="MaBoPhan" required>
+
+        <label for="MaChiNhanh">Mã chi nhánh:</label>
+        <input type="number" id="MaChiNhanh" name="MaChiNhanh" required>
+
+        <button type="button" onclick="submitForm()">Thêm Nhân Viên</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        async function submitForm() {
+            const formData = {
+                HoTen: document.getElementById('HoTen').value,
+                NgaySinh: document.getElementById('NgaySinh').value,
+                GioiTinh: document.getElementById('GioiTinh').value,
+                Luong: parseFloat(document.getElementById('Luong').value),
+                NgayVaoLam: document.getElementById('NgayVaoLam').value,
+                MaBoPhan: document.getElementById('MaBoPhan').value,
+                MaChiNhanh: parseInt(document.getElementById('MaChiNhanh').value),
+            };
+
+            try {
+                const response = await fetch('/api/addEmployee', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                document.getElementById('message').innerText = result.message || result.error;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('message').innerText = 'Lỗi: Không thể thêm nhân viên.';
+            }
+        }
+    </script>
+</body>
+</html>
