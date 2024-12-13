@@ -1,0 +1,1682 @@
+:root
+{
+    --text_font:"Comic Sans MS", cursive;
+    --text_color:black;
+    --back_ground_box:#ebdab7;
+    --back_ground_color:#ebdab7;
+}
+
+
+.logo .logo
+{
+    width:8vw;
+    height:14vh;
+    
+    position: absolute
+}
+.PreOrder_text
+{
+    font:var(--text_font);
+    color:var(--text_color);
+    font-size:6vh;
+    font-family: var(--text_font);
+    font-weight: bold;
+    margin-top: 5vh;
+    margin-left:40vw;
+    position: absolute;
+}
+
+.Food .TrungHap .TrungHap
+{
+    height:30vh;
+    width:20vw;
+    margin-top:20vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .TrungHap .TrungHap_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:10vw;
+    margin-top:50vh;
+    position: absolute
+}
+.Food .TrungHap .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:55vh;
+    margin-left:4.8vw;
+    position: absolute
+}
+
+.Food .TrungHap .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:55.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+
+ .Food .SupMiso .SupMiso
+{
+    height:30vh;
+    width:20vw;
+    margin-top:20vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SupMiso .SoupMiso_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:47vw;
+    margin-top:50vh;
+    position: absolute
+}
+.Food .SupMiso .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:55vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SupMiso .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:55.5vh;
+    margin-left:56vw;
+    position: absolute;
+}
+
+.Food .SupChay .SupChay
+{
+    height:30vh;
+    width:20vw;
+    margin-top:20vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .SupChay .SupChay_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:76.5vw;
+    margin-top:50vh;
+    position: absolute
+}
+
+.Food .SupChay .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:55vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .SupChay .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:55.5vh;
+    margin-left:88vw;
+    position: absolute;
+}
+
+
+.Food .TrungCaHoi .TrungCaHoi
+{
+    height:30vh;
+    width:20vw;
+    margin-top:65vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .TrungCaHoi .TrungCaHoi_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:11vw;
+    margin-top:95vh;
+    position: absolute
+}
+.Food .TrungCaHoi .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:100vh;
+    margin-left:4.8vw;
+    position: absolute
+}
+
+.Food .TrungCaHoi .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:100.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+.Food .SaladRongBien .SaladRongBien
+{
+    height:30vh;
+    width:20vw;
+    margin-top:65vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SaladRongBien .SaladRongBien_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:44.5vw;
+    margin-top:95vh;
+    position: absolute
+}
+.Food .SaladRongBien .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:100vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SaladRongBien .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:100.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+
+.Food .DauNanhLuoc .DauNanhLuoc
+{
+    height:30vh;
+    width:20vw;
+    margin-top:65vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .DauNanhLuoc .DauNanhLuoc_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:79vw;
+    margin-top:95vh;
+    position: absolute
+}
+.Food .DauNanhLuoc .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:100vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .DauNanhLuoc .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:100.5vh;
+    margin-left:88vw;
+    position: absolute;
+}
+
+.Food .SashimiTongHop .SashimiTongHop
+{
+    height:30vh;
+    width:20vw;
+    margin-top:110vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .SashimiTongHop .SashimiTongHop_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:9vw;
+    margin-top:140vh;
+    position: absolute
+}
+.Food .SashimiTongHop .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:145vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .SashimiTongHop .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:145.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+
+.Food .SashimiCaHoi .SashimiCaHoi
+{
+    height:30vh;
+    width:20vw;
+    margin-top:110vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SashimiCaHoi .SashimiCaHoi_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:41vw;
+    margin-top:140vh;
+    position: absolute
+}
+.Food .SashimiCaHoi .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:145vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SashimiCaHoi .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:145.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .SashimiCaNgu .SashimiCaNgu
+{
+    height:30vh;
+    width:20vw;
+    margin-top:110vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .SashimiCaNgu .SashimiCaNgu_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:77.5vw;
+    margin-top:140vh;
+    position: absolute
+}
+.Food .SashimiCaNgu .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:145vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .SashimiCaNgu .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:145.5vh;
+    margin-left:88vw;
+    position: absolute;
+}
+
+
+.Food .SashimiSoDiep .SashimiSoDiep
+{
+    height:30vh;
+    width:20vw;
+    margin-top:155vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .SashimiSoDiep .SashimiSoDiep_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:8vw;
+    margin-top:185vh;
+    position: absolute
+}
+.Food .SashimiSoDiep .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:190vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .SashimiSoDiep .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:190.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+
+.Food .SashimiBachTuoc .SashimiBachTuoc
+{
+    height:30vh;
+    width:20vw;
+    margin-top:155vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SashimiBachTuoc .SashimiBachTuoc_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:44vw;
+    margin-top:185vh;
+    position: absolute
+}
+.Food .SashimiBachTuoc .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:190vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .SashimiBachTuoc .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:190.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .NigiriCaNgu .NigiriCaNgu
+{
+    height:30vh;
+    width:20vw;
+    margin-top:155vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .NigiriCaNgu .NigiriCaNgu_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:77.5vw;
+    margin-top:185vh;
+    position: absolute
+}
+.Food .NigiriCaNgu .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:190vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .NigiriCaNgu .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:190.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+
+.Food .NigiriCaHoi .NigiriCaHoi
+{
+    height:30vh;
+    width:20vw;
+    margin-top:200vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .NigiriCaHoi .NigiriCaHoi_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:10vw;
+    margin-top:230vh;
+    position: absolute
+}
+.Food .NigiriCaHoi .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:235vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .NigiriCaHoi .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:235.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+
+.Food .NigiriCaHoiNuong .NigiriCaHoiNuong
+{
+    height:30vh;
+    width:20vw;
+    margin-top:200vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .NigiriCaHoiNuong .NigiriCaHoiNuong_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:40.3vw;
+    margin-top:230vh;
+    position: absolute
+}
+.Food .NigiriCaHoiNuong .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:235vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .NigiriCaHoiNuong .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:235.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+
+.Food .NigiriTrungTom .NigiriTrungTom
+{
+    height:30vh;
+    width:20vw;
+    margin-top:200vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .NigiriTrungTom .NigiriTrungTom_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:76vw;
+    margin-top:230vh;
+    position: absolute
+}
+.Food .NigiriTrungTom .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:235vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .NigiriTrungTom .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:235.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+.Food .NigiriBachTuoc .NigiriBachTuoc
+{
+    height:30vh;
+    width:20vw;
+    margin-top:245vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .NigiriBachTuoc .NigiriBachTuoc_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:10vw;
+    margin-top:275vh;
+    position: absolute
+}
+.Food .NigiriBachTuoc .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:280vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .NigiriBachTuoc .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:280.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+
+.Food .NigiriCaChinh .NigiriCaChinh
+{
+    height:30vh;
+    width:20vw;
+    margin-top:245vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .NigiriCaChinh .NigiriCaChinh_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:47vw;
+    margin-top:275vh;
+    position: absolute
+}
+.Food .NigiriCaChinh .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:280vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .NigiriCaChinh .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:280.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .TempuraTom .TempuraTom
+{
+    height:30vh;
+    width:20vw;
+    margin-top:245vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .TempuraTom .TempuraTom_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:76vw;
+    margin-top:275vh;
+    position: absolute
+}
+.Food .TempuraTom .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:280vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .TempuraTom .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:280.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+.Food .TempuraRauCu .TempuraRauCu
+{
+    height:30vh;
+    width:20vw;
+    margin-top:290vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .TempuraRauCu .TempuraRauCu_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:7.5vw;
+    margin-top:320vh;
+    position: absolute
+}
+.Food .TempuraRauCu .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:325vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .TempuraRauCu .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:325.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+.Food .TempuraCa .TempuraCa
+{
+    height:30vh;
+    width:20vw;
+    margin-top:290vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .TempuraCa .TempuraCa_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:46vw;
+    margin-top:320vh;
+    position: absolute
+}
+.Food .TempuraCa .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:325vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .TempuraCa .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:325.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .UdonNong .UdonNong
+{
+    height:30vh;
+    width:20vw;
+    margin-top:290vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .UdonNong .UdonNong_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:79vw;
+    margin-top:320vh;
+    position: absolute
+}
+.Food .UdonNong .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:325vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .UdonNong .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:325.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+.Food .UdonLanh .UdonLanh
+{
+    height:30vh;
+    width:20vw;
+    margin-top:335vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .UdonLanh .UdonLanh_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:11vw;
+    margin-top:365vh;
+    position: absolute
+}
+.Food .UdonLanh .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:370vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .UdonLanh .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:370.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+.Food .UdonHaiSan .UdonHaiSan
+{
+    height:30vh;
+    width:20vw;
+    margin-top:335vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .UdonHaiSan .UdonHaiSan_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:45vw;
+    margin-top:365vh;
+    position: absolute
+}
+.Food .UdonHaiSan .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:370vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .UdonHaiSan .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:370.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .ShabuShabu .ShabuShabu
+{
+    height:30vh;
+    width:20vw;
+    margin-top:335vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .ShabuShabu .ShabuShabu_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:78vw;
+    margin-top:365vh;
+    position: absolute
+}
+.Food .ShabuShabu .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:370vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .ShabuShabu .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:370.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+.Food .LauSukiyaki .LauSukiyaki
+{
+    height:30vh;
+    width:20vw;
+    margin-top:380vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .LauSukiyaki .LauSukiyaki_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:9vw;
+    margin-top:410vh;
+    position: absolute
+}
+.Food .LauSukiyaki .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:415vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .LauSukiyaki .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:415.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+
+.Food .LauHaiSan .LauHaiSan
+{
+    height:30vh;
+    width:20vw;
+    margin-top:380vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .LauHaiSan .LauHaiSan_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:45vw;
+    margin-top:410vh;
+    position: absolute
+}
+.Food .LauHaiSan .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:415vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .LauHaiSan .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:415.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .SushiLunchSet .SushiLunchSet
+{
+    height:30vh;
+    width:20vw;
+    margin-top:380vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .SushiLunchSet .SushiLunchSet_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:76.5vw;
+    margin-top:410vh;
+    position: absolute
+}
+.Food .SushiLunchSet .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:415vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .SushiLunchSet .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:415.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+.Food .SashimiLunchSet .SashimiLunchSet
+{
+    height:30vh;
+    width:20vw;
+    margin-top:425vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .SashimiLunchSet .SashimiLunchSet_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:9vw;
+    margin-top:455vh;
+    position: absolute
+}
+.Food .SashimiLunchSet .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:460vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .SashimiLunchSet .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:460.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+.Food .ComLuon .ComLuon
+{
+    height:30vh;
+    width:20vw;
+    margin-top:425vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .ComLuon .ComLuon_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:43vw;
+    margin-top:455vh;
+    position: absolute
+}
+.Food .ComLuon .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:460vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .ComLuon .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:460.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .TraXanhNhat .TraXanhNhat
+{
+    height:30vh;
+    width:20vw;
+    margin-top:425vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .TraXanhNhat .TraXanhNhat_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:79.5vw;
+    margin-top:455vh;
+    position: absolute
+}
+.Food .TraXanhNhat .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:460vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .TraXanhNhat .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:460.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+.Food .NuocEpTao .NuocEpTao
+{
+    height:30vh;
+    width:20vw;
+    margin-top:470vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .NuocEpTao .NuocEpTao_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:10vw;
+    margin-top:500vh;
+    position: absolute
+}
+.Food .NuocEpTao .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:505vh;
+    margin-left:5vw;
+    position: absolute
+}
+
+.Food .NuocEpTao .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_color);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_color);
+    color:black;
+    font-size: 1rem;
+    margin-top:505.5vh;
+    margin-left:21.2vw;
+    position: absolute;
+}
+
+.Food .NuocEpCam .NuocEpCam
+{
+    height:30vh;
+    width:20vw;
+    margin-top:470vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .NuocEpCam .NuocEpCam_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:45vw;
+    margin-top:500vh;
+    position: absolute
+}
+.Food .NuocEpCam .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:505vh;
+    margin-left:40vw;
+    position: absolute
+}
+
+.Food .NuocEpCam .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:505.5vh;
+    margin-left:56.5vw;
+    position: absolute;
+}
+
+.Food .RuouSake .RuouSake
+{
+    height:30vh;
+    width:20vw;
+    margin-top:470vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .RuouSake .RuouSake_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-left:80.5vw;
+    margin-top:500vh;
+    position: absolute
+}
+.Food .RuouSake .Price_text
+{
+    font-family: var(--text_font);
+    font-size:3.5vh;
+    color: var(--text_color);
+    height:30vh;
+    width:30vw;
+    margin-top:505vh;
+    margin-left:72vw;
+    position: absolute
+}
+
+.Food .RuouSake .amount
+{
+    width: 3vw;
+    height:2vh;
+    padding: 0.8vh;
+    margin: 0.5vh 0;
+    border: 0.1vw solid var(--back_ground_box);
+    border-radius: 0.5vw;
+    background-color: var(--back_ground_box);
+    color:black;
+    font-size: 1rem;
+    margin-top:505.5vh;
+    margin-left:88.5vw;
+    position: absolute;
+}
+
+.Finish
+{
+    width: 9vw;
+    height:6vh;
+    border: 0.1vw solid rgba(230, 57, 70, 0.9);
+    border-radius: 0.5vw;
+    background-color: rgba(230, 57, 70, 0.9);
+    font-family: var(--text_font);
+    font-size:3vh;
+    margin-top: 520vh;
+    margin-left: 88.5vw;
+    color: #F7C843;
+    position:absolute;
+    transition: background-color 0.3s ease
+}
+
+
+
+.Finish:active {
+    background-color: white; /* Màu chuyển thành trắng */
+    color: black;
+}
+
+.Finish:hover {
+    background-color: darkred; /* Thay đổi màu khi rê chuột qua */
+}
+
+.Back
+{
+    width: 9vw;
+    height:6vh;
+    border: 0.1vw solid rgba(230, 57, 70, 0.9);
+    border-radius: 0.5vw;
+    background-color: rgba(230, 57, 70, 0.9);
+    font-family: var(--text_font);
+    font-size:3vh;
+    margin-top: 520vh;
+    margin-left: 78vw;
+    position:absolute;
+    color: #F7C843;
+    transition: background-color 0.3s ease
+}
+
+/* .Finish:focus
+{
+    outline: none; 
+    border-color:white;
+    background-color:white
+} */
+
+.Back:active {
+    background-color: white; /* Màu chuyển thành trắng */
+    color:black; /* Màu chữ đổi thành đỏ */
+}
+
+.Back:hover {
+    background-color: darkred; /* Thay đổi màu khi rê chuột qua */
+}
