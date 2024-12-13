@@ -206,10 +206,12 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE THEM_MON @MAMON SMALLINT, @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT
+
+
+CREATE PROCEDURE THEM_MON  @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT, @ANHMON  VARBINARY(MAX)
 AS
 BEGIN
-	IF NOT EXISTS (SELECT 1 FROM Mon AS M WHERE M.MaMon=@MAMON)
+	IF NOT EXISTS (SELECT 1 FROM Mon AS M WHERE M.TenMon=@TENMON)
 		BEGIN
 			IF EXISTS(SELECT 1 FROM MucThucDon AS M WHERE M.MaMuc=@MAMUC)
 				BEGIN
@@ -221,7 +223,7 @@ BEGIN
 						BEGIN
 							IF(@GIAHIENTAI>0)
 								BEGIN
-									INSERT INTO MON(MaMon, MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMON, @MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
+									INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang, AnhMon) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG, @ANHMON)
 								END
 							ELSE
 								BEGIN
@@ -561,7 +563,6 @@ BEGIN
         HoTen AS [Họ và tên], 
         FORMAT(NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(Luong, 'N0') AS [Lương (VND)'],
         FORMAT(NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc], 
         MaBoPhan AS [Mã bộ phận], 
@@ -593,7 +594,6 @@ BEGIN
         HoTen AS [Họ và tên], 
         FORMAT(NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(Luong, 'N0') AS [Lương (VND)'],
         FORMAT(NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc], 
         MaBoPhan AS [Mã bộ phận], 
@@ -620,7 +620,6 @@ BEGIN
         n.HoTen AS [Họ và tên], 
         FORMAT(n.NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE n.GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(n.Luong, 'N0') AS [Lương (VND)'],
         FORMAT(n.NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(n.NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc]
     FROM 
@@ -651,7 +650,6 @@ BEGIN
         n.HoTen AS [Họ và tên], 
         FORMAT(n.NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE n.GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(n.Luong, 'N0') AS [Lương (VND)'],
         FORMAT(n.NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(n.NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc]
     FROM 
@@ -670,7 +668,6 @@ CREATE PROC THEMNV
 	@HoTen NVARCHAR(255),
 	@NgaySinh DATE,
 	@GioiTinh nvarchar(4),
-	@Luong DECIMAL(18,3),
 	@NgayVaoLam DATE,
 	@MaBoPhan CHAR(4),
 	@MaChiNhanh TINYINT
@@ -737,8 +734,8 @@ BEGIN
 
 
 	INSERT INTO NhanVien (MaNhanVien, HoTen, NgaySinh, 
-	GioiTinh, Luong, NgayVaoLam, NgayNghiViec,MaBoPhan)
-	VALUES (@MaNhanVien, @HoTen, @NgaySinh, @GioiTinh, @Luong, GETDATE(),NULL, @MaBoPhan);
+	GioiTinh, NgayVaoLam, NgayNghiViec,MaBoPhan)
+	VALUES (@MaNhanVien, @HoTen, @NgaySinh, @GioiTinh, GETDATE(),NULL, @MaBoPhan);
 
 	INSERT INTO LichSuLamViec(MaNhanVien,MaChiNhanh, NgayBatDau, NgayKetThuc)
 	VALUES (@MaNhanVien, @MaChiNhanh, @NgayVaoLam,NULL)
@@ -763,7 +760,6 @@ BEGIN
 					HoTen = COALESCE(@HOTEN, HoTen),
 					NgaySinh = COALESCE(@NGAYSINH, NgaySinh),
 					GioiTinh = COALESCE(@GIOITINH, GioiTinh),
-					Luong = COALESCE(@LUONG, Luong),
 					NgayVaoLam = COALESCE(@NGAYVAOLAM, NgayVaoLam),
 					NgayNghiViec = COALESCE(@NGAYNGHIVIEC, NgayNghiViec),
 					MaBoPhan = COALESCE(@MABOPHAN, MaBoPhan),
@@ -923,7 +919,7 @@ GO
 
 --SP THÊM THÔNG TIN THẺ KHÁCH HÀNG 
 CREATE PROC THEMTHEKH
-	@MAKHACHHANG BIGINT, @NGAYLAP DATETIME, @NHANVIENLAP CHAR(6), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
+	@MAKHACHHANG BIGINT, @NHANVIENLAP CHAR(6) 
 AS
 BEGIN
 	--Kiểm tra mã khách hàng có tồn tại không
@@ -933,6 +929,15 @@ BEGIN
 	)
 	BEGIN
 		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Kiểm tra khách hàng đã có thẻ trước đó hay không
+	IF EXISTS (SELECT 1
+	FROM TheKhachHang
+	WHERE MaKhachHang = @MAKHACHHANG
+	)
+	BEGIN
+		RAISERROR (N'Khách hàng đã có thẻ khách hàng trước đó',16,1);
 		RETURN;
 	END;
 	--KIỂM TRA NHÂN VIÊN
@@ -945,11 +950,13 @@ BEGIN
 	DECLARE @MASOTHE INT
 	SET @MASOTHE = (SELECT ISNULL(MAX(MaSoThe), 0) + 1 FROM TheKhachHang);
 	--note
-	INSERT INTO TheKhachHang(MaSoThe, MaKhachHang, NgayLap, NhanVienLap, TrangThaiThe, DiemHienTai, DiemTichLuy, LoaiThe)
-	VALUES (@MASOTHE, @MAKHACHHANG, @NGAYLAP, @NHANVIENLAP, @TRANGTHAITHE, @DIEMHIENTAI, @DIEMTICHLUY,@LOAITHE)
+	INSERT INTO TheKhachHang(MaSoThe, MaKhachHang, NhanVienLap)
+	VALUES (@MASOTHE, @MAKHACHHANG, @NHANVIENLAP)
 	PRINT N'Thêm thẻ khách hàng thành công';
 END;
 GO
+
+
 
 
 --SP CẬP NHẬT THÔNG TIN ĐIỂM KHÁCH HÀNG
@@ -1027,8 +1034,6 @@ GO
 
 
 
-
-	
 
 
 --STORED PROCEDURE PH KHACH HANG
