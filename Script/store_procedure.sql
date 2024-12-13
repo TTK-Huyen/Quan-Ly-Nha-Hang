@@ -207,7 +207,7 @@ END
 GO
 
 
-
+drop proc THEM_MON
 CREATE PROCEDURE THEM_MON  @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT, @ANHMON  VARBINARY(MAX)
 AS
 BEGIN
@@ -215,7 +215,7 @@ BEGIN
 		BEGIN
 			IF EXISTS(SELECT 1 FROM MucThucDon AS M WHERE M.MaMuc=@MAMUC)
 				BEGIN
-					IF(@GIAOHANG!=0 OR @GIAOHANG!=1)
+					IF(@GIAOHANG != 0 AND  @GIAOHANG != 1)
 						BEGIN
 							RAISERROR(N'Thuộc tính GiaoHang chỉ được nhận 2 giá trị là 0 hoặc 1',16,1)
 						END
@@ -223,7 +223,10 @@ BEGIN
 						BEGIN
 							IF(@GIAHIENTAI>0)
 								BEGIN
-									INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang, AnhMon) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG, @ANHMON)
+									if (@ANHMON IS NULL)
+										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
+									else
+										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang, AnhMon) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG, @ANHMON)
 								END
 							ELSE
 								BEGIN
@@ -324,7 +327,7 @@ BEGIN
 		RETURN;
 	END;
 	--Kiểm tra mã khách hàng có tồn tại không
-	IF NOT EXISTS (SELECT 1
+	IF @MaKhachHang IS NOT NULL AND NOT EXISTS (SELECT 1
 	FROM KhachHang
 	WHERE MaKhachHang = @MaKhachHang
 	)
