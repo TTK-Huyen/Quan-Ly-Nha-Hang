@@ -1363,9 +1363,9 @@ INSERT INTO MucThucDon (TenMuc) VALUES (N'Lunch Set');
 INSERT INTO MucThucDon (TenMuc) VALUES (N'Món Nước');
 
 
-delete from MucThucDon
+delete from Mon
 DBCC CHECKIDENT ('Mon', RESEED, 0);
-select* from Mon
+select* from PhieuDatMon
 
 
 --Thêm dữ liệu bảng Mon
