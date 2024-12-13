@@ -1,7 +1,6 @@
---Them thay doi thu
 USE MASTER
 GO
-ALTER DATABASE QLNHAHANG SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE QLNHAHANG SET SINGLE_USER WITH ROLLBACK IMMEDIATE; 
 DROP DATABASE QLNHAHANG;
 
 IF DB_ID('QLNHAHANG') IS NOT NULL
@@ -11,12 +10,6 @@ CREATE DATABASE QLNHAHANG
 GO
 USE QLNHAHANG
 GO
-CREATE TABLE KhuVuc
-(
-	MaKhuVuc TINYINT IDENTITY(1,1),
-	TenKhuVuc NVARCHAR(100) NOT NULL UNIQUE,
-	CONSTRAINT PK_KhuVuc PRIMARY KEY (MaKhuVuc)
-)
 
 CREATE TABLE ChiNhanh
 (
@@ -41,15 +34,6 @@ CREATE TABLE MucThucDon
 	CONSTRAINT PK_MucThucDon PRIMARY KEY (MaMuc)
 )
 
-CREATE TABLE ThucDon
-(
-	MaKhuVuc TINYINT,
-	TenThucDon NVARCHAR(100) NOT NULL,
-	CONSTRAINT PK_ThucDon PRIMARY KEY (MaKhuVuc),
-	
-)
-
-
 CREATE TABLE Mon
 (
 	MaMon TINYINT IDENTITY(1,1),
@@ -62,13 +46,6 @@ CREATE TABLE Mon
 )
 
 
-CREATE TABLE ThucDon_Mon
-(
-	MaThucDon TINYINT,
-	MaMon TINYINT,
-	CONSTRAINT PK_ThucDon_Mon PRIMARY KEY (MaThucDon, MaMon)
-)
-
 CREATE TABLE PhucVu
 (
 	MaChiNhanh TINYINT NOT NULL,
@@ -77,6 +54,23 @@ CREATE TABLE PhucVu
 	
 )
 
+CREATE TABLE KhuVuc_ThucDon (
+    MaKhuVuc TINYINT IDENTITY(1,1) PRIMARY KEY,
+    TenKhuVuc NVARCHAR(100) NOT NULL,
+    TenThucDon NVARCHAR(100) NOT NULL
+);
+
+
+-- Tạo bảng ThucDon_Mon
+CREATE TABLE ThucDon_Mon (
+    MaKhuVuc TINYINT NOT NULL,
+    TenThucDon NVARCHAR(100) NOT NULL,
+    MaMon TINYINT NOT NULL,
+    CONSTRAINT PK_ThucDon_Mon PRIMARY KEY (MaKhuVuc, TenThucDon, MaMon),
+    
+);
+
+
 	
 --Phân hệ nhân viên
 CREATE TABLE NhanVien (
@@ -84,7 +78,6 @@ CREATE TABLE NhanVien (
 	HoTen NVARCHAR(255) NOT NULL,
 	NgaySinh DATE NOT NULL,
 	GioiTinh NVARCHAR(4) NOT NULL CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')),
-	Luong DECIMAL(18,3) DEFAULT 0 CHECK (Luong >= 0) ,
 	NgayVaoLam DATE NOT NULL,
 	NgayNghiViec DATE NULL,
 	MaBoPhan CHAR(4) NOT NULL,
@@ -98,6 +91,7 @@ CREATE TABLE NhanVien (
 CREATE TABLE BoPhan (
 	MaBoPhan CHAR(4) default 'BP99',
 	TenBoPhan NVARCHAR(50) NOT NULL UNIQUE,
+	Luong DECIMAL(18,3) DEFAULT 0 CHECK (Luong >= 0) ,
 	CONSTRAINT PK_BP PRIMARY KEY (MaBoPhan)
 );
 
@@ -178,7 +172,7 @@ CREATE TABLE HoaDon (
     ThanhTien INT NOT NULL  -- Tổng tiền sau giảm giá.
     
 );
---note 404: NGHI VẤN HACK
+
 CREATE TABLE DatTruoc (
     MaDatTruoc INT IDENTITY(1,1) PRIMARY KEY,
     MaKhachHang INT NOT NULL,
@@ -194,7 +188,7 @@ CREATE TABLE DatCho (
     PRIMARY KEY (MaDatTruoc),
 
 );
---404
+
 CREATE TABLE ThongTinTruyCap (
 	MaKhachHang INT NOT NULL, --Khóa ngoại liên kết đến 'KhachHang'
 	MaDatTruoc INT  NOT NULL, -- Khóa ngoại liên kết đến 'DatTruoc'
@@ -208,21 +202,15 @@ CREATE TABLE ThongTinTruyCap (
 
 -- ràng buộc constraint 
 ALTER TABLE ChiNhanh
-ADD CONSTRAINT FK_ChiNhanh_KhuVuc FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc(MaKhuVuc),
-    CONSTRAINT FK_ChiNhanh_NhanVien FOREIGN KEY (NhanVienQuanLy) REFERENCES NhanVien(MaNhanVien),
-	CONSTRAINT CK_ChiNhanh_ThoiGianMoCua CHECK (ThoiGianMoCua < ThoiGianDongCua);
--- Ràng buộc thực đơn
-ALTER TABLE ThucDon
-ADD CONSTRAINT FK_ThucDon_KhuVuc FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc(MaKhuVuc);
+ADD CONSTRAINT FK_ChiNhanh_NhanVien FOREIGN KEY (NhanVienQuanLy) REFERENCES NhanVien(MaNhanVien),
+	CONSTRAINT CK_ChiNhanh_ThoiGianMoCua CHECK (ThoiGianMoCua < ThoiGianDongCua),
+	CONSTRAINT FK_ChiNhanh_KhuVucThucDon FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc_ThucDon(MaKhuVuc);
+
 
 -- Ràng buộc món ăn
 ALTER TABLE Mon
 ADD CONSTRAINT FK_Mon_MucThucDon FOREIGN KEY (MaMuc) REFERENCES MucThucDon(MaMuc),
 	CONSTRAINT CK_Mon_Gia CHECK (GiaHienTai >= 0);
--- Ràng buộc Thực đơn_Món
-ALTER TABLE ThucDon_Mon
-ADD CONSTRAINT FK_ThucDon_Mon_ThucDon FOREIGN KEY (MaThucDon) REFERENCES ThucDon(MaKhuVuc),
-    CONSTRAINT FK_ThucDon_Mon_Mon FOREIGN KEY (MaMon) REFERENCES Mon(MaMon);
 
 -- Ràng buộc phục vụ
 ALTER TABLE PhucVu
@@ -268,8 +256,8 @@ ADD CONSTRAINT FK_HoaDon_Phieu FOREIGN KEY (MaPhieu) REFERENCES PhieuDatMon(MaPh
 
 -- Ràng buộc đặt trước
 ALTER TABLE DatTruoc
-ADD CONSTRAINT FK_DatTruoc_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang),
-    CONSTRAINT FK_DatTruoc_ChiNhanh FOREIGN KEY (MaChiNhanh) REFERENCES ChiNhanh(MaChiNhanh);
+ADD CONSTRAINT FK_DatTruoc_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang);
+    
 
 -- Ràng buộc đặt chỗ
 ALTER TABLE DatCho
@@ -280,3 +268,15 @@ ADD CONSTRAINT FK_DatCho_Ban FOREIGN KEY (MaSoBan, MaChiNhanh) REFERENCES Ban(Ma
 ALTER TABLE ThongTinTruyCap
 ADD CONSTRAINT FK_ThongTinTruyCap_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang),
     CONSTRAINT FK_ThongTinTruyCap_DatTruoc FOREIGN KEY (MaDatTruoc) REFERENCES DatTruoc(MaDatTruoc);
+
+--Ràng buộc thực đơn - khu vực - thực đơn món
+ALTER TABLE ThucDon_Mon
+ADD CONSTRAINT FK_ThucDon_Mon_KhuVuc FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc_ThucDon(MaKhuVuc),
+    CONSTRAINT FK_ThucDon_Mon_Mon FOREIGN KEY (MaMon) REFERENCES Mon(MaMon);
+
+ALTER TABLE KhuVuc_ThucDon
+ADD CONSTRAINT UQ_TenKhuVuc_TenThucDon UNIQUE (TenKhuVuc, TenThucDon),
+    CONSTRAINT CK_KhuVuc_ThucDon_Ten CHECK (LEN(TenKhuVuc) > 0 AND LEN(TenThucDon) > 0);
+
+
+
