@@ -291,7 +291,7 @@ GO
 
 
 
-									
+								
 
 
 							
@@ -561,7 +561,6 @@ BEGIN
         HoTen AS [Họ và tên], 
         FORMAT(NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(Luong, 'N0') AS [Lương (VND)'],
         FORMAT(NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc], 
         MaBoPhan AS [Mã bộ phận], 
@@ -593,7 +592,6 @@ BEGIN
         HoTen AS [Họ và tên], 
         FORMAT(NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(Luong, 'N0') AS [Lương (VND)'],
         FORMAT(NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc], 
         MaBoPhan AS [Mã bộ phận], 
@@ -620,7 +618,6 @@ BEGIN
         n.HoTen AS [Họ và tên], 
         FORMAT(n.NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE n.GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(n.Luong, 'N0') AS [Lương (VND)'],
         FORMAT(n.NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(n.NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc]
     FROM 
@@ -651,7 +648,6 @@ BEGIN
         n.HoTen AS [Họ và tên], 
         FORMAT(n.NgaySinh, 'dd/MM/yyyy') AS [Ngày sinh], 
         CASE n.GioiTinh WHEN 'M' THEN N'Nam' ELSE N'Nữ' END AS [Giới tính],
-        FORMAT(n.Luong, 'N0') AS [Lương (VND)'],
         FORMAT(n.NgayVaoLam, 'dd/MM/yyyy') AS [Ngày vào làm], 
         FORMAT(n.NgayNghiViec, 'dd/MM/yyyy') AS [Ngày nghỉ việc]
     FROM 
@@ -670,7 +666,6 @@ CREATE PROC THEMNV
 	@HoTen NVARCHAR(255),
 	@NgaySinh DATE,
 	@GioiTinh nvarchar(4),
-	@Luong DECIMAL(18,3),
 	@NgayVaoLam DATE,
 	@MaBoPhan CHAR(4),
 	@MaChiNhanh TINYINT
@@ -737,8 +732,8 @@ BEGIN
 
 
 	INSERT INTO NhanVien (MaNhanVien, HoTen, NgaySinh, 
-	GioiTinh, Luong, NgayVaoLam, NgayNghiViec,MaBoPhan)
-	VALUES (@MaNhanVien, @HoTen, @NgaySinh, @GioiTinh, @Luong, GETDATE(),NULL, @MaBoPhan);
+	GioiTinh, NgayVaoLam, NgayNghiViec,MaBoPhan)
+	VALUES (@MaNhanVien, @HoTen, @NgaySinh, @GioiTinh, GETDATE(),NULL, @MaBoPhan);
 
 	INSERT INTO LichSuLamViec(MaNhanVien,MaChiNhanh, NgayBatDau, NgayKetThuc)
 	VALUES (@MaNhanVien, @MaChiNhanh, @NgayVaoLam,NULL)
@@ -763,7 +758,6 @@ BEGIN
 					HoTen = COALESCE(@HOTEN, HoTen),
 					NgaySinh = COALESCE(@NGAYSINH, NgaySinh),
 					GioiTinh = COALESCE(@GIOITINH, GioiTinh),
-					Luong = COALESCE(@LUONG, Luong),
 					NgayVaoLam = COALESCE(@NGAYVAOLAM, NgayVaoLam),
 					NgayNghiViec = COALESCE(@NGAYNGHIVIEC, NgayNghiViec),
 					MaBoPhan = COALESCE(@MABOPHAN, MaBoPhan),
@@ -1024,6 +1018,7 @@ BEGIN
 	PRINT N'Xóa thẻ khách hàng thành công';
 END;
 GO
+
 
 
 
