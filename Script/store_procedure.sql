@@ -1,6 +1,6 @@
 USE QLNHAHANG
 GO
---PROCEDURE phân hệ ChiNhanh
+--PROCEDURE phân hệ ChiNhanh -- sửa lại các sp có mã thuc đơn thành mã khu vực
 GO
 CREATE PROCEDURE THEM_CHI_NHANH @MACHINHANH TINYINT,@TENCHINHANH NVARCHAR(100), @DIACHI NVARCHAR(255), @THOIGIANMOCUA TIME, @THOIGIANDONGCUA TIME, @SDT VARCHAR(10), @BAIDOXEHOI BIT, @BAIDOXEMAY BIT, @NVQL CHAR(6), @MAKV TINYINT, @GIAOHANG BIT
 AS
@@ -296,7 +296,7 @@ GO
 
 
 
-									
+								
 
 
 							
@@ -1039,14 +1039,15 @@ GO
 
 
 
+
 --STORED PROCEDURE PH KHACH HANG
 -- Stored procedure phân hệ KHÁCH HÀNG
 
 --1. ĐĂNG KÍ TÀI KHOẢN
 CREATE PROCEDURE SP_DANGKI_TAIKHOAN
-	@HoTen NVARCHAR(50), @SoDienThoai VARCHAR(15),
-	@Email NVARCHAR (50), @SoCCCD VARCHAR (12),
-	@GioiTinh NVARCHAR(10)
+	@HoTen NVARCHAR(255), @SoDienThoai CHAR(10),
+	@Email VARCHAR (255), @SoCCCD CHAR (12),
+	@GioiTinh NVARCHAR(4)
 AS
 BEGIN
 	IF EXISTS (SELECT 1 FROM KhachHang WHERE SoCCCD = @SoCCCD 
@@ -1075,8 +1076,9 @@ END;
 */
 
 --3. QUẢN LÝ THÔNG TIN CÁ NHÂN
+----NOTE THÊM CHỈNH SỬA SOCCCD
 CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN
-	@MaKhachHang INT, @SoDienThoai VARCHAR(15),@Email NVARCHAR(15), @GioiTinh NVARCHAR(10)
+	@MaKhachHang BIGINT, @SoDienThoai CHAR(10),@Email VARCHAR(255), @GioiTinh NVARCHAR(4)
 AS
 BEGIN
 	IF EXISTS (SELECT 1 FROM KhachHang WHERE (SoDienThoai = @SoDienThoai OR Email = @Email)
@@ -1092,10 +1094,11 @@ BEGIN
 		GioiTinh = COALESCE (@GioiTinh, GioiTinh)
 	WHERE MaKhachHang = @MaKhachHang;
 END;
---4. ĐẶT BÀN TRỰC TUYẾN
+--4. ĐẶT BÀN TRỰC TUYẾN -- khi khách hàng đến, nhân viên sẽ kiểm tra các phiếu đặt món của khách hàng mà chưa có hóa đơn
+-- Bổ sung thêm như quy trình trên mess đã miêu tả
 CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
-	@MaKhachHang INT, @MaChiNhanh INT, @SoLuongKhach INT,
-	@GioDen DATETIME, @GhiChu NVARCHAR(200)
+	@MaKhachHang BIGINT, @MaChiNhanh TINYINT, @SoLuongKhach TINYINT,
+	@GioDen DATETIME, @GhiChu NVARCHAR(255)
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)
@@ -1114,8 +1117,9 @@ BEGIN
 	VALUES (@MaKhachHang, @MaChiNhanh, @SoLuongKhach, @GioDen, @GhiChu);
 END;
 --5. ĐẶT MÓN TRỰC TUYẾN
+--Phải tạo trước phiếu đặt món trước rồi mới thêm món được, không có nhập vào mã phiếu được
 CREATE PROCEDURE SP_DATMON_TRUCTUYEN
-	@MaPhieu INT, @MaMon INT, @SoLuong INT, @GhiChu NVARCHAR(200)
+	@MaPhieu BIGINT, @MaMon SMALLINT, @SoLuong TINYINT, @GhiChu NVARCHAR(200)
 AS 
 BEGIN
 	IF NOT EXISTS (
@@ -1133,7 +1137,7 @@ END;
 --6. THANH TOÁN TRỰC TUYỂN
 
 CREATE PROCEDURE SP_THANHTOAN_TRUCTUYEN
-    @MaPhieu INT
+    @MaPhieu BIGINT
 AS
 BEGIN
     IF EXISTS (SELECT 1 FROM HoaDon WHERE MaPhieu = @MaPhieu)
@@ -1187,8 +1191,8 @@ END;
 
 --7. ĐÁNH GIÁ DỊCH VỤ
 CREATE PROCEDURE SP_DANHGIA_DICHVU
-	@MaPhieu INT, @DiemPhucVu INT,  @DiemViTri INT,
-    @DiemChatLuong INT, @DiemKhongGian INT, @BinhLuan NVARCHAR(MAX)
+	@MaPhieu BIGINT, @DiemPhucVu TINYINT,  @DiemViTri TINYINT,
+    @DiemChatLuong TINYINT, @DiemKhongGian TINYINT, @BinhLuan NVARCHAR(MAX)
 AS 
 BEGIN
 	IF @DiemPhucVu NOT BETWEEN 1 AND 5
@@ -1206,7 +1210,7 @@ END;
 
 --8. THEO DÕI LỊCH SỬ ĐẶT BÀN
 CREATE PROCEDURE SP_LICHSU_DATBAN
-	@MaKhachHang INT
+	@MaKhachHang BIGINT
 AS
 BEGIN
 	SELECT MaDatTruoc, MaChiNhanh, SoLuongKhach, GioDen, GhiChu
@@ -1216,7 +1220,7 @@ END;
 --9. THEO DÕI LỊCH SỬ ĐẶT MÓN
 
 CREATE PROCEDURE SP_LICHSU_DATMON
-	@MaKhachHang INT
+	@MaKhachHang BIGINT
 AS
 BEGIN 
 	SELECT PD.MaPhieu, CTP.MaMon, CTP.SoLuong
@@ -1228,7 +1232,7 @@ END;
 
 --10. XEM THÔNG TIN THẺ THÀNH VIÊN
 CREATE PROCEDURE SP_XEMTHONGTIN_THETHANHVIEN
-    @MaKhachHang INT
+    @MaKhachHang BIGINT
 AS
 BEGIN
     SELECT LoaiThe, DiemHienTai, DiemTichLuy
@@ -1242,7 +1246,7 @@ END;
 
 --13. HỦY ĐƠN HÀNG
 CREATE PROCEDURE SP_HUYDONHANG
-    @MaPhieu INT
+    @MaPhieu BIGINT
 AS
 BEGIN
     DELETE FROM PhieuDatMon WHERE MaPhieu = @MaPhieu;
@@ -1252,8 +1256,48 @@ END;
 
 --15. QUÊN MẬT KHẨU
 CREATE PROCEDURE SP_QUENMATKHAU
-    @Email VARCHAR(50)
+    @Email VARCHAR(255)
 AS
 BEGIN
     PRINT 'Mã đặt lại mật khẩu đã được gửi qua email.';
+END;
+-- CẬP NHẬT LOẠI THẺ KHÁCH HÀNG
+CREATE PROCEDURE SP_CAPNHAT_LOAITHEKHACHHANG
+AS
+BEGIN
+    -- Cập nhật từ GOLD xuống SILVER
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Silver',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Gold'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy < 100;
+
+    -- Cập nhật từ SILVER xuống Membership
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Membership',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Silver'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy < 50;
+
+    -- Nâng từ SILVER lên GOLD
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Gold',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Silver'
+      AND DATEDIFF(DAY, NgayDatThe, GETDATE()) <= 365
+      AND DiemTichLuy >= 100;
+
+    -- Cập nhật hạng SILVER
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Silver',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe = N'Membership'
+      AND DiemTichLuy >= 100;
+
+    UPDATE TheKhachHang
+    SET LoaiThe = N'Membership',
+        NgayDatThe = GETDATE()
+    WHERE LoaiThe NOT IN (N'Membership', N'Silver', N'Gold');
 END;
