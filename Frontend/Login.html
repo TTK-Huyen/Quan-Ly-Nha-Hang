@@ -23,12 +23,23 @@
   </div>
   <script>
     document.querySelector("#login-form").addEventListener("submit", function (event) {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
 
+      // Kiểm tra tên đăng nhập và mật khẩu
       if (!username || !password) {
         event.preventDefault();
         alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+      }
+
+      if (username === "quanly_sushix" && password === "QL@SuShiX2024") {
+        alert("Đăng nhập thành công!");
+        // Điều hướng đến trang Manager Dashboard
+        window.location.href = "ManagerDashboard.html";
+      } else {
+        event.preventDefault(); // Ngăn chặn form gửi nếu thông tin không đúng
+        alert("Tên đăng nhập hoặc mật khẩu không đúng!");
       }
     });
   </script>
