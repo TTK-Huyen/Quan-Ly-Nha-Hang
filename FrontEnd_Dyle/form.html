@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Nhân Viên</title>
+</head>
+<body>
+    <h1>Thêm Nhân Viên Mới</h1>
+    <form id="themNhanVienForm">
+        <label for="HoTen">Họ tên:</label>
+        <input type="text" id="HoTen" name="HoTen" required><br><br>
+
+        <label for="NgaySinh">Ngày sinh:</label>
+        <input type="date" id="NgaySinh" name="NgaySinh" required><br><br>
+
+        <label for="GioiTinh">Giới tính:</label>
+        <select id="GioiTinh" name="GioiTinh" required>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+        </select><br><br>
+
+        <label for="Luong">Lương:</label>
+        <input type="number" id="Luong" name="Luong" step="0.001" required><br><br>
+
+        <label for="NgayVaoLam">Ngày vào làm:</label>
+        <input type="date" id="NgayVaoLam" name="NgayVaoLam" required><br><br>
+
+        <label for="MaBoPhan">Mã bộ phận:</label>
+        <input type="text" id="MaBoPhan" name="MaBoPhan" required><br><br>
+
+        <label for="MaChiNhanh">Mã chi nhánh:</label>
+        <input type="number" id="MaChiNhanh" name="MaChiNhanh" required><br><br>
+
+        <button type="button" onclick="submitForm()">Thêm Nhân Viên</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            const formData = {
+                HoTen: document.getElementById('HoTen').value,
+                NgaySinh: document.getElementById('NgaySinh').value,
+                GioiTinh: document.getElementById('GioiTinh').value,
+                Luong: parseFloat(document.getElementById('Luong').value),
+                NgayVaoLam: document.getElementById('NgayVaoLam').value,
+                MaBoPhan: document.getElementById('MaBoPhan').value,
+                MaChiNhanh: parseInt(document.getElementById('MaChiNhanh').value),
+            };
+
+            fetch('http://localhost:3000/themnhanvien', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message || data.error))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>

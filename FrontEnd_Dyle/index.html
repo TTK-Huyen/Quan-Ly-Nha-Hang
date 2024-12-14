@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý dữ liệu</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        button { margin: 5px; padding: 10px; }
+        table { border-collapse: collapse; width: 80%; margin: 20px auto; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Quản lý dữ liệu</h1>
+    <div style="text-align: center;">
+        <button onclick="fetchData('khuvuc')">Khu Vực</button>
+        <button onclick="fetchData('bophan')">Bộ Phận</button>
+        <button onclick="fetchData('chinhanh')">Chi Nhánh</button>
+    </div>
+    <div id="output"></div>
+
+    <script>
+        // Hàm gửi yêu cầu tới server và hiển thị dữ liệu
+        async function fetchData(endpoint) {
+            try {
+                const response = await fetch(`/api/${endpoint}`);
+                const data = await response.json();
+
+                // Tạo bảng HTML từ dữ liệu nhận được
+                let table = '<table><tr>';
+                for (let key in data[0]) {
+                    table += `<th>${key}</th>`;
+                }
+                table += '</tr>';
+
+                data.forEach(row => {
+                    table += '<tr>';
+                    for (let key in row) {
+                        table += `<td>${row[key]}</td>`;
+                    }
+                    table += '</tr>';
+                });
+
+                table += '</table>';
+
+                // Hiển thị bảng trong div output
+                document.getElementById('output').innerHTML = table;
+            } catch (error) {
+                console.error('Lỗi:', error);
+                document.getElementById('output').innerHTML = `<p style="color:red;">Không thể tải dữ liệu từ ${endpoint}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
