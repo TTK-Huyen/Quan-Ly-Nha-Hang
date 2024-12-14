@@ -206,14 +206,16 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE THEM_MON @MAMON SMALLINT, @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT
+
+drop proc THEM_MON
+CREATE PROCEDURE THEM_MON  @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT, @ANHMON  VARBINARY(MAX)
 AS
 BEGIN
-	IF NOT EXISTS (SELECT 1 FROM Mon AS M WHERE M.MaMon=@MAMON)
+	IF NOT EXISTS (SELECT 1 FROM Mon AS M WHERE M.TenMon=@TENMON)
 		BEGIN
 			IF EXISTS(SELECT 1 FROM MucThucDon AS M WHERE M.MaMuc=@MAMUC)
 				BEGIN
-					IF(@GIAOHANG!=0 OR @GIAOHANG!=1)
+					IF(@GIAOHANG != 0 AND  @GIAOHANG != 1)
 						BEGIN
 							RAISERROR(N'Thuộc tính GiaoHang chỉ được nhận 2 giá trị là 0 hoặc 1',16,1)
 						END
@@ -221,7 +223,10 @@ BEGIN
 						BEGIN
 							IF(@GIAHIENTAI>0)
 								BEGIN
-									INSERT INTO MON(MaMon, MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMON, @MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
+									if (@ANHMON IS NULL)
+										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
+									else
+										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang, AnhMon) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG, @ANHMON)
 								END
 							ELSE
 								BEGIN
@@ -322,7 +327,7 @@ BEGIN
 		RETURN;
 	END;
 	--Kiểm tra mã khách hàng có tồn tại không
-	IF NOT EXISTS (SELECT 1
+	IF @MaKhachHang IS NOT NULL AND NOT EXISTS (SELECT 1
 	FROM KhachHang
 	WHERE MaKhachHang = @MaKhachHang
 	)
@@ -917,7 +922,7 @@ GO
 
 --SP THÊM THÔNG TIN THẺ KHÁCH HÀNG 
 CREATE PROC THEMTHEKH
-	@MAKHACHHANG BIGINT, @NGAYLAP DATETIME, @NHANVIENLAP CHAR(6), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
+	@MAKHACHHANG BIGINT, @NHANVIENLAP CHAR(6) 
 AS
 BEGIN
 	--Kiểm tra mã khách hàng có tồn tại không
@@ -927,6 +932,15 @@ BEGIN
 	)
 	BEGIN
 		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
+		RETURN;
+	END;
+	--Kiểm tra khách hàng đã có thẻ trước đó hay không
+	IF EXISTS (SELECT 1
+	FROM TheKhachHang
+	WHERE MaKhachHang = @MAKHACHHANG
+	)
+	BEGIN
+		RAISERROR (N'Khách hàng đã có thẻ khách hàng trước đó',16,1);
 		RETURN;
 	END;
 	--KIỂM TRA NHÂN VIÊN
@@ -939,11 +953,13 @@ BEGIN
 	DECLARE @MASOTHE INT
 	SET @MASOTHE = (SELECT ISNULL(MAX(MaSoThe), 0) + 1 FROM TheKhachHang);
 	--note
-	INSERT INTO TheKhachHang(MaSoThe, MaKhachHang, NgayLap, NhanVienLap, TrangThaiThe, DiemHienTai, DiemTichLuy, LoaiThe)
-	VALUES (@MASOTHE, @MAKHACHHANG, @NGAYLAP, @NHANVIENLAP, @TRANGTHAITHE, @DIEMHIENTAI, @DIEMTICHLUY,@LOAITHE)
+	INSERT INTO TheKhachHang(MaSoThe, MaKhachHang, NhanVienLap)
+	VALUES (@MASOTHE, @MAKHACHHANG, @NHANVIENLAP)
 	PRINT N'Thêm thẻ khách hàng thành công';
 END;
 GO
+
+
 
 
 --SP CẬP NHẬT THÔNG TIN ĐIỂM KHÁCH HÀNG
@@ -1022,8 +1038,6 @@ GO
 
 
 
-
-	
 
 
 --STORED PROCEDURE PH KHACH HANG
