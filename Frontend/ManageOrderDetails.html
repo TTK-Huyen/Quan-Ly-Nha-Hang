@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Phiếu Đặt Món</title>
+    <link rel="stylesheet" href="Dashboard.css">
+</head>
+
+<body>
+    <div class="header-container">
+        <h1>Chi Tiết Phiếu Đặt Món</h1>
+        <h3 id="MaPhieuHeader">Mã Phiếu: 1</h3>
+    </div>
+
+    <!-- Form Thêm/Sửa -->
+    <div class="form-container" id="form-container" style="display: none;">
+        <h2>Thêm/Sửa Chi Tiết Phiếu</h2>
+        <form id="detail-form">
+            <label for="MaMon">Mã Món:</label>
+            <input type="number" id="MaMon" name="MaMon" required>
+
+            <label for="SoLuong">Số Lượng:</label>
+            <input type="number" id="SoLuong" name="SoLuong" min="1" required>
+
+            <label for="GhiChu">Ghi Chú:</label>
+            <textarea id="GhiChu" name="GhiChu" maxlength="200"></textarea>
+
+            <button type="submit">Lưu</button>
+            <button type="button" onclick="closeForm()">Hủy</button>
+        </form>
+    </div>
+
+    <!-- Bảng danh sách chi tiết -->
+    <div class="table-container">
+        <h2>Danh Sách Chi Tiết</h2>
+        <button onclick="openForm()">Thêm Chi Tiết</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Món</th>
+                    <th>Tên Món</th>
+                    <th>Số Lượng</th>
+                    <th>Ghi Chú</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody id="detail-table">
+                <!-- Dữ liệu sẽ được thêm từ JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Giả lập dữ liệu chi tiết phiếu đặt món
+        const details = [
+            { MaPhieu: 1, MaMon: 1, TenMon: "Sushi Cá Hồi", SoLuong: 2, GhiChu: "Không cay" },
+            { MaPhieu: 1, MaMon: 2, TenMon: "Mì Udon", SoLuong: 1, GhiChu: "Thêm nước chấm" },
+        ];
+
+        // Hiển thị dữ liệu trong bảng
+        function loadDetails() {
+            const tableBody = document.getElementById("detail-table");
+            tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+            details.forEach((detail, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${detail.MaMon}</td>
+          <td>${detail.TenMon}</td>
+          <td>${detail.SoLuong}</td>
+          <td>${detail.GhiChu}</td>
+          <td>
+            <button onclick="editDetail(${index})">Sửa</button>
+            <button onclick="deleteDetail(${index})">Xóa</button>
+          </td>
+        `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Mở form
+        function openForm() {
+            document.getElementById("form-container").style.display = "block";
+        }
+
+        // Đóng form
+        function closeForm() {
+            document.getElementById("form-container").style.display = "none";
+        }
+
+        // Xóa chi tiết
+        function deleteDetail(index) {
+            if (confirm("Bạn có chắc chắn muốn xóa chi tiết này?")) {
+                details.splice(index, 1); // Xóa phần tử khỏi mảng
+                loadDetails(); // Cập nhật bảng
+            }
+        }
+
+        // Sửa chi tiết
+        function editDetail(index) {
+            const detail = details[index];
+            document.getElementById("MaMon").value = detail.MaMon;
+            document.getElementById("SoLuong").value = detail.SoLuong;
+            document.getElementById("GhiChu").value = detail.GhiChu;
+            openForm();
+        }
+
+        // Load dữ liệu khi mở trang
+        loadDetails();
+    </script>
+</body>
+
+</html>
