@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SuShiX</title>
+    <link rel="stylesheet" href="Dashboard.css">
+</head>
+
+<body>
+    <div class="header-container">
+        <img src="sushiX_logo.png" alt="SuShiX Logo" class="logo">
+        <h1 class="dashboard-title">Chào mừng Nhân viên!</h1>
+    </div>
+
+    <div class="menu-container">
+        <button class="menu-button" onclick="navigateTo('manageOrders')">Thêm/Xóa/Sửa Phiếu Đặt Món</button>
+        <button class="menu-button" onclick="navigateTo('managePayments')">Quản Lý Đơn Đặt Hàng và Thanh Toán</button>
+    </div>
+
+    <script>
+        function navigateTo(feature) {
+            if (feature === 'manageOrders') {
+                window.location.href = 'ManageOrders.html';
+            } else if (feature === 'managePayments') {
+                window.location.href = 'ManageOrdersAndPayments.html';
+            }
+        }
+    </script>
+</body>
+
+</html>
