@@ -1,0 +1,124 @@
+body {
+  background-color: #f7f5f2;
+  font-family: 'Rubik', sans-serif;
+  color: #2c2c2c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Header */
+.header-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #e63946;
+}
+
+/* Menu chính */
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menu-button {
+  background-color: #f7c843;
+  color: #2c2c2c;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  padding: 15px 30px;
+  width: 300px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-button:hover {
+  background-color: #e63946;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+/* Bảng hiển thị */
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Gộp viền bảng */
+    background-color: #f7f5f2;
+    /* Nền bảng sáng */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Hiệu ứng bóng */
+    margin-top: 20px;
+}
+
+.table-container th,
+.table-container td {
+    padding: 12px 15px;
+    /* Khoảng cách trong ô */
+    text-align: center;
+    /* Căn giữa nội dung */
+    border: 1px solid #e63946;
+    /* Đường viền đỏ đậm */
+}
+
+.table-container th {
+    background-color: #e63946;
+    /* Nền tiêu đề đỏ */
+    color: white;
+    /* Chữ màu trắng */
+    text-transform: uppercase;
+    /* Viết hoa chữ */
+    font-weight: bold;
+    /* In đậm */
+}
+
+.table-container td {
+    color: #2c2c2c;
+    /* Màu chữ tối */
+    background-color: #ffffff;
+    /* Nền trắng */
+}
+
+/* Hiệu ứng hover cho hàng */
+.table-container tr:hover td {
+    background-color: #f7c843;
+    /* Nền vàng khi hover */
+    color: #2c2c2c;
+    /* Chữ màu tối */
+}
+
+/* Nút sửa/xóa */
+.table-container button {
+    background-color: #f7c843;
+    /* Màu vàng nhạt */
+    color: #2c2c2c;
+    /* Chữ màu tối */
+    border: none;
+    border-radius: 6px;
+    /* Bo góc */
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.table-container button:hover {
+    background-color: #e63946;
+    /* Màu đỏ khi hover */
+    color: white;
+    /* Chữ màu trắng khi hover */
+}

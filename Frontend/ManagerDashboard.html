@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý - SuShiX</title>
+  <link rel="stylesheet" href="Dashboard.css">
+</head>
+
+<body>
+  <div class="header-container">
+    <img src="sushiX_logo.png" alt="SuShiX Logo" class="logo">
+    <h1 class="dashboard-title">Chào mừng Quản Lý!</h1>
+  </div>
+
+  <div class="menu-container">
+    <button class="menu-button" onclick="navigateTo('manageOrders')">Quản Lý Phiếu Đặt Món</button>
+    <button class="menu-button" onclick="navigateTo('manageInvoices')">Quản Lý Hóa Đơn</button>
+    <button class="menu-button" onclick="navigateTo('handleComplaints')">Xử Lý Khiếu Nại Khách Hàng</button>
+  </div>
+
+  <script>
+    function navigateTo(feature) {
+      if (feature === 'manageOrders') {
+        window.location.href = 'ManageOrders.html';
+      } else if (feature === 'manageInvoices') {
+        window.location.href = 'ManageInvoices.html';
+      } else if (feature === 'handleComplaints') {
+        window.location.href = 'HandleComplaints.html';
+      }
+    }
+  </script>
+</body>
+
+</html>
