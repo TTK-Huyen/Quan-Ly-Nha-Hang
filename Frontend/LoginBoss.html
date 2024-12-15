@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập - SuShiX</title>
+  <link rel="stylesheet" href="Login.css"> <!-- Liên kết tới file CSS -->
+</head>
+
+<body>
+  <!-- Logo nhà hàng -->
+  <div class="header-container">
+    <img src="sushiX_logo.png" alt="SuShiX Logo" class="logo">
+  </div>
+  <div class="signup-container">
+    <h2 class="signup-title">Đăng nhập</h2>
+    <form id="login-form">
+      <input type="text" id="username" name="username" placeholder="Tên đăng nhập" required>
+      <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
+      <button type="submit">Đăng nhập</button>
+    </form>
+  </div>
+  <script>
+    document.querySelector("#login-form").addEventListener("submit", function (event) {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      // Kiểm tra tên đăng nhập và mật khẩu
+      if (!username || !password) {
+        event.preventDefault();
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+      }
+
+      if (username === "quanly_sushix" && password === "QLCT@SuShiX2024") {
+        alert("Đăng nhập thành công!");
+        // Điều hướng đến trang Manager Dashboard
+        window.location.href = "ManagerDashboard.html";
+      } else {
+        event.preventDefault(); // Ngăn chặn form gửi nếu thông tin không đúng
+        alert("Tên đăng nhập hoặc mật khẩu không đúng!");
+      }
+    });
+  </script>
+</body>
+
+</html>
