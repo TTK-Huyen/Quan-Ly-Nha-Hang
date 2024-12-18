@@ -6,27 +6,15 @@
     <title>Menu - Sushi X</title>
     <link rel="stylesheet" href="styles_menu.css">
 </head>
-<body>
-    <!-- Navigation Bar -->
-    <nav>
-        <div class="logo">Sushi X</div>
-        <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="#about">About Us</a></li>
-        </ul>
-    </nav>
 
+<body>
+    <!-- Container -->
     <div class="menu-container">
         <!-- Sidebar -->
         <aside class="menu-sidebar">
             <h2>Menu Categories</h2>
-            <ul>
-                <li><a href="#appetizers">Appetizers (10)</a></li>
-                <li><a href="#sashimi-combo">Sashimi Combo (15)</a></li>
-                <li><a href="#nigiri-sushi">Nigiri Sushi (10)</a></li>
-                <li><a href="#set-lunch">Set Lunch (5)</a></li>
-                <li><a href="#maki">Maki (10)</a></li>
+            <ul id="menuCategories">
+                <!-- Danh mục sẽ được tải động từ API -->
             </ul>
         </aside>
 
@@ -375,8 +363,32 @@
         </section>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Sushi X. All rights reserved.</p>
     </footer>
+    <script>
+        // Hàm load danh mục từ API và thêm vào sidebar
+        async function loadMenuCategories() {
+            try {
+                const response = await fetch('/api/MucThucDon');
+                const categories = await response.json();
+
+                const menuCategories = document.getElementById('menuCategories');
+                menuCategories.innerHTML = ''; // Xóa nội dung cũ nếu có
+
+                categories.forEach(category => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="#category-${category.MaMuc}">${category.TenMuc}</a>`;
+                    menuCategories.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error loading menu categories:', error);
+                alert('Không thể tải danh sách danh mục. Vui lòng thử lại.');
+            }
+        }
+
+        // Gọi hàm khi DOM đã tải xong
+        document.addEventListener('DOMContentLoaded', loadMenuCategories);
+    </script>
 </body>
+

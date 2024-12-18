@@ -43,7 +43,7 @@ CREATE TABLE Mon
 	GiaHienTai DECIMAL(18,3) NOT NULL CHECK (GiaHienTai >= 0),
 	GiaoHang BIT DEFAULT 1 CHECK (GiaoHang IN (0,1)),
 	CONSTRAINT PK_Mon PRIMARY KEY (MaMon)
-
+)
 
 
 CREATE TABLE PhucVu
