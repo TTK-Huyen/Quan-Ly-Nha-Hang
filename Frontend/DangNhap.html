@@ -16,7 +16,8 @@
         <h2 class="signup-title">Bạn là ai?</h2>
         <div class="role-buttons">
             <button onclick="navigateToRole('staff')">Nhân viên</button>
-            <button onclick="navigateToRole('manager')">Quản lý</button>
+            <button onclick="navigateToRole('manager')">Quản lý Chi Nhánh</button>
+            <button onclick="navigateToRole('boss')">Quản lý Công Ty</button>
         </div>
     </div>
 
@@ -25,7 +26,9 @@
             if (role === "staff") {
                 window.location.href = "LoginNV.html"; // Giao diện nhân viên
             } else if (role === "manager") {
-                window.location.href = "Login.html"; // Giao diện quản lý
+                window.location.href = "Login.html"; // Giao diện quản lý cấp chi nhánh
+            } else if (role === "boss") {
+                window.location.href = "LoginBoss.html"; // Giao diện quản lý cấp công ty
             }
         }
     </script>
