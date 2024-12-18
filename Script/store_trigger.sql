@@ -691,4 +691,16 @@ BEGIN
 END;
 GO
 
+-- trigger thêm khách hàng, phân quyền cho khách hàng được thêm
+CREATE TRIGGER trg_InsertUserOnCustomerAdd
+ON KhachHang
+AFTER INSERT
+AS
+BEGIN 
+    SET NOCOUNT ON;
+
+    -- Thêm thông tin username(sđt) cùng mật khẩu SushiX_{phone_number}
+    INSERT INTO Users(id, username, password, role)
+    SELECT MaKhachHang, SoDienThoai, 'SushiX_' + SoDienThoai, 'customer'
+    FROM INSERTED
 

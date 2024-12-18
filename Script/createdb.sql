@@ -64,9 +64,8 @@ CREATE TABLE KhuVuc_ThucDon (
 -- Tạo bảng ThucDon_Mon
 CREATE TABLE ThucDon_Mon (
     MaKhuVuc TINYINT NOT NULL,
-    TenThucDon NVARCHAR(100) NOT NULL,
     MaMon TINYINT NOT NULL,
-    CONSTRAINT PK_ThucDon_Mon PRIMARY KEY (MaKhuVuc, TenThucDon, MaMon),
+    CONSTRAINT PK_ThucDon_Mon PRIMARY KEY (MaKhuVuc, MaMon),
     
 );
 
@@ -195,10 +194,20 @@ CREATE TABLE ThongTinTruyCap (
 	ThoiGianTruyCap TINYINT DEFAULT 0, -- Thời lượng khách hàng thao tác với website
 	ThoiDiemTruyCap DATETIME  NOT NULL, -- Thời điểm khách hàng truy cập vào website
 	PRIMARY KEY (MaKhachHang, MaDatTruoc), --Kết hợp 2 cột làm khóa chính
-	--note
-	--Khóa chính vì sao lại có mã đặt trước, những khách truy cập web mà không đặt thì sao, 
-	--nên là mã kh với thời điểm truy cập làm khóa chính
 );
+
+CREATE TABLE Users (
+    Id INT PRIMARY KEY,
+    Username CHAR(10) NOT NULL UNIQUE,
+    Password NVARCHAR(255) NOT NULL,
+    Role NVARCHAR(50) NOT NULL -- Vai trò: admin, user, etc.
+);
+
+CREATE TABLE Roles (
+    Role NVARCHAR(50) PRIMARY KEY,
+    Permissions NVARCHAR(MAX) -- Danh sách quyền, ví dụ: "add_product,view_orders"
+);
+
 
 -- ràng buộc constraint 
 ALTER TABLE ChiNhanh
@@ -278,5 +287,6 @@ ALTER TABLE KhuVuc_ThucDon
 ADD CONSTRAINT UQ_TenKhuVuc_TenThucDon UNIQUE (TenKhuVuc, TenThucDon),
     CONSTRAINT CK_KhuVuc_ThucDon_Ten CHECK (LEN(TenKhuVuc) > 0 AND LEN(TenThucDon) > 0);
 
-
-
+ALTER TABLE Users
+ADD CONSTRAINT FK_Users_KhachHang FOREIGN KEY (Id, Username) REFERENCES KhachHang(MaKhachHang, SoDienThoai),
+	CONSTRAINT FK_Users_Role FOREIGN KEY (Role) REFERENCES Roles(Role);

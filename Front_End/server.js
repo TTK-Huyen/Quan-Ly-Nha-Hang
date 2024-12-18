@@ -3,8 +3,9 @@ const sql = require('mssql');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-
+// Khởi tạo server
 const app = express();
+// Cổng mà server sẽ lắng nghe
 const port = 3000;
 
 // Phục vụ file tĩnh (HTML, CSS, JS)
