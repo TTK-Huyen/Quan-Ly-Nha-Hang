@@ -64,9 +64,8 @@ CREATE TABLE KhuVuc_ThucDon (
 -- Tạo bảng ThucDon_Mon
 CREATE TABLE ThucDon_Mon (
     MaKhuVuc TINYINT NOT NULL,
-    TenThucDon NVARCHAR(100) NOT NULL,
     MaMon TINYINT NOT NULL,
-    CONSTRAINT PK_ThucDon_Mon PRIMARY KEY (MaKhuVuc, TenThucDon, MaMon),
+    CONSTRAINT PK_ThucDon_Mon PRIMARY KEY (MaKhuVuc,  MaMon),
     
 );
 
