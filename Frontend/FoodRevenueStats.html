@@ -6,32 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.5">
     <title>Dashboard - SuShiX</title>
     <link rel="stylesheet" href="Dashboard.css">
+    <style>
+        /* CSS cho nút quay lại */
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Phần header -->
     <div class="header-container">
+        <button class="back-button" onclick="goBack()">Quay Lại</button>
         <img src="sushiX_logo.png" alt="SuShiX Logo" class="logo">
-        <h1 class="dashboard-title"></h1>
+        <h1 class="dashboard-title">Thống kê doanh thu món ăn</h1>
     </div>
 
     <!-- Khung chức năng -->
     <div class="dashboard-container">
         <div class="dashboard-box">
-            <h2 class="dashboard-subtitle">Thống kê doanh thu món ăn</h2>
+            <h2 class="dashboard-subtitle">Chọn thống kê</h2>
             <button class="menu-button" onclick="navigateTo('FoodStatsBranch')">Theo chi nhánh</button>
             <button class="menu-button" onclick="navigateTo('FoodStatsRegion')">Theo khu vực</button>
-
         </div>
     </div>
 
     <script>
         function navigateTo(feature) {
             if (feature === 'FoodStatsBranch') {
-                window.location.href = 'ChangeBranch.html';
+                window.location.href = 'FoodStatsBranch.html';
             } else if (feature === 'FoodStatsRegion') {
-                window.location.href = 'RevenueStats.html'; // Thống kê doanh thu
+                window.location.href = 'FoodStatsRegion.html';
             }
+        }
+
+        function goBack() {
+            // Quay lại trang trước đó
+            window.location.href = "DashboardCT.html";
         }
     </script>
 </body>
