@@ -6,10 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Chi Nhánh</title>
     <link rel="stylesheet" href="Dashboard.css">
+    <style>
+        /* CSS cho nút quay lại */
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Header -->
     <div class="header-container">
+        <button class="back-button" onclick="goBack()">Quay Lại</button>
         <h1>Quản Lý Chi Nhánh</h1>
     </div>
 
@@ -171,6 +192,11 @@
         // Đóng form
         function closeForm() {
             document.getElementById("form-container").style.display = "none";
+        }
+
+        // Hàm quay lại
+        function goBack() {
+            window.history.back();
         }
 
         // Load dữ liệu khi mở trang
