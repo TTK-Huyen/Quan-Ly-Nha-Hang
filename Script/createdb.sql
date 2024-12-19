@@ -1,7 +1,5 @@
-USE MASTER
+	USE MASTER
 GO
-ALTER DATABASE QLNHAHANG SET SINGLE_USER WITH ROLLBACK IMMEDIATE; 
-DROP DATABASE QLNHAHANG;
 
 IF DB_ID('QLNHAHANG') IS NOT NULL
 	DROP DATABASE QLNHAHANG
@@ -43,7 +41,7 @@ CREATE TABLE Mon
 	GiaHienTai DECIMAL(18,3) NOT NULL CHECK (GiaHienTai >= 0),
 	GiaoHang BIT DEFAULT 1 CHECK (GiaoHang IN (0,1)),
 	CONSTRAINT PK_Mon PRIMARY KEY (MaMon)
-
+)
 
 
 CREATE TABLE PhucVu
@@ -190,22 +188,15 @@ CREATE TABLE DatCho (
 
 CREATE TABLE ThongTinTruyCap (
 	MaKhachHang INT NOT NULL, --Khóa ngoại liên kết đến 'KhachHang'
-	MaDatTruoc INT  NOT NULL, -- Khóa ngoại liên kết đến 'DatTruoc'
+	SessionID INT PRIMARY KEY IDENTITY(1,1),-- Phiên đăng nhập của khách hàng
 	ThoiGianTruyCap TINYINT DEFAULT 0, -- Thời lượng khách hàng thao tác với website
-	ThoiDiemTruyCap DATETIME  NOT NULL, -- Thời điểm khách hàng truy cập vào website
-	PRIMARY KEY (MaKhachHang, MaDatTruoc), --Kết hợp 2 cột làm khóa chính
+	ThoiDiemTruyCap DATETIME DEFAULT GETDATE() NOT NULL, -- Thời điểm khách hàng truy cập vào website
 );
 
 CREATE TABLE Users (
-    Id INT PRIMARY KEY,
-    Username CHAR(10) NOT NULL UNIQUE,
+    Username NVARCHAR(10) PRIMARY KEY,
     Password NVARCHAR(255) NOT NULL,
-    Role NVARCHAR(50) NOT NULL -- Vai trò: admin, user, etc.
-);
-
-CREATE TABLE Roles (
-    Role NVARCHAR(50) PRIMARY KEY,
-    Permissions NVARCHAR(MAX) -- Danh sách quyền, ví dụ: "add_product,view_orders"
+    Role NVARCHAR(20) NOT NULL CHECK (Role IN ('khachhang', 'quanlychinhanh', 'quanlycongty', 'nhanvien')) -- Vai trò
 );
 
 
@@ -275,8 +266,7 @@ ADD CONSTRAINT FK_DatCho_Ban FOREIGN KEY (MaSoBan, MaChiNhanh) REFERENCES Ban(Ma
 
 -- Ràng buộc thông tin truy cập
 ALTER TABLE ThongTinTruyCap
-ADD CONSTRAINT FK_ThongTinTruyCap_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang),
-    CONSTRAINT FK_ThongTinTruyCap_DatTruoc FOREIGN KEY (MaDatTruoc) REFERENCES DatTruoc(MaDatTruoc);
+ADD CONSTRAINT FK_ThongTinTruyCap_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang)
 
 --Ràng buộc thực đơn - khu vực - thực đơn món
 ALTER TABLE ThucDon_Mon
@@ -287,6 +277,3 @@ ALTER TABLE KhuVuc_ThucDon
 ADD CONSTRAINT UQ_TenKhuVuc_TenThucDon UNIQUE (TenKhuVuc, TenThucDon),
     CONSTRAINT CK_KhuVuc_ThucDon_Ten CHECK (LEN(TenKhuVuc) > 0 AND LEN(TenThucDon) > 0);
 
-ALTER TABLE Users
-ADD CONSTRAINT FK_Users_KhachHang FOREIGN KEY (Id, Username) REFERENCES KhachHang(MaKhachHang, SoDienThoai),
-	CONSTRAINT FK_Users_Role FOREIGN KEY (Role) REFERENCES Roles(Role);
