@@ -699,8 +699,9 @@ AS
 BEGIN 
     SET NOCOUNT ON;
 
-    -- Thêm thông tin username(sđt) cùng mật khẩu SushiX_{phone_number}
-    INSERT INTO Users(id, username, password, role)
-    SELECT MaKhachHang, SoDienThoai, 'SushiX_' + SoDienThoai, 'customer'
+    -- Thêm thông tin username(sđt) cùng mật khẩu SushiX_{phone_number} vào bảng user với role khách hàng
+    INSERT INTO Users(username, password, role)
+    SELECT SoDienThoai, 'SushiX_' + SoDienThoai, 'khachhang'
     FROM INSERTED
-
+END
+GO
