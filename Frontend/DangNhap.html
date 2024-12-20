@@ -15,21 +15,16 @@
     <div class="signup-container">
         <h2 class="signup-title">Bạn là ai?</h2>
         <div class="role-buttons">
-            <button onclick="navigateToRole('staff')">Nhân viên</button>
-            <button onclick="navigateToRole('manager')">Quản lý Chi Nhánh</button>
-            <button onclick="navigateToRole('boss')">Quản lý Công Ty</button>
+            <button onclick="navigateToPage()">Nhân viên</button>
+            <button onclick="navigateToPage()">Quản lý Chi Nhánh</button>
+            <button onclick="navigateToPage()">Quản lý Công Ty</button>
         </div>
     </div>
 
     <script>
-        function navigateToRole(role) {
-            if (role === "staff") {
-                window.location.href = "LoginNV.html"; // Giao diện nhân viên
-            } else if (role === "manager") {
-                window.location.href = "Login.html"; // Giao diện quản lý cấp chi nhánh
-            } else if (role === "boss") {
-                window.location.href = "LoginBoss.html"; // Giao diện quản lý cấp công ty
-            }
+        function navigateToPage() {
+            // Điều hướng đến một trang cố định
+            window.location.href = 'Login.html'; // Đổi 'targetPage.html' thành URL mong muốn
         }
     </script>
 </body>
