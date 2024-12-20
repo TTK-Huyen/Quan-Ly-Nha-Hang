@@ -95,3 +95,47 @@
 .btn:hover {
     background-color: #F7C843;
 }
+
+
+
+.menu-group {
+    margin-bottom: 30px; /* Tạo khoảng cách giữa các nhóm thực đơn */
+}
+
+/* Group Title */
+.menu-group-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #B8001F;
+    text-align: left;
+    border-bottom: 2px solid #E63946;
+    padding-bottom: 5px;
+}
+
+/* Menu Group */
+.menu-group {
+    margin-bottom: 30px;
+}
+
+/* Menu Items (Sắp xếp các món ngang hàng) */
+.menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Khoảng cách giữa các món */
+}
+
+.menu-item {
+    width: 200px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}

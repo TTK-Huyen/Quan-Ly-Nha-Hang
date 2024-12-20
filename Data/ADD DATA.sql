@@ -14,7 +14,8 @@
 	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP09', N'Bộ phận Chăm sóc khách hàng', 5000000);
 	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP10', N'Bộ phận Hành chính',7000000);
 
-	select* from NhanVien
+	select* from Mon
+	
 	-- =======================
 	-- Thêm dữ liệu vào bảng KhuVuc
 	-- =======================

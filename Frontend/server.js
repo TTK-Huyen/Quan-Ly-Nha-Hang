@@ -205,17 +205,7 @@ app.post ('/api/deleteBranch', async(req, res) => {
 });
 
 
-// API lấy dữ liệu từ bảng KhuVuc
-app.get('/api/khuvuc', async (req, res) => {
-    try {
-        const pool = await sql.connect(config);
-        const result = await pool.request().query('SELECT * FROM KhuVuc');
-        res.json(result.recordset); // Trả dữ liệu dưới dạng JSON
-        await pool.close();
-    } catch (err) {
-        res.status(500).send('Lỗi: ' + err.message);
-    }
-});
+
 
 // API lấy dữ liệu từ bảng BoPhan
 app.get('/api/bophan', async (req, res) => {
@@ -252,4 +242,73 @@ app.get('/api/MucThucDon', async (req, res) => {
         res.status(500).json({ error: 'Lỗi khi tải danh sách mục thực đơn.' });
     }
 });
+
+
+
+app.get('/api/KhuVuc', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .query('SELECT MaKhuVuc, TenKhuVuc FROM KhuVuc_ThucDon');
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi lấy danh sách khu vực' });
+    }
+});
+
+app.get('/api/ThucDonMon', async (req, res) => {
+    const maKhuVuc = req.query.khuVuc;
+
+    try {
+        const pool = await sql.connect(config);
+        let query = `
+            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc
+            FROM ThucDon_Mon TDM
+            JOIN Mon M ON TDM.MaMon = M.MaMon
+        `;
+
+        if (maKhuVuc) {
+            query += ` WHERE TDM.MaKhuVuc = @MaKhuVuc`;
+        }
+
+        const result = await pool.request()
+            .input('MaKhuVuc', sql.TINYINT, maKhuVuc)
+            .query(query);
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi lấy thực đơn món theo khu vực.' });
+    }
+});
+
+
+
+app.get('/api/ThucDonMon', async (req, res) => {
+    const maKhuVuc = req.query.khuVuc;
+
+    try {
+        const pool = await sql.connect(config);
+        let query = `
+            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc
+            FROM ThucDon_Mon TDM
+            JOIN Mon M ON TDM.MaMon = M.MaMon
+        `;
+
+        if (maKhuVuc) {
+            query += ` WHERE TDM.MaKhuVuc = @MaKhuVuc`;
+        }
+
+        const result = await pool.request()
+            .input('MaKhuVuc', sql.TINYINT, maKhuVuc)
+            .query(query);
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi lấy thực đơn món theo khu vực.' });
+    }
+});
+
 
