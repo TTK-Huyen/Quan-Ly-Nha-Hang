@@ -29,6 +29,8 @@ const config = {
     },
 };
 
+
+
 // Middleware
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
@@ -311,4 +313,12 @@ app.get('/api/ThucDonMon', async (req, res) => {
     }
 });
 
-
+app.get('/api/checkDatabase', async (req, res) => {
+    try {
+        await sql.connect(config);
+        res.status(200).json({ message: 'Kết nối database thành công!' });
+    } catch (err) {
+        console.error('Lỗi khi kết nối đến database:', err.message);
+        res.status(500).json({ error: 'Không thể kết nối đến database.', details: err.message });
+    }
+});
