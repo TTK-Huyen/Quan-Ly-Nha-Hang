@@ -5,13 +5,13 @@ GO
 CREATE PROCEDURE THEM_CHI_NHANH @MACHINHANH TINYINT,@TENCHINHANH NVARCHAR(100), @DIACHI NVARCHAR(255), @THOIGIANMOCUA TIME, @THOIGIANDONGCUA TIME, @SDT VARCHAR(10), @BAIDOXEHOI BIT, @BAIDOXEMAY BIT, @NVQL CHAR(6), @MAKV TINYINT, @GIAOHANG BIT
 AS
 BEGIN
-	IF(@BAIDOXEHOI!=0 OR @BAIDOXEHOI!=1)
+	IF(@BAIDOXEHOI!=0 AND @BAIDOXEHOI!=1)
 		BEGIN
 			RAISERROR(N'Giá trị của thuộc tính bãi đỗ xe hơi chỉ là 0 hoặc 1',16,1)
 		END
 	ELSE
 		BEGIN
-			IF(@BAIDOXEMAY!=0 OR @BAIDOXEMAY!=1)
+			IF(@BAIDOXEMAY!=0 AND @BAIDOXEMAY!=1)
 				BEGIN
 					RAISERROR(N'Giá trị của thuộc tính bãi đỗ xe máy chỉ là 0 hoặc 1',16,1)
 				END
@@ -19,7 +19,7 @@ BEGIN
 				BEGIN
 					IF EXISTS (SELECT 1 FROM NhanVien AS NV WHERE NV.MaNhanVien=@NVQL)
 						BEGIN
-							IF(@GIAOHANG!=0 OR @GIAOHANG!=1)
+							IF(@GIAOHANG!=0 AND @GIAOHANG!=1)
 								BEGIN
 									RAISERROR(N'Giá trị của thuộc tính giao hàng chỉ có thể là 0 hoặc 1',16,1)
 								END
@@ -59,7 +59,6 @@ BEGIN
 			DELETE FROM LichSuLamViec WHERE MaChiNhanh = @MaChiNhanh;
 			DELETE FROM PhucVu WHERE MaChiNhanh = @MaChiNhanh;
 			DELETE FROM PhieuDatMon WHERE MaChiNhanh = @MaChiNhanh;
-			DELETE FROM DatTruoc WHERE MaChiNhanh = @MaChiNhanh;
 
 			-- Cuối cùng, xóa chi nhánh
 			DELETE FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh;
@@ -206,9 +205,7 @@ BEGIN
 END
 GO
 
-
-drop proc THEM_MON
-CREATE PROCEDURE THEM_MON  @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT, @ANHMON  VARBINARY(MAX)
+CREATE PROCEDURE THEM_MON  @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM Mon AS M WHERE M.TenMon=@TENMON)
@@ -223,10 +220,8 @@ BEGIN
 						BEGIN
 							IF(@GIAHIENTAI>0)
 								BEGIN
-									if (@ANHMON IS NULL)
 										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
-									else
-										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang, AnhMon) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG, @ANHMON)
+						
 								END
 							ELSE
 								BEGIN
@@ -247,14 +242,38 @@ END
 GO
 
 
-CREATE PROCEDURE THEMMON_VAOTHUCDON @MATHUCDON TINYINT, @MAMON SMALLINT
+CREATE PROCEDURE THEMMON_VAOTHUCDON @MAKHUVUC TINYINT, @MAMON SMALLINT
 AS
 BEGIN
-	IF EXISTS(SELECT 1 FROM ThucDon AS TD WHERE TD.MaThucDon=@MATHUCDON)
+	IF EXISTS(SELECT 1 FROM KhuVuc_ThucDon AS KT WHERE KT.MaKhuVuc=@MAKHUVUC)
 		BEGIN
 			IF EXISTS(SELECT 1 FROM Mon AS M WHERE M.MaMon=@MAMON)
 				BEGIN
-					DELETE FROM ThucDon_Mon WHERE MaThucDon=@MATHUCDON AND MaMon=@MAMON
+					INSERT INTO ThucDon_Mon (MaKhuVuc,  MaMon) 
+					VALUES (@MAKHUVUC ,@MAMON );
+				END
+			ELSE
+				BEGIN
+					RAISERROR(N'Không tìm thấy món phù hợp',16,1);
+				END
+		END
+	ELSE
+		BEGIN
+			RAISERROR(N'Không tìm thấy mã thực đơn phù hợp',16,1);
+		END
+END
+GO
+
+
+
+CREATE PROCEDURE XOAMON_KHOITHUCDON @MAKHUVUC TINYINT, @MAMON SMALLINT
+AS
+BEGIN
+	IF EXISTS(SELECT 1 FROM KhuVuc_ThucDon AS KT WHERE KT.MaKhuVuc=@MAKHUVUC)
+		BEGIN
+			IF EXISTS(SELECT 1 FROM Mon AS M WHERE M.MaMon=@MAMON)
+				BEGIN
+					DELETE FROM ThucDon_Mon WHERE MaKhuVuc = @MAKHUVUC  AND MaMon = @MAMON
 				END
 			ELSE
 				BEGIN
@@ -270,46 +289,22 @@ GO
 
 
 
-CREATE PROCEDURE XOAMON_KHOITHUCDON @MATHUCDON TINYINT, @MAMON SMALLINT
-AS
-BEGIN
-	IF EXISTS(SELECT 1 FROM ThucDon AS TD WHERE TD.MaThucDon=@MATHUCDON)
-		BEGIN
-			IF EXISTS(SELECT 1 FROM Mon AS M WHERE M.MaMon=@MAMON)
-				BEGIN
-					INSERT INTO ThucDon_Mon (MaThucDon, MaMon) VALUES (@MATHUCDON, @MAMON)
-				END
-			ELSE
-				BEGIN
-					RAISERROR(N'Không tìm thấy món phù hợp',16,1)
-				END
-		END
-	ELSE
-		BEGIN
-			RAISERROR(N'Không tìm thấy mã thực đơn phù hợp',16,1)
-		END
-END
-GO
 
 
 
 
-
-
-								
-
-
-							
+				
 --Store procedure PHÂN HỆ NHÂN VIÊN SP  TẠO PHIẾU ĐẶT MÓN
 CREATE PROC THEMPDM
 	@NhanVienLap CHAR(6),
 	@MaSoBan CHAR(2),
-	@MaKhachHang BIGINT,
-	@MaChiNhanh TINYINT
+	@SoDienThoai char(10),
+	@MaChiNhanh TINYINT,
+	@MaPhieu INT OUTPUT -- Thêm OUTPUT 
 AS
 BEGIN
 	--Kiểm tra nhân viên có tồn tại không
-	IF NOT EXISTS (SELECT 1
+	IF @NhanVienLap IS NOT NULL AND NOT EXISTS (SELECT 1
 	FROM NhanVien
 	WHERE MaNhanVien = @NhanVienLap
 	)
@@ -326,15 +321,7 @@ BEGIN
 		RAISERROR (N'Mã bàn nhập vào không có trong hệ thống',16,1);
 		RETURN;
 	END;
-	--Kiểm tra mã khách hàng có tồn tại không
-	IF @MaKhachHang IS NOT NULL AND NOT EXISTS (SELECT 1
-	FROM KhachHang
-	WHERE MaKhachHang = @MaKhachHang
-	)
-	BEGIN
-		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
-		RETURN;
-	END;
+
 	 -- Kiểm tra mã chi nhánh
     IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
     BEGIN
@@ -342,14 +329,104 @@ BEGIN
         RETURN;
     END;
 
-	
+	BEGIN TRANSACTION
 	INSERT INTO PhieuDatMon
-	VALUES (GETDATE(),@NhanVienLap, @MaSoBan, @MaKhachHang,@MaChiNhanh);
+	VALUES (GETDATE(),@NhanVienLap, @MaSoBan, @SoDienThoai,@MaChiNhanh);
+	SET @MaPhieu = SCOPE_IDENTITY();
+
+    COMMIT TRANSACTION;
 	
 END
 GO
 
+CREATE PROC DAT_TRUOC
+    @MaKhachHang BIGINT,
+    @SoDienThoai CHAR(10),
+    @MaChiNhanh TINYINT,
+    @SoLuongKhach TINYINT,
+    @GioDen DATETIME,
+    @GhiChu NVARCHAR(255),
+    @NhanVienLap CHAR(6) = NULL -- Cho phép NULL
+AS
+BEGIN
+    BEGIN TRANSACTION;
 
+    -- Kiểm tra khách hàng
+    IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)
+    BEGIN
+        RAISERROR(N'Mã khách hàng không tồn tại!', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Kiểm tra chi nhánh
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
+    BEGIN
+        RAISERROR(N'Mã chi nhánh không tồn tại!', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Tìm bàn phù hợp
+    DECLARE @MaSoBan TINYINT;
+
+    ;WITH AvailableTables AS (
+        SELECT 
+            B.MaSoBan, 
+            B.SucChua, 
+            ABS(B.SucChua - @SoLuongKhach) AS Distance
+        FROM Ban AS B
+        WHERE 
+            B.MaChiNhanh = @MaChiNhanh -- Lọc theo chi nhánh
+            AND B.TrangThai = 0 -- Bàn phải trống
+            AND B.SucChua >= @SoLuongKhach -- Sức chứa phải >= số lượng khách
+    )
+    SELECT TOP 1 
+        @MaSoBan = MaSoBan
+    FROM AvailableTables
+    ORDER BY Distance ASC, SucChua ASC;
+
+    -- Nếu không tìm thấy bàn phù hợp
+    IF @MaSoBan IS NULL
+    BEGIN
+        RAISERROR(N'Không có bàn phù hợp cho số lượng khách!', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Gọi thủ tục THEMPDM để tạo phiếu đặt món
+    DECLARE @MaPhieu INT;
+
+    BEGIN TRY
+		EXEC THEMPDM 
+			@NhanVienLap = @NhanVienLap, 
+			@MaSoBan = @MaSoBan,
+			@SoDienThoai = @SoDienThoai, 
+			@MaChiNhanh = @MaChiNhanh,
+			@MaPhieu = @MaPhieu OUTPUT; -- Lấy giá trị từ OUTPUT
+	END TRY
+	BEGIN CATCH
+		RAISERROR(N'Lỗi khi tạo phiếu đặt món.', 16, 1);
+		ROLLBACK TRANSACTION;
+		RETURN;
+	END CATCH;
+
+		-- Cập nhật trạng thái bàn
+    UPDATE Ban
+    SET TrangThai = 1
+    WHERE MaSoBan = @MaSoBan AND MaChiNhanh = @MaChiNhanh;
+
+    -- Chèn dữ liệu vào bảng DatTruoc
+    INSERT INTO DatTruoc (MaPhieu, MaKhachHang, SoDienThoai, ChiNhanh, SoLuongKhach, NgayDat ,GioDen, GhiChu)
+    VALUES (@MaPhieu, @MaKhachHang,  @SoDienThoai, @MaChiNhanh, @SoLuongKhach, GETDATE(),@GioDen, @GhiChu);
+
+    COMMIT TRANSACTION;
+    PRINT 'Đặt bàn thành công!';
+END;
+GO
+
+
+			
 
 --SP CẬP NHẬT PHIẾU ĐẶT MÓN: CHỈNH SỬA SỐ LƯỢNG VÀ GHI CHÚ MÓN, KHÔNG ĐƯỢC XÓA
 CREATE PROC NVSUAPDM
@@ -415,12 +492,12 @@ GO
 
 --SP XEM PDM THEO MÃ PDM
 CREATE FUNCTION THEODOIPDM (@MaPhieu BIGINT)
-RETURNS @KETQUA TABLE (MAPHIEU BIGINT, NGAYLAP DATETIME, NHANVIENLAP CHAR(6), MASOBAN CHAR(2), MAKHACHHANG BIGINT)
+RETURNS @KETQUA TABLE (MAPHIEU BIGINT, NGAYLAP DATETIME, NHANVIENLAP CHAR(6), MASOBAN CHAR(2), SODIENTHOAI CHAR(10))
 AS
 BEGIN
-	INSERT INTO @KETQUA  (MAPHIEU, NGAYLAP, NHANVIENLAP , MASOBAN , MAKHACHHANG )
-	SELECT MaPhieu, NgayLap, NhanVienLap, MaSoBan, MaKhachHang
-	FROM PhieuDatMon
+	INSERT INTO @KETQUA  (MAPHIEU, NGAYLAP, NHANVIENLAP , MASOBAN , SODIENTHOAI )
+	SELECT MaPhieu, NgayLap, NhanVienLap, MaSoBan, SODIENTHOAI
+	FROM PhieuDatMon 
 	WHERE MaPhieu = @MaPhieu
 
 	RETURN;
@@ -509,11 +586,11 @@ BEGIN
     SELECT 
         h.MaPhieu AS [Số hóa đơn],
         h.NgayLap AS [Ngày lập hóa đơn],
-        p.MaKhachHang AS [Mã khách hàng],
+        k.MaKhachHang AS [Mã khách hàng],
         k.HoTen AS [Tên khách hàng]
     FROM HoaDon h
     INNER JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
-    LEFT JOIN KhachHang k ON p.MaKhachHang = k.MaKhachHang
+    LEFT JOIN KhachHang k ON  p.SODIENTHOAI = k.SoDienThoai
     WHERE h.MaPhieu = @MaPhieu;
 
     PRINT N'---------- DANH SÁCH MÓN ĂN -----------'
@@ -1096,6 +1173,9 @@ BEGIN
 END;
 --4. ĐẶT BÀN TRỰC TUYẾN -- khi khách hàng đến, nhân viên sẽ kiểm tra các phiếu đặt món của khách hàng mà chưa có hóa đơn
 -- Bổ sung thêm như quy trình trên mess đã miêu tả
+
+
+
 CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
 	@MaKhachHang BIGINT, @MaChiNhanh TINYINT, @SoLuongKhach TINYINT,
 	@GioDen DATETIME, @GhiChu NVARCHAR(255)

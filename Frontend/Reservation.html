@@ -13,6 +13,7 @@
             <ul>
                 <li><a href="home.html">Home</a></li>
                 <li><a href="menu.html">Menu</a></li>
+                <li><a href="Reservation.html">Reservation</a></li>
                 <li><a href="#about">About Us</a></li>
             </ul>
         </nav>
@@ -21,38 +22,48 @@
         <div class="logo">
             <img src="sushiX_logo.png" alt="logo" class="logo">
         </div>
-
         <div class="box_Reservation">
             <p class="Reservation_text">Reservation</p>
-        
-            <p>Customer ID</p>
-            <input type="text" id="MaKhachHang" placeholder="Enter your ID">
-        
-            <p>Phone Number</p>
-            <input type="tel" id="SoDienThoai" placeholder="Enter your phone number">
-        
-            <p>Choose Branch</p>
-            <div class="dropdown_branch">
-                <select id="MaKhuVuc" name="MaKhuVuc" required>
-                    <option value="" disabled selected>Branch</option>
-                </select>
+            
+            <div class="form-group">
+                <p>Customer ID</p>
+                <input type="text" id="MaKhachHang" placeholder="Enter your ID">
             </div>
         
-            <p>Address</p>
-            <div class="dropdown_address">
-                <select id="MaChiNhanh" name="MaChiNhanh" required>
-                    <option value="" disabled selected>Address</option>
-                </select>
+            <div class="form-group">
+                <p>Phone Number</p>
+                <input type="tel" id="SoDienThoai" placeholder="Enter your phone number">
             </div>
         
-            <p>Number of people</p>
-            <input type="number" id="SoLuongKhach">
+            <div class="branch-address-group">
+                <div class="form-group">
+                    <p>Branch</p>
+                    <select id="MaKhuVuc" name="MaKhuVuc" required>
+                        <option value="" disabled selected>Branch</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <p>Address</p>
+                    <select id="MaChiNhanh" name="MaChiNhanh" required>
+                        <option value="" disabled selected>Address</option>
+                    </select>
+                </div>
+            </div>
         
-            <p>Time</p>
-            <input type="datetime-local" id="GioDen">
+            <div class="form-group">
+                <p>Number of people</p>
+                <input type="number" id="SoLuongKhach">
+            </div>
         
-            <p>Note</p>
-            <input type="text" id="GhiChu">
+            <div class="form-group">
+                <p>Time</p>
+                <input type="datetime-local" id="GioDen">
+            </div>
+        
+            <div class="form-group">
+                <p>Note</p>
+                <input type="text" id="GhiChu">
+            </div>
         
             <button type="button" onclick="submitForm()">Thêm đặt trước</button>
         </div>
