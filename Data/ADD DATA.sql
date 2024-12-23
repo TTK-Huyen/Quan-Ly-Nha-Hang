@@ -1,6 +1,4 @@
 	USE QLNHAHANG;
-	
-	SELECT * FROM ChiNhanh
 	-- =======================
 	-- Thêm dữ liệu vào bảng BoPhan
 	-- =======================
@@ -616,7 +614,7 @@
 	WHERE MaChiNhanh = 15
 
 
-	INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (1, 1, 0, 9);
+INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (1, 1, 0, 9);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (2, 1, 0, 14);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (3, 1, 0, 9);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (4, 1, 0, 19);
