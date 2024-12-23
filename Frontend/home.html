@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sushi X</title>
-    <link rel="stylesheet" href="styles_home.css">
+    <link rel="stylesheet" href="/styles_home.css">
+    <style>
+        /* Ẩn nút Logout mặc định */
+        #login, #logout {
+            display: none; /* Mặc định ẩn cả hai nút */
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -16,6 +22,8 @@
         <li><a href="#menu">Home</a></li>
         <li><a href="menu.html">Order Online</a></li> 
         <li><a href="#about">About Us</a></li>
+        <li id="login"><a href="DangNhap.html">Login</a></li>
+        <li id="logout"><a href="#" id="logoutLink">Logout</a></li>
     </ul>
 </nav>
 
@@ -24,6 +32,7 @@
     <h1>Welcome to Sushi X</h1>
     <p>Best food, good mood!</p>
     <a href="menu.html" class="btn">Order Online</a> 
+
 </div>
 
 
@@ -117,6 +126,10 @@
     <footer>
         <p>&copy; 2024 Sushi X. All rights reserved.</p>
     </footer>
-    
+
+
+    <!-- Import JavaScript dùng chung -->
+    <script src="common.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <title>Thống Kê Doanh Thu - SuShiX</title>
+    <link rel="stylesheet" href="Dashboard.css">
+    <style>
+        /* CSS thêm cho nút quay lại */
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header-container">
+        <button class="back-button" onclick="goBack()">Quay Lại</button>
+        <h1 class="dashboard-title">Thống Kê Doanh Thu Theo Chi Nhánh</h1>
+    </div>
+
+    <!-- Thanh tìm kiếm -->
+    <div class="search-container">
+        <label for="branch-search">Tìm kiếm chi nhánh:</label>
+        <input type="text" id="branch-search" placeholder="Nhập tên chi nhánh...">
+        <button onclick="searchBranch()">Tìm Kiếm</button>
+    </div>
+
+    <!-- Bảng kết quả -->
+    <div class="table-container">
+        <h2>Kết Quả Tìm Kiếm</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Chi Nhánh</th>
+                    <th>Tên Chi Nhánh</th>
+                    <th>Doanh Thu (VND)</th>
+                </tr>
+            </thead>
+            <tbody id="search-results">
+                <!-- Kết quả sẽ hiển thị ở đây -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Dữ liệu giả lập doanh thu
+        const revenueData = [
+            { MaChiNhanh: 1, TenChiNhanh: "Chi Nhánh A", DoanhThu: 150000000 },
+            { MaChiNhanh: 2, TenChiNhanh: "Chi Nhánh B", DoanhThu: 200000000 },
+            { MaChiNhanh: 3, TenChiNhanh: "Chi Nhánh C", DoanhThu: 100000000 },
+        ];
+
+        // Hàm tìm kiếm chi nhánh
+        function searchBranch() {
+            const searchInput = document.getElementById("branch-search").value.trim().toLowerCase();
+            const resultsTable = document.getElementById("search-results");
+            resultsTable.innerHTML = ""; // Xóa kết quả cũ
+
+            // Lọc dữ liệu dựa trên từ khóa
+            const filteredBranches = revenueData.filter(branch =>
+                branch.TenChiNhanh.toLowerCase().includes(searchInput)
+            );
+
+            if (filteredBranches.length > 0) {
+                // Hiển thị kết quả tìm kiếm
+                filteredBranches.forEach(branch => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${branch.MaChiNhanh}</td>
+                        <td>${branch.TenChiNhanh}</td>
+                        <td>${branch.DoanhThu.toLocaleString('vi-VN')}</td>
+                    `;
+                    resultsTable.appendChild(row);
+                });
+            } else {
+                // Hiển thị thông báo không tìm thấy
+                const row = document.createElement("tr");
+                row.innerHTML = `<td colspan="3">Không tìm thấy chi nhánh phù hợp</td>`;
+                resultsTable.appendChild(row);
+            }
+        }
+
+        // Quay lại Dashboard
+        function goBack() {
+            window.location.href = "RevenueStats.html";
+        }
+    </script>
+</body>
+
+</html>
