@@ -3,6 +3,10 @@
 
 -- phân hệ chi nhánh
 -- phân hệ khách hàng
+CREATE NONCLUSTERED INDEX idx_KhachHang_SoCCCD ON KhachHang (SoCCCD);
+CREATE NONCLUSTERED INDEX idx_KhachHang_SoDienThoai ON KhachHang (SoDienThoai);
+CREATE NONCLUSTERED INDEX idx_KhachHang_Email ON KhachHang (Email);
+
 CREATE INDEX idx_PhieuDatMon on PhieuDatMon(MaChiNhanh,MaKhachHang)
 CREATE INDEX idx_ChiTietPhieu on ChiTietPhieu(MaMon)
 CREATE INDEX idx_HoaDon on HoaDon(NgayLap)

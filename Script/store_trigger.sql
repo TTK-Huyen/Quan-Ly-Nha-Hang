@@ -464,7 +464,7 @@ BEGIN
 END;
 GO
 
-
+/*
 -- Kiểm tra thời gian xuất hóa đơn phải sau thời gian lập phiếu.
 CREATE TRIGGER trg_ValidateInvoiceTime
 ON HoaDon
@@ -499,6 +499,42 @@ BEGIN
     JOIN inserted i ON pd.MaPhieu = i.MaPhieu;
 END;
 GO
+*/
+-- Công thức điểm khách hàng
+-- Điểm hiện tại : tổng hóa đơn từ khi lập thẻ đến bây giờ/100000 
+-- Điểm tích lũy : tổng hóa đơn từ ngày lập thẻ năm hiện tại đến bây giờ/100000
+CREATE TRIGGER trg_CapNhatDiemHienTai
+ON HoaDon
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON; -- Tắt thông báo về số hàng bị ảnh hưởng
+
+    -- Cập nhật DiemHienTai của khách hàng dựa trên các hóa đơn
+    UPDATE TheKhachHang
+    SET 
+        DiemHienTai = (
+            SELECT ISNULL(SUM(h.TongTien / 100000), 0)
+            FROM HoaDon h
+            JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
+            WHERE p.MaKhachHang = TheKhachHang.MaKhachHang
+              AND h.NgayLap >= TheKhachHang.NgayLap
+        )
+    WHERE EXISTS (
+        SELECT 1
+        FROM inserted i
+        JOIN PhieuDatMon p ON i.MaPhieu = p.MaPhieu
+        WHERE p.MaKhachHang = TheKhachHang.MaKhachHang
+    )
+    OR EXISTS (
+        SELECT 1
+        FROM deleted d
+        JOIN PhieuDatMon p ON d.MaPhieu = p.MaPhieu
+        WHERE p.MaKhachHang = TheKhachHang.MaKhachHang
+    );
+END;
+GO
+
 
 -- Sau khi thanh toán hóa đơn, nhờ khách hàng đánh giá.
 CREATE TRIGGER trg_RequestFeedback
@@ -655,4 +691,17 @@ BEGIN
 END;
 GO
 
+-- trigger thêm khách hàng, phân quyền cho khách hàng được thêm
+CREATE TRIGGER trg_InsertUserOnCustomerAdd
+ON KhachHang
+AFTER INSERT
+AS
+BEGIN 
+    SET NOCOUNT ON;
 
+    -- Thêm thông tin username(sđt) cùng mật khẩu SushiX_{phone_number} vào bảng user với role khách hàng
+    INSERT INTO Users(username, password, role)
+    SELECT SoDienThoai, 'SushiX_' + SoDienThoai, 'khachhang'
+    FROM INSERTED
+END
+GO

@@ -22,13 +22,52 @@
     </form>
   </div>
   <script>
-    document.querySelector("#login-form").addEventListener("submit", function (event) {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
+    document.querySelector("#login-form").addEventListener("submit", async function (event) {
+      event.preventDefault(); // Ngăn trình duyệt reload trang
+  
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+  
       if (!username || !password) {
-        event.preventDefault();
         alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+      }
+  
+      console.log("Thông tin đăng nhập:", { username, password }); // Kiểm tra dữ liệu
+      
+      try {
+        // Gửi thông tin đăng nhập tới server
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password })
+          
+        });
+        const data = await response.json();
+        if (response.ok) {
+          alert("Đăng nhập thành công!");
+
+          // Chuyển hướng dựa trên vai trò
+          if (data.role === 'quanlychinhanh') {
+              window.location.href = '/ManagerDashboard.html'; // Trang quản trị chi nhánh
+          } else if (data.role === 'khachhang') {
+              window.location.href = '/home.html'; // Trang người dùng
+          } else if (data.role === 'khachhang') {
+              window.location.href = '/Dashboard.html'; // Trang nhân viên
+          }  else if (data.role === 'quanlycongty') {
+            window.location.href = '/home.html'; // Trang quản trị công ty
+          } else {
+              alert("Vai trò không xác định, vui lòng liên hệ quản trị viên!");
+          }
+        } else {
+            alert(data.error || 'Đăng nhập thất bại!');
+        }
+   
+      } catch (err) {
+        console.error('Lỗi khi gửi yêu cầu đăng nhập:', err);
+        alert('Lỗi server, vui lòng thử lại sau!');
       }
     });
   </script>

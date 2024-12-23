@@ -1,0 +1,137 @@
+:root
+{
+    --text_font:"Comic Sans MS", cursive;
+    --text-color:black;
+    --back_ground_color:#ebdab7;
+    --text_box_color:#F7C843;
+}
+
+.background
+{
+    background-color: var(--back_ground_color);
+}
+
+.logo
+{
+    width:8vw;
+    height:14vh;
+    margin-top:0vh;
+    margin-left: -1vw;
+    position:absolute
+}
+
+.UpdateSalary_text
+{
+    color:var(--text-color);
+    font-family: var(--text_font);
+    font-weight: bold;
+    font-size: 8vh;
+    margin-left:35vw;
+    position: absolute;
+}
+
+.search-container .search-input
+{
+    width:20vw;
+    height:4vh;
+    border-radius: 0.5vw;
+    position: absolute;
+    margin-top: 25vh;
+    margin-left:35vw;
+    
+}
+
+.search-container .search-button
+{
+    width:5vw;
+    height:5vh;
+    position: absolute;
+    font-family: var(--text_font);
+    font-size:1.5vh;
+    border-radius: 0.5vw;
+    color:var(--text_box_color);
+    background-color: rgba(230, 57, 70, 0.9);
+    border-color:rgba(230, 57, 70, 0.9);
+    margin-top: 25vh;
+    margin-left: 57vw;
+    position: absolute;
+
+}
+
+.Salary-table
+{
+    width: 50vw;
+    border-collapse: collapse;
+    /* Gộp viền bảng */
+    background-color: #f7f5f2;
+    /* Nền bảng sáng */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Hiệu ứng bóng */
+    margin-top: 20px;
+    font-family: var(--text_font);
+    position: absolute;
+    margin-top:35vh;
+    margin-left:23vw;
+    
+    
+}
+
+.Salary-table th,
+.Salary-table td {
+    padding: 12px 15px;
+    /* Khoảng cách trong ô */
+    text-align: center;
+    /* Căn giữa nội dung */
+    border: 1px solid #e63946;
+    /* Đường viền đỏ đậm */
+    font-family: var(--text_font);
+}
+
+.Salary-table th {
+    background-color: #e63946;
+    /* Nền tiêu đề đỏ */
+    color: white;
+    /* Chữ màu trắng */
+    text-transform: uppercase;
+    /* Viết hoa chữ */
+    font-weight: bold;
+    /* In đậm */
+    font-family: var(--text_font);
+}
+
+.Salary-table td {
+    color: #2c2c2c;
+    /* Màu chữ tối */
+    background-color: #ffffff;
+    /* Nền trắng */
+    font-family: var(--text_font);
+}
+
+/* Hiệu ứng hover cho hàng */
+.Salary-table tr:hover td {
+    background-color: #f7c843;
+    /* Nền vàng khi hover */
+    color: #2c2c2c;
+    /* Chữ màu tối */
+    font-family: var(--text_font);
+}
+
+.Salary-table button {
+    background-color: #f7c843;
+    /* Màu vàng nhạt */
+    color: #2c2c2c;
+    /* Chữ màu tối */
+    border: none;
+    border-radius: 6px;
+    /* Bo góc */
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.Salary-table button:hover {
+    background-color: #e63946;
+    /* Màu đỏ khi hover */
+    color: white;
+    /* Chữ màu trắng khi hover */
+}
