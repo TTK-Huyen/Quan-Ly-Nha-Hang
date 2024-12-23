@@ -64,7 +64,6 @@ CREATE TABLE ThucDon_Mon (
     MaKhuVuc TINYINT NOT NULL,
     MaMon TINYINT NOT NULL,
     CONSTRAINT PK_ThucDon_Mon PRIMARY KEY (MaKhuVuc, MaMon),
-    
 );
 
 

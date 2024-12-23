@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Nhân Viên</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 500px; margin: auto; }
+        label { display: block; margin-bottom: 5px; }
+        input, select, button { width: 100%; margin-bottom: 15px; padding: 10px; font-size: 16px; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        #message { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Thêm Nhân Viên</h1>
+    <form id="addEmployeeForm">
+        <label for="HoTen">Họ tên:</label>
+        <input type="text" id="HoTen" name="HoTen" required>
+
+        <label for="NgaySinh">Ngày sinh:</label>
+        <input type="date" id="NgaySinh" name="NgaySinh" required>
+
+        <label for="GioiTinh">Giới tính:</label>
+        <select id="GioiTinh" name="GioiTinh" required>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+        </select>
+
+        <label for="NgayVaoLam">Ngày vào làm:</label>
+        <input type="date" id="NgayVaoLam" name="NgayVaoLam" required>
+
+        <label for="MaBoPhan">Mã bộ phận:</label>
+        <select id="MaBoPhan" name="MaBoPhan" required>
+            <option value="" disabled selected>Chọn bộ phận</option>
+        </select>
+
+        <label for="MaChiNhanh">Mã chi nhánh:</label>
+        <select id="MaChiNhanh" name="MaChiNhanh" required>
+            <option value="" disabled selected>Chọn chi nhánh</option>
+        </select>
+
+        <button type="button" onclick="submitForm()">Thêm Nhân Viên</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        async function loadBoPhan() {
+            try {
+                const response = await fetch('/api/boPhan');
+                const boPhanList = await response.json();
+                
+                const select = document.getElementById('MaBoPhan');
+                boPhanList.forEach(boPhan => {
+                    const option = document.createElement('option');
+                    option.value = boPhan.MaBoPhan;
+                    option.textContent = `${boPhan.MaBoPhan} - ${boPhan.TenBoPhan}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading BoPhan:', error);
+                alert('Không thể tải danh sách bộ phận. Vui lòng thử lại.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadBoPhan);
+
+        async function loadChiNhanh(){
+            try{
+                const response = await fetch('/api/ChiNhanh');
+                const ChiNhanhList = await response.json();
+
+                const select = document.getElementById('MaChiNhanh');
+                ChiNhanhList.forEach(ChiNhanh => {
+                    const option = document.createElement('option');
+                    option.value = ChiNhanh.MaChiNhanh;
+                    option.textContent = `${ChiNhanh.MaChiNhanh} - ${ChiNhanh.TenChiNhanh}- ${ChiNhanh.DiaChi}`;
+                    select.appendChild(option);
+                });
+            }catch(error){
+                console.error('Error loading ChiNhanh:', error);
+                alert('Không thể tải danh sách ChiNhanh. Vui lòng thử lại.');
+            }
+            
+        }
+        document.addEventListener('DOMContentLoaded', loadChiNhanh);
+
+
+
+        async function submitForm() {
+            const formData = {
+                HoTen: document.getElementById('HoTen').value,
+                NgaySinh: document.getElementById('NgaySinh').value,
+                GioiTinh: document.getElementById('GioiTinh').value,
+                NgayVaoLam: document.getElementById('NgayVaoLam').value,
+                MaBoPhan: document.getElementById('MaBoPhan').value,
+                MaChiNhanh: parseInt(document.getElementById('MaChiNhanh').value),
+            };
+
+            try {
+                const response = await fetch('/api/addEmployee', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                document.getElementById('message').innerText = result.message || result.error;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('message').innerText = 'Lỗi: Không thể thêm nhân viên.';
+            }
+        }
+    </script>
+</body>
+</html>

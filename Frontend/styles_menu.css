@@ -139,3 +139,10 @@
     object-fit: cover;
     border-radius: 10px;
 }
+
+.menu-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
