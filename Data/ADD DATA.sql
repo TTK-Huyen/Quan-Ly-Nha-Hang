@@ -1,4 +1,5 @@
 	USE QLNHAHANG;
+
 	-- =======================
 	-- Thêm dữ liệu vào bảng BoPhan
 	-- =======================
@@ -228,7 +229,7 @@
 	EXEC THEMNV N'Tyler Gray', '1993-02-11', N'Nữ' , '2021-02-18', 'BP10', 9;
 	EXEC THEMNV N'Ronald Tran', '1965-08-18', N'Nữ' , '2022-08-05', 'BP05', 9;
 	EXEC THEMNV N'Joseph Perry', '1972-10-22', N'Nam' , '2021-10-31', 'BP08', 1;
-	EXEC THEMNV N'Angelica Jackson', '1968-08-18', N'Nam' , '2021-08-20', 'BP04', 11;
+	EXEC THEMNV N'Angelica Jackson', '1968-08-18', N'Nam' , '2021-08- 20', 'BP04', 11;
 	EXEC THEMNV N'Patricia Brown', '1976-12-03', N'Nam' , '2022-03-10', 'BP02', 6;
 	EXEC THEMNV N'Susan Lindsey', '1985-11-26', N'Nam' , '2024-07-03', 'BP06', 13;
 	EXEC THEMNV N'Amanda Taylor', '1976-04-15', N'Nữ' , '2022-05-06', 'BP01', 3;
@@ -556,9 +557,9 @@
 	UPDATE ChiNhanh
 	SET NhanVienQuanLy = 'NV0081'
 	WHERE MaChiNhanh = 1
-
+	SELECT * FROM NHANVIEN NV JOIN LichSuLamViec LS ON LS.MaNhanVien = NV.MaNhanVien AND NV.MaNhanVien = 'NV0499'
 	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0017'
+	SET NhanVienQuanLy = 'NV0499'
 	WHERE MaChiNhanh = 2
 
 	UPDATE ChiNhanh
@@ -612,6 +613,7 @@
 	UPDATE ChiNhanh
 	SET NhanVienQuanLy = 'NV0303'
 	WHERE MaChiNhanh = 15
+
 
 
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (1, 1, 0, 9);
@@ -1214,7 +1216,7 @@ INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (37, 15, 0, 2);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (38, 15, 0, 13);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (39, 15, 0, 15);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (40, 15, 0, 12);
-
+select * from chinhanh
 
 	--Thêm dữ liệu bảng MucThucDon
 	INSERT INTO MucThucDon (TenMuc) VALUES (N'Khai Vị');

@@ -170,17 +170,16 @@ CREATE TABLE HoaDon (
     
 );
 
-CREATE TABLE DatTruoc (
-    MaDatTruoc INT IDENTITY(1,1) PRIMARY KEY,
-    MaKhachHang INT NOT NULL,
-    SoLuongKhach TINYINT NOT NULL DEFAULT 1 CHECK (SoLuongKhach > 0),
-    NgayDat DATETIME NOT NULL,
-	GioDen DATETIME NOT NULL,
-    GhiChu NVARCHAR(255),
-	ChiNhanh TINYINT NOT NULL,
-	SoDienThoai CHAR(10) NOT NULL,
-	MaPhieu INT 
-);
+	CREATE TABLE DatTruoc (
+		MaDatTruoc INT IDENTITY(1,1) PRIMARY KEY,	
+		SoLuongKhach TINYINT NOT NULL DEFAULT 1 CHECK (SoLuongKhach > 0),
+		NgayDat DATETIME NOT NULL,
+		GioDen DATETIME NOT NULL,
+		GhiChu NVARCHAR(255),
+		ChiNhanh TINYINT NOT NULL,
+		SoDienThoai CHAR(10) NOT NULL,
+		MaPhieu INT 
+	);
 
 
 

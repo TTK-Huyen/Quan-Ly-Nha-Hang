@@ -162,6 +162,7 @@ GO
 
 
 --Nhân viên quản lý phải làm việc tại chi nhánh
+DROP TRIGGER trg_ManagerMustWorkAtBranch
 CREATE TRIGGER trg_ManagerMustWorkAtBranch
 ON ChiNhanh
 AFTER INSERT, UPDATE
@@ -173,11 +174,11 @@ BEGIN
         FROM inserted c
         WHERE c.NhanVienQuanLy IS NOT NULL -- Chỉ kiểm tra khi NhanVienQuanLy không phải NULL
           AND NOT EXISTS (
-              SELECT 1
+              SELECT *
               FROM LichSuLamViec l
-              WHERE l.MaNhanVien = c.NhanVienQuanLy
-                AND l.MaChiNhanh = c.MaChiNhanh
-				AND l.NgayKetThuc <> Null
+              WHERE l.MaNhanVien = 'NV0499'
+                AND l.MaChiNhanh = 2
+				AND l.NgayKetThuc is Null
           )
     )
     BEGIN
@@ -186,6 +187,7 @@ BEGIN
     END
 END;
 GO
+
 
 --BANG THE KHACH HANG
 --	Tại 1 thời điểm, mỗi khách hàng chỉ có thể sở hữu 1 thẻ khách hàng đang hoạt động.
@@ -333,6 +335,7 @@ ON KhachHang
 INSTEAD OF INSERT
 AS
 BEGIN
+    -- Kiểm tra email không hợp lệ trong bảng inserted
     IF EXISTS (
         SELECT 1
         FROM inserted
@@ -340,13 +343,13 @@ BEGIN
     )
     BEGIN
         RAISERROR (N'Email khách hàng không hợp lệ!', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        INSERT INTO KhachHang
-        SELECT * FROM inserted;
-    END
+        RETURN;
+    END;
+
+    -- Chèn dữ liệu hợp lệ vào bảng KhachHang
+    INSERT INTO KhachHang (SoCCCD, SoDienThoai, Email, HoTen)
+    SELECT SoCCCD, SoDienThoai, Email, HoTen
+    FROM inserted;
 END;
 GO
 
@@ -505,36 +508,17 @@ GO
 
 -- BANG HOA DON
 --Thanh Tien = TongTien- GiamGia
+
 CREATE TRIGGER trg_ValidateHoaDon
 ON HoaDon
-INSTEAD OF INSERT
+AFTER INSERT
 AS
 BEGIN
-    -- Kiểm tra tính hợp lệ của `TongTien` và `GiamGia`
-    IF EXISTS (
-        SELECT 1 
-        FROM inserted
-        WHERE TongTien <= 0 -- Tổng tiền phải lớn hơn 0
-          OR GiamGia < 0 -- Phần trăm giảm giá không được âm
-          OR GiamGia > 100.00 -- Phần trăm giảm giá không được vượt quá 100%
-		  OR TongTien < GiamGia -- Giảm giá không được lớn hơn tổng tiền
-    )
-    BEGIN
-        RAISERROR (N'Dữ liệu không hợp lệ: Tổng tiền phải lớn hơn 0 và giảm giá phải nằm trong khoảng 0-100%.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-    ELSE
-    BEGIN
-        -- Tính `ThanhTien` dựa trên `TongTien` và `GiamGia`
-        INSERT INTO HoaDon (MaPhieu, NgayLap, TongTien, GiamGia, ThanhTien)
-        SELECT 
-            MaPhieu, 
-            NgayLap, 
-            TongTien, 
-            GiamGia, 
-            TongTien * (1 - GiamGia / 100.0) AS ThanhTien
-        FROM inserted;
-    END
+    UPDATE h
+    SET h.ThanhTien = i.TongTien * (1 - i.GiamGia / 100.0)
+    FROM HoaDon h
+    JOIN inserted i ON h.MaPhieu= i.MaPhieu;
+
 END;
 GO
 
@@ -710,7 +694,8 @@ BEGIN
     ELSE
     BEGIN
         INSERT INTO DatTruoc
-        SELECT * FROM inserted;
+        SELECT MaKhachHang ,SoLuongKhach, NgayDat, GioDen ,GhiChu, ChiNhanh, SoDienThoai, MaPhieu 
+		FROM inserted;
     END
 END;
 GO
