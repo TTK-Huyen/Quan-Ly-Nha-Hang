@@ -3,6 +3,9 @@ GO
 
 
 --TRIGGER Phân hệ Chi Nhánh
+
+-- Đã cài constraint tgiandong < tgianmo
+/*
 GO
 CREATE TRIGGER CHECK_TGIANDONGCUA_TGIANMOCUA
 ON ChiNhanh
@@ -23,14 +26,14 @@ BEGIN
 		END
 END
 GO
+*/
 
 
 
 
 
-
-
-
+-- Đã cài ràng buộc khóa ngoại ChiNhanh(MaKhuVuc) -> KhuVuc(MaKhuVuc)
+/*
 GO
 CREATE TRIGGER CHECK_IU_CHINHANH
 ON CHINHANH
@@ -51,8 +54,10 @@ BEGIN
 
 END
 GO
+*/
 
-
+-- Đã cài ràng buộc khóa ngoại
+/*
 GO
 CREATE TRIGGER CHECK_XOA_KHUVUC
 ON KhuVuc
@@ -72,10 +77,12 @@ BEGIN
 		END
 END
 GO
+*/ 
 
 
 
-
+-- Đã cài ràng buộc khóa ngoại Mon(MaMuc) -> ThucDon(MaMuc)
+/*
 GO
 CREATE TRIGGER CHECK_IU_MON
 ON MON
@@ -95,8 +102,9 @@ BEGIN
 		END
 END
 GO
+*/
 
-
+/* -- ĐÃ CÀI FK MAMUC -> MUCTHUCDON
 GO
 CREATE TRIGGER CHECK_XOA_MUCTHUCDON
 ON MucThucDon
@@ -116,7 +124,7 @@ BEGIN
 		END
 END
 GO
-
+*/
 
 -- Thêm bộ phận và tự động tạo mã bộ phận khi không được cung cấp
 CREATE TRIGGER THEMBP
@@ -169,10 +177,11 @@ BEGIN
               FROM LichSuLamViec l
               WHERE l.MaNhanVien = c.NhanVienQuanLy
                 AND l.MaChiNhanh = c.MaChiNhanh
+				AND l.NgayKetThuc <> Null
           )
     )
     BEGIN
-        RAISERROR ('Nhân viên quản lý phải làm việc tại chi nhánh mà họ quản lý!', 16, 1);
+        RAISERROR (N'Nhân viên quản lý phải làm việc tại chi nhánh mà họ quản lý!', 16, 1);
         ROLLBACK TRANSACTION;
     END
 END;
@@ -203,7 +212,7 @@ BEGIN
 END;
 GO
 
-
+-- trigger thực hiện khi cập nhật điểm 
 --	Các điều kiện nâng/giữ/hạ hạng thẻ: 
 --o	− MemberShip → Silver: điểm tích lũy từ 100 điểm từ ngày lập thẻ − Silver → Gold: điểm tích lũy trong 1 năm từ 100 điểm trở lên 19
 --o	 − Gold → Silver: điểm tích lũy trong 1 năm dưới 100 điểm kể từ ngày đạt hạng 
@@ -213,39 +222,92 @@ ON TheKhachHang
 AFTER UPDATE
 AS
 BEGIN
+	
+
     -- Nâng hạng từ MemberShip → Silver
-    UPDATE TheKhachHang
-    SET LoaiThe = N'Silver'
-    WHERE LoaiThe = N'Membership'
-      AND DiemTichLuy >= 100
-      AND DATEDIFF(DAY, NgayLap, GETDATE()) <= 365;
+	IF EXISTS (
+        SELECT 1
+        FROM TheKhachHang
+        WHERE LoaiThe = N'Membership'
+          AND DiemTichLuy >= 100
+		  AND TrangThaiThe = 1
+    )
+	BEGIN 
+		UPDATE TheKhachHang
+		SET LoaiThe = N'Silver', 
+			DiemHienTai = DiemTichLuy + DiemHienTai, 
+			DiemTichLuy = 0,
+			NgayDatThe = GETDATE()
+		WHERE LoaiThe = N'Membership'
+		  AND DiemTichLuy >= 100;
+		RETURN;
+	END;
 
     -- Nâng hạng từ Silver → Gold
-    UPDATE TheKhachHang
-    SET LoaiThe = N'Gold'
-    WHERE LoaiThe = N'Silver'
-      AND DiemTichLuy >= 100
-      AND DATEDIFF(DAY, NgayLap, GETDATE()) <= 365;
+	IF EXISTS (
+        SELECT 1
+        FROM TheKhachHang
+        WHERE LoaiThe = N'Silver'
+          AND DiemTichLuy >= 100
+          AND DATEDIFF(YEAR, NgayDatThe, GETDATE()) >= 1
+		  AND TrangThaiThe = 1
+    )
+    BEGIN
+		UPDATE TheKhachHang
+		SET LoaiThe = N'Gold',
+			DiemHienTai = DiemTichLuy + DiemHienTai, 
+			DiemTichLuy = 0,
+			NgayDatThe = GETDATE()
+		WHERE LoaiThe = N'Silver'
+		  AND DiemTichLuy >= 100
+		  AND DATEDIFF(YEAR, NgayLap, GETDATE()) <= 1;
+	END;
 
-    -- Hạ hạng từ Gold → Silver
-    UPDATE TheKhachHang
-    SET LoaiThe = N'Silver'
-    WHERE LoaiThe = N'Gold'
-      AND DiemTichLuy < 100
-      AND DATEDIFF(DAY, NgayLap, GETDATE()) <= 365;
-
+	-- Hạ hạng từ Gold → Silver
+	IF EXISTS (
+        SELECT 1
+        FROM TheKhachHang
+        WHERE LoaiThe = N'Gold'
+          AND DiemTichLuy < 100
+          AND DATEDIFF(YEAR, NgayDatThe, GETDATE()) >= 1
+		  AND TrangThaiThe = 1
+    )
+	BEGIN
+		UPDATE TheKhachHang
+		SET LoaiThe = N'Silver',
+			DiemHienTai = DiemTichLuy + DiemHienTai, 
+			DiemTichLuy = 0,
+			NgayDatThe = GETDATE()
+		WHERE LoaiThe = N'Gold'
+		  AND DiemTichLuy < 100
+		  AND DATEDIFF(DAY, NgayLap, GETDATE()) >= 1;
+	END
     -- Hạ hạng từ Silver → Membership
-    UPDATE TheKhachHang
-    SET LoaiThe = N'Membership'
-    WHERE LoaiThe = N'Silver'
-      AND DiemTichLuy < 50
-      AND DATEDIFF(DAY, NgayLap, GETDATE()) <= 365;
+	IF EXISTS (
+        SELECT 1
+        FROM TheKhachHang
+        WHERE LoaiThe = N'Silver'
+          AND DiemTichLuy < 50
+          AND DATEDIFF(YEAR, NgayDatThe, GETDATE()) >= 1
+		  AND TrangThaiThe = 1
+    )
+	BEGIN
+		UPDATE TheKhachHang
+		SET LoaiThe = N'Membership'
+		WHERE LoaiThe = N'Silver'
+		  AND DiemTichLuy < 50
+		  AND DATEDIFF(DAY, NgayLap, GETDATE()) >= 1;
+
+	 END
 
     -- Thông báo giữ nguyên hạng nếu không đủ điều kiện nâng/hạ
     PRINT 'Hạng thẻ không thay đổi nếu không đủ điều kiện nâng/hạ.';
 END;
 GO
 
+-- Đã cài trong SP
+/*
+-- Đóng thẻ phải làm SP chứ nhỉ
 --	Nếu khách hàng làm mất thẻ, có thể liên hệ để đóng thẻ cũ và cấp thẻ mới mới 
 CREATE TRIGGER trg_ReplaceLostCard
 ON TheKhachHang
@@ -262,7 +324,7 @@ BEGIN
     END;
 END;
 GO
-
+*/
 
 --BANG KHACH HANG
 -- Email của khách hàng phải hợp lệ.
@@ -277,7 +339,7 @@ BEGIN
         WHERE Email NOT LIKE '%_@__%.__%'
     )
     BEGIN
-        RAISERROR ('Email khách hàng không hợp lệ!', 16, 1);
+        RAISERROR (N'Email khách hàng không hợp lệ!', 16, 1);
         ROLLBACK TRANSACTION;
     END
     ELSE
@@ -294,7 +356,8 @@ GO
 --o	o Đối với khách sử dụng dịch vụ trực tiếp tại bàn, mã số bàn sẽ là số thứ tự của các bàn trong chi nhánh (ví dụ: 1, 2, 3, …).
 --o	 o Đối với khách mang về hoặc không sử dụng bàn tại quán, mã số bàn sẽ mang mã đặc biệt là MV (Mang Về).
 
-CREATE TRIGGER trg_UniqueOrderID
+-- Đã cài primary key
+/* CREATE TRIGGER trg_UniqueOrderID
 ON PhieuDatMon
 INSTEAD OF INSERT
 AS
@@ -315,7 +378,9 @@ BEGIN
     END
 END;
 GO
+*/
 
+/*Đã cài primary key
 CREATE TRIGGER trg_ValidateTableID_DirectService
 ON Ban
 INSTEAD OF INSERT
@@ -342,7 +407,10 @@ BEGIN
     END
 END;
 GO
+*/
 
+-- Mã số bàn trong phiếu đặt món là NULL thì là đơn đem về
+/*
 CREATE TRIGGER trg_ValidateTableID_Takeaway
 ON Ban
 INSTEAD OF INSERT
@@ -365,9 +433,10 @@ BEGIN
     END
 END;
 GO
+*/
 
-
---	Khách hàng có thể đặt hàng qua số điện thoại chi nhánh hoặc website. 
+--	Khách hàng có thể đặt hàng qua số điện thoại chi nhánh hoặc website. -- Cái này tui nghĩ không phải ràng buộc dữ liệu
+/*
 CREATE TRIGGER trg_OrderViaPhone
 ON PhieuDatMon
 AFTER INSERT
@@ -385,7 +454,11 @@ BEGIN
 END;
 GO
 
-CREATE TRIGGER trg_OrderViaWebsite
+*/
+
+/*
+
+CREATE TRIGGER trg_OrderViaWebsite -- cái này chắc là nghiệp vụ nha
 ON PhieuDatMon
 AFTER INSERT
 AS
@@ -400,9 +473,10 @@ BEGIN
     END;
 END;
 GO
-	
---	Khi khách hàng cần thanh toán, nhân viên sẽ xuất hóa đơn thanh toán cho khách hàng
-CREATE TRIGGER trg_GenerateInvoice
+
+*/
+--	Khi khách hàng cần thanh toán, nhân viên sẽ xuất hóa đơn thanh toán cho khách hàng -- Cái này không hợp lý lắm, vì trigger sẽ chạy ngay sau khi insert PhieuDatMon, nên đổi thành SP
+/* CREATE TRIGGER trg_GenerateInvoice
 ON PhieuDatMon
 AFTER INSERT
 AS
@@ -424,10 +498,10 @@ BEGIN
          WHERE ctp.MaPhieu = i.MaPhieu) AS ThanhTien -- Thành tiền bằng tổng tiền trừ giảm giá
     FROM inserted i;
 
-    PRINT 'Hóa đơn thanh toán đã được tạo và xuất cho khách hàng.';
+    PRINT N'Hóa đơn thanh toán đã được tạo và xuất cho khách hàng.';
 END;
 GO
-
+*/
 
 -- BANG HOA DON
 --Thanh Tien = TongTien- GiamGia
@@ -517,26 +591,31 @@ BEGIN
             SELECT ISNULL(SUM(h.TongTien / 100000), 0)
             FROM HoaDon h
             JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
-            WHERE p.MaKhachHang = TheKhachHang.MaKhachHang
+			JOIN KhachHang kh ON kh.SoDienThoai = p.SODIENTHOAI
+            WHERE kh.MaKhachHang = TheKhachHang.MaKhachHang
               AND h.NgayLap >= TheKhachHang.NgayLap
+			  AND TheKhachHang.TrangThaiThe = 1
         )
     WHERE EXISTS (
         SELECT 1
         FROM inserted i
         JOIN PhieuDatMon p ON i.MaPhieu = p.MaPhieu
-        WHERE p.MaKhachHang = TheKhachHang.MaKhachHang
+		JOIN KhachHang kh ON kh.SoDienThoai = p.SODIENTHOAI
+        WHERE kh.MaKhachHang = TheKhachHang.MaKhachHang AND TheKhachHang.TrangThaiThe = 1
     )
     OR EXISTS (
         SELECT 1
         FROM deleted d
         JOIN PhieuDatMon p ON d.MaPhieu = p.MaPhieu
-        WHERE p.MaKhachHang = TheKhachHang.MaKhachHang
+		JOIN KhachHang kh ON kh.SoDienThoai = p.SODIENTHOAI
+        WHERE kh.MaKhachHang = TheKhachHang.MaKhachHang AND TheKhachHang.TrangThaiThe = 1
     );
 END;
 GO
 
 
--- Sau khi thanh toán hóa đơn, nhờ khách hàng đánh giá.
+-- Sau khi thanh toán hóa đơn, nhờ khách hàng đánh giá. -- Cái này tui cũng nghĩ là nghiệp vụ thôi
+/*
 CREATE TRIGGER trg_RequestFeedback
 ON HoaDon
 AFTER INSERT
@@ -545,6 +624,7 @@ BEGIN
     PRINT 'Hóa đơn đã được thanh toán. Vui lòng nhờ khách hàng đánh giá dịch vụ.';
 END;
 GO
+*/
 
 -- BANG DANH GIA
 -- Cập nhật điểm của nhân viên khi thêm đánh giá.
@@ -566,7 +646,8 @@ BEGIN
         FROM inserted dg
         JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
         WHERE NhanVien.MaNhanVien = pd.NhanVienLap
-    );
+    )
+
 END;
 GO
 
@@ -581,8 +662,11 @@ BEGIN
     WHERE MaNhanVien = (SELECT NhanVienLap FROM PhieuDatMon WHERE MaPhieu = (SELECT MaPhieu FROM inserted));
 END;
 GO
+
+
 --BANG DAT CHO
--- Thời gian nhận bàn phải trễ hơn thời gian đặt trước.
+-- Thời gian nhận bàn phải trễ hơn thời gian đặt trước. , đã cài constraint
+/*
 CREATE TRIGGER trg_CheckReservationTime
 ON DatCho
 INSTEAD OF INSERT
@@ -605,18 +689,19 @@ BEGIN
     END
 END;
 GO
+*/
 --	Bàn được chọn phải có sức chứa lớn hơn số lượng khách của đơn đặt trước.
 CREATE TRIGGER trg_CheckTableCapacity
-ON DatCho
+ON DatTruoc
 INSTEAD OF INSERT
 AS
 BEGIN
     IF EXISTS (
         SELECT 1
         FROM inserted i
-        JOIN Ban b ON i.MaSoBan = b.MaSoBan AND i.MaChiNhanh = b.MaChiNhanh
-        JOIN DatTruoc dt ON i.MaDatTruoc = dt.MaDatTruoc
-        WHERE b.SucChua < dt.SoLuongKhach
+		JOIN PhieuDatMon p ON i.MaPhieu = p.MaPhieu
+        JOIN Ban b ON p.MaSoBan = b.MaSoBan AND p.MaChiNhanh = b.MaChiNhanh
+        WHERE b.SucChua < i.SoLuongKhach
     )
     BEGIN
         RAISERROR ('Bàn được chọn phải có sức chứa lớn hơn số lượng khách!', 16, 1);
@@ -624,13 +709,14 @@ BEGIN
     END
     ELSE
     BEGIN
-        INSERT INTO DatCho
+        INSERT INTO DatTruoc
         SELECT * FROM inserted;
     END
 END;
 GO
 -- BANG THONG TIN TRUY CAP
--- Thời gian truy cập phải nhỏ hơn giờ đến trong đặt trước.
+-- Thời gian truy cập phải nhỏ hơn giờ đến trong đặt trước. -- khách đặt món hay không thì vẫn lưu
+/*
 CREATE TRIGGER trg_ValidateAccessTime
 ON ThongTinTruyCap
 AFTER INSERT
@@ -649,8 +735,9 @@ BEGIN
     END;
 END;
 GO
-
---	Đối với khách trực tuyến, hệ thống ghi nhận thêm thời điểm truy cập, thời gian truy cập nhằm cải thiện trải nghiệm của khách hàng. 
+*/
+--	Đối với khách trực tuyến, hệ thống ghi nhận thêm thời điểm truy cập, thời gian truy cập nhằm cải thiện trải nghiệm của khách hàng.  -- Trigger này không có ý nghĩa ràng buộc dữ liệu
+/*
 CREATE TRIGGER trg_RecordOnlineAccess
 ON ThongTinTruyCap
 AFTER INSERT
@@ -660,9 +747,11 @@ BEGIN
     PRINT 'Thời điểm truy cập và thời gian truy cập đã được ghi nhận.'
 END;
 GO
+*/
 -- bang CHITIETPHIEU
 
---	Khách hàng có thể đặt trước một số món để nhà hàng chuẩn bị sẵn. 
+--	Khách hàng có thể đặt trước một số món để nhà hàng chuẩn bị sẵn. -- này là chức năng không liên quan đến ràng buộc dữ liệu
+/*
 CREATE TRIGGER trg_PrepareDishesForReservation
 ON ChiTietPhieu
 AFTER INSERT
@@ -681,7 +770,11 @@ BEGIN
     END;
 END;
 GO
---	Trong quá trình đặt món nếu khách có yêu cầu thêm món, nhân viên sẽ bổ sung thêm thông tin và phiếu đặt món. 
+*/
+
+
+--	Trong quá trình đặt món nếu khách có yêu cầu thêm món, nhân viên sẽ bổ sung thêm thông tin và phiếu đặt món. này là chức năng không liên quan đến ràng buộc dữ liệu
+/*
 CREATE TRIGGER trg_UpdateOrderWithAdditionalDishes
 ON ChiTietPhieu
 AFTER INSERT
@@ -690,7 +783,7 @@ BEGIN
     PRINT 'Thông tin món thêm đã được cập nhật vào phiếu đặt món.'
 END;
 GO
-
+*/
 -- trigger thêm khách hàng, phân quyền cho khách hàng được thêm
 CREATE TRIGGER trg_InsertUserOnCustomerAdd
 ON KhachHang
