@@ -1025,16 +1025,16 @@ BEGIN
 	
 	--KIỂM TRA KHÁCH HÀNG CÓ THẺ KHÁCH HÀNG KHÔNG
 	IF NOT EXISTS (SELECT 1 FROM TheKhachHang WHERE MaKhachHang = 
-	(SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD))
+	(SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD and TrangThaiThe = 1))
     BEGIN
-        RAISERROR (N'Khách hàng này không có thẻ khách hàng trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RAISERROR (N'Khách hàng này không có thẻ khách hàng đang hoạt động. Vui lòng kiểm tra lại.', 16, 1);
         RETURN;
     END;
 
 	UPDATE TheKhachHang
 	SET TrangThaiThe = 0
 	WHERE MaKhachHang = (SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD)
-	PRINT N'Xóa thẻ khách hàng thành công';
+	PRINT N'Đóng thẻ khách hàng thành công';
 END;
 GO
 
