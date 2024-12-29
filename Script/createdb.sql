@@ -140,7 +140,7 @@ CREATE TABLE PhieuDatMon (
     NhanVienLap CHAR(6), -- NVARCHAR để hỗ trợ tên nhân viên với khả năng lưu Unicode.
     MaSoBan TINYINT, -- Dùng varchar vì có thể là MV.
     SODIENTHOAI CHAR(10),-- Dùng INT để liên kết đến bảng khách hàng.
-	MaChiNhanh TINYINT
+	MaChiNhanh TINYINT NOT NULL
 );
 
 CREATE TABLE ChiTietPhieu (
@@ -165,7 +165,7 @@ CREATE TABLE HoaDon (
     MaPhieu INT PRIMARY KEY, -- Khóa chính và khóa ngoại tham chiếu từ `PhieuDatMon`.
     NgayLap DATETIME NOT NULL, -- Dùng DATETIME để lưu ngày lập hóa đơn.
     TongTien INT NOT NULL, -- Dùng DECIMAL để lưu số tiền chính xác đến 2 chữ số thập phân.
-    GiamGia DECIMAL(3, 2) NOT NULL DEFAULT 0.00, -- Tương tự DECIMAL, thường dùng cho tỷ lệ giảm giá (% hoặc giá trị cố định).
+    GiamGia DECIMAL(3, 2) NOT NULL DEFAULT 0.00 CHECK (GiamGia >= 0.00 AND GiamGia <= 100.00), -- Tương tự DECIMAL, thường dùng cho tỷ lệ giảm giá (% hoặc giá trị cố định).
     ThanhTien INT NOT NULL  -- Tổng tiền sau giảm giá.
     
 );
@@ -254,8 +254,8 @@ ADD CONSTRAINT FK_HoaDon_Phieu FOREIGN KEY (MaPhieu) REFERENCES PhieuDatMon(MaPh
 -- Ràng buộc đặt trước
 ALTER TABLE DatTruoc
 ADD CONSTRAINT FK_DatTruoc_ChiNhanh FOREIGN KEY (ChiNhanh) REFERENCES ChiNhanh(MaChiNhanh),
-    CONSTRAINT FK_DatTruoc_PhieuDatMon FOREIGN KEY (MaPhieu) REFERENCES PhieuDatMon(MaPhieu);
-
+    CONSTRAINT FK_DatTruoc_PhieuDatMon FOREIGN KEY (MaPhieu) REFERENCES PhieuDatMon(MaPhieu),
+	CONSTRAINT CK_GioDen_NgayDat CHECK (GioDen > NgayDat);
     
 
 -- Ràng buộc thông tin truy cập

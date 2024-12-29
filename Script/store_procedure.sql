@@ -999,17 +999,30 @@ END
 GO
 
 
---SP XÓA THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
+--SP ĐÓNG THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
 CREATE PROC XOATHEKH
 	@SOCCCD CHAR(12), @HOTEN NVARCHAR(255), @SODIENTHOAI CHAR(10)
 AS
 BEGIN
+	--KIỂM TRA HỌ TÊN
+	IF NOT EXISTS (SELECT 1 FROM KhachHang where HoTen= @HOTEN)
+	BEGIN
+        RAISERROR (N'Tên khách hàng không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	--KIỂM TRA SỐ ĐIỆN THOẠI
+	IF NOT EXISTS (SELECT 1 FROM KhachHang where SoDienThoai = @SODIENTHOAI)
+	BEGIN
+        RAISERROR (N'Số điện thoại này không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
 	--KIỂM TRA SCCCD
 	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE SoCCCD = @SOCCCD)
     BEGIN
         RAISERROR (N'Số CCCD này không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
         RETURN;
     END;
+	
 	--KIỂM TRA KHÁCH HÀNG CÓ THẺ KHÁCH HÀNG KHÔNG
 	IF NOT EXISTS (SELECT 1 FROM TheKhachHang WHERE MaKhachHang = 
 	(SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD))
@@ -1018,7 +1031,8 @@ BEGIN
         RETURN;
     END;
 
-	DELETE FROM TheKhachHang
+	UPDATE TheKhachHang
+	SET TrangThaiThe = 0
 	WHERE MaKhachHang = (SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD)
 	PRINT N'Xóa thẻ khách hàng thành công';
 END;
