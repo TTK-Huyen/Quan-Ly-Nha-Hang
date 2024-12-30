@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sushi X</title>
+        <meta charset="utf-8">
+        <!-- Dùng để link tới css -->
+        <link rel="stylesheet" href="Reservation_design.css">
+        <link rel="stylesheet" href="styles_menu.css">
+    </head>
+    <body>
+        <nav>
+            <div class="logo">Sushi X</div>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="Reservation.html">Reservation</a></li>
+                <li><a href="#about">About Us</a></li>
+            </ul>
+        </nav>
+
+        <div class="background"></div>
+        <div class="logo">
+            <img src="sushiX_logo.png" alt="logo" class="logo">
+        </div>
+        <div class="box_Reservation">
+            <p class="Reservation_text">Reservation</p>
+            
+            <div class="form-group">
+                <p>Customer ID</p>
+                <input type="text" id="MaKhachHang" placeholder="Enter your ID">
+            </div>
+        
+            <div class="form-group">
+                <p>Phone Number</p>
+                <input type="tel" id="SoDienThoai" placeholder="Enter your phone number">
+            </div>
+        
+            <div class="branch-address-group">
+                <div class="form-group">
+                    <p>Branch</p>
+                    <select id="MaKhuVuc" name="MaKhuVuc" required>
+                        <option value="" disabled selected>Branch</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <p>Address</p>
+                    <select id="MaChiNhanh" name="MaChiNhanh" required>
+                        <option value="" disabled selected>Address</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="form-group">
+                <p>Number of people</p>
+                <input type="number" id="SoLuongKhach">
+            </div>
+        
+            <div class="form-group">
+                <p>Time</p>
+                <input type="datetime-local" id="GioDen">
+            </div>
+        
+            <div class="form-group">
+                <p>Note</p>
+                <input type="text" id="GhiChu">
+            </div>
+        
+            <button type="button" onclick="submitForm()">Thêm đặt trước</button>
+        </div>
+        
+        
+        <script>
+            // Hàm tải danh sách khu vực
+            async function loadKhuVuc() {
+                try {
+                    const response = await fetch('/api/KhuVuc');
+                    if (!response.ok) throw new Error('Error fetching KhuVuc data');
+                    const KhuVucList = await response.json();
+
+                    const selectKhuVuc = document.getElementById('MaKhuVuc');
+                    selectKhuVuc.innerHTML = '<option value="" disabled selected>Branch</option>'; // Reset dropdown
+
+                    // Tạo các tùy chọn khu vực
+                    KhuVucList.forEach(khuVuc => {
+                        const option = document.createElement('option');
+                        option.value = khuVuc.MaKhuVuc;
+                        option.textContent = `${khuVuc.TenKhuVuc}`;
+                        selectKhuVuc.appendChild(option);
+                    });
+
+                    // Lắng nghe sự kiện thay đổi khu vực
+                    selectKhuVuc.addEventListener('change', (e) => {
+                        const selectedKhuVuc = e.target.value;
+                        loadChiNhanh(selectedKhuVuc); // Gọi hàm loadChiNhanh theo khu vực
+                    });
+                } catch (error) {
+                    console.error('Error loading KhuVuc:', error);
+                    alert('Không thể tải danh sách khu vực. Vui lòng thử lại.');
+                }
+            }
+
+            // Hàm tải danh sách chi nhánh theo khu vực
+            async function loadChiNhanh(maKhuVuc) {
+                try {
+                    const response = await fetch(`/api/ChiNhanh?maKhuVuc=${maKhuVuc}`);
+                    if (!response.ok) throw new Error('Error fetching ChiNhanh data');
+                    const ChiNhanhList = await response.json();
+
+                    const selectChiNhanh = document.getElementById('MaChiNhanh');
+                    selectChiNhanh.innerHTML = '<option value="" disabled selected>Address</option>'; // Reset dropdown
+
+                    // Tạo các tùy chọn chi nhánh
+                    ChiNhanhList.forEach(chiNhanh => {
+                        const option = document.createElement('option');
+                        option.value = chiNhanh.MaChiNhanh;
+                        option.textContent = `${chiNhanh.TenChiNhanh} - ${chiNhanh.DiaChi}`;
+                        selectChiNhanh.appendChild(option);
+                    });
+                } catch (error) {
+                    console.error('Error loading ChiNhanh:', error);
+                    alert('Không thể tải danh sách chi nhánh. Vui lòng thử lại.');
+                }
+            }
+
+            // Gọi hàm loadKhuVuc khi DOM đã sẵn sàng
+            document.addEventListener('DOMContentLoaded', loadKhuVuc);
+
+            async function submitForm() {
+                // Lấy dữ liệu từ form
+                const formData = {
+                    MaKhachHang: parseInt(document.getElementById('MaKhachHang').value),
+                    SoDienThoai: document.getElementById('SoDienThoai').value,
+                    MaChiNhanh: parseInt(document.getElementById('MaChiNhanh').value),
+                    SoLuongKhach: parseInt(document.getElementById('SoLuongKhach').value),
+                    GioDen: document.getElementById('GioDen').value,
+                    GhiChu: document.getElementById('GhiChu').value || null,
+                };
+                console.log('Form Data:', formData);
+
+                // Kiểm tra dữ liệu đầu vào
+                if (!formData.MaKhachHang || isNaN(formData.MaChiNhanh) || isNaN(formData.SoLuongKhach)) {
+                    document.getElementById('message').innerText = 'Vui lòng điền đầy đủ thông tin hợp lệ.';
+                    return;
+                }
+
+                try {
+                    // Gửi yêu cầu đến API
+                    const response = await fetch('/api/addReservation', {
+                        method: 'POST', // Đảm bảo là POST
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    // Kiểm tra phản hồi
+                    
+                } catch (error) {
+                    // Xử lý lỗi khi không thể gửi yêu cầu
+                    console.error('Error loading ChiNhanh:', error);
+                    alert('Không thể tải danh sách chi nhánh. Vui lòng thử lại.');
+                }
+            }
+
+
+        </script>
+    </body>
+</html>
