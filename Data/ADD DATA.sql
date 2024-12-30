@@ -1,5 +1,5 @@
 	USE QLNHAHANG;
-	
+
 
 	-- =======================
 	-- Thêm dữ liệu vào bảng BoPhan
@@ -14,6 +14,7 @@
 	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP08', N'Bộ phận Kho vận', 7000000);
 	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP09', N'Bộ phận Chăm sóc khách hàng', 5000000);
 	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP10', N'Bộ phận Hành chính',7000000);
+
 
 	
 	-- =======================
@@ -229,7 +230,6 @@
 	EXEC THEMNV N'Tyler Gray', '1993-02-11', N'Nữ' , '2021-02-18', 'BP10', 9;
 	EXEC THEMNV N'Ronald Tran', '1965-08-18', N'Nữ' , '2022-08-05', 'BP05', 9;
 	EXEC THEMNV N'Joseph Perry', '1972-10-22', N'Nam' , '2021-10-31', 'BP08', 1;
-	EXEC THEMNV N'Angelica Jackson', '1968-08-18', N'Nam' , '2021-08-20', 'BP04', 11;
 	EXEC THEMNV N'Patricia Brown', '1976-12-03', N'Nam' , '2022-03-10', 'BP02', 6;
 	EXEC THEMNV N'Susan Lindsey', '1985-11-26', N'Nam' , '2024-07-03', 'BP06', 13;
 	EXEC THEMNV N'Amanda Taylor', '1976-04-15', N'Nữ' , '2022-05-06', 'BP01', 3;
@@ -559,7 +559,7 @@
 	WHERE MaChiNhanh = 1
 
 	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0017'
+	SET NhanVienQuanLy = 'NV0499'
 	WHERE MaChiNhanh = 2
 
 	UPDATE ChiNhanh
@@ -1227,7 +1227,7 @@
 	INSERT INTO MucThucDon (TenMuc) VALUES ('Lunch Set');
 	INSERT INTO MucThucDon (TenMuc) VALUES (N'Món Nước');
 
-	
+
 	--Thêm dữ liệu bảng Mon
 	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (1, N'Trứng hấp', 273929, 1);
 	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp miso', 65538, 0);
@@ -1262,7 +1262,6 @@
 	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép táo', 256113, 0);
 	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép cam', 199634, 0);
 	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Rượu sake Nhật', 109987, 0);
-	
 
 	--Thêm thực đơn món
 	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 25);

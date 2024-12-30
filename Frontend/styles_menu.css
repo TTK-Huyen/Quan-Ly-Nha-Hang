@@ -1,3 +1,4 @@
+
 /* Reset */
 body, h1, h2, h3, h4, p, ul, li, a, button {
     margin: 0;
@@ -50,15 +51,17 @@ nav ul li a:hover {
 
 
 /* Container: Categories and Items */
+
 .menu-container {
-    display: flex;
+    display: flex; /* Sử dụng flexbox để các phần tử nằm ngang */
+    align-items: flex-start; /* Căn các phần tử con ở trên cùng */
+    gap: 20px; /* Khoảng cách giữa sidebar và content */
     margin: 20px;
-    gap: 20px;
 }
 
 /* Sidebar */
 .menu-sidebar {
-    width: 15%;
+    flex: 0 0 250px; /* Chiều rộng cố định cho sidebar */
     background-color: #f0f0f0;
     padding: 20px;
     border-radius: 10px;
@@ -69,15 +72,6 @@ nav ul li a:hover {
     font-size: 1.5em;
     color: #B8001F;
     margin-bottom: 10px;
-}
-
-.menu-sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.menu-sidebar ul li {
-    margin: 10px 0;
 }
 
 .menu-sidebar ul li a {
@@ -91,8 +85,9 @@ nav ul li a:hover {
     text-decoration: underline;
 }
 
-/* Content Section */
+/* Menu Content */
 .menu-content {
+
     width: 82%;
 }
 
@@ -114,82 +109,105 @@ html {
 .menu-categories {
     flex: 1;
     max-width: 25%;
+
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.menu-categories h3 {
+.menu-content h2 {
+    text-align: center;
+    font-size: 2em;
     color: #B8001F;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-.menu-categories ul li {
-    margin-bottom: 10px;
-    color: #555;
-}
-
-/* Right Section: Food Items */
 .menu-items {
-    flex: 3;
     display: flex;
     flex-wrap: wrap;
-    gap: 2px;
+    gap: 15px; /* Khoảng cách giữa các menu-item */
     justify-content: flex-start;
 }
 
 .menu-item {
+    width: 200px;
     background-color: #fff;
-    border-radius: 10px;
-    width: 190px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .menu-item img {
-    width: 190px; /* Đặt chiều rộng cố định */
-    height: 150px; /* Đặt chiều cao cố định */
-    object-fit: cover; /* Cắt ảnh để vừa khung */
-    border-radius: 10px; /* Tùy chọn bo góc ảnh */
-    overflow: hidden; /* Đảm bảo không hiển thị phần ảnh vượt khung */
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .menu-item h4 {
-    margin-bottom: 5px;
+    margin-top: 10px;
+    font-size: 1.1em;
     color: black;
 }
 
 .menu-item p {
     color: #555;
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 
 .btn {
-    padding: 10px 20px;
+    padding: 8px 12px;
     background-color: #E63946;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    text-decoration: none;
-    font-size: 1em;
 }
 
 .btn:hover {
     background-color: #F7C843;
 }
 
-/* Footer */
-footer {
-    background-color: #E63946;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    margin-top: 50px;
+
+
+.menu-group {
+    margin-bottom: 30px; /* Tạo khoảng cách giữa các nhóm thực đơn */
 }
+
+/* Group Title */
+.menu-group-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #B8001F;
+    text-align: left;
+    border-bottom: 2px solid #E63946;
+    padding-bottom: 5px;
+}
+
+/* Menu Group */
+.menu-group {
+    margin-bottom: 30px;
+}
+
+/* Menu Items (Sắp xếp các món ngang hàng) */
+.menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Khoảng cách giữa các món */
+}
+
+.menu-item {
+    width: 200px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 
 
 .menu-container {
@@ -214,3 +232,18 @@ footer {
     background-color: #ffffff; /* Màu nền nội dung */
 
 }
+=======
+.menu-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.menu-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
