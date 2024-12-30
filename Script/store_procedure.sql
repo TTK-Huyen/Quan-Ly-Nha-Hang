@@ -417,10 +417,12 @@ END;
 GO
 
 
+use qlnhahang
+go
 
 
 --SP TẠO HÓA ĐƠN DỰA VÀO MÃ PDM
-CREATE PROC TAOHOADON
+CREATE OR ALTER PROC TAOHOADON
 	@MaPhieu BIGINT
 AS
 BEGIN
@@ -437,6 +439,10 @@ BEGIN
 	DECLARE @TongTien DECIMAL(10, 2)
     DECLARE @GiamGia DECIMAL(5, 2)
     DECLARE @ThanhTien DECIMAL(10, 2)
+
+	SET @TongTien = 0;
+	SET @GiamGia = 0;
+	SET @ThanhTien = 0;
 
 	SET @TongTien = 
 	(SELECT SUM(m.GiaHienTai * c.SoLuong)
@@ -457,10 +463,9 @@ BEGIN
 	)
 	IF @Loai IS NULL
 	BEGIN
-		 RAISERROR (N'Không tìm thấy loại thẻ hợp lệ cho khách hàng này', 16, 1);
-    RETURN;
+		 SET @GiamGia = 0;
 	END;
-	IF(@Loai = N'Membership')
+	ELSE IF(@Loai = N'Membership')
 	BEGIN
 		SET @GiamGia = 0;
 	END;
@@ -480,9 +485,12 @@ BEGIN
 
 END;
 GO
-	
 
-CREATE PROC INHOADON
+SELECT * FROM HOADON
+exec TAOHOADON 2
+SELECT * FROM HOADON
+SELECT * FROM CHITIETPHIEU
+CREATE or alter PROC INHOADON
     @MaPhieu BIGINT
 AS
 BEGIN
@@ -498,11 +506,10 @@ BEGIN
     SELECT 
         h.MaPhieu AS [Số hóa đơn],
         h.NgayLap AS [Ngày lập hóa đơn],
-        p.MaKhachHang AS [Mã khách hàng],
-        k.HoTen AS [Tên khách hàng]
+        p.SODIENTHOAI AS [Số điện thoại]
     FROM HoaDon h
     INNER JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
-    LEFT JOIN KhachHang k ON p.MaKhachHang = k.MaKhachHang
+    LEFT JOIN KhachHang k ON p.SODIENTHOAI = k.SoDienThoai
     WHERE h.MaPhieu = @MaPhieu;
 
     PRINT N'---------- DANH SÁCH MÓN ĂN -----------'
@@ -530,6 +537,7 @@ BEGIN
 END;
 GO
 
+exec inhoadon 1
 --SP XEM THÔNG TIN NHÂN VIÊN CHÍNH MÌNH -- LIÊN QUAN ĐẾN PHÂN QUYỀN
 
 

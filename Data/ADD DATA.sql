@@ -1,5 +1,5 @@
-	USE QLNHAHANG;
-
+	USE QLNHAHANG
+	go
 	-- =======================
 	-- Thêm dữ liệu vào bảng BoPhan
 	-- =======================
@@ -21,12 +21,12 @@
 	-- =======================
 	SET IDENTITY_INSERT KhuVuc_ThucDon ON;
 
-	INSERT INTO KhuVuc_ThucDon (MaKhuVuc, TenKhuVuc, TenThucDon) VALUES (1, N'Hồ Chí Minh',N'Thực đơn khu vực 1');
-	INSERT INTO KhuVuc_ThucDon (MaKhuVuc, TenKhuVuc, TenThucDon)VALUES (2, N'Hà Nội',N'Thực đơn khu vực 2');
-	INSERT INTO KhuVuc_ThucDon (MaKhuVuc, TenKhuVuc, TenThucDon)VALUES (3, N'Đà Nẵng',N'Thực đơn khu vực 3');
-	INSERT INTO KhuVuc_ThucDon (MaKhuVuc, TenKhuVuc, TenThucDon)VALUES (4, N'Hải Phòng',N'Thực đơn khu vực 4');
-	INSERT INTO KhuVuc_ThucDon (MaKhuVuc, TenKhuVuc, TenThucDon)VALUES (5, N'Cần Thơ',N'Thực đơn khu vực 5');
-	INSERT INTO KhuVuc_ThucDon (MaKhuVuc, TenKhuVuc, TenThucDon)VALUES (6, N'Vũng Tàu',N'Thực đơn khu vực 6');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon) VALUES (N'Hồ Chí Minh',N'Thực đơn khu vực 1');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hà Nội',N'Thực đơn khu vực 2');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Đà Nẵng',N'Thực đơn khu vực 3');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hải Phòng',N'Thực đơn khu vực 4');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Cần Thơ',N'Thực đơn khu vực 5');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Vũng Tàu',N'Thực đơn khu vực 6');
 
 	SET IDENTITY_INSERT KhuVuc_ThucDon OFF;
 

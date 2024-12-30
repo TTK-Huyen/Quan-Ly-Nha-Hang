@@ -162,7 +162,7 @@ GO
 
 
 --Nhân viên quản lý phải làm việc tại chi nhánh
-DROP TRIGGER trg_ManagerMustWorkAtBranch
+
 CREATE TRIGGER trg_ManagerMustWorkAtBranch
 ON ChiNhanh
 AFTER INSERT, UPDATE
@@ -479,7 +479,8 @@ GO
 
 */
 --	Khi khách hàng cần thanh toán, nhân viên sẽ xuất hóa đơn thanh toán cho khách hàng -- Cái này không hợp lý lắm, vì trigger sẽ chạy ngay sau khi insert PhieuDatMon, nên đổi thành SP
-/* CREATE TRIGGER trg_GenerateInvoice
+/*
+CREATE TRIGGER trg_GenerateInvoice
 ON PhieuDatMon
 AFTER INSERT
 AS
@@ -505,6 +506,7 @@ BEGIN
 END;
 GO
 */
+
 
 -- BANG HOA DON
 --Thanh Tien = TongTien- GiamGia
@@ -694,7 +696,7 @@ BEGIN
     ELSE
     BEGIN
         INSERT INTO DatTruoc
-        SELECT MaKhachHang ,SoLuongKhach, NgayDat, GioDen ,GhiChu, ChiNhanh, SoDienThoai, MaPhieu 
+        SELECT SoLuongKhach, NgayDat, GioDen ,GhiChu, ChiNhanh, SoDienThoai, MaPhieu 
 		FROM inserted;
     END
 END;
