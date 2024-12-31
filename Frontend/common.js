@@ -55,5 +55,22 @@ function initializeEvents() {
     initializeButtons();
 }
 
+
+function openModal() {
+    document.getElementById('membershipModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('membershipModal').style.display = 'none';
+}
+
+// Đóng modal khi người dùng nhấn ngoài modal
+window.onclick = function (event) {
+    const modal = document.getElementById('membershipModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
 // Tự động khởi tạo khi tải trang
 window.onload = initializeEvents;

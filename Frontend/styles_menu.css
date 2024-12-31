@@ -1,4 +1,57 @@
-/* Container cho Sidebar và Content */
+
+/* Reset */
+body, h1, h2, h3, h4, p, ul, li, a, button {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f8f8;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #E63946;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0; /* Khoảng cách từ đầu trang đến vị trí cố định */
+    z-index: 1000; /* Đảm bảo navbar nằm trên các phần tử khác */
+    border-bottom: 1px solid #ccc; /* Thêm viền dưới cho rõ ràng */
+}
+nav .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+nav ul {
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    padding: 5px 10px;
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #F7C843;
+    border-radius: 5px;
+}
+
+
+
+/* Container: Categories and Items */
+
 .menu-container {
     display: flex; /* Sử dụng flexbox để các phần tử nằm ngang */
     align-items: flex-start; /* Căn các phần tử con ở trên cùng */
@@ -34,7 +87,29 @@
 
 /* Menu Content */
 .menu-content {
-    flex-grow: 1; /* Menu content sẽ chiếm phần còn lại của chiều rộng */
+
+    width: 82%;
+}
+
+.menu-content h2 {
+    font-size: 2em;
+    color: #B8001F;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.menu-content h3 {
+    color: #B8001F;
+}
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 60px; /* Offset bằng chiều cao navbar */
+}
+/* Left Sidebar: Categories */
+.menu-categories {
+    flex: 1;
+    max-width: 25%;
+
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -133,6 +208,31 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
+
+.menu-container {
+    display: flex; /* Sử dụng Flexbox để chia sidebar và menu content */
+    height: 100vh; /* Chiều cao toàn màn hình */
+}
+
+.menu-sidebar {
+    width: 250px; /* Chiều rộng sidebar */
+    height: 100%; /* Chiều cao toàn màn hình */
+    overflow-y: auto; /* Cho phép cuộn chỉ trong sidebar */
+    background-color: #f8f8f8; /* Màu nền sidebar */
+    border-right: 1px solid #ccc; /* Viền giữa sidebar và nội dung */
+    position: sticky; /* Giữ sidebar cố định khi cuộn */
+    top: 0;
+}
+
+.menu-content {
+    flex: 1; /* Nội dung chiếm hết phần còn lại */
+    overflow-y: auto; /* Cho phép cuộn chỉ trong menu content */
+    padding: 20px;
+    background-color: #ffffff; /* Màu nền nội dung */
+
+}
+
 .menu-item img {
     width: 100%;
     height: 150px;
@@ -146,3 +246,4 @@
     object-fit: cover;
     border-radius: 10px;
 }
+

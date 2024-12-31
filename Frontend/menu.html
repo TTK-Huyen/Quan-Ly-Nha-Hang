@@ -8,12 +8,26 @@
 </head>
 
 <body>
+
+    <nav>
+        <div class="logo">Sushi X</div>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="Reservation.html">Reservation</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+    </nav>
+
     <!-- Container -->
     <div class="menu-container">
         <!-- Sidebar -->
         <aside class="menu-sidebar">
-            <h2>Menu Categories</h2>
+
+            <h2><li><a href="menu.html">Menu Categories</a></li></h2>
             <ul id="menuCategories">
+                
+
                 <!-- Danh mục sẽ được tải động từ API -->
             </ul>
         </aside>
@@ -51,7 +65,9 @@
                     const li = document.createElement('li');
                     li.innerHTML = `<a href="#category-${category.MaMuc}">${category.TenMuc}</a>`;
                     menuCategories.appendChild(li);
-                });
+
+});
+
             } catch (error) {
                 console.error('Error loading menu categories:', error);
                 alert('Không thể tải danh sách danh mục. Vui lòng thử lại.');
@@ -88,6 +104,19 @@
             loadMenuByKhuVuc(); // Load tất cả món ăn ban đầu
         }
 
+
+        async function getTenMuc(maMuc) {
+            try {
+                const response = await fetch(`/api/getTenMuc?MaMuc=${maMuc}`);
+                const data = await response.json();
+                return data.TenMuc || 'Không xác định'; // Trả về tên mục hoặc fallback
+            } catch (error) {
+                console.error(`Lỗi khi lấy tên mục cho MaMuc ${maMuc}:`, error);
+                return 'Không xác định'; // Trường hợp lỗi
+            }
+        }
+
+
         // Hàm load thực đơn theo khu vực (nếu chọn)
         async function loadMenuByKhuVuc(maKhuVuc = null) {
             try {
@@ -114,13 +143,16 @@
                 });
 
                 // Hiển thị từng nhóm món ăn
-                for (const MaMaMuc in groupedItems) {
+
+                for (const MaMuc in groupedItems) {
                     const groupDiv = document.createElement('div');
                     groupDiv.className = 'menu-group';
+                    groupDiv.id = `category-${MaMuc}`; // Thêm ID để liên kết
 
                     // Tiêu đề nhóm món
                     const groupTitle = document.createElement('h3');
-                    groupTitle.textContent = `Mục Thực Đơn: ${MaMaMuc}`;
+                    groupTitle.textContent = `${groupedItems[MaMuc][0]?.TenMuc || 'Không xác định'}`;
+
                     groupTitle.className = 'menu-group-title';
                     groupDiv.appendChild(groupTitle);
 
@@ -128,7 +160,9 @@
                     const itemsContainer = document.createElement('div');
                     itemsContainer.className = 'menu-items';
 
-                    groupedItems[MaMaMuc].forEach(item => {
+
+                    groupedItems[MaMuc].forEach(item => {
+
                         const div = document.createElement('div');
                         div.className = 'menu-item';
                         div.innerHTML = `
