@@ -205,6 +205,7 @@ BEGIN
 END
 GO
 
+
 CREATE PROCEDURE THEM_MON  @MAMUC TINYINT, @TENMON NVARCHAR(100), @GIAHIENTAI DECIMAL(18,3), @GIAOHANG BIT
 AS
 BEGIN
@@ -220,8 +221,10 @@ BEGIN
 						BEGIN
 							IF(@GIAHIENTAI>0)
 								BEGIN
+
 										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
 						
+
 								END
 							ELSE
 								BEGIN
@@ -289,11 +292,6 @@ GO
 
 
 
-
-
-
-
-				
 --Store procedure PHÂN HỆ NHÂN VIÊN SP  TẠO PHIẾU ĐẶT MÓN
 CREATE PROC THEMPDM
 	@NhanVienLap CHAR(6),
@@ -505,10 +503,12 @@ END;
 GO
 
 
+use qlnhahang
+go
 
 
 --SP TẠO HÓA ĐƠN DỰA VÀO MÃ PDM
-CREATE PROC TAOHOADON
+CREATE OR ALTER PROC TAOHOADON
 	@MaPhieu BIGINT
 AS
 BEGIN
@@ -525,6 +525,10 @@ BEGIN
 	DECLARE @TongTien DECIMAL(10, 2)
     DECLARE @GiamGia DECIMAL(5, 2)
     DECLARE @ThanhTien DECIMAL(10, 2)
+
+	SET @TongTien = 0;
+	SET @GiamGia = 0;
+	SET @ThanhTien = 0;
 
 	SET @TongTien = 
 	(SELECT SUM(m.GiaHienTai * c.SoLuong)
@@ -545,10 +549,9 @@ BEGIN
 	)
 	IF @Loai IS NULL
 	BEGIN
-		 RAISERROR (N'Không tìm thấy loại thẻ hợp lệ cho khách hàng này', 16, 1);
-    RETURN;
+		 SET @GiamGia = 0;
 	END;
-	IF(@Loai = N'Membership')
+	ELSE IF(@Loai = N'Membership')
 	BEGIN
 		SET @GiamGia = 0;
 	END;
@@ -568,9 +571,12 @@ BEGIN
 
 END;
 GO
-	
 
-CREATE PROC INHOADON
+SELECT * FROM HOADON
+exec TAOHOADON 2
+SELECT * FROM HOADON
+SELECT * FROM CHITIETPHIEU
+CREATE or alter PROC INHOADON
     @MaPhieu BIGINT
 AS
 BEGIN
@@ -591,6 +597,7 @@ BEGIN
     FROM HoaDon h
     INNER JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
     LEFT JOIN KhachHang k ON  p.SODIENTHOAI = k.SoDienThoai
+
     WHERE h.MaPhieu = @MaPhieu;
 
     PRINT N'---------- DANH SÁCH MÓN ĂN -----------'
@@ -618,6 +625,7 @@ BEGIN
 END;
 GO
 
+exec inhoadon 1
 --SP XEM THÔNG TIN NHÂN VIÊN CHÍNH MÌNH -- LIÊN QUAN ĐẾN PHÂN QUYỀN
 
 
@@ -1087,28 +1095,42 @@ END
 GO
 
 
---SP XÓA THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
+--SP ĐÓNG THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ
 CREATE PROC XOATHEKH
 	@SOCCCD CHAR(12), @HOTEN NVARCHAR(255), @SODIENTHOAI CHAR(10)
 AS
 BEGIN
+	--KIỂM TRA HỌ TÊN
+	IF NOT EXISTS (SELECT 1 FROM KhachHang where HoTen= @HOTEN)
+	BEGIN
+        RAISERROR (N'Tên khách hàng không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
+	--KIỂM TRA SỐ ĐIỆN THOẠI
+	IF NOT EXISTS (SELECT 1 FROM KhachHang where SoDienThoai = @SODIENTHOAI)
+	BEGIN
+        RAISERROR (N'Số điện thoại này không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RETURN;
+    END;
 	--KIỂM TRA SCCCD
 	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE SoCCCD = @SOCCCD)
     BEGIN
         RAISERROR (N'Số CCCD này không có trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
         RETURN;
     END;
+	
 	--KIỂM TRA KHÁCH HÀNG CÓ THẺ KHÁCH HÀNG KHÔNG
 	IF NOT EXISTS (SELECT 1 FROM TheKhachHang WHERE MaKhachHang = 
-	(SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD))
+	(SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD and TrangThaiThe = 1))
     BEGIN
-        RAISERROR (N'Khách hàng này không có thẻ khách hàng trong hệ thống. Vui lòng kiểm tra lại.', 16, 1);
+        RAISERROR (N'Khách hàng này không có thẻ khách hàng đang hoạt động. Vui lòng kiểm tra lại.', 16, 1);
         RETURN;
     END;
 
-	DELETE FROM TheKhachHang
+	UPDATE TheKhachHang
+	SET TrangThaiThe = 0
 	WHERE MaKhachHang = (SELECT MaKhachHang FROM KhachHang WHERE SoCCCD = @SOCCCD)
-	PRINT N'Xóa thẻ khách hàng thành công';
+	PRINT N'Đóng thẻ khách hàng thành công';
 END;
 GO
 
@@ -1154,8 +1176,7 @@ END;
 
 --3. QUẢN LÝ THÔNG TIN CÁ NHÂN
 ----NOTE THÊM CHỈNH SỬA SOCCCD
-CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN
-	@MaKhachHang BIGINT, @SoDienThoai CHAR(10),@Email VARCHAR(255), @GioiTinh NVARCHAR(4)
+CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN @MaKhachHang BIGINT, @SoDienThoai CHAR(10),@Email VARCHAR(255), @GioiTinh NVARCHAR(4)
 AS
 BEGIN
 	IF EXISTS (SELECT 1 FROM KhachHang WHERE (SoDienThoai = @SoDienThoai OR Email = @Email)
@@ -1175,10 +1196,10 @@ END;
 -- Bổ sung thêm như quy trình trên mess đã miêu tả
 
 
-
 CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
 	@MaKhachHang BIGINT, @MaChiNhanh TINYINT, @SoLuongKhach TINYINT,
 	@GioDen DATETIME, @GhiChu NVARCHAR(255)
+
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)

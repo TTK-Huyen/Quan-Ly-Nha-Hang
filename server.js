@@ -216,7 +216,170 @@ app.post('/logout', async (req, res) => {
 //     next(); // Tiếp tục các middleware khác
 // });
 
+app.post('/api/addCustomerCard', async (req, res) => {
+    const { MaKhachHang, NhanVienLap } = req.body;
 
+    console.log('API received data:', { MaKhachHang, NhanVienLap }); // Log dữ liệu nhận được
+
+    try {
+        const pool = await sql.connect(config);
+
+        await pool.request()
+            .input('MaKhachHang', sql.BigInt, MaKhachHang)
+            .input('NhanVienLap', sql.Char(6), NhanVienLap)
+            .execute('THEMTHEKH');
+
+        res.json({ message: 'Thêm thẻ khách hàng thành công!' });
+    } catch (err) {
+        console.error('Database error:', err);
+
+        // Xử lý lỗi từ SQL Server
+        let errorMessage = 'Lỗi không xác định từ SQL Server.';
+        if (err.precedingErrors && err.precedingErrors.length > 0) {
+            errorMessage = err.precedingErrors[0].message;
+        } else if (err.originalError && err.originalError.info) {
+            errorMessage = err.originalError.info.message;
+        } else if (err.message) {
+            errorMessage = err.message;
+        }
+
+        // Trả lỗi về frontend
+        res.status(500).json({ error: errorMessage });
+    }
+});
+
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.post('/api/addDish', upload.single('AnhMon'), async (req, res) => {
+    console.log('File Info:', req.file);
+    console.log('Request Body:', req.body);
+
+    const { MaMuc, TenMon, GiaHienTai, GiaoHang } = req.body;
+    const AnhMon = req.file ? req.file.buffer : null;
+
+    try {
+        const pool = await sql.connect(config);
+
+        await pool.request()
+            .input('MaMuc', sql.TinyInt, MaMuc)
+            .input('TenMon', sql.NVarChar, TenMon)
+            .input('GiaHienTai', sql.Decimal(18, 3), GiaHienTai)
+            .input('GiaoHang', sql.Bit, GiaoHang)
+            .input('AnhMon', sql.VarBinary(sql.MAX), AnhMon)
+            .execute('THEM_MON');
+
+        res.json({ message: 'Thêm món ăn thành công!' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Lỗi khi thêm món ăn.' });
+    }
+});
+
+
+// API lấy dữ liệu từ bảng BoPhan
+app.get('/api/bophan', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request().query('SELECT * FROM BoPhan');
+        res.json(result.recordset);
+        await pool.close();
+    } catch (err) {
+        res.status(500).send('Lỗi: ' + err.message);
+    }
+});
+
+// API lấy dữ liệu từ bảng ChiNhanh
+app.get('/api/chinhanh', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request().query('SELECT * FROM ChiNhanh');
+        res.json(result.recordset);
+        await pool.close();
+    } catch (err) {
+        res.status(500).send('Lỗi: ' + err.message);
+    }
+});
+
+
+app.get('/api/MucThucDon', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request().query('SELECT MaMuc, TenMuc FROM MucThucDon');
+        res.json(result.recordset);
+    } catch (error) {
+        console.error('Error in /api/MucThucDon:', error);
+        res.status(500).json({ error: 'Lỗi khi tải danh sách mục thực đơn.' });
+    }
+});
+
+
+
+app.get('/api/KhuVuc', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .query('SELECT MaKhuVuc, TenKhuVuc FROM KhuVuc_ThucDon');
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi lấy danh sách khu vực' });
+    }
+});
+
+app.get('/api/ThucDonMon', async (req, res) => {
+    const maKhuVuc = req.query.khuVuc;
+
+    try {
+        const pool = await sql.connect(config);
+        let query = `
+            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc
+            FROM ThucDon_Mon TDM
+            JOIN Mon M ON TDM.MaMon = M.MaMon
+        `;
+
+        if (maKhuVuc) {
+            query += ` WHERE TDM.MaKhuVuc = @MaKhuVuc`;
+        }
+
+        const result = await pool.request()
+            .input('MaKhuVuc', sql.TINYINT, maKhuVuc)
+            .query(query);
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi lấy thực đơn món theo khu vực.' });
+    }
+});
+
+
+
+app.get('/api/ThucDonMon', async (req, res) => {
+    const maKhuVuc = req.query.khuVuc;
+
+    try {
+        const pool = await sql.connect(config);
+        let query = `
+            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc
+            FROM ThucDon_Mon TDM
+            JOIN Mon M ON TDM.MaMon = M.MaMon
+        `;
+
+        if (maKhuVuc) {
+            query += ` WHERE TDM.MaKhuVuc = @MaKhuVuc`;
+        }
+
+        const result = await pool.request()
+            .input('MaKhuVuc', sql.TINYINT, maKhuVuc)
+            .query(query);
+
+        res.json(result.recordset);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi lấy thực đơn món theo khu vực.' });
+    }
+});
 // Khởi chạy server
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);
