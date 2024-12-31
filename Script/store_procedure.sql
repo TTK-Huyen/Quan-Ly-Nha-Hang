@@ -221,7 +221,10 @@ BEGIN
 						BEGIN
 							IF(@GIAHIENTAI>0)
 								BEGIN
-									INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
+
+										INSERT INTO MON(MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (@MAMUC, @TENMON, @GIAHIENTAI, @GIAOHANG)
+						
+
 								END
 							ELSE
 								BEGIN
@@ -288,17 +291,18 @@ END
 GO
 
 
-							
+
 --Store procedure PHÂN HỆ NHÂN VIÊN SP  TẠO PHIẾU ĐẶT MÓN
 CREATE PROC THEMPDM
 	@NhanVienLap CHAR(6),
 	@MaSoBan CHAR(2),
-	@MaKhachHang BIGINT,
-	@MaChiNhanh TINYINT
+	@SoDienThoai char(10),
+	@MaChiNhanh TINYINT,
+	@MaPhieu INT OUTPUT -- Thêm OUTPUT 
 AS
 BEGIN
 	--Kiểm tra nhân viên có tồn tại không
-	IF NOT EXISTS (SELECT 1
+	IF @NhanVienLap IS NOT NULL AND NOT EXISTS (SELECT 1
 	FROM NhanVien
 	WHERE MaNhanVien = @NhanVienLap
 	)
@@ -315,15 +319,7 @@ BEGIN
 		RAISERROR (N'Mã bàn nhập vào không có trong hệ thống',16,1);
 		RETURN;
 	END;
-	--Kiểm tra mã khách hàng có tồn tại không
-	IF @MaKhachHang IS NOT NULL AND NOT EXISTS (SELECT 1
-	FROM KhachHang
-	WHERE MaKhachHang = @MaKhachHang
-	)
-	BEGIN
-		RAISERROR (N'Mã khách hàng nhập vào không có trong hệ thống',16,1);
-		RETURN;
-	END;
+
 	 -- Kiểm tra mã chi nhánh
     IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
     BEGIN
@@ -331,14 +327,104 @@ BEGIN
         RETURN;
     END;
 
-	
+	BEGIN TRANSACTION
 	INSERT INTO PhieuDatMon
-	VALUES (GETDATE(),@NhanVienLap, @MaSoBan, @MaKhachHang,@MaChiNhanh);
+	VALUES (GETDATE(),@NhanVienLap, @MaSoBan, @SoDienThoai,@MaChiNhanh);
+	SET @MaPhieu = SCOPE_IDENTITY();
+
+    COMMIT TRANSACTION;
 	
 END
 GO
 
+CREATE PROC DAT_TRUOC
+    @MaKhachHang BIGINT,
+    @SoDienThoai CHAR(10),
+    @MaChiNhanh TINYINT,
+    @SoLuongKhach TINYINT,
+    @GioDen DATETIME,
+    @GhiChu NVARCHAR(255),
+    @NhanVienLap CHAR(6) = NULL -- Cho phép NULL
+AS
+BEGIN
+    BEGIN TRANSACTION;
 
+    -- Kiểm tra khách hàng
+    IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)
+    BEGIN
+        RAISERROR(N'Mã khách hàng không tồn tại!', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Kiểm tra chi nhánh
+    IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
+    BEGIN
+        RAISERROR(N'Mã chi nhánh không tồn tại!', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Tìm bàn phù hợp
+    DECLARE @MaSoBan TINYINT;
+
+    ;WITH AvailableTables AS (
+        SELECT 
+            B.MaSoBan, 
+            B.SucChua, 
+            ABS(B.SucChua - @SoLuongKhach) AS Distance
+        FROM Ban AS B
+        WHERE 
+            B.MaChiNhanh = @MaChiNhanh -- Lọc theo chi nhánh
+            AND B.TrangThai = 0 -- Bàn phải trống
+            AND B.SucChua >= @SoLuongKhach -- Sức chứa phải >= số lượng khách
+    )
+    SELECT TOP 1 
+        @MaSoBan = MaSoBan
+    FROM AvailableTables
+    ORDER BY Distance ASC, SucChua ASC;
+
+    -- Nếu không tìm thấy bàn phù hợp
+    IF @MaSoBan IS NULL
+    BEGIN
+        RAISERROR(N'Không có bàn phù hợp cho số lượng khách!', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END;
+
+    -- Gọi thủ tục THEMPDM để tạo phiếu đặt món
+    DECLARE @MaPhieu INT;
+
+    BEGIN TRY
+		EXEC THEMPDM 
+			@NhanVienLap = @NhanVienLap, 
+			@MaSoBan = @MaSoBan,
+			@SoDienThoai = @SoDienThoai, 
+			@MaChiNhanh = @MaChiNhanh,
+			@MaPhieu = @MaPhieu OUTPUT; -- Lấy giá trị từ OUTPUT
+	END TRY
+	BEGIN CATCH
+		RAISERROR(N'Lỗi khi tạo phiếu đặt món.', 16, 1);
+		ROLLBACK TRANSACTION;
+		RETURN;
+	END CATCH;
+
+		-- Cập nhật trạng thái bàn
+    UPDATE Ban
+    SET TrangThai = 1
+    WHERE MaSoBan = @MaSoBan AND MaChiNhanh = @MaChiNhanh;
+
+    -- Chèn dữ liệu vào bảng DatTruoc
+    INSERT INTO DatTruoc (MaPhieu, MaKhachHang, SoDienThoai, ChiNhanh, SoLuongKhach, NgayDat ,GioDen, GhiChu)
+    VALUES (@MaPhieu, @MaKhachHang,  @SoDienThoai, @MaChiNhanh, @SoLuongKhach, GETDATE(),@GioDen, @GhiChu);
+
+    COMMIT TRANSACTION;
+    PRINT 'Đặt bàn thành công!';
+END;
+GO
+
+
+			
 
 --SP CẬP NHẬT PHIẾU ĐẶT MÓN: CHỈNH SỬA SỐ LƯỢNG VÀ GHI CHÚ MÓN, KHÔNG ĐƯỢC XÓA
 CREATE PROC NVSUAPDM
@@ -404,12 +490,12 @@ GO
 
 --SP XEM PDM THEO MÃ PDM
 CREATE FUNCTION THEODOIPDM (@MaPhieu BIGINT)
-RETURNS @KETQUA TABLE (MAPHIEU BIGINT, NGAYLAP DATETIME, NHANVIENLAP CHAR(6), MASOBAN CHAR(2), MAKHACHHANG BIGINT)
+RETURNS @KETQUA TABLE (MAPHIEU BIGINT, NGAYLAP DATETIME, NHANVIENLAP CHAR(6), MASOBAN CHAR(2), SODIENTHOAI CHAR(10))
 AS
 BEGIN
-	INSERT INTO @KETQUA  (MAPHIEU, NGAYLAP, NHANVIENLAP , MASOBAN , MAKHACHHANG )
-	SELECT MaPhieu, NgayLap, NhanVienLap, MaSoBan, MaKhachHang
-	FROM PhieuDatMon
+	INSERT INTO @KETQUA  (MAPHIEU, NGAYLAP, NHANVIENLAP , MASOBAN , SODIENTHOAI )
+	SELECT MaPhieu, NgayLap, NhanVienLap, MaSoBan, SODIENTHOAI
+	FROM PhieuDatMon 
 	WHERE MaPhieu = @MaPhieu
 
 	RETURN;
@@ -506,10 +592,12 @@ BEGIN
     SELECT 
         h.MaPhieu AS [Số hóa đơn],
         h.NgayLap AS [Ngày lập hóa đơn],
-        p.SODIENTHOAI AS [Số điện thoại]
+        k.MaKhachHang AS [Mã khách hàng],
+        k.HoTen AS [Tên khách hàng]
     FROM HoaDon h
     INNER JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
-    LEFT JOIN KhachHang k ON p.SODIENTHOAI = k.SoDienThoai
+    LEFT JOIN KhachHang k ON  p.SODIENTHOAI = k.SoDienThoai
+
     WHERE h.MaPhieu = @MaPhieu;
 
     PRINT N'---------- DANH SÁCH MÓN ĂN -----------'
@@ -1106,7 +1194,12 @@ BEGIN
 END;
 --4. ĐẶT BÀN TRỰC TUYẾN -- khi khách hàng đến, nhân viên sẽ kiểm tra các phiếu đặt món của khách hàng mà chưa có hóa đơn
 -- Bổ sung thêm như quy trình trên mess đã miêu tả
-CREATE PROCEDURE SP_DATBAN_TRUCTUYEN @MaKhachHang BIGINT, @MaChiNhanh TINYINT, @SoLuongKhach TINYINT, @GioDen DATETIME, @GhiChu NVARCHAR(255)
+
+
+CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
+	@MaKhachHang BIGINT, @MaChiNhanh TINYINT, @SoLuongKhach TINYINT,
+	@GioDen DATETIME, @GhiChu NVARCHAR(255)
+
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)

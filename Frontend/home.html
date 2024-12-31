@@ -21,6 +21,7 @@
     <ul>
         <li><a href="#menu">Home</a></li>
         <li><a href="menu.html">Order Online</a></li> 
+        <li><a href="Reservation.html">Reservation</a></li>
         <li><a href="#about">About Us</a></li>
         <li id="login"><a href="DangNhap.html">Login</a></li>
         <li id="logout"><a href="#" id="logoutLink">Logout</a></li>
@@ -32,6 +33,15 @@
     <h1>Welcome to Sushi X</h1>
     <p>Best food, good mood!</p>
     <a href="menu.html" class="btn">Order Online</a> 
+    <a href="#" class="btn" onclick="openModal()">Membership</a>
+
+    <!-- Modal -->
+    <div id="membershipModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <iframe src="addCustomer.html" frameborder="0"></iframe>
+        </div>
+    </div>
 
 </div>
 

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Thẻ Khách Hàng</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { max-width: 500px; margin: auto; }
+        label { display: block; margin-bottom: 5px; }
+        input, select, button { width: 100%; margin-bottom: 15px; padding: 10px; font-size: 16px; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        #message { text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Thêm Thẻ Khách Hàng</h1>
+    <form id="addCustomerForm">
+        <label for="MaKhachHang">Mã Khách Hàng:</label>
+        <input type="BigInt" id="MaKhachHang" name="MaKhachHang" required>
+
+        <label for="NhanVienLap">Nhân Viên Lập:</label>
+        <input type= "char" id="NhanVienLap" name="NhanVienLap" maxlength="6" required>
+
+        <button type="button" onclick="submitForm()">Thêm Thẻ Khách Hàng</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        async function submitForm() {
+            const formData = {
+                MaKhachHang: parseInt(document.getElementById('MaKhachHang').value),
+                NhanVienLap: document.getElementById('NhanVienLap').value.trim()
+            };
+
+            try {
+                const response = await fetch('/api/addCustomerCard', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                        document.getElementById('message').innerText = result.message || result.error;
+                    } catch (error) {
+                        console.error('Error:', error);
+                        document.getElementById('message').innerText = 'Lỗi: Không thể thêm khách hàng.';
+                    }
+                }
+    </script>
+</body>
+</html>
