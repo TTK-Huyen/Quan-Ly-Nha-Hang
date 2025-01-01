@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Hóa Đơn</title>
+    <link rel="stylesheet" href="/css/Dashboard.css">
+    <style>
+        /* CSS cho Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            padding: 20px;
+            color: #2c2c2c;
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e63946;
+            margin-bottom: 15px;
+        }
+
+        .modal-content {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content span {
+            font-weight: bold;
+            color: #f7c843;
+        }
+
+        .modal-footer {
+            text-align: center;
+        }
+
+        .modal-footer button {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-footer button:hover {
+            background-color: #f7c843;
+            color: #2c2c2c;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-container">
+        <h1>Quản Lý Hóa Đơn</h1>
+    </div>
+
+    <!-- Bảng danh sách hóa đơn -->
+    <div class="table-container">
+        <h2>Danh Sách Hóa Đơn</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Phiếu</th>
+                    <th>Ngày Lập</th>
+                    <th>Tổng Tiền</th>
+                    <th>Giảm Giá (%)</th>
+                    <th>Thành Tiền</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody id="invoice-table">
+                <!-- Dữ liệu sẽ được thêm từ JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal" id="invoice-modal">
+        <div class="modal-header">Thông Tin Hóa Đơn</div>
+        <div class="modal-content" id="modal-content">
+            <!-- Nội dung hóa đơn sẽ được thêm động -->
+        </div>
+        <div class="modal-footer">
+            <button onclick="closeModal()">Đóng</button>
+        </div>
+    </div>
+
+    <script>
+        // Giả lập danh sách hóa đơn
+        const invoices = [
+            {
+                MaPhieu: 1,
+                NgayLap: "2024-12-14T10:30",
+                TongTien: 150000,
+                GiamGia: 0.10, // 10%
+                ThanhTien: 135000,
+            },
+            {
+                MaPhieu: 2,
+                NgayLap: "2024-12-14T11:15",
+                TongTien: 250000,
+                GiamGia: 0.05, // 5%
+                ThanhTien: 237500,
+            },
+        ];
+
+        // Hiển thị dữ liệu trong bảng
+        function loadInvoices() {
+            const tableBody = document.getElementById("invoice-table");
+            tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+            invoices.forEach((invoice) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${invoice.MaPhieu}</td>
+          <td>${invoice.NgayLap}</td>
+          <td>${invoice.TongTien.toLocaleString()} VND</td>
+          <td>${(invoice.GiamGia * 100).toFixed(0)}%</td>
+          <td>${invoice.ThanhTien.toLocaleString()} VND</td>
+          <td>
+            <button onclick="viewInvoice(${invoice.MaPhieu})">Xem</button>
+            <button onclick="printInvoice(${invoice.MaPhieu})">In Hóa Đơn</button>
+          </td>
+        `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Hiển thị chi tiết hóa đơn trong Modal
+        function viewInvoice(MaPhieu) {
+            const invoice = invoices.find((inv) => inv.MaPhieu === MaPhieu);
+            if (invoice) {
+                const modalContent = document.getElementById("modal-content");
+                modalContent.innerHTML = `
+          <p>Mã Phiếu: <span>${invoice.MaPhieu}</span></p>
+          <p>Ngày Lập: <span>${invoice.NgayLap}</span></p>
+          <p>Tổng Tiền: <span>${invoice.TongTien.toLocaleString()} VND</span></p>
+          <p>Giảm Giá: <span>${(invoice.GiamGia * 100).toFixed(0)}%</span></p>
+          <p>Thành Tiền: <span>${invoice.ThanhTien.toLocaleString()} VND</span></p>
+        `;
+                showModal();
+            }
+        }
+
+        // Hiển thị modal
+        function showModal() {
+            document.getElementById("modal-overlay").classList.add("show");
+            document.getElementById("invoice-modal").classList.add("show");
+        }
+
+        // Đóng modal
+        function closeModal() {
+            document.getElementById("modal-overlay").classList.remove("show");
+            document.getElementById("invoice-modal").classList.remove("show");
+        }
+
+        // In hóa đơn
+        function printInvoice(MaPhieu) {
+            alert(`In hóa đơn cho phiếu: ${MaPhieu}`);
+        }
+
+        // Load dữ liệu khi mở trang
+        loadInvoices();
+    </script>
+</body>
+
+</html>

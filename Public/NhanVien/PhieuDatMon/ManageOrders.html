@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Phiếu Đặt Món</title>
+    <link rel="stylesheet" href="/css/Dashboard.css">
+</head>
+
+<body>
+    <div class="header-container">
+        <h1>Quản Lý Phiếu Đặt Món</h1>
+    </div>
+
+    <!-- Form Thêm/Sửa -->
+    <div class="form-container" id="form-container" style="display: none;">
+        <h2>Thêm/Sửa Phiếu Đặt Món</h2>
+        <form id="order-form">
+            <label for="NgayLap">Ngày Lập:</label>
+            <input type="datetime-local" id="NgayLap" name="NgayLap" required>
+
+            <label for="NhanVienLap">Mã NV Lập:</label>
+            <input type="text" id="NhanVienLap" name="NhanVienLap" maxlength="6" required>
+
+            <label for="MaSoBan">Mã Số Bàn:</label>
+            <input type="text" id="MaSoBan" name="MaSoBan" maxlength="3" required>
+
+            <label for="MaKhachHang">Mã Khách Hàng:</label>
+            <input type="number" id="MaKhachHang" name="MaKhachHang" required>
+
+            <label for="MaChiNhanh">Mã Chi Nhánh:</label>
+            <input type="number" id="MaChiNhanh" name="MaChiNhanh" min="1" max="255" required>
+
+            <button type="submit">Lưu</button>
+            <button type="button" onclick="closeForm()">Hủy</button>
+        </form>
+    </div>
+
+    <!-- Bảng danh sách phiếu -->
+    <div class="table-container">
+        <h2>Danh Sách Phiếu Đặt Món</h2>
+        <button onclick="openForm()">Thêm Phiếu</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Phiếu</th>
+                    <th>Ngày Lập</th>
+                    <th>Mã NV Lập</th>
+                    <th>Mã Số Bàn</th>
+                    <th>Mã Khách Hàng</th>
+                    <th>Mã Chi Nhánh</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody id="order-table">
+                <!-- Dữ liệu sẽ được thêm từ JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Giả lập danh sách phiếu đặt món
+        const orders = [
+            {
+                MaPhieu: 1,
+                NgayLap: "2024-12-14T10:00",
+                NhanVienLap: "NV001",
+                MaSoBan: "B01",
+                MaKhachHang: 1001,
+                MaChiNhanh: 1
+            },
+            {
+                MaPhieu: 2,
+                NgayLap: "2024-12-14T11:00",
+                NhanVienLap: "NV002",
+                MaSoBan: "B02",
+                MaKhachHang: 1002,
+                MaChiNhanh: 2
+            }
+        ];
+
+        // Hiển thị dữ liệu trong bảng
+        function loadOrders() {
+            const tableBody = document.getElementById("order-table");
+            tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+            orders.forEach((order, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${order.MaPhieu}</td>
+          <td>${order.NgayLap}</td>
+          <td>${order.NhanVienLap}</td>
+          <td>${order.MaSoBan}</td>
+          <td>${order.MaKhachHang}</td>
+          <td>${order.MaChiNhanh}</td>
+          <td>
+            <button onclick="viewDetails(${order.MaPhieu})">Xem Chi Tiết</button>
+            <button onclick="editOrder(${index})">Sửa</button>
+            <button onclick="deleteOrder(${index})">Xóa</button>
+          </td>
+        `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Xem chi tiết phiếu
+        function viewDetails(MaPhieu) {
+            window.location.href = `ManageOrderDetails.html?MaPhieu=${MaPhieu}`;
+        }
+
+        // Thêm logic Xóa
+        function deleteOrder(index) {
+            if (confirm("Bạn có chắc chắn muốn xóa phiếu này?")) {
+                orders.splice(index, 1); // Xóa phần tử khỏi mảng
+                loadOrders(); // Cập nhật bảng
+            }
+        }
+
+        // Thêm logic Sửa
+        function editOrder(index) {
+            const order = orders[index];
+            document.getElementById("NgayLap").value = order.NgayLap;
+            document.getElementById("NhanVienLap").value = order.NhanVienLap;
+            document.getElementById("MaSoBan").value = order.MaSoBan;
+            document.getElementById("MaKhachHang").value = order.MaKhachHang;
+            document.getElementById("MaChiNhanh").value = order.MaChiNhanh;
+            openForm();
+        }
+
+        // Mở form
+        function openForm() {
+            document.getElementById("form-container").style.display = "block";
+        }
+
+        // Đóng form
+        function closeForm() {
+            document.getElementById("form-container").style.display = "none";
+        }
+
+        // Load dữ liệu khi mở trang
+        loadOrders();
+    </script>
+</body>
+
+</html>
