@@ -588,12 +588,50 @@ app.get('/api/chinhanhkhuvuc_2', async (req, res) => {
     }
 });
 
+app.get('/api/search-menu', async (req, res) => {
+    const { MaKhuVuc, MaChiNhanh, q } = req.query;
+    // Kiểm tra tham số bắt buộc
+    if (!MaKhuVuc || !MaChiNhanh) {
+        return res.status(400).json({ error: 'Vui lòng cung cấp MaKhuVuc và MaChiNhanh!' });
+    }
+
+    try {
+        const pool = await sql.connect(config);
+        console.log('Dang test'); 
+        // Tạo câu truy vấn với điều kiện tìm kiếm
+        const query = `
+            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc, MTD.TenMuc
+            FROM ThucDon_Mon TDM
+            JOIN Mon M ON TDM.MaMon = M.MaMon
+            JOIN MucThucDon MTD ON M.MAMUC = MTD.MAMUC
+            WHERE M.GiaoHang = 1 
+              AND M.MaMon NOT IN (SELECT MaMon FROM PhucVu WHERE MaChiNhanh = @MaChiNhanh and CoPhucVuKhong = 0)
+              AND TDM.MaKhuVuc = @MaKhuVuc
+              ${q ? 'AND M.TenMon LIKE @SearchQuery' : ''}
+        `;
+        const request = pool.request()
+            .input('MaKhuVuc', sql.TINYINT, MaKhuVuc)
+            .input('MaChiNhanh', sql.TINYINT, MaChiNhanh);
+
+        if (q) {
+            request.input('SearchQuery', sql.NVarChar, `%${q}%`);
+        }
+
+        const result = await request.query(query);
+        console.log('Kết quả trả về từ truy vấn:', result.recordset); // In ra kết quả
+        res.json(result.recordset); // Gửi kết quả về client
+    } catch (err) {
+        console.error('Lỗi khi tìm kiếm món ăn a:', err.message);
+        res.status(500).json({ error: 'Không thể tìm kiếm món ăn.' });
+    }
+});
+
 app.post('/api/order', async (req, res) => {
     try {
-        const { ngayLap, nhanVienLap, soDienThoai, maChiNhanh, chiTietPhieu } = req.body;
-
+        const {customerPhone, maChiNhanh, maKhuVuc, cartItems, customerAddress} = req.body;
+        console.log('Dữ liệu nhận được:', { customerPhone, maChiNhanh, maKhuVuc, cartItems, customerAddress });
         // Kiểm tra dữ liệu đầu vào
-        if (!nhanVienLap || !maSoBan || !soDienThoai || !maChiNhanh || !chiTietPhieu || chiTietPhieu.length === 0) {
+        if (!customerPhone || !maChiNhanh || !maKhuVuc || !cartItems || !customerAddress) {
             return res.status(400).json({ error: 'Dữ liệu không đầy đủ!' });
         }
 
@@ -601,13 +639,13 @@ app.post('/api/order', async (req, res) => {
 
         // Chèn vào bảng PhieuDatMon
         const phieuDatMonResult = await pool.request()
-            .input('NgayLap', sql.DATETIME, ngayLap || new Date())
-            .input('SoDienThoai', sql.NVARCHAR, soDienThoai)
+            .input('SoDienThoai', sql.VarChar(10), customerPhone)
             .input('MaChiNhanh', sql.TINYINT, maChiNhanh)
+            .input('GhiChu', sql.NVarChar(200), customerAddress)
             .query(`
-                INSERT INTO PhieuDatMon (NgayLap, SoDienThoai, MaChiNhanh)
+                INSERT INTO PhieuDatMon (NgayLap, SoDienThoai, MaChiNhanh, GhiChu)
                 OUTPUT INSERTED.MaPhieu
-                VALUES (@NgayLap, @MaSoBan, @SoDienThoai, @MaChiNhanh)
+                VALUES (GETDATE(), @SoDienThoai, @MaChiNhanh, @GhiChu)
             `);
 
         const maPhieu = phieuDatMonResult.recordset[0].MaPhieu;
@@ -619,13 +657,17 @@ app.post('/api/order', async (req, res) => {
         `;
 
         const chiTietRequest = pool.request();
-        chiTietPhieu.forEach(async (item) => {
-            await chiTietRequest
-                .input('MaPhieu', sql.INT, maPhieu)
-                .input('MaMon', sql.TINYINT, item.MaMon)
-                .input('SoLuong', sql.TINYINT, item.SoLuong)
-                .query(chiTietQuery);
-        });
+        for (const item of cartItems) {
+            try {
+                await pool.request()
+                    .input('MaPhieu', sql.INT, maPhieu)
+                    .input('MaMon', sql.TINYINT, item.MaMon)
+                    .input('SoLuong', sql.TINYINT, item.SoLuong)
+                    .query(chiTietQuery);
+            } catch (err) {
+                console.error(`Lỗi khi thêm món ${item.MaMon}:`, err.message);
+            }
+        }
 
         res.status(201).json({ message: 'Dữ liệu đã được lưu!', maPhieu });
         await pool.close();

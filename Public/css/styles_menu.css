@@ -410,3 +410,28 @@ html {
     padding: 0 10px;
 }
 
+#searchContainer {
+    position: fixed; /* Định vị cố định */
+    top: 170px; /* Cách cạnh dưới 20px */
+    right: 50px; /* Cách cạnh phải 20px */
+    z-index: 1000; /* Đảm bảo nó nổi lên trên các phần tử khác */
+    background-color: #fff; /* Nền trắng */
+    padding: 10px; /* Thêm khoảng cách bên trong */
+    border: 1px solid #ddd; /* Đường viền */
+    border-radius: 8px; /* Bo góc */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+}
+
+#searchInput {
+    width: 200px; /* Chiều rộng của ô tìm kiếm */
+    padding: 5px; /* Khoảng cách bên trong */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 4px; /* Bo góc */
+    outline: none; /* Bỏ viền xanh khi nhấn */
+}
+
+#searchInput:focus {
+    border-color: #007bff; /* Đổi màu viền khi nhập */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng ánh sáng */
+}
+

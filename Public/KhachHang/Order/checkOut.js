@@ -72,22 +72,27 @@ async function loadBranchAndRegionInfo(maChiNhanh, maKhuVuc) {
 
 
 
-
-
-
 // Xử lý khi nhấn nút "Hoàn Tất Đặt Hàng"
 document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
     // Lấy thông tin từ sessionStorage
     const cartItems = JSON.parse(sessionStorage.getItem('cartItems') || '[]');
-    const maChiNhanh = sessionStorage.getItem('tempMaChiNhanh');
-    const maKhuVuc = sessionStorage.getItem('tempMaKhuVuc');
+    const maChiNhanh = sessionStorage.getItem('maChiNhanh');
+    const maKhuVuc = sessionStorage.getItem('maKhuVuc');
 
     // Lấy thông tin khách hàng từ form
     const customerName = document.getElementById('customerName').value;
     const customerPhone = document.getElementById('customerPhone').value;
     const customerAddress = document.getElementById('customerAddress').value;
+
+    // Kiểm tra dữ liệu đọc được
+    console.log("Dữ liệu giỏ hàng:", cartItems);
+    console.log("Mã Chi Nhánh:", maChiNhanh);
+    console.log("Mã Khu Vực:", maKhuVuc);
+    console.log("Số Điện Thoại:", customerPhone);
+    console.log("Địa Chỉ Giao Hàng:", customerAddress);
+    console.log("Tên khách hàng:", customerName);
 
     // Kiểm tra dữ liệu đầu vào
     if (!cartItems.length || !maChiNhanh || !maKhuVuc) {
@@ -103,14 +108,12 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                customerPhone,
                 maChiNhanh,
                 maKhuVuc,
                 cartItems,
-                customerInfo: {
-                    name: customerName,
-                    phone: customerPhone,
-                    address: customerAddress,
-                },
+                customerAddress
+
             }),
         });
 
@@ -118,15 +121,15 @@ document.getElementById('checkoutForm').addEventListener('submit', async (e) => 
 
         if (response.ok) {
             // Hiển thị thông báo đặt hàng thành công
-            alert(`Đặt hàng thành công! Mã đơn hàng của bạn là: ${result.orderId}`);
+            alert(`Đặt hàng thành công!`);
 
             // Xóa thông tin giỏ hàng và khu vực/chi nhánh
             sessionStorage.removeItem('cartItems');
-            sessionStorage.removeItem('tempMaChiNhanh');
-            sessionStorage.removeItem('tempMaKhuVuc');
+            sessionStorage.removeItem('maChiNhanh');
+            sessionStorage.removeItem('maKhuVuc');
 
             // Điều hướng sang trang cảm ơn
-            window.location.href = '/KhachHang/Order/thankyou.html';
+            window.location.href = '/home.html';
         } else {
             // Hiển thị lỗi nếu API trả về lỗi
             alert(`Lỗi khi đặt hàng: ${result.error}`);
