@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sushi X</title>
     <link rel="stylesheet" href="/css/styles_home.css">
+    <script src="/navbar-loader.js" defer></script> <!-- Nhúng script -->
     <style>
         /* Ẩn nút Logout mặc định */
         #login, #logout {
@@ -16,17 +17,7 @@
 <body>
     <!-- Navigation Bar -->
 <!-- Navigation Bar -->
-<nav>
-    <div class="logo">Sushi X</div>
-    <ul>
-        <li><a href="#menu">Home</a></li>
-        <li><a href="/KhachHang/Order/menu.html">Order Online</a></li> 
-        <li><a href="/KhachHang/Reservation/Reservation.html">Reservation</a></li>
-        <li><a href="#about">About Us</a></li>
-        <li id="login"><a href="DangNhap.html">Login</a></li>
-        <li id="logout"><a href="#" id="logoutLink">Logout</a></li>
-    </ul>
-</nav>
+<div id="navbar"></div> <!-- Phần navbar sẽ được chèn vào đây -->
 
 <!-- Hero Section -->
 <div class="hero">
