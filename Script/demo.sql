@@ -36,3 +36,48 @@ WHERE KV.MaKhuVuc = 3
   AND HD.NgayLap < '2025-1-30' AND HD.NgayLap > '2024-1-1'
 GROUP BY M.MaMon, M.GiaHienTai, M.TenMon
 ORDER BY TongTien DESC;
+--- Xem doanh thu theo từng ngày, từng tháng, từng quý và từng năm
+-- Theo ngay
+EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = '2024-12-01', @END_DAY = '2024-12-31';
+-- Theo thang
+DECLARE @Year INT = 2024;
+DECLARE @StartDate DATE = CAST(@Year AS VARCHAR) + '-01-01';
+DECLARE @EndDate DATE = CAST(@Year AS VARCHAR) + '-12-31';
+
+EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = @StartDate, @END_DAY = @EndDate;
+
+--- Theo quy
+EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = '2024-01-01', @END_DAY = '2024-03-31';
+EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = '2024-04-01', @END_DAY = '2024-06-30';
+EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = '2024-07-01', @END_DAY = '2024-09-30';
+EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = '2024-10-01', @END_DAY = '2024-12-31';
+--- Theo nam
+EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = '2024-01-01', @END_DAY = '2024-12-31';
+
+-- Them/xoa/cap nhat thong tin the khach hang
+-- Them thongg tin the khach hang
+EXEC THEMTHEKH 
+    @MAKHACHHANG = 1, 
+    @NHANVIENLAP = 'NV1234';
+--xem lai
+EXEC SP_XEMTHONGTIN_THETHANHVIEN @MaKhachHang = 1;
+
+
+-- Xoa Thong tin the khach hang
+EXEC XOATHEKH 
+    @SOCCCD = '123456789012', 
+    @HOTEN = N'Nguyễn Văn A', 
+    @SODIENTHOAI = '0123456789';
+
+-- Cap nhat thong tin the khach hang
+EXEC CAPNHAT_THEKHACHHANG 
+    @MASOTHE = 'TH123456', 
+    @MAKHACHHANG = 1, 
+    @NGAYLAP = '2025-01-01', 
+    @NHANVIENLAP = 'NV1234', 
+    @TRANGTHAITHE = 1, 
+    @DIEMHIENTAI = 500, 
+    @DIEMTICHLUY = 1000, 
+    @NGAYDATTHE = '2025-01-01', 
+    @LOAITHE = N'Gold';
+
