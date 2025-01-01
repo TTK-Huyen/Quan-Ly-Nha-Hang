@@ -28,8 +28,8 @@
 
             
             <div class="form-group">
-                <p>Customer ID</p>
-                <input type="text" id="MaKhachHang" placeholder="Enter your ID">
+                <p>Name</p>
+                <input type="text" id="MaKhachHang" placeholder="Enter your name">
 
             </div>
         
@@ -105,13 +105,13 @@
             // Hàm tải danh sách chi nhánh theo khu vực
             async function loadChiNhanh(maKhuVuc) {
                 try {
-                    const response = await fetch(`/api/ChiNhanh?maKhuVuc=${maKhuVuc}`);
+                    const response = await fetch(`/api/ChiNhanhKV?maKhuVuc=${maKhuVuc}`);
                     if (!response.ok) throw new Error('Error fetching ChiNhanh data');
                     const ChiNhanhList = await response.json();
-
+                    console.log('ChiNhanhList:', ChiNhanhList);
                     const selectChiNhanh = document.getElementById('MaChiNhanh');
                     selectChiNhanh.innerHTML = '<option value="" disabled selected>Address</option>'; // Reset dropdown
-
+                    
                     // Tạo các tùy chọn chi nhánh
                     ChiNhanhList.forEach(chiNhanh => {
                         const option = document.createElement('option');
@@ -131,7 +131,6 @@
             async function submitForm() {
                 // Lấy dữ liệu từ form
                 const formData = {
-                    MaKhachHang: parseInt(document.getElementById('MaKhachHang').value),
                     SoDienThoai: document.getElementById('SoDienThoai').value,
                     MaChiNhanh: parseInt(document.getElementById('MaChiNhanh').value),
                     SoLuongKhach: parseInt(document.getElementById('SoLuongKhach').value),
@@ -157,6 +156,14 @@
                     const result = await response.json();
 
                     // Kiểm tra phản hồi
+                    if (response.ok) {
+                        // Hiển thị thông báo thành công
+                        alert('Đặt trước thành công! Cảm ơn bạn.');
+                        window.location.href = '/KhachHang/Reservation/success.html'; // Điều hướng đến trang thành công
+                    } else {
+                        // Hiển thị lỗi từ server
+                        alert(`Lỗi: ${result.error || 'Không thể đặt trước.'}`);
+                    }
                     
                 } catch (error) {
                     // Xử lý lỗi khi không thể gửi yêu cầu
@@ -164,7 +171,7 @@
                     alert('Không thể tải danh sách chi nhánh. Vui lòng thử lại.');
                 }
             }
-
+            
 
         </script>
     </body>

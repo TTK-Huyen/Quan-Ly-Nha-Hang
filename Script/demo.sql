@@ -1,9 +1,18 @@
 ﻿-- Viết các kịch bản truy vấn
 
 
+SELECT * FROM KhachHang
+--thống kê doanh thu theo từng món, món chạy nhất, món bán chậm nhất trong 1 khoảng thời gian cụ thể theo chi nhánh, khu vực -- Huyền
 
---thống kê doanh thu theo từng món, món chạy nhất, món bán chậm nhất trong
---1 khoảng thời gian cụ thể theo chi nhánh, khu vực
+EXEC SP_THONGKEDOANHTHU_MONAN @NGAYBATDAU = '2023-1-1', @NGAYKETTHUC = '2023-12-31', @MACHINHANH = 30, @MAKHUVUC = 2
+
+-- In hóa đơn khi khách hàng yêu cầu -- Huyền
+EXEC INHOADON 2
+
+-- ĐÓNG THẺ KHÁCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ -- Huyền
+EXEC XOATHEKH '123456000001', 'Pham Thi Phuc', '0982712434'
+
+/*
 USE QLNHAHANG
 GO
 -- Món, Mục thực đơn, Hóa đơn, phiếu đặt món,chi tiết phiếu, chi nhánh, khu vực_thực đơn 
@@ -279,6 +288,7 @@ BEGIN
     WHERE n.MaBoPhan = @MaBoPhan;
 END;
 go 
+*/
 
 
 
@@ -350,6 +360,7 @@ BEGIN
 	PRINT N'Chuyển nhân sự thành công';
 END
 GO
+
 --- Xem doanh thu theo từng ngày, từng tháng, từng quý và từng năm
 -- Theo ngay
 EXEC THONGKE_DOANHTHU_CHINHANH @MACN = 1, @START_DAY = '2024-12-01', @END_DAY = '2024-12-31';

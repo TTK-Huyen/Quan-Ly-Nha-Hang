@@ -304,10 +304,10 @@ app.post('/api/addCustomerCard', async (req, res) => {
 });
 
 app.post('/api/addReservation', async (req, res) => {
-    const { MaKhachHang, SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu } = req.body;
+    const {SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu } = req.body;
 
     // Log dữ liệu nhận được
-    console.log('API received data:', { MaKhachHang, SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu });
+    console.log('API received data:', {SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu });
 
     try {
         // Kết nối đến SQL Server
@@ -321,7 +321,6 @@ app.post('/api/addReservation', async (req, res) => {
 
         // Gọi thủ tục DATTRUOC
         await pool.request()
-            .input('MaKhachHang', sql.BigInt, MaKhachHang)
             .input('SoDienThoai', sql.Char(10), SoDienThoai)
             .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
             .input('SoLuongKhach', sql.TinyInt, SoLuongKhach)
@@ -329,7 +328,6 @@ app.post('/api/addReservation', async (req, res) => {
             .input('GhiChu', sql.NVarChar, GhiChu || null) // Ghi chú có thể để trống
             .execute('DAT_TRUOC');
             console.log({
-                MaKhachHang,
                 SoDienThoai,
                 MaChiNhanh,
                 SoLuongKhach,

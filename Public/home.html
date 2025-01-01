@@ -22,10 +22,13 @@
     <ul>
         <li><a href="home.html">Home</a></li>
         <li><a href="/KhachHang/Order/menu.html">Order Online</a></li> 
-        <li><a href="/KhachHang/Reservation/Reservation.html">Reservation</a></li>
+        <li><a href="/KhachHang/PreOrder/Reservation.html">Reservation</a></li>
         <li><a href="#about">About Us</a></li>
         <li id="login"><a href="DangNhap.html">Login</a></li>
         <li id="logout"><a href="#" id="logoutLink">Logout</a></li>
+        <li id="customerInfo">
+            <a href="#" onclick="fetchAndShowCustomerInfo()">Xem Thông tin</a>
+        </li>
     </ul>
 </nav>
 
@@ -34,7 +37,7 @@
     <h1>Welcome to Sushi X</h1>
     <p>Best food, good mood!</p>
     <a href="/KhachHang/Order/menu.html" class="btn">Đặt hàng</a> 
-    <a href="#" class="btn" onclick="openModal()">Đăng Kí thành viên</a>
+    <a href="#" id="registerLink" class="btn" onclick="openModal()">Đăng Kí thành viên</a>
 
     <!-- Modal -->
     <div id="membershipModal" class="modal">
@@ -141,6 +144,20 @@
 
     <!-- Import JavaScript dùng chung -->
     <script src="common.js"></script>
+
+    <!-- Modal hiển thị thông tin khách hàng -->
+    <div id="customerInfoModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeCustomerInfoModal()">&times;</span>
+        <h2>Thông Tin Khách Hàng</h2>
+        <div class="customer-info">
+            <p><strong>Họ và Tên:</strong> <span id="modalCustomerName"></span></p>
+            <p><strong>Email:</strong> <span id="modalCustomerEmail"></span></p>
+            <p><strong>Số Điện Thoại:</strong> <span id="modalCustomerPhone"></span></p>
+            <p><strong>Điểm Tích Lũy:</strong> <span id="modalCustomerPoints"></span></p>
+        </div>
+    </div>
+    </div>
 
 </body>
 </html>

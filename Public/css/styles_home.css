@@ -272,3 +272,20 @@ footer {
     height: 500px; /* Chiều cao modal */
     border: none;
 }
+
+
+/* Định dạng icon avatar */
+.avatar-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    transition: border 0.3s ease;
+}
+
+.avatar-icon:hover {
+    border: 2px solid #E63946; /* Hiệu ứng hover */
+}
+

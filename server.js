@@ -525,7 +525,35 @@ app.get('/api/getTenMuc', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 // API lấy chi nhánh cụ thể theo Mã Khu Vực và Mã Chi Nhánh
+=======
+app.get('/api/ChiNhanhKV', async (req, res) => {
+    const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
+    try {
+        const pool = await sql.connect(config);
+        let query = 'SELECT * FROM ChiNhanh'; // Truy vấn mặc định
+
+        if (maKhuVuc) {
+            // Nếu có MaKhuVuc, thêm điều kiện lọc
+            query += ' WHERE MaKhuVuc = @MaKhuVuc';
+        }
+
+        const request = pool.request();
+        if (maKhuVuc) {
+            request.input('MaKhuVuc', sql.TinyInt, maKhuVuc); // Khai báo đúng tên biến
+        }
+
+        const result = await request.query(query);
+        res.json(result.recordset); // Trả về danh sách chi nhánh
+    } catch (err) {
+        console.error('Error in /api/ChiNhanh:', err);
+        res.status(500).send('Lỗi: ' + err.message);
+    }
+});
+
+// API lấy danh sách Chi Nhánh theo MaKhuVuc
+>>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3
 app.get('/api/chinhanhkhuvuc', async (req, res) => {
     try {
         const { MaKhuVuc } = req.query; // Lấy tham số MaKhuVuc từ query string
@@ -677,6 +705,90 @@ app.post('/api/order', async (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 app.listen(port, () => {
     console.log(`Server đang chạy tại http://localhost:${port}`);
 });
+=======
+// API lấy thông tin khách hàng
+app.get('/api/customer-info', async (req, res) => {
+    const customerId = req.query.customerId;
+
+    if (!customerId) {
+        return res.status(400).json({ error: 'Vui lòng cung cấp ID khách hàng!' });
+    }
+
+    try {
+        const pool = await sql.connect(config);
+
+        const query = `
+            SELECT KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai, SUM(T.diemTichLuy + T.DiemHienTai) AS TongDiem 
+            FROM KhachHang KH JOIN THEKHACHHANG T ON KH.MaKhachHang = T.MaKhachHang
+            WHERE KH.SoDienThoai = @CustomerId
+            GROUP BY KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai;
+        `;
+        const result = await pool.request()
+            .input('CustomerId', sql.Int, customerId)
+            .query(query);
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: 'Không tìm thấy khách hàng!' });
+        }
+        console.log('Thông tin khách hàng:', result.recordset[0]);
+        res.json(result.recordset[0]);
+    } catch (err) {
+        console.error('Lỗi khi lấy thông tin khách hàng:', err.message);
+        res.status(500).json({ error: 'Không thể lấy thông tin khách hàng.' });
+    }
+});
+
+app.post('/api/addReservation', async (req, res) => {
+    const {SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu } = req.body;
+
+    // Log dữ liệu nhận được
+    console.log('API received data:', {SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu });
+
+    try {
+        // Kết nối đến SQL Server
+        const pool = await sql.connect(config);
+
+        // Kiểm tra và chuyển đổi `GioDen` thành Date nếu cần
+        const gioDenDate = new Date(GioDen);
+        if (isNaN(gioDenDate)) {
+            return res.status(400).json({ error: 'Thời gian đến (GioDen) không hợp lệ' });
+        }
+
+        // Gọi thủ tục DATTRUOC
+        await pool.request()
+            .input('SoDienThoai', sql.Char(10), SoDienThoai)
+            .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
+            .input('SoLuongKhach', sql.TinyInt, SoLuongKhach)
+            .input('GioDen', sql.DateTime, gioDenDate)
+            .input('GhiChu', sql.NVarChar, GhiChu || null) // Ghi chú có thể để trống
+            .execute('DAT_TRUOC');
+            console.log({
+                MaKhachHang,
+                SoDienThoai,
+                MaChiNhanh,
+                SoLuongKhach,
+                GioDen: gioDenDate,
+                GhiChu
+            });
+        // Trả về phản hồi thành công
+        res.status(200).json({ message: 'Đặt trước thành công!' });
+
+    } catch (error) {
+        console.error('Error while executing DATTRUOC:', error);
+
+        // Xử lý lỗi cụ thể nếu có thể
+        const errorMessage = error.originalError?.info?.message || 'Lỗi khi đặt trước';
+        res.status(500).json({ error: errorMessage });
+    }
+});
+
+
+// Khởi chạy server
+app.listen(PORT, () => {
+    console.log(`Server đang chạy tại http://localhost:${PORT}`);
+});
+>>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3
