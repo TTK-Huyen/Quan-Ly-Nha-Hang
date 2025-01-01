@@ -13,8 +13,8 @@
         <div class="logo">Sushi X</div>
         <ul>
             <li><a href="home.html">Home</a></li>
-            <li><a href="menu.html">Menu</a></li>
-            <li><a href="Reservation.html">Reservation</a></li>
+            <li><a href="/KhachHang/Order/menu.html">Menu</a></li>
+            <li><a href="/KhachHang/PreOrderFood/PReservation.html">Reservation</a></li>
             <li><a href="#about">About Us</a></li>
         </ul>
     </nav>
@@ -39,22 +39,25 @@
         <!-- Menu Section -->
         <section class="menu-content">
             <h2>Our Speciality Menu</h2>
-        <!-- Dropdown Chọn Khu Vực -->
-        <div>
-        <label for="khuVucDropdown">Chọn Khu Vực: </label>
-        <select id="khuVucDropdown">
-            <option value="">-- Tất cả Khu Vực --</option>
-        </select>
-        </div>
+            <!-- Dropdown Chọn Khu Vực -->
+            <div>
+            <label for="khuVucDropdown">Chọn Khu Vực: </label>
+            <select id="khuVucDropdown">
+                <option value="">-- Tất cả Khu Vực --</option>
+            </select>
+            </div>
 
-        <!-- Dropdown Chọn Chi Nhánh -->
-        <div>
-        <label for="chiNhanhDropdown">Chọn Chi Nhánh: </label>
-        <select id="chiNhanhDropdown" disabled>
-            <option value="">-- Chọn Chi Nhánh --</option>
-        </select>
-        </div>
+            <!-- Dropdown Chọn Chi Nhánh -->
+            <div>
+            <label for="chiNhanhDropdown">Chọn Chi Nhánh: </label>
+            <select id="chiNhanhDropdown" disabled>
+                <option value="">-- Chọn Chi Nhánh --</option>
+            </select>
+            </div>
 
+            <div id="searchContainer" style="display: BLOCK;">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm món ăn...">
+            </div>
 
             <div id="menuItems">
                 <!-- Món ăn sẽ được hiển thị tại đây -->
