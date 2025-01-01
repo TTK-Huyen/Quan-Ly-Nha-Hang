@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // Phục vụ file tĩnh (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, 'Frontend')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(port, () => {
     console.log(`Server đang chạy tại http://localhost:${port}`);
