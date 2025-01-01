@@ -328,17 +328,15 @@ BEGIN
     END;
 
 	BEGIN TRANSACTION
-	INSERT INTO PhieuDatMon
-	VALUES (GETDATE(),@NhanVienLap, @MaSoBan, @SoDienThoai,@MaChiNhanh);
+	INSERT INTO PhieuDatMon(NgayLap,NhanVienLap, MaSoBan, SODIENTHOAI, MaChiNhanh)
+	VALUES (GETDATE(),@NhanVienLap, @MaSoBan, @SoDienThoai, @MaChiNhanh);
 	SET @MaPhieu = SCOPE_IDENTITY();
 
     COMMIT TRANSACTION;
-	
 END
 GO
 
-CREATE PROC DAT_TRUOC
-    @MaKhachHang BIGINT,
+CREATE OR ALTER PROC DAT_TRUOC
     @SoDienThoai CHAR(10),
     @MaChiNhanh TINYINT,
     @SoLuongKhach TINYINT,
@@ -349,13 +347,6 @@ AS
 BEGIN
     BEGIN TRANSACTION;
 
-    -- Kiểm tra khách hàng
-    IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE MaKhachHang = @MaKhachHang)
-    BEGIN
-        RAISERROR(N'Mã khách hàng không tồn tại!', 16, 1);
-        ROLLBACK TRANSACTION;
-        RETURN;
-    END;
 
     -- Kiểm tra chi nhánh
     IF NOT EXISTS (SELECT 1 FROM ChiNhanh WHERE MaChiNhanh = @MaChiNhanh)
@@ -415,8 +406,8 @@ BEGIN
     WHERE MaSoBan = @MaSoBan AND MaChiNhanh = @MaChiNhanh;
 
     -- Chèn dữ liệu vào bảng DatTruoc
-    INSERT INTO DatTruoc (MaPhieu, MaKhachHang, SoDienThoai, ChiNhanh, SoLuongKhach, NgayDat ,GioDen, GhiChu)
-    VALUES (@MaPhieu, @MaKhachHang,  @SoDienThoai, @MaChiNhanh, @SoLuongKhach, GETDATE(),@GioDen, @GhiChu);
+    INSERT INTO DatTruoc (MaPhieu, SoDienThoai, ChiNhanh, SoLuongKhach, NgayDat ,GioDen, GhiChu)
+    VALUES (@MaPhieu, @SoDienThoai, @MaChiNhanh, @SoLuongKhach, GETDATE(),@GioDen, @GhiChu);
 
     COMMIT TRANSACTION;
     PRINT 'Đặt bàn thành công!';
@@ -508,7 +499,7 @@ go
 
 
 --SP TẠO HÓA ĐƠN DỰA VÀO MÃ PDM
-CREATE OR ALTER PROC TAOHOADON
+CREATE PROC TAOHOADON
 	@MaPhieu BIGINT
 AS
 BEGIN
@@ -572,10 +563,6 @@ BEGIN
 END;
 GO
 
-SELECT * FROM HOADON
-exec TAOHOADON 2
-SELECT * FROM HOADON
-SELECT * FROM CHITIETPHIEU
 CREATE or alter PROC INHOADON
     @MaPhieu BIGINT
 AS
@@ -833,6 +820,7 @@ END;
 GO
 
 
+
 --SP CẬP NHẬT THÔNG TIN NHÂN VIÊN: SỬA ĐIỂM, LƯƠNG, THÊM NGÀY NGHỈ VIỆC
 CREATE PROCEDURE CAPNHAT_NHANVIEN @MANHANVIEN CHAR(6), @HOTEN NVARCHAR(255), @NGAYSINH DATE,@GIOITINH NVARCHAR(4), @LUONG DECIMAL(18,3), @NGAYVAOLAM DATE, @NGAYNGHIVIEC DATE, @MABOPHAN CHAR(4), @DIEMSO DECIMAL(9,0)
 AS
@@ -1004,7 +992,8 @@ BEGIN
 END;
 GO
 
-
+use qlnhahang
+go
 --SP THÊM THÔNG TIN THẺ KHÁCH HÀNG 
 CREATE PROC THEMTHEKH
 	@MAKHACHHANG BIGINT, @NHANVIENLAP CHAR(6) 
@@ -1043,10 +1032,10 @@ BEGIN
 	PRINT N'Thêm thẻ khách hàng thành công';
 END;
 GO
+select * from TheKhachHang
+exec THEMTHEKH 1, 'NV0001'
 
-
-
-
+select * from KhachHang
 --SP CẬP NHẬT THÔNG TIN ĐIỂM KHÁCH HÀNG
 --NOTE
 CREATE PROCEDURE CAPNHAT_THEKHACHHANG
@@ -1402,3 +1391,93 @@ BEGIN
         NgayDatThe = GETDATE()
     WHERE LoaiThe NOT IN (N'Membership', N'Silver', N'Gold');
 END;
+
+CREATE OR ALTER PROCEDURE SP_THONGKEDOANHTHU_MONAN
+    @NGAYBATDAU DATE,       -- Ngày bắt đầu thống kê
+    @NGAYKETHUC DATE,       -- Ngày kết thúc thống kê
+    @MACHINHANH TINYINT,    -- Mã chi nhánh cần thống kê
+    @MAKHUVUC TINYINT       -- Mã khu vực cần thống kê
+AS
+BEGIN
+    -- Kiểm tra logic: Ngày bắt đầu phải nhỏ hơn ngày kết thúc
+    IF @NGAYBATDAU >= @NGAYKETHUC
+    BEGIN
+        RAISERROR ('Ngày bắt đầu phải nhỏ hơn ngày kết thúc.', 16, 1);
+        RETURN;
+    END
+
+    -- Kiểm tra mã chi nhánh có hợp lệ hay không
+    IF NOT EXISTS (SELECT 1 FROM CHINHANH WHERE MaChiNhanh = @MACHINHANH)
+    BEGIN
+        RAISERROR ('Mã chi nhánh không hợp lệ.', 16, 1);
+        RETURN;
+    END
+
+    -- Kiểm tra mã khu vực có hợp lệ hay không
+    IF NOT EXISTS (SELECT 1 FROM KHUVUC_THUCDON WHERE MaKhuVuc = @MAKHUVUC)
+    BEGIN
+        RAISERROR ('Mã khu vực không hợp lệ.', 16, 1);
+        RETURN;
+    END
+
+    -- Thống kê doanh thu theo từng món
+    PRINT 'Thống kê doanh thu theo từng món:';
+    SELECT 
+        M.MaMon, 
+        M.TenMon,
+        COUNT(*) AS SoLuongBan,
+        COUNT(*) * M.GiaHienTai AS TongDoanhThu
+    FROM MON M
+    JOIN CHITIETPHIEU CTP ON M.MaMon = CTP.MaMon
+    JOIN PHIEUDATMON PDM ON PDM.MaPhieu = CTP.MaPhieu
+    JOIN HOADON HD ON PDM.MaPhieu = HD.MaPhieu
+    JOIN CHINHANH CN ON PDM.MaChiNhanh = CN.MaChiNhanh
+    JOIN KHUVUC_THUCDON KV ON KV.MaKhuVuc = CN.MaKhuVuc
+    WHERE KV.MaKhuVuc = @MAKHUVUC
+      AND CN.MaChiNhanh = @MACHINHANH
+      AND HD.NgayLap >= @NGAYBATDAU 
+      AND HD.NgayLap <= @NGAYKETHUC
+    GROUP BY M.MaMon, M.TenMon, M.GiaHienTai
+    ORDER BY TongDoanhThu DESC;
+
+    -- Món chạy nhất (bán nhiều nhất)
+    PRINT 'Món chạy nhất:';
+    SELECT TOP 1 
+        M.MaMon, 
+        M.TenMon, 
+        COUNT(*) AS SoLuongBan,
+        COUNT(*) * M.GiaHienTai AS TongDoanhThu
+    FROM MON M
+    JOIN CHITIETPHIEU CTP ON M.MaMon = CTP.MaMon
+    JOIN PHIEUDATMON PDM ON PDM.MaPhieu = CTP.MaPhieu
+    JOIN HOADON HD ON PDM.MaPhieu = HD.MaPhieu
+    JOIN CHINHANH CN ON PDM.MaChiNhanh = CN.MaChiNhanh
+    JOIN KHUVUC_THUCDON KV ON KV.MaKhuVuc = CN.MaKhuVuc
+    WHERE KV.MaKhuVuc = @MAKHUVUC
+      AND CN.MaChiNhanh = @MACHINHANH
+      AND HD.NgayLap >= @NGAYBATDAU 
+      AND HD.NgayLap <= @NGAYKETHUC
+    GROUP BY M.MaMon, M.TenMon, M.GiaHienTai
+    ORDER BY SoLuongBan DESC;
+
+    -- Món bán chậm nhất (bán ít nhất)
+    PRINT 'Món bán chậm nhất:';
+    SELECT TOP 1 
+        M.MaMon, 
+        M.TenMon, 
+        COUNT(*) AS SoLuongBan,
+        COUNT(*) * M.GiaHienTai AS TongDoanhThu
+    FROM MON M
+    JOIN CHITIETPHIEU CTP ON M.MaMon = CTP.MaMon
+    JOIN PHIEUDATMON PDM ON PDM.MaPhieu = CTP.MaPhieu
+    JOIN HOADON HD ON PDM.MaPhieu = HD.MaPhieu
+    JOIN CHINHANH CN ON PDM.MaChiNhanh = CN.MaChiNhanh
+    JOIN KHUVUC_THUCDON KV ON KV.MaKhuVuc = CN.MaKhuVuc
+    WHERE KV.MaKhuVuc = @MAKHUVUC
+      AND CN.MaChiNhanh = @MACHINHANH
+      AND HD.NgayLap >= @NGAYBATDAU 
+      AND HD.NgayLap <= @NGAYKETHUC
+    GROUP BY M.MaMon, M.TenMon, M.GiaHienTai
+    ORDER BY SoLuongBan ASC;
+END;
+GO

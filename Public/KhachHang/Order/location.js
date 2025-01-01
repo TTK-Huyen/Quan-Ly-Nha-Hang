@@ -24,7 +24,7 @@ async function loadKhuVucDropdown() {
 // Load thông tin chi nhánh theo khu vực
 async function loadChiNhanhOptions(khuVucId) {
     try {
-        const response = await fetch(`/api/chinhanhkhuvuc?MaKhuVuc=${khuVucId}`);
+        const response = await fetch(`/api/ChiNhanh?MaKhuVuc=${khuVucId}`);
         const chiNhanhList = await response.json();
 
         const chiNhanhDropdown = document.getElementById('chiNhanhDropdown');
@@ -66,22 +66,7 @@ function saveBranchAndRegion(maChiNhanh, maKhuVuc) {
     console.log('Lưu thông tin:', { maChiNhanh, maKhuVuc });
 }
 
-function checkSelectionsAndLoadMenu() {
-    const khuVuc = document.getElementById('khuVucDropdown').value;
-    const chiNhanh = document.getElementById('chiNhanhDropdown').value;
 
-    if (khuVuc && chiNhanh) {
-        console.log(`Khu vực: ${khuVuc}, Chi nhánh: ${chiNhanh} đã được chọn.`);
-
-        // Lưu thông tin lần chọn cuối vào sessionStorage
-        saveBranchAndRegion(chiNhanh, khuVuc);
-
-        loadMenuByKhuVuc(khuVuc); // Gọi hàm load menu
-    } else {
-        console.log('Chưa chọn đủ khu vực và chi nhánh.');
-        document.getElementById('menuItems').innerHTML = '<p>Vui lòng chọn khu vực và chi nhánh để xem thực đơn.</p>';
-    }
-}
 
 
 // Sự kiện thay đổi khu vực

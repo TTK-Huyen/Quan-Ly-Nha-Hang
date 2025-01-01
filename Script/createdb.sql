@@ -9,6 +9,7 @@ GO
 USE QLNHAHANG
 GO
 
+select * from users
 CREATE TABLE ChiNhanh
 (
 	MaChiNhanh TINYINT IDENTITY(1,1),
@@ -51,6 +52,7 @@ CREATE TABLE PhucVu
 	CoPhucVuKhong BIT DEFAULT 1 CHECK (CoPhucVuKhong IN (0,1)),
 	
 )
+
 
 CREATE TABLE KhuVuc_ThucDon (
     MaKhuVuc TINYINT IDENTITY(1,1) PRIMARY KEY,
@@ -147,7 +149,7 @@ CREATE TABLE PhieuDatMon (
 CREATE TABLE ChiTietPhieu (
     MaPhieu INT, -- Khóa ngoại liên kết tới `PhieuDatMon`.
     MaMon TINYINT, -- Mã món ăn (số nguyên).
-    SoLuong TINYINT DEFAULT 1 CHECK (SoLuong > 0), -- Số lượng món ăn đặt (nguyên dương).
+    SoLuong TINYINT NOT NULL DEFAULT 1 CHECK (SoLuong > 0), -- Số lượng món ăn đặt (nguyên dương).
     GhiChu NVARCHAR(200), -- Ghi chú bổ sung.
     PRIMARY KEY (MaPhieu, MaMon), -- Kết hợp 2 cột làm khóa chính.
 );
@@ -196,6 +198,7 @@ CREATE TABLE Users (
     Password NVARCHAR(255) NOT NULL,
     Role NVARCHAR(20) NOT NULL CHECK (Role IN ('khachhang', 'quanlychinhanh', 'quanlycongty', 'nhanvien')) -- Vai trò
 );
+
 
 
 -- ràng buộc constraint 
