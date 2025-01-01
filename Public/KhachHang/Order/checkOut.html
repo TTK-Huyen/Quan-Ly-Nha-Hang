@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin Giao Hàng</title>
+    <link rel="stylesheet" href="/css/checkOut.css">
+</head>
+<body>
+    <div class="checkout-container">
+        <header>
+            <h1>Thông Tin Giao Hàng</h1>
+        </header>
+
+        <main class="checkout-content">
+            <!-- Phần Giỏ Hàng -->
+            <section class="cart-summary">
+                <h2>Giỏ Hàng Của Bạn</h2>
+                <ul id="cartItems">
+                    <!-- Các món trong giỏ hàng sẽ hiển thị tại đây -->
+                </ul>
+                <div class="cart-total">
+                    <p id="cartTotal">Tổng cộng: 0 VND</p>
+                </div>
+            </section>
+
+            <!-- Form Thông Tin Khách Hàng -->
+            <!-- Form Thông Tin Khách Hàng -->
+<section class="customer-info">
+    <h2>Nhập Thông Tin Giao Hàng</h2>
+    <form id="checkoutForm">
+         <!-- Hiển thị thông tin khu vực và chi nhánh -->
+        <div class="location-info">
+            <p>Khu vực: <span id="selectedRegion">Đang tải...</span></p>
+            <p>Chi nhánh: <span id="selectedBranch">Đang tải...</span></p>
+        </div> 
+
+        <label for="name">Họ và Tên</label>
+        <input type="text" id="name" name="name" placeholder="Nhập họ và tên" required>
+
+        <label for="address">Địa Chỉ</label>
+        <input type="text" id="address" name="address" placeholder="Nhập địa chỉ giao hàng" required>
+
+        <label for="phone">Số Điện Thoại</label>
+        <input type="text" id="phone" name="phone" placeholder="Nhập số điện thoại" required>
+
+        <button type="submit" class="submit-btn">Hoàn Tất Đặt Hàng</button>
+    </form>
+</section>
+
+        </main>
+    </div>
+    <script src="/KhachHang/Order/checkOut.js"></script>
+</body>
+</html>

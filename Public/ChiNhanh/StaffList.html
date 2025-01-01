@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff List</title>
+    <link rel="stylesheet" href="/css/Dashboard.css">
+</head>
+
+<body>
+    <div class="header-container">
+        <h1>Staff List</h1>
+    </div>
+
+    <!-- Form Thêm/Sửa -->
+    <div class="form-container" id="form-container" style="display: none;">
+        <h2>Insert</h2>
+        <form id="employee-form">
+            <label for="MaNhanVien">Staff ID:</label>
+            <input type="text" id="MaNhanVien" name="MaNhanVien" maxlength="6" required>
+
+            <label for="HoTen">Full Name:</label>
+            <input type="text" id="HoTen" name="HoTen" required>
+
+            <label for="NgaySinh">Date Of Birth:</label>
+            <input type="date" id="NgaySinh" name="NgaySinh" required>
+
+            <label for="GioiTinh">Gender</label>
+            <select id="GioiTinh" name="GioiTinh">
+                <option value="Nam">Male</option>
+                <option value="Nữ">Female</option>
+                <option value="Khác">Other</option>
+            </select>
+
+            <label for="NgayVaoLam">Start date:</label>
+            <input type="date" id="NgayVaoLam" name="NgayVaoLam" required>
+
+            <label for="NgayNghiViec">End date:</label>
+            <input type="date" id="NgayNghiViec" name="NgayNghiViec">
+
+            <label for="MaBoPhan">Department ID:</label>
+            <input type="text" id="MaBoPhan" name="MaBoPhan" maxlength="4" required>
+
+            <label for="DiemSo">Rate:</label>
+            <input type="number" id="DiemSo" name="DiemSo" min="0" step="1" required>
+
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeForm()">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Bảng danh sách nhân viên -->
+    <div class="table-container">
+        <h2>Staff List</h2>
+        <button onclick="openForm()">Insert</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Staff Id</th>
+                    <th>Full Name</th>
+                    <th>Date of birth</th>
+                    <th>Gender</th>
+                    <th>Start date</th>
+                    <th>End date</th>
+                    <th>Department ID</th>
+                    <th>Rate</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="employee-table">
+                <!-- Dữ liệu sẽ được thêm từ JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Giả lập danh sách nhân viên
+        const employees = [
+            {
+                MaNhanVien: "NV001",
+                HoTen: "Nguyễn Văn A",
+                NgaySinh: "1990-01-01",
+                GioiTinh: "Male",
+                NgayVaoLam: "2020-01-01",
+                NgayNghiViec: null,
+                MaBoPhan: "BP01",
+                DiemSo: 80
+            },
+            {
+                MaNhanVien: "NV002",
+                HoTen: "Trần Thị B",
+                NgaySinh: "1992-02-02",
+                GioiTinh: "Female",
+                NgayVaoLam: "2019-03-01",
+                NgayNghiViec: "2023-01-01",
+                MaBoPhan: "BP02",
+                DiemSo: 95
+            }
+        ];
+
+        // Hiển thị dữ liệu trong bảng
+        function loadEmployees() {
+            const tableBody = document.getElementById("employee-table");
+            tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+            employees.forEach((employee, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${employee.MaNhanVien}</td>
+          <td>${employee.HoTen}</td>
+          <td>${employee.NgaySinh}</td>
+          <td>${employee.GioiTinh}</td>
+          <td>${employee.NgayVaoLam}</td>
+          <td>${employee.NgayNghiViec || "N/A"}</td>
+          <td>${employee.MaBoPhan}</td>
+          <td>${employee.DiemSo}</td>
+          <td>
+            <button onclick="editEmployee(${index})">Update</button>
+            <button onclick="deleteEmployee(${index})">Delete</button>
+          </td>
+        `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Thêm logic Xóa
+        function deleteEmployee(index) {
+            if (confirm("Bạn có chắc chắn muốn xóa nhân viên này?")) {
+                employees.splice(index, 1);
+                loadEmployees();
+            }
+        }
+
+        // Thêm logic Sửa
+        function editEmployee(index) {
+            const employee = employees[index];
+            document.getElementById("MaNhanVien").value = employee.MaNhanVien;
+            document.getElementById("HoTen").value = employee.HoTen;
+            document.getElementById("NgaySinh").value = employee.NgaySinh;
+            document.getElementById("GioiTinh").value = employee.GioiTinh;
+            document.getElementById("NgayVaoLam").value = employee.NgayVaoLam;
+            document.getElementById("NgayNghiViec").value = employee.NgayNghiViec || "";
+            document.getElementById("MaBoPhan").value = employee.MaBoPhan;
+            document.getElementById("DiemSo").value = employee.DiemSo;
+            openForm();
+        }
+
+        // Mở form
+        function openForm() {
+            document.getElementById("form-container").style.display = "block";
+        }
+
+        // Đóng form
+        function closeForm() {
+            document.getElementById("form-container").style.display = "none";
+        }
+
+        // Load dữ liệu khi mở trang
+        loadEmployees();
+    </script>
+</body>
+
+</html>

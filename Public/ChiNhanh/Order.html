@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <link rel="stylesheet" href="/css/Dashboard.css">
+</head>
+
+<body>
+    <div class="header-container">
+        <h1>Order List</h1>
+    </div>
+
+    <!-- Form Thêm/Sửa -->
+    <div class="form-container" id="form-container" style="display: none;">
+        <h2>Insert</h2>
+        <form id="order-form">
+            <label for="MaPhieu">Order ID:</label>
+            <input type="text" id="MaPhieu" name="MaPhieu" maxlength="6">
+
+            <label for="NgayLap">Date:</label>
+            <input type="date" id="NgayLap" name="NgayLap" required>
+
+            <label for="NhanVienLap">Staff ID:</label>
+            <input type="text" id="NhanVienLap" name="NhanVienLap" maxlength="6" required>
+
+            <label for="MaSoBan">Table ID:</label>
+            <input type="text" id="MaSoBan" name="MaSoBan" maxlength="6" required>
+
+            <label for="MaKhachHang">Customer ID:</label>
+            <input type="MaKhachHang" id="MaKhachHang" name="MaKhachHang" maxlength="6" required>
+
+            <button type="submit">Save</button>
+            <button type="button" onclick="closeForm()">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Bảng danh sách nhân viên -->
+    <div class="table-container">
+        <h2>Order List</h2>
+        <button onclick="openForm()">Insert</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Id</th>
+                    <th>Date</th>
+                    <th>Staff ID</th>
+                    <th>Table ID</th>
+                    <th>Customer ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="order-table">
+                <!-- Dữ liệu sẽ được thêm từ JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Giả lập danh sách nhân viên
+        const orders = [
+            {
+                MaPhieu: null,
+                NgayLap: "2024-12-12",
+                NhanVienLap: "00001",
+                MaSoBan: "0001",
+                MaKhachHang: "00001",
+            },
+            {
+                MaPhieu: null,
+                NgayLap: "2024-12-12",
+                NhanVienLap: "00002",
+                MaSoBan: "0002",
+                MaKhachHang: "00002",
+            }
+        ];
+
+        // Hiển thị dữ liệu trong bảng
+        function loadOrders() {
+            const tableBody = document.getElementById("order-table");
+            tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+            orders.forEach((order, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${order.MaPhieu}</td>
+          <td>${order.NgayLap}</td>
+          <td>${order.NhanVienLap}</td>
+          <td>${order.MaSoBan}</td>
+          <td>${order.MaKhachHang}</td>
+          <td>
+            <button onclick="editOrder(${index})">Update</button>
+            <button onclick="deleteOrder(${index})">Delete</button>
+          </td>
+        `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Thêm logic Xóa
+        function deleteOrder(index) {
+            if (confirm("Bạn có chắc chắn muốn xóa nhân viên này?")) {
+                dishes.splice(index, 1);
+                loadEmployees();
+            }
+        }
+
+        // Thêm logic Sửa
+        function editOrder(index) {
+            const dish = dishes[index];
+            document.getElementById("MaPhieu").value = dish.MaPhieu;
+            document.getElementById("NgayLap").value = dish.NgayLap;
+            document.getElementById("NhanVienLap").value = dish.NhanVienLap;
+            document.getElementById("MaSoBan").value = dish.MaSoBan;
+            document.getElementById("MaKhachHang").value = dish.MaKhachHang;
+            openForm();
+        }
+
+        // Mở form
+        function openForm() {
+            document.getElementById("form-container").style.display = "block";
+        }
+
+        // Đóng form
+        function closeForm() {
+            document.getElementById("form-container").style.display = "none";
+        }
+
+        // Load dữ liệu khi mở trang
+        loadOrders();
+    </script>
+</body>
+
+</html>

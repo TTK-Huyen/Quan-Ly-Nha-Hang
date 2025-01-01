@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sushi X</title>
+        <meta charset="utf-8">
+        <!-- Dùng để link tới css -->
+        <link rel="stylesheet" href="/css/UpdateSalary_design.css">
+        <style>
+            body {
+                background-color: #F7F5F2; /* Màu nền */
+            }
+        </style>
+
+    </head>
+    <body>
+    <img src="sushiX_logo.png" alt="Logo" class="logo">
+    <p class="UpdateSalary_text">Update Salary</p>
+    <div class="search-container">
+        <input type="text" placeholder="Enter staff id" class="search-input">
+        <button class="search-button">Search</button>
+    </div>
+    <table class="Salary-table">
+        <thead>
+            <tr>
+                <th>STAFF ID</th>
+                <th>FULL NAME</th>
+                <th>SALARY</th>
+                <th>ACTION</th>
+            </tr>
+        </thead>
+        <tbody id="salary-table">
+            <!-- Dữ liệu sẽ được thêm từ JavaScript -->
+        </tbody>
+
+        <script>
+            // Giả lập danh staff
+            const salarylist = [
+                {
+                    StaffID: 1,
+                    FullName: "Nguyễn Lâm Nhã Uyên",
+                    Salary: 15000000,
+                },
+                {
+                    StaffID: 2,
+                    FullName: "Tran Thi B", 
+                    Salary:10000000
+                }
+            ];
+    
+            // Hiển thị dữ liệu trong bảng
+            function loadSalary() {
+                const tableBody = document.getElementById("salary-table");
+                tableBody.innerHTML = ""; // Xóa nội dung cũ
+    
+                salarylist.forEach((salarylist, index) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+              <td>${salarylist.StaffID}</td>
+              <td>${salarylist.FullName}</td>
+              <td>${salarylist.Salary}</td>
+              
+              <td>
+                <button onclick="editSalary(${index})">Change Salary</button>
+                <button onclick="saveSalary(${index})">Save</button>
+              </td>
+            `
+                    tableBody.appendChild(row);
+                });
+            }
+    
+            
+            function editSalary(index) {
+                const tableRow = document.querySelector(`#salary-table tr:nth-child(${index + 1})`);
+                const currentsalary = salarylist[index].Salary;
+
+              
+                const salaryCell = tableRow.cells[2];
+                salaryCell.innerHTML = `
+                <input type="text" id="input-salary-${index}" value="${currentsalary}" style="width: 80%;">`;
+            }
+
+            function saveSalary(index) {
+                const newSalary = document.getElementById(`input-salary-${index}`).value; // Lấy giá trị từ input
+                // Cập nhật dữ liệu vào mảng staff
+                if (newSalary.trim() !== "") {
+                    salarylist[index].Salary = newSalary; 
+                    loadSalary(); // Tải lại bảng
+                    alert("Lương đã được cập nhật!");
+                } else {
+                    alert("Lương không được để trống!");
+                }
+            }
+
+        // Gọi hàm loadStaff để hiển thị dữ liệu ban đầu
+        loadSalary();
+           
+        </script>
+    </body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chọn Vai Trò - SuShiX</title>
+    <link rel="stylesheet" href="/css/Login.css" />
+</head>
+
+<body>
+    <div class="header-container">
+        <img src="/images/sushiX_logo.png" alt="SuShiX Logo" class="logo" />
+    </div>
+    <div class="signup-container">
+        <h2 class="signup-title">Bạn là ai?</h2>
+        <div class="role-buttons">
+            <button onclick="navigateToPage()">Khách hàng thành viên</button>
+            <button onclick="navigateToPage()">Nhân viên</button>
+            <button onclick="navigateToPage()">Quản lý Chi Nhánh</button>
+            <button onclick="navigateToPage()">Quản lý Công Ty</button>
+            <span class="modern-clickable" onclick="navigateToPage('guest')">Tiếp tục với vai trò khách</span>
+
+        </div>
+    </div>
+
+    <script>
+        function navigateToPage(role) {
+            if (role === 'guest') {
+                // Nếu là vai trò khách, chuyển hướng đến trang GuestPage.html
+                window.location.href = 'home.html';
+            } else {
+                // Điều hướng mặc định hoặc xử lý khác
+                window.location.href = 'Login.html';
+            }
+        }   
+    </script>
+</body>
+
+</html>

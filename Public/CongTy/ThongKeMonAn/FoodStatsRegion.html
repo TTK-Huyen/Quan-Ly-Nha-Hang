@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.5">
+    <title>Thống Kê Doanh Thu Món Ăn - Theo Chi Nhánh</title>
+    <link rel="stylesheet" href="/css/Dashboard.css">
+    <style>
+        /* CSS cho nút quay lại */
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Bố cục cho bảng */
+        .table-container {
+            margin: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header-container">
+        <button class="back-button" onclick="goBack()">Quay Lại</button>
+        <h1 class="dashboard-title">Thống Kê Doanh Thu Món Ăn - Theo Khu Vực</h1>
+    </div>
+
+    <!-- Form chọn thời gian và chi nhánh -->
+    <div class="filter-container">
+        <label for="branch-select">Chọn Khu Vực:</label>
+        <select id="branch-select">
+            <option value="1">Khu Vực A</option>
+            <option value="2">Khu Vực B</option>
+            <option value="3">Khu Vực C</option>
+        </select>
+
+        <label for="start-date">Từ ngày:</label>
+        <input type="date" id="start-date">
+
+        <label for="end-date">Đến ngày:</label>
+        <input type="date" id="end-date">
+
+        <button onclick="filterStats()">Lọc Dữ Liệu</button>
+    </div>
+
+    <!-- Bảng kết quả -->
+    <div class="table-container">
+        <h2>Thống Kê Doanh Thu</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã Món</th>
+                    <th>Tên Món</th>
+                    <th>Số Lượng Bán</th>
+                    <th>Doanh Thu (VND)</th>
+                </tr>
+            </thead>
+            <tbody id="food-stats">
+                <!-- Dữ liệu sẽ được thêm từ JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="highlight-container">
+        <h2>Kết Quả Nổi Bật</h2>
+        <p><b>Món chạy nhất:</b> <span id="best-seller">N/A</span></p>
+        <p><b>Món bán chậm nhất:</b> <span id="slow-seller">N/A</span></p>
+    </div>
+
+    <script>
+        // Dữ liệu giả lập doanh thu món ăn
+        const foodData = [
+            { MaMon: 1, TenMon: "Sushi Cá Hồi", SoLuongBan: 50, DoanhThu: 5000000, ChiNhanh: 1 },
+            { MaMon: 2, TenMon: "Sushi Tôm", SoLuongBan: 20, DoanhThu: 2000000, ChiNhanh: 1 },
+            { MaMon: 3, TenMon: "Sashimi Cá Ngừ", SoLuongBan: 10, DoanhThu: 1000000, ChiNhanh: 1 },
+            { MaMon: 4, TenMon: "Ramen", SoLuongBan: 30, DoanhThu: 3000000, ChiNhanh: 2 },
+            { MaMon: 5, TenMon: "Udon", SoLuongBan: 5, DoanhThu: 500000, ChiNhanh: 2 }
+        ];
+
+        // Hàm lọc dữ liệu
+        function filterStats() {
+            const branchId = parseInt(document.getElementById("branch-select").value);
+            const startDate = new Date(document.getElementById("start-date").value);
+            const endDate = new Date(document.getElementById("end-date").value);
+            const tableBody = document.getElementById("food-stats");
+            const bestSeller = document.getElementById("best-seller");
+            const slowSeller = document.getElementById("slow-seller");
+
+            tableBody.innerHTML = ""; // Xóa dữ liệu cũ
+
+            // Lọc dữ liệu theo chi nhánh và thời gian (giả lập không có ngày trong foodData)
+            const filteredData = foodData.filter(item => item.ChiNhanh === branchId);
+
+            if (filteredData.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4">Không có dữ liệu phù hợp</td></tr>`;
+                bestSeller.textContent = "N/A";
+                slowSeller.textContent = "N/A";
+                return;
+            }
+
+            let max = filteredData[0];
+            let min = filteredData[0];
+
+            filteredData.forEach(item => {
+                if (item.SoLuongBan > max.SoLuongBan) max = item;
+                if (item.SoLuongBan < min.SoLuongBan) min = item;
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.MaMon}</td>
+                    <td>${item.TenMon}</td>
+                    <td>${item.SoLuongBan}</td>
+                    <td>${item.DoanhThu.toLocaleString('vi-VN')}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            bestSeller.textContent = `${max.TenMon} (${max.SoLuongBan} bán)`;
+            slowSeller.textContent = `${min.TenMon} (${min.SoLuongBan} bán)`;
+        }
+
+        // Hàm quay lại
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

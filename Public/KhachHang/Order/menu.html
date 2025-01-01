@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Sushi X</title>
+    <link rel="stylesheet" href="/css/styles_menu.css">
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">Sushi X</div>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="Reservation.html">Reservation</a></li>
+            <li><a href="#about">About Us</a></li>
+        </ul>
+    </nav>
+
+    
+    <!-- Container -->
+    <div class="menu-container">
+        <!-- Sidebar -->
+        <aside class="menu-sidebar">
+
+            <h2><li><a href="menu.html">Menu Categories</a></li></h2>
+            <ul id="menuCategories">
+                
+
+                <!-- Danh mục sẽ được tải động từ API -->
+            </ul>
+
+        
+    
+        </aside>
+
+        <!-- Menu Section -->
+        <section class="menu-content">
+            <h2>Our Speciality Menu</h2>
+        <!-- Dropdown Chọn Khu Vực -->
+        <div>
+        <label for="khuVucDropdown">Chọn Khu Vực: </label>
+        <select id="khuVucDropdown">
+            <option value="">-- Tất cả Khu Vực --</option>
+        </select>
+        </div>
+
+        <!-- Dropdown Chọn Chi Nhánh -->
+        <div>
+        <label for="chiNhanhDropdown">Chọn Chi Nhánh: </label>
+        <select id="chiNhanhDropdown" disabled>
+            <option value="">-- Chọn Chi Nhánh --</option>
+        </select>
+        </div>
+
+
+            <div id="menuItems">
+                <!-- Món ăn sẽ được hiển thị tại đây -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Nút mở giỏ hàng -->
+    <button id="toggleCart" class="cart-toggle-btn">🛒</button>
+
+    <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+        <h2>Giỏ Hàng</h2>
+        <button id="closeCart" class="close-btn">&times;</button>
+    </div>
+    <ul id="cartItems"></ul>
+    <p id="cartTotal">Tổng cộng: 0 VND</p>
+    <button id="checkoutButton" class="checkout-btn">Thanh Toán</button>
+    </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Sushi X. All rights reserved.</p>
+    </footer>
+    <!-- Liên kết file script.js -->
+    <script src="/KhachHang/Order/menu.js"></script>
+    <script src="/KhachHang/Order/location.js"></script>
+    <script src="/KhachHang/Order/cart.js"></script>
+</body>
+

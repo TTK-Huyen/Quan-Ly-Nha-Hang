@@ -1,0 +1,145 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sushi X</title>
+    <link rel="stylesheet" href="/css/styles_home.css">
+    <style>
+        /* Ẩn nút Logout mặc định */
+        #login, #logout {
+            display: none; /* Mặc định ẩn cả hai nút */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+<!-- Navigation Bar -->
+<nav>
+    <div class="logo">Sushi X</div>
+    <ul>
+        <li><a href="#menu">Home</a></li>
+        <li><a href="/KhachHang/Order/menu.html">Order Online</a></li> 
+        <li><a href="/KhachHang/Reservation/Reservation.html">Reservation</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li id="login"><a href="DangNhap.html">Login</a></li>
+        <li id="logout"><a href="#" id="logoutLink">Logout</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero">
+    <h1>Welcome to Sushi X</h1>
+    <p>Best food, good mood!</p>
+    <a href="/KhachHang/Order/menu.html" class="btn">Đặt hàng</a> 
+    <a href="#" class="btn" onclick="openModal()">Đăng Kí thành viên</a>
+
+    <!-- Modal -->
+    <div id="membershipModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <iframe src="/KhachHang/TaiKhoan/addCustomer.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+</div>
+
+
+    <!-- Menu Section -->
+<!-- Menu Section -->
+<section class="menu" id="menu">
+    <h2>Our Speciality</h2> 
+    <a href="/KhachHang/Order/menu.html" class="btn">Order now</a> 
+    <div class="menu-items">
+        <div class="menu-item">
+            <img src="https://ibuki.vn/wp-content/uploads/2021/10/Com-ca-hoi-va-trung-ca-hoi-scaled.jpeg" alt="Dish 1">
+            <h3>Salmon Roe</h3>
+            <p>Pop into freshness with every bite of salmon roe!</p>
+        </div>
+        <div class="menu-item">
+            <img src="https://nhahangkankau.com/upload/product/995fcc5e9545631b3a54-1475.jpg" alt="Dish 2">
+            <h3>Sashimi Combo</h3>
+            <p>Freshness served in every slice – the ultimate sashimi combo!</p>
+        </div>
+        <div class="menu-item">
+            <img src="https://topsushimaker.com/wp-content/uploads/2019/04/2742_top.jpeg" alt="Dish 3">
+            <h3>Nigiri</h3>
+            <p>Delight in simplicity – perfect nigiri, every bite.</p>
+        </div>
+    </div>
+</section>
+
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <h2>About Us</h2>
+        <div class = "contact">
+        <h3><b>Contact</b></h3>
+        <p>0939 6868 799</p>
+        </div>
+        <div class="about-container">
+            <!-- Left Column: Working Hours -->
+            <div class="working-hours">
+                <h3>Working Hours</h3>
+                <table>
+                    <tr>
+                        <td><b>Sunday</b></td>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <td><b>Monday</b></td>
+                        <td>11:00 AM - 03:30 PM</td>
+                        <td>05:00 PM - 09:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td><b>Tuesday</b></td>
+                        <td>11:00 AM - 03:30 PM</td>
+                        <td>05:00 PM - 09:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td><b>Wednesday</b></td>
+                        <td>11:00 AM - 03:30 PM</td>
+                        <td>05:00 PM - 09:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td><b>Thursday</b></td>
+                        <td>11:00 AM - 03:30 PM</td>
+                        <td>05:00 PM - 09:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td><b>Friday</b></td>
+                        <td>11:00 AM - 03:30 PM</td>
+                        <td>05:00 PM - 10:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td><b>Saturday</b></td>
+                        <td>11:00 AM - 03:30 PM</td>
+                        <td>05:00 PM - 10:30 PM</td>
+                    </tr>
+                </table>
+            </div>
+    
+            <!-- Right Column: Location & Maps -->
+            <div class="location-maps">
+                <p><b>Location:</b> 227 Nguyen Van Cu Street, Ward 4, District 5, Ho Chi Minh, Vietnam.</p>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6383120009627!2d106.68015437427138!3d10.7623332594551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1953a6e961%3A0xc77e334f1510b975!2zxJDhuqFpIEjhu41jIEtob2EgSOG7jWMgVOG7sSBOaGnDqm4gLSAyMjcgTmd1eeG7hW4gVsSDbiBD4bur!5e0!3m2!1svi!2s!4v1733587648702!5m2!1svi!2s"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Sushi X. All rights reserved.</p>
+    </footer>
+
+
+    <!-- Import JavaScript dùng chung -->
+    <script src="common.js"></script>
+
+</body>
+</html>
