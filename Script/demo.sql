@@ -81,3 +81,8 @@ EXEC CAPNHAT_THEKHACHHANG
     @NGAYDATTHE = '2025-01-01', 
     @LOAITHE = N'Gold';
 
+--Them nhan vien
+EXEC THEMNV N'Leonardo DiCaprio', '1974-11-11', N'Nam', '2023-10-04','BP08',5
+
+
+
