@@ -20,17 +20,14 @@
 	-- =======================
 	-- Thêm dữ liệu vào bảng KhuVuc
 	-- =======================
-	SET IDENTITY_INSERT KhuVuc_ThucDon ON;
-
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon) VALUES (N'Hồ Chí Minh',N'Thực đơn khu vực 1');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hà Nội',N'Thực đơn khu vực 2');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Đà Nẵng',N'Thực đơn khu vực 3');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hải Phòng',N'Thực đơn khu vực 4');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Cần Thơ',N'Thực đơn khu vực 5');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Vũng Tàu',N'Thực đơn khu vực 6');
-
-	SET IDENTITY_INSERT KhuVuc_ThucDon OFF;
-
+	
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)
+	VALUES (N'Hồ Chí Minh', N'Thực đơn khu vực 1'),
+       (N'Hà Nội', N'Thực đơn khu vực 2'),
+       (N'Đà Nẵng', N'Thực đơn khu vực 3'),
+       (N'Hải Phòng', N'Thực đơn khu vực 4'),
+       (N'Cần Thơ', N'Thực đơn khu vực 5'),
+       (N'Vũng Tàu', N'Thực đơn khu vực 6');
 	-- =======================
 	-- Thêm dữ liệu vào bảng ChiNhanh
 	-- =======================
@@ -1218,7 +1215,6 @@ INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (37, 15, 0, 2);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (38, 15, 0, 13);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (39, 15, 0, 15);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (40, 15, 0, 12);
-select * from chinhanh
 
 
 	--Thêm dữ liệu bảng MucThucDon
