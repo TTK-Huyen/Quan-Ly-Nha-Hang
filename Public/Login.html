@@ -51,13 +51,15 @@
 
           // Chuyển hướng dựa trên vai trò
           if (data.role === 'quanlychinhanh') {
-              window.location.href = '/ManagerDashboard.html'; // Trang quản trị chi nhánh
+              window.location.href = '/ChiNhanh/DashboardCN.html'; // Trang quản trị chi nhánh
           } else if (data.role === 'khachhang') {
+              localStorage.setItem('username', username);
+              localStorage.setItem('role', data.role);
               window.location.href = '/home.html'; // Trang người dùng
-          } else if (data.role === 'khachhang') {
-              window.location.href = '/Dashboard.html'; // Trang nhân viên
+          } else if (data.role === 'nhanvien') {
+              window.location.href = '/NhanVien/Dashboard.html'; // Trang nhân viên
           }  else if (data.role === 'quanlycongty') {
-            window.location.href = '/home.html'; // Trang quản trị công ty
+            window.location.href = '/CongTy/DashboardCT.html'; // Trang quản trị công ty
           } else {
               alert("Vai trò không xác định, vui lòng liên hệ quản trị viên!");
           }

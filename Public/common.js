@@ -8,10 +8,14 @@ async function initializeButtons() {
             // Nếu đã đăng nhập, hiển thị nút Logout
             document.getElementById('logout').style.display = 'block';
             document.getElementById('login').style.display = 'none';
+            document.getElementById('customerInfo').style.display = 'block';
+            document.getElementById('registerLink').style.display = 'none';
         } else {
             // Nếu chưa đăng nhập, hiển thị nút Login
             document.getElementById('login').style.display = 'block';
             document.getElementById('logout').style.display = 'none';
+            document.getElementById('customerInfo').style.display = 'none';
+            document.getElementById('registerLink').style.display = 'block';
         }
     } catch (err) {
         console.error('Lỗi khi kiểm tra trạng thái đăng nhập:', err);
@@ -71,6 +75,42 @@ window.onclick = function (event) {
         closeModal();
     }
 };
+
+function fetchAndShowCustomerInfo() {
+    const customerId = localStorage.getItem('username');
+    if (!customerId) {
+        alert('Bạn chưa đăng nhập. Vui lòng đăng nhập!');
+        window.location.href = 'DangNhap.html';
+        return;
+    }
+
+    fetch(`/api/customer-info?customerId=${customerId}`)
+        .then(response => response.json())
+        .then(customer => {
+            if (customer.error) {
+                alert(`Lỗi: ${customer.error}`);
+                return;
+            }
+
+            // Cập nhật nội dung modal
+            document.getElementById('modalCustomerName').textContent = customer.HoTen || 'Không xác định';
+            document.getElementById('modalCustomerEmail').textContent = customer.Email || 'Không xác định';
+            document.getElementById('modalCustomerPhone').textContent = customer.SoDienThoai || 'Không xác định';
+            document.getElementById('modalCustomerPoints').textContent = customer.TongDiem || 0;
+
+            // Hiển thị modal
+            document.getElementById('customerInfoModal').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Lỗi khi lấy thông tin khách hàng:', error);
+            alert('Không thể tải thông tin khách hàng. Vui lòng thử lại sau.');
+        });
+}
+
+function closeCustomerInfoModal() {
+    document.getElementById('customerInfoModal').style.display = 'none';
+}
+
 
 // Tự động khởi tạo khi tải trang
 window.onload = initializeEvents;
