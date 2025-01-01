@@ -60,6 +60,12 @@ async function loadDropdownAndMenu() {
     // loadMenuByKhuVuc(); // Load tất cả món ăn ban đầu
 }
 
+function saveBranchAndRegion(maChiNhanh, maKhuVuc) {
+    sessionStorage.setItem('maChiNhanh', maChiNhanh);
+    sessionStorage.setItem('maKhuVuc', maKhuVuc);
+    console.log('Lưu thông tin:', { maChiNhanh, maKhuVuc });
+}
+
 function checkSelectionsAndLoadMenu() {
     const khuVuc = document.getElementById('khuVucDropdown').value;
     const chiNhanh = document.getElementById('chiNhanhDropdown').value;
@@ -77,11 +83,7 @@ function checkSelectionsAndLoadMenu() {
     }
 }
 
-function saveBranchAndRegion(maChiNhanh, maKhuVuc) {
-    sessionStorage.setItem('maChiNhanh', maChiNhanh);
-    sessionStorage.setItem('maKhuVuc', maKhuVuc);
-    console.log('Lưu thông tin:', { maChiNhanh, maKhuVuc });
-}
+
 // Sự kiện thay đổi khu vực
 document.getElementById('khuVucDropdown').addEventListener('change', (e) => {
     const khuVucId = e.target.value;
