@@ -1,5 +1,5 @@
 --Thêm data bảng nhân viên bằng sp
-EXEC THEMNV N'Stephen Walsh', '1998-06-02', N'Nam' , '2023-09-09', 'BP02', 8;
+EXEC THEMNV N'Stephen Walsh', '1998-06-02', N'Nam' , '2023-09-09', 'BP02', 31;
 EXEC THEMNV N'Jimmy Navarro', '1980-11-23', N'Nam' , '2022-05-05', 'BP02', 5;
 EXEC THEMNV N'Kelsey Oneal', '1996-07-10', N'Nam' , '2021-06-18', 'BP07', 9;
 EXEC THEMNV N'Patty Frederick', '1970-06-03', N'Nam' , '2021-02-13', 'BP08', 1;
