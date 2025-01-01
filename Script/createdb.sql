@@ -28,7 +28,7 @@ CREATE TABLE ChiNhanh
 CREATE TABLE MucThucDon
 (
 	MaMuc TINYINT IDENTITY(1,1) ,
-	TenMuc NVARCHAR(50) NOT NULL,
+	TenMuc NVARCHAR(50) UNIQUE NOT NULL,
 	CONSTRAINT PK_MucThucDon PRIMARY KEY (MaMuc)
 )	
 
@@ -140,6 +140,7 @@ CREATE TABLE PhieuDatMon (
     NhanVienLap CHAR(6), -- NVARCHAR để hỗ trợ tên nhân viên với khả năng lưu Unicode.
     MaSoBan TINYINT, -- Dùng varchar vì có thể là MV.
     SODIENTHOAI CHAR(10),-- Dùng INT để liên kết đến bảng khách hàng.
+	GhiChu NVARCHAR(200),
 	MaChiNhanh TINYINT NOT NULL
 );
 
@@ -150,7 +151,7 @@ CREATE TABLE ChiTietPhieu (
     GhiChu NVARCHAR(200), -- Ghi chú bổ sung.
     PRIMARY KEY (MaPhieu, MaMon), -- Kết hợp 2 cột làm khóa chính.
 );
-
+SELECT * FROM PhieuDatMon
 CREATE TABLE DanhGia (
     MaPhieu INT PRIMARY KEY, -- Khóa chính và liên kết từ `PhieuDatMon`.
     DiemPhucVu TINYINT NOT NULL CHECK (DiemPhucVu BETWEEN 1 AND 5), -- Điểm đánh giá (1-5).

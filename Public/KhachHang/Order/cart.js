@@ -113,15 +113,15 @@
 
     // Hàm lưu thông tin mã chi nhánh và khu vực tạm thời
     function saveTemporarySelection(maChiNhanh, maKhuVuc) {
-        sessionStorage.setItem('tempMaChiNhanh', maChiNhanh);
-        sessionStorage.setItem('tempMaKhuVuc', maKhuVuc);
+        sessionStorage.setItem('maChiNhanh', maChiNhanh);
+        sessionStorage.setItem('maKhuVuc', maKhuVuc);
         console.log('Lưu tạm thời thông tin:', { maChiNhanh, maKhuVuc });
     }
     
     // Hàm xóa thông tin tạm thời
     function clearTemporarySelection() {
-        sessionStorage.removeItem('tempMaChiNhanh');
-        sessionStorage.removeItem('tempMaKhuVuc');
+        sessionStorage.removeItem('maChiNhanh');
+        sessionStorage.removeItem('maKhuVuc');
         console.log('Đã xóa thông tin tạm thời.');
     }
 
