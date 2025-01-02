@@ -20,7 +20,20 @@ async function loadKhuVucDropdown() {
         alert('Không thể tải danh sách khu vực.');
     }
 }
+function checkSelectionsAndLoadMenu() {
+    const khuVuc = document.getElementById('khuVucDropdown').value;
+    const chiNhanh = document.getElementById('chiNhanhDropdown').value;
 
+    if (khuVuc && chiNhanh) {
+        console.log(`Khu vực: ${khuVuc}, Chi nhánh: ${chiNhanh} đã được chọn.`);
+        // Lưu thông tin lần chọn cuối vào sessionStorage
+        saveBranchAndRegion(chiNhanh, khuVuc);
+        loadMenuByKhuVuc(khuVuc); // Gọi hàm load menu
+    } else {
+        console.log('Chưa chọn đủ khu vực và chi nhánh.');
+        document.getElementById('menuItems').innerHTML = '<p>Vui lòng chọn khu vực và chi nhánh để xem thực đơn.</p>';
+    }
+}
 // Load thông tin chi nhánh theo khu vực
 async function loadChiNhanhOptions(khuVucId) {
     try {

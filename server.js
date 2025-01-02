@@ -181,72 +181,40 @@ app.post('/logout', async (req, res) => {
     }
 });
 
-// Endpoint thêm nhân viên
-app.post('/api/addEmployee', async (req, res) => {
-    const { HoTen, NgaySinh, GioiTinh, Luong, NgayVaoLam, MaBoPhan, MaChiNhanh } = req.body;
+// app.use(async (req, res, next) => {
+//     if (req.session && req.session.user) {
+//         const username = req.session.user.username;
+//         const role = req.session.user.role;
 
-    try {
-        const pool = await sql.connect(config);
+//         if (role === 'khachhang') {
+//             try {
+//                 const pool = await sql.connect(config);
 
-        await pool.request()
-            .input('HoTen', sql.NVarChar, HoTen)
-            .input('NgaySinh', sql.Date, NgaySinh)
-            .input('GioiTinh', sql.NVarChar, GioiTinh)
-            .input('NgayVaoLam', sql.Date, NgayVaoLam)
-            .input('MaBoPhan', sql.Char(4), MaBoPhan)
-            .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
-            .execute('THEMNV');
+//                 // Cập nhật ThoiGianTruyCap trước khi session bị hủy
+//                 const result = await pool.request()
+//                     .input('username', sql.VarChar, username)
+//                     .query(`
+//                         UPDATE ThongTinTruyCap
+//                         SET ThoiGianTruyCap = DATEDIFF(SECOND, ThoiDiemTruyCap, GETDATE())
+//                         WHERE UserID = (
+//                             SELECT MaKhachHang
+//                             FROM KhachHang
+//                             WHERE SoDienThoai = @username
+//                         ) AND ThoiGianTruyCap = 0
+//                     `);
 
-        res.json({ message: 'Thêm nhân viên thành công!' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-    }
-});
-
-//Endpoint thêm phiếu đặt món
-app.post('/api/addOrderForm', async (req, res) => {
-    const {NhanVienLap, MaSoBan, MaKhachHang,MaChiNhanh} = req.body;
-
-    try {
-        const pool = await sql.connect(config);
-
-        await pool.request()
-            .input('NhanVienLap', sql.Char, NhanVienLap)
-            .input('MaSoBan', sql.VarChar, MaSoBan)
-            .input('MaKhachhang', sql.BigInt, MaKhachHang)
-            .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
-            .execute('THEMPDM');
-
-        res.json({ message: 'Thêm phiếu đặt món thành công!' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-    }
-});
-
-app.post('/api/addCustomer', async(req,res) =>{
-    const {HoTen, SoDienThoai,Email,SoCCCD,GioiTinh} = req.body;
-
-    try{
-        const pool = await sql.connect(config);
-
-        await pool.request()
-            .input('HoTen', sql.NVarChar, HoTen)
-            .input('SoDienThoai', sql.Char, SoDienThoai)
-            .input('Email', sql.VarChar, Email)
-            .input('SoCCCD', sql.Char, SoCCCD)
-            .input('GioiTinh', sql.NVarChar, GioiTinh)
-            .execute('SP_DANGKI_TAIKHOAN')
-
-        res.json({message: 'Thêm khách hàng thành công!'});
-    }catch(err){
-        console.error(err);
-        res.status(500).json({ error: err.message });
-    }
-});
-
-
+//                 if (result.rowsAffected[0] === 0) {
+//                     console.log('Không tìm thấy phiên đăng nhập để cập nhật!');
+//                 } else {
+//                     console.log('Thời gian truy cập được cập nhật thành công!');
+//                 }
+//             } catch (err) {
+//                 console.error('Lỗi khi cập nhật thời gian truy cập:', err);
+//             }
+//         }
+//     }
+//     next(); // Tiếp tục các middleware khác
+// });
 
 app.post('/api/addCustomerCard', async (req, res) => {
     const { MaKhachHang, NhanVienLap } = req.body;
@@ -280,60 +248,16 @@ app.post('/api/addCustomerCard', async (req, res) => {
     }
 });
 
-app.post('/api/addReservation', async (req, res) => {
-    const { MaKhachHang, SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu } = req.body;
-
-    // Log dữ liệu nhận được
-    console.log('API received data:', { MaKhachHang, SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu });
-
-    try {
-        // Kết nối đến SQL Server
-        const pool = await sql.connect(config);
-
-        // Kiểm tra và chuyển đổi `GioDen` thành Date nếu cần
-        const gioDenDate = new Date(GioDen);
-        if (isNaN(gioDenDate)) {
-            return res.status(400).json({ error: 'Thời gian đến (GioDen) không hợp lệ' });
-        }
-
-        // Gọi thủ tục DATTRUOC
-        await pool.request()
-            .input('MaKhachHang', sql.BigInt, MaKhachHang)
-            .input('SoDienThoai', sql.Char(10), SoDienThoai)
-            .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
-            .input('SoLuongKhach', sql.TinyInt, SoLuongKhach)
-            .input('GioDen', sql.DateTime, gioDenDate)
-            .input('GhiChu', sql.NVarChar, GhiChu || null) // Ghi chú có thể để trống
-            .execute('DAT_TRUOC');
-            console.log({
-                MaKhachHang,
-                SoDienThoai,
-                MaChiNhanh,
-                SoLuongKhach,
-                GioDen: gioDenDate,
-                GhiChu
-            });
-        // Trả về phản hồi thành công
-        res.status(200).json({ message: 'Đặt trước thành công!' });
-
-    } catch (error) {
-        console.error('Error while executing DATTRUOC:', error);
-
-        // Xử lý lỗi cụ thể nếu có thể
-        const errorMessage = error.originalError?.info?.message || 'Lỗi khi đặt trước';
-        res.status(500).json({ error: errorMessage });
-    }
-});
-
-
 const multer = require('multer');
 const upload = multer({ storage: multer.memoryStorage() });
 
-app.post('/api/addDish', async (req, res) => {
+app.post('/api/addDish', upload.single('AnhMon'), async (req, res) => {
     console.log('File Info:', req.file);
     console.log('Request Body:', req.body);
 
     const { MaMuc, TenMon, GiaHienTai, GiaoHang } = req.body;
+    const AnhMon = req.file ? req.file.buffer : null;
+
     try {
         const pool = await sql.connect(config);
 
@@ -342,6 +266,7 @@ app.post('/api/addDish', async (req, res) => {
             .input('TenMon', sql.NVarChar, TenMon)
             .input('GiaHienTai', sql.Decimal(18, 3), GiaHienTai)
             .input('GiaoHang', sql.Bit, GiaoHang)
+            .input('AnhMon', sql.VarBinary(sql.MAX), AnhMon)
             .execute('THEM_MON');
 
         res.json({ message: 'Thêm món ăn thành công!' });
@@ -350,30 +275,6 @@ app.post('/api/addDish', async (req, res) => {
         res.status(500).json({ error: 'Lỗi khi thêm món ăn.' });
     }
 });
-
-
-
-
-//Endpoint Xóa chi nhánh 
-app.post ('/api/deleteBranch', async(req, res) => {
-    const {MaChiNhanh} = req.body;
-
-    try {
-        const pool = await sql.connect(config);
-
-        await pool.request()
-            .input('MaChiNhanh', sql.TinyInt, MaChiNhanh )
-            execute('XOA_CHINHANH');
-
-        res.json({message:  'Xóa chi nhánh thành công!'});
-    }catch (err) {
-        console.error(err);
-        res.status(500).json({ error: err.message });
-    }
-
-});
-
-
 
 
 // API lấy dữ liệu từ bảng BoPhan
@@ -401,30 +302,6 @@ app.get('/api/chinhanh', async (req, res) => {
 });
 
 
-app.get('/api/ChiNhanh', async (req, res) => {
-    const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
-    try {
-        const pool = await sql.connect(config);
-        let query = 'SELECT * FROM ChiNhanh'; // Truy vấn mặc định
-
-        if (maKhuVuc) {
-            // Nếu có MaKhuVuc, thêm điều kiện lọc
-            query += ' WHERE MaKhuVuc = @MaKhuVuc';
-        }
-
-        const request = pool.request();
-        if (maKhuVuc) {
-            request.input('MaKhuVuc', sql.TinyInt, maKhuVuc); // Khai báo đúng tên biến
-        }
-
-        const result = await request.query(query);
-        res.json(result.recordset); // Trả về danh sách chi nhánh
-    } catch (err) {
-        console.error('Error in /api/ChiNhanh:', err);
-        res.status(500).send('Lỗi: ' + err.message);
-    }
-});
-
 app.get('/api/MucThucDon', async (req, res) => {
     try {
         const pool = await sql.connect(config);
@@ -450,22 +327,27 @@ app.get('/api/KhuVuc', async (req, res) => {
     }
 });
 
+
 app.get('/api/ThucDonMon', async (req, res) => {
     const maKhuVuc = req.query.khuVuc;
-
+    const maChiNhanh = req.query.chiNhanh; 
     try {
         const pool = await sql.connect(config);
         let query = `
-            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc, MT.TenMuc
+            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc, MTD.TenMuc
             FROM ThucDon_Mon TDM
             JOIN Mon M ON TDM.MaMon = M.MaMon
-            JOIN MucThucDon MT ON M.MaMuc = MT.MaMuc
+            JOIN MucThucDon MTD ON M.MAMUC = MTD.MAMUC
+            WHERE M.GiaoHang = 1 
         `;
 
         if (maKhuVuc) {
-            query += ` WHERE TDM.MaKhuVuc = @MaKhuVuc`;
+            query += ` AND TDM.MaKhuVuc = @MaKhuVuc`;
         }
 
+        if (maChiNhanh) {
+            query += ` AND M.MaMon NOT IN (SELECT MaMon FROM PhucVu WHERE MaChiNhanh = @MaChiNhanh and TrangThai = 0)`;
+        }
         const result = await pool.request()
             .input('MaKhuVuc', sql.TINYINT, maKhuVuc)
             .query(query);
@@ -477,33 +359,6 @@ app.get('/api/ThucDonMon', async (req, res) => {
     }
 });
 
-
-
-app.get('/api/ThucDonMon', async (req, res) => {
-    const maKhuVuc = req.query.khuVuc;
-
-    try {
-        const pool = await sql.connect(config);
-        let query = `
-            SELECT M.MaMon, M.TenMon, M.GiaHienTai, M.MaMuc
-            FROM ThucDon_Mon TDM
-            JOIN Mon M ON TDM.MaMon = M.MaMon
-        `;
-
-        if (maKhuVuc) {
-            query += ` WHERE TDM.MaKhuVuc = @MaKhuVuc`;
-        }
-
-        const result = await pool.request()
-            .input('MaKhuVuc', sql.TINYINT, maKhuVuc)
-            .query(query);
-
-        res.json(result.recordset);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Lỗi khi lấy thực đơn món theo khu vực.' });
-    }
-});
 
 
 app.get('/api/getTenMuc', async (req, res) => {
@@ -525,9 +380,6 @@ app.get('/api/getTenMuc', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-// API lấy chi nhánh cụ thể theo Mã Khu Vực và Mã Chi Nhánh
-=======
 app.get('/api/ChiNhanhKV', async (req, res) => {
     const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
     try {
@@ -553,7 +405,6 @@ app.get('/api/ChiNhanhKV', async (req, res) => {
 });
 
 // API lấy danh sách Chi Nhánh theo MaKhuVuc
->>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3
 app.get('/api/chinhanhkhuvuc', async (req, res) => {
     try {
         const { MaKhuVuc } = req.query; // Lấy tham số MaKhuVuc từ query string
@@ -577,7 +428,7 @@ app.get('/api/chinhanhkhuvuc', async (req, res) => {
     }
 });
 
-
+// API lấy chi nhánh cụ thể theo Mã Khu Vực và Mã Chi Nhánh
 app.get('/api/chinhanhkhuvuc_2', async (req, res) => {
     try {
         const { MaChiNhanh, MaKhuVuc } = req.query; // Lấy tham số MaKhuVuc và MaChiNhanh từ query string
@@ -705,11 +556,6 @@ app.post('/api/order', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.listen(port, () => {
-    console.log(`Server đang chạy tại http://localhost:${port}`);
-});
-=======
 // API lấy thông tin khách hàng
 app.get('/api/customer-info', async (req, res) => {
     const customerId = req.query.customerId;
@@ -791,4 +637,3 @@ app.post('/api/addReservation', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });
->>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3
