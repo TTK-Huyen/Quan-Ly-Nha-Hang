@@ -124,7 +124,7 @@ CREATE TABLE KhachHang (
 
 CREATE TABLE TheKhachHang (
 	MaSoThe CHAR(10), -- Mã số thẻ
-	SoDienThoai char(10) NOT NULL, -- Mã khách hàng, tham chiếu tới KhachHang
+	SoDienThoai CHAR(10) NOT NULL, -- Mã khách hàng, tham chiếu tới KhachHang
 	NgayLap DATE DEFAULT GETDATE() NOT NULL, -- Ngày lập thẻ khách hàng
 	NhanVienLap CHAR(6), -- Mã nhân viên lập thẻ, tham chiếu tới NhanVien
 	TrangThaiThe BIT DEFAULT 1 CHECK (TrangThaiThe IN (0, 1)), -- Trạng thái thẻ khách hàng (0: đóng, 1: mở)
