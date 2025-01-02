@@ -1,14 +1,29 @@
-const express = require('express');
+const express = require('express'); // Nhập thư viện express 
+const session = require('express-session');
+const bodyParser = require('body-parser'); // Để xử lý file request
 const sql = require('mssql');
-const bodyParser = require('body-parser');
 const path = require('path');
-
 const app = express();
 const port = 3000;
 
-// Phục vụ file tĩnh (HTML, CSS, JS)
-app.use(express.static(path.join(__dirname, 'Frontend')));
+// Cấu hình để phục vụ các tệp tĩnh từ thư mục "frontend"
+app.use(express.static(path.join(__dirname, 'public')));
 
+// Chuyển hướng đến home.html khi truy cập đường dẫn gốc "/"
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'DangNhap.html'));
+});
+// Middleware để parse JSON từ body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Nếu cần xử lý form-urlencoded
+
+// Cấu hình session
+app.use(session({
+    secret: 'your_secret_key', // Khóa bí mật để ký session ID
+    resave: false, // Không lưu session nếu không có thay đổi
+    saveUninitialized: true, // Lưu session dù không có dữ liệu
+    cookie: { secure: false } // Cookie không yêu cầu HTTPS (chỉ cho local)
+}));
 app.listen(port, () => {
     console.log(`Server đang chạy tại http://localhost:${port}`);
 });
@@ -30,6 +45,164 @@ const config = {
 
 // Middleware
 app.use(bodyParser.json());
+
+// Hàm kiểm tra kết nối
+async function testDatabaseConnection() {
+    try {
+        const pool = await sql.connect(config);
+        console.log('Kết nối thành công đến cơ sở dữ liệu!');
+        await pool.close();
+    } catch (err) {
+        console.error('Lỗi khi kết nối đến cơ sở dữ liệu:', err);
+    }
+}
+
+// Gọi hàm kiểm tra khi server khởi động
+testDatabaseConnection();
+
+// Kiểm tra đăng nhập
+app.get('/check-login', (req, res) => {
+    if (!req.session.user) {
+        return res.json({ loggedIn: false }); // Người dùng chưa đăng nhập
+    }
+
+    res.json({
+        loggedIn: true, // Người dùng đã đăng nhập
+        user: req.session.user // Thông tin người dùng (tuỳ chọn)
+    });
+});
+
+// API xử lý đăng nhập
+app.post('/login', async (req, res) => {
+    console.log("Dữ liệu nhận được từ client:", req.body);
+
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+        console.log("Thiếu thông tin đăng nhập:", { username, password });
+        return res.status(400).json({ error: 'Vui lòng nhập đầy đủ thông tin!' });
+    }
+
+    console.log("Username:", username);
+    console.log("Password:", password);
+
+    try {
+        const pool = await sql.connect(config);
+        console.log("Kết nối database thành công!");
+        // Kiểm tra thông tin đăng nhập trong database
+
+        const result = await pool.request()
+            .input('Username', sql.NVarChar, username)
+            .input('Password', sql.NVarChar, password)
+            .query(`
+                SELECT Username, Role
+                FROM Users
+                WHERE Username = @Username AND Password = @Password
+            `);
+
+        const user = result.recordset[0];
+        console.log(result.recordset[0]);
+        if (!user) {
+            return res.status(401).json({ error: 'Tên đăng nhập hoặc mật khẩu không đúng' });
+        }
+        console.log("Vai trò từ database:", user.Role);
+        // Lưu trạng thái người dùng vào session
+        req.session.user = { id: user.Username, role: user.Role };
+        // Chỉ lưu thông tin truy cập nếu role là 'khachhang'
+        if (user.Role === 'khachhang') {
+            await pool.request()
+                .input('Username', sql.Char(10), user.Username)
+                .query(`
+                    INSERT INTO ThongTinTruyCap (MaKhachHang, ThoiDiemTruyCap)
+                    SELECT MaKhachHang, GETDATE()
+                    FROM KhachHang
+                    WHERE SoDienThoai = @Username
+                `);
+        }
+        res.json({ message: 'Đăng nhập thành công!', role: user.Role });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Lỗi server' });
+    }
+});
+
+// Xác thực quyền trước khi xài api
+function authorizeRole(allowedRoles) {
+    return (req, res, next) => {
+        if (!req.session.user) {
+            return res.status(401).json({ error: 'Bạn chưa đăng nhập' });
+        }
+
+        const userRole = req.session.user.role;
+
+        // Kiểm tra xem vai trò có trong danh sách được phép không
+        if (!allowedRoles.includes(userRole)) {
+            return res.status(403).json({ error: 'Bạn không có quyền truy cập vào API này' });
+        }
+
+        next(); // Vai trò hợp lệ, tiếp tục xử lý API
+    };
+}
+
+// API đăng xuất
+app.post('/logout', async (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ error: 'Bạn chưa đăng nhập' });
+    }
+
+    try {
+             // Chỉ thực hiện nếu vai trò là 'khachhang'
+        if (req.session.user.role === 'khachhang') {
+            const pool = await sql.connect(config);
+            const username = req.session.user.id; // Lấy số điện thoại từ session
+            console.log("Username được sử dụng:", username);
+            // Cập nhật LogoutTime và ThoiGianTruyCap
+            const result = await pool.request()
+                .input('username', sql.VarChar, username)
+                .query(`
+                    UPDATE ThongTinTruyCap
+                    SET ThoiGianTruyCap = DATEDIFF(SECOND, ThoiDiemTruyCap, GETDATE())
+                    WHERE MaKhachHang = (
+                        SELECT MaKhachHang
+                        FROM KhachHang
+                        WHERE SoDienThoai = @username
+                    ) AND ThoiGianTruyCap = 0
+                `);
+
+            if (result.rowsAffected[0] === 0) {
+                return res.status(404).json({ error: 'Không tìm thấy phiên đăng nhập để cập nhật!' });
+            }   
+        }
+
+        // Xóa session
+        req.session.destroy(err => {
+            if (err) {
+                return res.status(500).json({ error: 'Đăng xuất thất bại' });
+            }
+            res.json({ message: 'Đăng xuất thành công!' });
+        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Lỗi server' });
+    }
+});
+
+app.get('/api/get-role', (req, res) => {
+    if (!req.session.user) {
+        // Người dùng chưa đăng nhập
+        return res.json({
+            role: 'guest', // Vai trò mặc định cho khách chưa đăng nhập
+            username: null // Không có tên người dùng
+        });
+    }
+
+    // Trả về thông tin role và username khi đã đăng nhập
+    res.json({
+        role: req.session.user.role,
+        username: req.session.user.id
+    });
+});
+
 
 // Endpoint thêm nhân viên
 app.post('/api/addEmployee', async (req, res) => {
@@ -202,28 +375,6 @@ app.post('/api/addDish', async (req, res) => {
 
 
 
-
-//Endpoint thêm chi nhánh
-// app.post('/api/addBranch',async(req, res) =>{
-//     const {TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, GiaoHang}
-
-//     try{
-//         const pool = await sql.connect(config);
-
-//         await pool.request()
-//         .input('TenDiaChi', sql.NVarChar, TenChiNhanh)
-//         .input('DiaChi', sql.NVarChar,DiaChi)
-//         .input('ThoiGianMoCua', sql.Time, ThoiGianMoCua)
-//         .input('ThoiGianDongCua', sql.Time, ThoiGianDongCua)
-//         .input('SoDienThoai', sql.VarChar, SoDienThoai)
-//         .input('BaiDoXeHoi', sql.Bit, BaiDoXeHoi)
-//         .input('BaiDoXeMay', sql.Bit, BaiDoXeMay)
-//         .input('NhanVienQuanLy', sql.Char, NhanVienQuanLy)
-//         .input ('GiaoHang', sql.Bit, GiaoHang)
-//         .execute('THEM_CHI_NHANH')
-//     }
-// })
-
 //Endpoint Xóa chi nhánh 
 app.post ('/api/deleteBranch', async(req, res) => {
     const {MaChiNhanh} = req.body;
@@ -259,6 +410,18 @@ app.get('/api/bophan', async (req, res) => {
 });
 
 // API lấy dữ liệu từ bảng ChiNhanh
+app.get('/api/chinhanh', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request().query('SELECT * FROM ChiNhanh');
+        res.json(result.recordset);
+        await pool.close();
+    } catch (err) {
+        res.status(500).send('Lỗi: ' + err.message);
+    }
+});
+
+
 app.get('/api/ChiNhanh', async (req, res) => {
     const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
     try {
@@ -305,6 +468,18 @@ app.get('/api/KhuVuc', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Lỗi khi lấy danh sách khu vực' });
+    }
+});
+
+app.get('/api/Mon', async (req,res) => {
+    try{
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .query('SELECT MaMon, TenMon FROM Mon order by MaMon');
+        res.json(result.recordset);
+    }catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi lấy danh sách món ănăn' });
     }
 });
 
@@ -382,3 +557,220 @@ app.get('/api/getTenMuc', async (req, res) => {
         res.status(500).json({ error: 'Lỗi server.' });
     }
 });
+
+// API lấy chi nhánh cụ thể theo Mã Khu Vực và Mã Chi Nhánh
+app.get('/api/chinhanhkhuvuc', async (req, res) => {
+    try {
+        const { MaKhuVuc } = req.query; // Lấy tham số MaKhuVuc từ query string
+        const pool = await sql.connect(config);
+
+        // Nếu có MaKhuVuc, lọc theo khu vực, nếu không lấy toàn bộ
+        const query = MaKhuVuc
+            ? 'SELECT * FROM ChiNhanh WHERE MaKhuVuc = @MaKhuVuc'
+            : 'SELECT * FROM ChiNhanh';
+
+        const request = pool.request();
+        if (MaKhuVuc) {
+            request.input('MaKhuVuc', sql.TINYINT, MaKhuVuc);
+        }
+
+        const result = await request.query(query);
+        res.json(result.recordset);
+        await pool.close();
+    } catch (err) {
+        res.status(500).send('Lỗi: ' + err.message);
+    }
+});
+
+
+app.get('/api/doanhthu', async (req, res) => {
+    try {
+        const { Loai, MaChiNhanh, ThoiGian, MaMon } = req.query;
+
+        const pool = await sql.connect(config);
+
+        let query = '';
+        let result;
+        console.log("ThoiGian được truyền vào API:", ThoiGian);
+        // Xây dựng truy vấn SQL dựa trên loại thống kê
+        switch (Loai) {
+            case 'day':
+                query = `
+                    SELECT SUM(h.ThanhTien) AS TongDoanhThu
+                    FROM HoaDon h join PhieuDatMon p on h.MaPhieu = p.MaPhieu
+                    WHERE CAST(p.NgayLap AS DATE) = @ThoiGian
+                    ${MaChiNhanh !== 'all' ? 'AND p.MaChiNhanh = @MaChiNhanh' : ''}
+                `;
+                result = await pool.request()
+                    .input('ThoiGian', sql.Date, ThoiGian)
+                    .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
+                    .query(query);
+                break;
+
+            case 'month':
+                query = `
+                    SELECT SUM(ThanhTien) AS TongDoanhThu
+                    FROM HoaDon h
+                    JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
+                    WHERE YEAR(p.NgayLap) = YEAR(@ThoiGian)
+                      AND MONTH(p.NgayLap) = MONTH(@ThoiGian)
+                    ${MaChiNhanh !== 'all' ? 'AND p.MaChiNhanh = @MaChiNhanh' : ''}
+                `;
+                result = await pool.request()
+                    .input('ThoiGian', sql.Date, `${ThoiGian}-01`) // Thêm ngày đầu tháng
+                    .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
+                    .query(query);
+                break;
+
+            case 'quarter':
+                const [year, quarter] = ThoiGian.split('-Q');
+                const quarterStartMonth = (quarter - 1) * 3 + 1;
+                const quarterEndMonth = quarterStartMonth + 2;
+
+                query = `
+                    SELECT SUM(ThanhTien) AS TongDoanhThu
+                    FROM HoaDon h
+                    JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
+                    WHERE YEAR(p.NgayLap) = @Year
+                      AND MONTH(p.NgayLap) BETWEEN @QuarterStart AND @QuarterEnd
+                    ${MaChiNhanh !== 'all' ? 'AND p.MaChiNhanh = @MaChiNhanh' : ''}
+                `;
+                result = await pool.request()
+                    .input('Year', sql.Int, year)
+                    .input('QuarterStart', sql.TinyInt, quarterStartMonth)
+                    .input('QuarterEnd', sql.TinyInt, quarterEndMonth)
+                    .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
+                    .query(query);
+                break;
+
+            case 'year':
+                query = `
+                    SELECT SUM(ThanhTien) AS TongDoanhThu
+                    FROM HoaDon h
+                    JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
+                    WHERE YEAR(p.NgayLap) = @Year
+                    ${MaChiNhanh !== 'all' ? 'AND p.MaChiNhanh = @MaChiNhanh' : ''}
+                `;
+                result = await pool.request()
+                    .input('Year', sql.Int, ThoiGian)
+                    .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
+                    .query(query);
+                break;
+
+            case 'dish':
+                query = `
+                    SELECT SUM(ctp.SoLuong * m.GiaHienTai) AS TongDoanhThu
+                    FROM ChiTietPhieu ctp
+                    JOIN Mon m ON ctp.MaMon = m.MaMon
+                    JOIN PhieuDatMon p ON ctp.MaPhieu = p.MaPhieu
+                    WHERE ctp.MaMon = @MaMon
+                    ${MaChiNhanh !== 'all' ? 'AND p.MaChiNhanh = @MaChiNhanh' : ''}
+                `;
+                result = await pool.request()
+                    .input('MaMon', sql.TinyInt, MaMon)
+                    .input('MaChiNhanh', sql.TinyInt, MaChiNhanh)
+                    .query(query);
+                break;
+
+            default:
+                return res.status(400).json({ error: 'Loại thống kê không hợp lệ' });
+        }
+
+        // Trả kết quả
+        res.json({
+            TongDoanhThu: result.recordset[0].TongDoanhThu || 0
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi xử lý truy vấn doanh thu' });
+    }
+});
+
+app.get('/api/chinhanhkhuvuc_2', async (req, res) => {
+    try {
+        const { MaChiNhanh, MaKhuVuc } = req.query; // Lấy tham số MaKhuVuc và MaChiNhanh từ query string
+
+        // Kiểm tra nếu thiếu một trong hai tham số
+        if (!MaKhuVuc || !MaChiNhanh) {
+            return res.status(400).json({ error: 'Vui lòng cung cấp đầy đủ MaKhuVuc và MaChiNhanh.' });
+        }
+
+        const pool = await sql.connect(config);
+
+        // Truy vấn lấy thông tin chi nhánh và khu vực
+        const query = `
+            SELECT CN.MaChiNhanh, CN.TenChiNhanh, CN.DiaChi, KV.MaKhuVuc, KV.TenKhuVuc
+            FROM ChiNhanh CN
+            JOIN KhuVuc_ThucDon KV ON CN.MaKhuVuc = KV.MaKhuVuc
+            WHERE CN.MaKhuVuc = @MaKhuVuc AND CN.MaChiNhanh = @MaChiNhanh
+        `;
+
+        const result = await pool.request()
+            .input('MaKhuVuc', sql.TINYINT, MaKhuVuc)
+            .input('MaChiNhanh', sql.TINYINT, MaChiNhanh)
+            .query(query);
+
+        // Trả về kết quả
+        if (result.recordset.length > 0) {
+            res.json(result.recordset[0]); // Trả về một đối tượng chi nhánh cụ thể
+        } else {
+            res.status(404).json({ error: 'Không tìm thấy chi nhánh trong khu vực này.' });
+        }
+
+        await pool.close();
+    } catch (err) {
+        console.error('Lỗi khi lấy chi nhánh và khu vực:', err.message);
+        res.status(500).send('Lỗi: ' + err.message);
+    }
+});
+
+app.post('/api/order', async (req, res) => {
+    try {
+        const { ngayLap, nhanVienLap, soDienThoai, maChiNhanh, chiTietPhieu } = req.body;
+
+        // Kiểm tra dữ liệu đầu vào
+        if (!nhanVienLap || !maSoBan || !soDienThoai || !maChiNhanh || !chiTietPhieu || chiTietPhieu.length === 0) {
+            return res.status(400).json({ error: 'Dữ liệu không đầy đủ!' });
+        }
+
+        const pool = await sql.connect(config);
+
+        // Chèn vào bảng PhieuDatMon
+        const phieuDatMonResult = await pool.request()
+            .input('NgayLap', sql.DATETIME, ngayLap || new Date())
+            .input('SoDienThoai', sql.NVARCHAR, soDienThoai)
+            .input('MaChiNhanh', sql.TINYINT, maChiNhanh)
+            .query(`
+                INSERT INTO PhieuDatMon (NgayLap, SoDienThoai, MaChiNhanh)
+                OUTPUT INSERTED.MaPhieu
+                VALUES (@NgayLap, @MaSoBan, @SoDienThoai, @MaChiNhanh)
+            `);
+
+        const maPhieu = phieuDatMonResult.recordset[0].MaPhieu;
+
+        // Chèn vào bảng ChiTietPhieu
+        const chiTietQuery = `
+            INSERT INTO ChiTietPhieu (MaPhieu, MaMon, SoLuong)
+            VALUES (@MaPhieu, @MaMon, @SoLuong)
+        `;
+
+        const chiTietRequest = pool.request();
+        chiTietPhieu.forEach(async (item) => {
+            await chiTietRequest
+                .input('MaPhieu', sql.INT, maPhieu)
+                .input('MaMon', sql.TINYINT, item.MaMon)
+                .input('SoLuong', sql.TINYINT, item.SoLuong)
+                .query(chiTietQuery);
+        });
+
+        res.status(201).json({ message: 'Dữ liệu đã được lưu!', maPhieu });
+        await pool.close();
+    } catch (err) {
+        console.error('Lỗi khi chèn dữ liệu:', err.message);
+        res.status(500).json({ error: 'Không thể lưu dữ liệu!' });
+    }
+});
+
+
+

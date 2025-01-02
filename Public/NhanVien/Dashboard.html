@@ -21,6 +21,9 @@
             <h2 class="dashboard-subtitle">Chức Năng</h2>
             <button class="menu-button" onclick="navigateTo('manageOrders')">Danh Sách Phiếu Đặt Món</button>
             <button class="menu-button" onclick="navigateTo('managePayments')">Quản Lý Đơn Đặt Hàng</button>
+            <button class="menu-button" onclick="navigateTo('manageRevenue')">Xem thống kê doanh thu</button>
+            <button class="menu-button" onclick="navigateTo('managePayments')">Xem thống kê khách hàng</button>
+            <button class="menu-button" onclick="navigateTo('managePayments')">Xem thống kê món ăn</button>
         </div>
     </div>
 
@@ -30,7 +33,11 @@
                 window.location.href = '/NhanVien/PhieuDatMon/ManageOrders.html';
             } else if (feature === 'managePayments') {
                 window.location.href = '/NhanVien/PhieuDatMon/ManageOrdersAndPayments.html';
+            }else if (feature === 'manageRevenue') {
+                window.location.href = '/NhanVien/ManageRevenue.html';
             }
+
+
         }
     </script>
 </body>

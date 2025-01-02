@@ -1,6 +1,6 @@
 USE MASTER
 GO
-
+ALTER DATABASE QLNHAHANG SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 IF DB_ID('QLNHAHANG') IS NOT NULL
 	DROP DATABASE QLNHAHANG
 GO
@@ -125,7 +125,7 @@ CREATE TABLE KhachHang (
 
 CREATE TABLE TheKhachHang (
 	MaSoThe CHAR(10), -- Mã số thẻ
-	MaKhachHang INT NOT NULL, -- Mã khách hàng, tham chiếu tới KhachHang
+	SoDienThoai char(10) NOT NULL, -- Mã khách hàng, tham chiếu tới KhachHang
 	NgayLap DATE DEFAULT GETDATE() NOT NULL, -- Ngày lập thẻ khách hàng
 	NhanVienLap CHAR(6), -- Mã nhân viên lập thẻ, tham chiếu tới NhanVien
 	TrangThaiThe BIT DEFAULT 1 CHECK (TrangThaiThe IN (0, 1)), -- Trạng thái thẻ khách hàng (0: đóng, 1: mở)
@@ -233,7 +233,7 @@ ADD CONSTRAINT FK_Ban_ChiNhanh FOREIGN KEY (MaChiNhanh) REFERENCES ChiNhanh(MaCh
 
 -- Ràng buộc thẻ khách hàng
 ALTER TABLE TheKhachHang
-ADD CONSTRAINT FK_TheKhachHang_KhachHang FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(MaKhachHang),
+ADD CONSTRAINT FK_TheKhachHang_KhachHang FOREIGN KEY (SoDienThoai) REFERENCES KhachHang(SoDienThoai),
     CONSTRAINT FK_TheKhachHang_NhanVien FOREIGN KEY (NhanVienLap) REFERENCES NhanVien(MaNhanVien);
 
 -- Ràng buộc phiếu đặt món
@@ -242,7 +242,7 @@ ADD CONSTRAINT FK_PhieuDatMon_NhanVien FOREIGN KEY (NhanVienLap) REFERENCES Nhan
     CONSTRAINT FK_PhieuDatMon_Ban FOREIGN KEY (MaSoBan, MaChiNhanh) REFERENCES Ban(MaSoBan, MaChiNhanh);
 
 -- Ràng buộc chi tiết phiếu
-ALTER TABLE ChiTietPhieu
+ALTER TABLE ChiTietPhieu	
 ADD CONSTRAINT FK_ChiTietPhieu_Phieu FOREIGN KEY (MaPhieu) REFERENCES PhieuDatMon(MaPhieu),
     CONSTRAINT FK_ChiTietPhieu_Mon FOREIGN KEY (MaMon) REFERENCES Mon(MaMon);
 
