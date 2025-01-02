@@ -2,6 +2,7 @@
 
 
 -- phân hệ chi nhánh
+CREATE NONCLUSTERED INDEX idx_DanhGia_DiemPhucVu ON DanhGia (DiemPhucVu );
 -- phân hệ khách hàng
 CREATE NONCLUSTERED INDEX idx_KhachHang_SoCCCD ON KhachHang (SoCCCD);
 CREATE NONCLUSTERED INDEX idx_KhachHang_SoDienThoai ON KhachHang (SoDienThoai);

@@ -1217,7 +1217,6 @@ INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (37, 15, 0, 2);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (38, 15, 0, 13);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (39, 15, 0, 15);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (40, 15, 0, 12);
-select * from chinhanh
 
 
 	--Thêm dữ liệu bảng MucThucDon
