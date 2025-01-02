@@ -739,8 +739,6 @@ BEGIN
         l.NgayKetThuc IS NULL AND l.MaChiNhanh = @MaChiNhanh;
 END;
 GO
-EXEC XEMNVCN @MaChiNhanh = 2;
-SELECT * FROM LichSuLamViec WHERE MaChiNhanh = 2
 
 --SP THÊM NHÂN VIÊN MỚI VÀO BẢNG NHÂN VIÊN
  CREATE OR ALTER  PROC THEMNV
@@ -1728,4 +1726,3 @@ go
 
 
 
-GO
