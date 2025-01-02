@@ -1,812 +1,811 @@
 
-	USE QLNHAHANG;
+USE QLNHAHANG;
+GO
+-- =======================
+-- Thêm dữ liệu vào bảng KhuVuc
+-- =======================
 	
-	-- =======================
-	-- Thêm dữ liệu vào bảng KhuVuc
-	-- =======================
+INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon) VALUES (N'Hồ Chí Minh',N'Thực đơn khu vực 1');
+INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hà Nội',N'Thực đơn khu vực 2');
+INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Đà Nẵng',N'Thực đơn khu vực 3');
+INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hải Phòng',N'Thực đơn khu vực 4');
+INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Cần Thơ',N'Thực đơn khu vực 5');
+INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Vũng Tàu',N'Thực đơn khu vực 6');
+
+-- =======================
+-- Thêm dữ liệu vào bảng MucThucDon
+-- =======================
+
+INSERT INTO MucThucDon (TenMuc) VALUES (N'Khai Vị');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Sashimi Combo');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Nigiri');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Tempura');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Udon');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Hotpot');
+INSERT INTO MucThucDon (TenMuc) VALUES ('Lunch Set');
+INSERT INTO MucThucDon (TenMuc) VALUES (N'Món Nước');
+
+-- =======================
+-- Thêm dữ liệu vào bảng Mon
+-- =======================
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (1, N'Trứng hấp', 273929, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp miso', 65538, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp chay', 157860, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Trứng cá hồi', 226364, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Salad rong biển', 70572, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Edamame (đậu nành luộc)', 125203, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi tổng hợp', 282189, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá hồi đặc biệt', 160193, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá ngừ', 51196, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi sò điệp', 104902, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi bạch tuộc', 144896, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá ngừ', 122333, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá hồi', 134011, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri lườn cá hồi nướng sốt', 258341, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri trứng tôm', 197801, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri bạch tuộc', 67726, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá chình Nhật', 101545, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura tôm', 294657, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura rau củ tổng hợp', 258563, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura cá', 218529, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon nóng', 103737, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon lạnh', 168482, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon hải sản', 244150, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Shabu-shabu', 191337, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu sukiyaki', 132277, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu hải sản Nhật Bản', 102552, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sushi', 224502, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sashimi', 106976, 1);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set cơm lươn Nhật', 102608, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Trà xanh Nhật', 246012, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép táo', 256113, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép cam', 199634, 0);
+INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Rượu sake Nhật', 109987, 0);
+
+-- =======================
+-- Thêm dữ liệu vào bảng ThucDon_Mon
+-- =======================
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 25);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 13);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 27);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 32);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 30);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 15);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 4);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 21);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 22);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 12);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 31);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 10);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 8);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 3);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 7);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 4);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 27);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 31);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 6);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 22);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 2);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 10);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 33);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 32);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 16);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 24);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 17);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 19);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 9);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 23);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 21);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 3);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 30);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 20);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 25);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 7);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 11);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 8);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 26);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 15);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 22);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 6);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 21);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 33);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 19);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 8);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 18);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 16);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 32);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 9);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 7);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 26);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 12);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 17);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 1);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 29);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 4);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 13);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 5);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 31);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 18);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 23);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 13);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 16);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 26);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 27);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 1);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 3);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 7);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 29);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 6);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 21);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 19);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 28);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 4);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 5);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 17);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 9);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 20);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 25);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 2);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 30);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 22);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 33);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 11);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 15);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 12);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 24);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 10);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 32);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 14);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 33);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 6);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 20);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 8);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 28);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 14);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 3);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 29);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 24);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 9);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 12);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 25);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 6);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 7);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 31);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 1);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 9);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 32);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 19);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 24);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 30);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 18);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 16);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 14);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 5);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 27);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 13);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 11);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 29);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 2);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 20);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 33);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 22);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 17);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 28);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 8);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 26);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 10);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 23);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 3);
+INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 15);
+
 	
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon) VALUES (N'Hồ Chí Minh',N'Thực đơn khu vực 1');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hà Nội',N'Thực đơn khu vực 2');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Đà Nẵng',N'Thực đơn khu vực 3');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hải Phòng',N'Thực đơn khu vực 4');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Cần Thơ',N'Thực đơn khu vực 5');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Vũng Tàu',N'Thực đơn khu vực 6');
+-- =======================
+-- Thêm dữ liệu vào bảng BoPhan
+-- =======================
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP01', N'Bộ phận Bếp',9000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP02', N'Bộ phận Lễ tân',7000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP03', N'Bộ phận Phục vụ bàn',7500000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP04', N'Bộ phận Thu ngân',7000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP05', N'Bộ phận Quản lý',10000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP06', N'Bộ phận Tạp vụ',6000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP07', N'Bộ phận Quầy bar',8000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP08', N'Bộ phận Kho vận', 7000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP09', N'Bộ phận Chăm sóc khách hàng', 5000000);
+INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP10', N'Bộ phận Hành chính',7000000);
 
-	-- =======================
-	-- Thêm dữ liệu vào bảng MucThucDon
-	-- =======================
-
-	INSERT INTO MucThucDon (TenMuc) VALUES (N'Khai Vị');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Sashimi Combo');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Nigiri');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Tempura');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Udon');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Hotpot');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Lunch Set');
-	INSERT INTO MucThucDon (TenMuc) VALUES (N'Món Nước');
-
-	-- =======================
-	-- Thêm dữ liệu vào bảng Mon
-	-- =======================
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (1, N'Trứng hấp', 273929, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp miso', 65538, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp chay', 157860, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Trứng cá hồi', 226364, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Salad rong biển', 70572, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Edamame (đậu nành luộc)', 125203, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi tổng hợp', 282189, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá hồi đặc biệt', 160193, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá ngừ', 51196, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi sò điệp', 104902, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi bạch tuộc', 144896, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá ngừ', 122333, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá hồi', 134011, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri lườn cá hồi nướng sốt', 258341, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri trứng tôm', 197801, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri bạch tuộc', 67726, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá chình Nhật', 101545, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura tôm', 294657, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura rau củ tổng hợp', 258563, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura cá', 218529, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon nóng', 103737, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon lạnh', 168482, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon hải sản', 244150, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Shabu-shabu', 191337, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu sukiyaki', 132277, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu hải sản Nhật Bản', 102552, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sushi', 224502, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sashimi', 106976, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set cơm lươn Nhật', 102608, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Trà xanh Nhật', 246012, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép táo', 256113, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép cam', 199634, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Rượu sake Nhật', 109987, 0);
-
-	-- =======================
-	-- Thêm dữ liệu vào bảng ThucDon_Mon
-	-- =======================
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 15);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 2);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 23);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 11);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 15);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 18);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 1);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 5);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 18);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 23);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 1);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 28);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 5);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 2);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 11);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 15);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 14);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 28);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 14);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 1);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 18);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 14);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 5);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 11);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 2);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 28);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 23);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 15);
-
-
-	-- =======================
-	-- Thêm dữ liệu vào bảng BoPhan
-	-- =======================
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP01', N'Bộ phận Bếp',9000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP02', N'Bộ phận Lễ tân',7000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP03', N'Bộ phận Phục vụ bàn',7500000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP04', N'Bộ phận Thu ngân',7000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP05', N'Bộ phận Quản lý',10000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP06', N'Bộ phận Tạp vụ',6000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP07', N'Bộ phận Quầy bar',8000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP08', N'Bộ phận Kho vận', 7000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP09', N'Bộ phận Chăm sóc khách hàng', 5000000);
-	INSERT INTO BoPhan (MaBoPhan, TenBoPhan,Luong) VALUES ('BP10', N'Bộ phận Hành chính',7000000);
-
-
-	-- =======================
-	-- Thêm dữ liệu vào bảng NhanVien
-	-- =======================
-	EXEC THEMNV N'Stephen Walsh', '1998-06-02', N'Nam' , '2023-09-09', 'BP02', 8;
-	EXEC THEMNV N'Jimmy Navarro', '1980-11-23', N'Nam' , '2022-05-05', 'BP02', 5;
-	EXEC THEMNV N'Kelsey Oneal', '1996-07-10', N'Nam' , '2021-06-18', 'BP07', 9;
-	EXEC THEMNV N'Patty Frederick', '1970-06-03', N'Nam' , '2021-02-13', 'BP08', 1;
-	EXEC THEMNV N'Linda Cook', '1980-05-20', N'Nam' , '2024-05-23', 'BP06', 14;
-	EXEC THEMNV N'Brian Cox', '1985-11-30', N'Nữ' , '2023-09-10', 'BP01', 10;
-	EXEC THEMNV N'Aaron Boyd', '1973-03-02', N'Nam' , '2021-07-13', 'BP01', 6;
-	EXEC THEMNV N'Melissa Wiley', '2001-04-18', N'Nam' , '2020-08-31', 'BP04', 4;
-	EXEC THEMNV N'Chad Graves', '2001-06-26', N'Nữ' , '2023-01-31', 'BP02', 9;
-	EXEC THEMNV N'Robert Morgan', '1963-12-28', N'Nữ' , '2020-11-02', 'BP10', 1;
-	EXEC THEMNV N'Theresa Landry', '1987-06-23', N'Nữ' , '2022-11-03', 'BP07', 8;
-	EXEC THEMNV N'Theodore Davis', '1994-04-03', N'Nữ' , '2022-10-07', 'BP10', 14;
-	EXEC THEMNV N'Adrian Palmer', '1969-07-27', N'Nam' , '2020-05-13', 'BP01', 9;
-	EXEC THEMNV N'Joshua Lawson', '1974-12-31', N'Nữ' , '2020-06-29', 'BP07', 5;
-	EXEC THEMNV N'Stephanie Scott', '1968-12-26', N'Nữ' , '2024-11-15', 'BP04', 8;
-	EXEC THEMNV N'Christina Bush', '1971-02-08', N'Nữ' , '2023-12-01', 'BP01', 11;
-	EXEC THEMNV N'Kenneth Hernandez', '1996-03-29', N'Nữ' , '2024-02-03', 'BP02', 2;
-	EXEC THEMNV N'Patrick Wilkerson Jr.', '1996-09-28', N'Nam' , '2023-10-22', 'BP02', 9;
-	EXEC THEMNV N'Jared Harris', '2002-08-11', N'Nam' , '2023-03-28', 'BP03', 15;
-	EXEC THEMNV N'Jessica Glass', '1996-01-08', N'Nữ' , '2022-11-25', 'BP10', 14;
-	EXEC THEMNV N'Steven Foster', '1983-01-01', N'Nam' , '2021-02-17', 'BP06', 3;
-	EXEC THEMNV N'Susan Lawrence', '1990-05-11', N'Nữ' , '2020-08-02', 'BP10', 8;
-	EXEC THEMNV N'Benjamin Cameron', '1992-08-10', N'Nam' , '2021-10-11', 'BP04', 14;
-	EXEC THEMNV N'Justin Thomas', '1995-09-26', N'Nữ' , '2021-07-25', 'BP08', 15;
-	EXEC THEMNV N'Brittany Powell', '1971-02-16', N'Nữ' , '2020-05-26', 'BP03', 6;
-	EXEC THEMNV N'Stephanie Graham', '1982-03-07', N'Nữ' , '2020-04-04', 'BP02', 7;
-	EXEC THEMNV N'Douglas Garrison', '1965-05-05', N'Nam' , '2021-04-21', 'BP06', 7;
-	EXEC THEMNV N'Renee Berry', '1977-03-17', N'Nữ' , '2021-09-18', 'BP09', 7;
-	EXEC THEMNV N'Andrew Perez', '1988-11-26', N'Nam' , '2024-04-17', 'BP01', 15;
-	EXEC THEMNV N'Mindy Williams', '1965-09-16', N'Nữ' , '2021-01-03', 'BP06', 8;
-	EXEC THEMNV N'Jeremy Castaneda', '1989-11-06', N'Nữ' , '2020-11-04', 'BP06', 10;
-	EXEC THEMNV N'Jenna Smith', '1973-07-10', N'Nữ' , '2024-02-02', 'BP06', 5;
-	EXEC THEMNV N'Holly Zimmerman', '1970-01-25', N'Nam' , '2022-04-26', 'BP07', 14;
-	EXEC THEMNV N'Harry Cowan', '1984-05-17', N'Nam' , '2024-09-05', 'BP09', 12;
-	EXEC THEMNV N'Tracy Johnson', '1965-08-25', N'Nam' , '2024-11-05', 'BP05', 12;
-	EXEC THEMNV N'Angela Perez', '1990-05-26', N'Nam' , '2021-10-09', 'BP06', 1;
-	EXEC THEMNV N'Kathy Little', '1976-11-28', N'Nữ' , '2020-01-31', 'BP03', 11;
-	EXEC THEMNV N'Jeremiah Stevens', '1983-01-24', N'Nam' , '2024-06-11', 'BP07', 9;
-	EXEC THEMNV N'Ryan Sanford', '1984-06-26', N'Nam' , '2021-02-07', 'BP08', 13;
-	EXEC THEMNV N'Larry Wright', '1966-10-13', N'Nam' , '2021-11-01', 'BP03', 10;
-	EXEC THEMNV N'John Johnson', '1977-11-30', N'Nữ' , '2020-01-11', 'BP08', 3;
-	EXEC THEMNV N'Paul Dixon', '1972-01-15', N'Nữ' , '2024-02-07', 'BP05', 11;
-	EXEC THEMNV N'Deborah Fitzgerald', '2000-07-10', N'Nam' , '2021-09-17', 'BP10', 9;
-	EXEC THEMNV N'Erin Davidson', '1979-06-05', N'Nữ' , '2022-11-28', 'BP10', 5;
-	EXEC THEMNV N'Christopher Scott', '1983-06-23', N'Nam' , '2021-03-25', 'BP09', 11;
-	EXEC THEMNV N'Michael Hansen', '1998-06-14', N'Nữ' , '2020-07-21', 'BP07', 4;
-	EXEC THEMNV N'Scott Juarez', '1983-01-23', N'Nữ' , '2020-08-31', 'BP09', 2;
-	EXEC THEMNV N'Jennifer Ferrell', '1969-09-08', N'Nữ' , '2020-05-28', 'BP10', 3;
-	EXEC THEMNV N'Alexander Jones', '1972-05-13', N'Nữ' , '2022-10-16', 'BP02', 5;
-	EXEC THEMNV N'Tammy Flores', '1995-04-01', N'Nữ' , '2020-09-29', 'BP07', 6;
-	EXEC THEMNV N'Brett Lopez', '1997-02-28', N'Nữ' , '2022-03-08', 'BP05', 5;
-	EXEC THEMNV N'Ronald Ramirez', '1975-11-16', N'Nam' , '2022-08-03', 'BP02', 6;
-	EXEC THEMNV N'Charles Moore', '1978-09-07', N'Nữ' , '2022-03-04', 'BP01', 13;
-	EXEC THEMNV N'Madison Ruiz', '1976-07-18', N'Nữ' , '2020-08-19', 'BP09', 14;
-	EXEC THEMNV N'Barbara Martinez', '1991-04-14', N'Nữ' , '2022-02-23', 'BP08', 4;
-	EXEC THEMNV N'Alicia Hurley', '1976-10-28', N'Nữ' , '2020-05-08', 'BP07', 3;
-	EXEC THEMNV N'Johnny Lambert', '1990-11-16', N'Nam' , '2021-04-05', 'BP10', 13;
-	EXEC THEMNV N'Eric Horn', '2002-09-20', N'Nữ' , '2021-12-20', 'BP07', 4;
-	EXEC THEMNV N'Rebecca Martinez', '1969-07-28', N'Nam' , '2023-08-24', 'BP05', 8;
-	EXEC THEMNV N'Alexandra Brown', '2000-10-14', N'Nữ' , '2020-10-20', 'BP01', 13;
-	EXEC THEMNV N'Grant Cooper', '1980-09-25', N'Nữ' , '2020-03-14', 'BP05', 15;
-	EXEC THEMNV N'Holly Taylor PhD', '1979-12-22', N'Nữ' , '2023-03-30', 'BP04', 6;
-	EXEC THEMNV N'Denise Daugherty', '1975-05-05', N'Nữ' , '2023-12-04', 'BP09', 4;
-	EXEC THEMNV N'Matthew Stevenson', '1975-01-31', N'Nữ' , '2023-03-03', 'BP03', 7;
-	EXEC THEMNV N'Jessica Cantu', '1971-03-27', N'Nam' , '2024-08-15', 'BP07', 15;
-	EXEC THEMNV N'Nathan Herrera', '1991-11-26', N'Nữ' , '2020-11-04', 'BP01', 4;
-	EXEC THEMNV N'Rodney Gutierrez', '2000-10-10', N'Nữ' , '2022-05-10', 'BP01', 12;
-	EXEC THEMNV N'Angela Bray MD', '1985-11-12', N'Nam' , '2022-11-14', 'BP10', 7;
-	EXEC THEMNV N'Mercedes Davenport', '1993-06-04', N'Nam' , '2024-04-24', 'BP09', 13;
-	EXEC THEMNV N'Brandon Snyder', '1968-05-23', N'Nam' , '2024-01-16', 'BP02', 13;
-	EXEC THEMNV N'Christopher Larson', '1992-10-05', N'Nữ' , '2024-02-16', 'BP03', 3;
-	EXEC THEMNV N'Vincent Hardy', '2001-11-27', N'Nam' , '2020-03-07', 'BP05', 9;
-	EXEC THEMNV N'Benjamin Winters', '1966-09-18', N'Nam' , '2024-11-21', 'BP04', 2;
-	EXEC THEMNV N'Daniel Avila', '1986-09-19', N'Nam' , '2021-10-29', 'BP08', 2;
-	EXEC THEMNV N'Donald Murphy', '2002-01-10', N'Nữ' , '2023-08-27', 'BP10', 6;
-	EXEC THEMNV N'Michael Hall', '1975-10-05', N'Nam' , '2024-03-28', 'BP02', 10;
-	EXEC THEMNV N'Sara Keller', '1995-08-08', N'Nữ' , '2023-03-01', 'BP02', 12;
-	EXEC THEMNV N'Kimberly Huerta', '1976-02-17', N'Nam' , '2023-11-29', 'BP03', 11;
-	EXEC THEMNV N'Megan Gregory', '1965-09-19', N'Nam' , '2023-06-12', 'BP04', 7;
-	EXEC THEMNV N'Candice Kennedy', '2001-09-04', N'Nam' , '2021-05-27', 'BP06', 15;
-	EXEC THEMNV N'Jessica Washington', '1977-01-03', N'Nữ' , '2024-06-17', 'BP07', 1;
-	EXEC THEMNV N'Jerry Moore', '1977-10-19', N'Nam' , '2024-07-09', 'BP06', 1;
-	EXEC THEMNV N'Mr. Adam Patel', '1974-05-13', N'Nữ' , '2024-03-28', 'BP03', 4;
-	EXEC THEMNV N'Christopher Stevens', '1987-06-22', N'Nữ' , '2023-02-22', 'BP02', 3;
-	EXEC THEMNV N'Sara Baker', '1980-03-03', N'Nam' , '2024-04-17', 'BP06', 8;
-	EXEC THEMNV N'Emma Sanchez', '2001-07-27', N'Nam' , '2020-10-07', 'BP03', 10;
-	EXEC THEMNV N'Jonathan Patterson', '1977-04-28', N'Nữ' , '2021-09-12', 'BP04', 5;
-	EXEC THEMNV N'Juan Garcia', '1999-05-04', N'Nữ' , '2020-10-03', 'BP05', 6;
-	EXEC THEMNV N'Mark Rogers', '1971-11-04', N'Nam' , '2024-10-05', 'BP02', 15;
-	EXEC THEMNV N'Jane King', '1965-07-16', N'Nam' , '2023-04-16', 'BP09', 3;
-	EXEC THEMNV N'James Dunn', '1976-08-07', N'Nam' , '2024-09-13', 'BP08', 2;
-	EXEC THEMNV N'Jennifer Carey', '1983-09-20', N'Nữ' , '2020-11-15', 'BP02', 10;
-	EXEC THEMNV N'Timothy Sullivan', '1966-05-12', N'Nữ' , '2021-11-22', 'BP08', 12;
-	EXEC THEMNV N'Ryan Sullivan', '1965-04-21', N'Nữ' , '2022-11-17', 'BP08', 2;
-	EXEC THEMNV N'John Rhodes', '1966-02-05', N'Nữ' , '2022-08-28', 'BP05', 11;
-	EXEC THEMNV N'Emma Mann DDS', '1974-12-13', N'Nữ' , '2020-01-09', 'BP08', 2;
-	EXEC THEMNV N'Lisa Price', '1984-02-25', N'Nam' , '2021-05-02', 'BP08', 12;
-	EXEC THEMNV N'Angela Bailey', '1969-05-04', N'Nữ' , '2024-04-21', 'BP01', 1;
-	EXEC THEMNV N'Karen Stone', '1976-05-30', N'Nữ' , '2023-10-20', 'BP07', 10;
-	EXEC THEMNV N'Ryan Young', '1996-03-15', N'Nữ' , '2023-09-19', 'BP07', 11;
-	EXEC THEMNV N'Miranda Gates', '1993-05-18', N'Nam' , '2021-03-04', 'BP07', 13;
-	EXEC THEMNV N'Evan Jones', '1986-05-19', N'Nam' , '2020-08-10', 'BP09', 5;
-	EXEC THEMNV N'Mary Jones', '1964-04-18', N'Nam' , '2021-02-17', 'BP08', 11;
-	EXEC THEMNV N'Jennifer Brown', '1968-03-23', N'Nam' , '2021-08-08', 'BP04', 15;
-	EXEC THEMNV N'Timothy Cross', '1992-03-26', N'Nữ' , '2020-11-03', 'BP09', 1;
-	EXEC THEMNV N'Paul Smith', '1973-06-05', N'Nữ' , '2021-07-06', 'BP09', 2;
-	EXEC THEMNV N'Amber Conley', '1994-05-18', N'Nữ' , '2021-04-15', 'BP05', 7;
-	EXEC THEMNV N'Joseph Gordon', '1988-11-05', N'Nữ' , '2022-08-20', 'BP08', 10;
-	EXEC THEMNV N'Kristina Robinson', '1974-02-25', N'Nam' , '2021-02-07', 'BP02', 6;
-	EXEC THEMNV N'Jessica Mason', '1997-08-09', N'Nam' , '2023-03-28', 'BP08', 10;
-	EXEC THEMNV N'Charles Miller', '1972-09-07', N'Nữ' , '2021-08-27', 'BP07', 2;
-	EXEC THEMNV N'Judy Perkins', '1985-07-13', N'Nữ' , '2022-10-21', 'BP04', 4;
-	EXEC THEMNV N'Briana Williams', '1976-07-20', N'Nữ' , '2024-08-09', 'BP09', 7;
-	EXEC THEMNV N'Steven Dodson', '1968-07-28', N'Nữ' , '2024-10-13', 'BP04', 6;
-	EXEC THEMNV N'Daniel Phillips', '1984-02-10', N'Nam' , '2022-02-16', 'BP05', 12;
-	EXEC THEMNV N'Cody Phillips', '1993-08-18', N'Nam' , '2020-12-04', 'BP08', 8;
-	EXEC THEMNV N'Ryan Smith', '1998-05-31', N'Nam' , '2023-04-12', 'BP02', 3;
-	EXEC THEMNV N'Michelle Sosa', '1964-11-22', N'Nữ' , '2023-05-13', 'BP05', 15;
-	EXEC THEMNV N'Rebecca Collins', '1991-05-19', N'Nam' , '2020-01-19', 'BP05', 7;
-	EXEC THEMNV N'Jill George', '1977-03-07', N'Nam' , '2024-06-03', 'BP06', 14;
-	EXEC THEMNV N'Richard Perkins', '1969-09-26', N'Nữ' , '2024-11-09', 'BP03', 11;
-	EXEC THEMNV N'Lawrence Lambert', '1980-12-25', N'Nam' , '2024-10-01', 'BP06', 10;
-	EXEC THEMNV N'Melissa Leon', '1988-03-12', N'Nữ' , '2020-10-11', 'BP08', 8;
-	EXEC THEMNV N'Michael Ortiz', '1986-10-16', N'Nam' , '2023-05-15', 'BP09', 10;
-	EXEC THEMNV N'Jason Black', '1975-01-10', N'Nam' , '2024-08-15', 'BP07', 6;
-	EXEC THEMNV N'Amy Anderson', '1965-07-06', N'Nam' , '2022-06-18', 'BP02', 13;
-	EXEC THEMNV N'Amy Alexander', '1994-04-14', N'Nam' , '2021-04-06', 'BP04', 3;
-	EXEC THEMNV N'Frederick Baxter', '1992-01-13', N'Nữ' , '2022-05-04', 'BP05', 2;
-	EXEC THEMNV N'Jose Murphy', '2000-02-06', N'Nữ' , '2020-01-06', 'BP07', 10;
-	EXEC THEMNV N'Blake Black', '1971-10-12', N'Nam' , '2023-08-28', 'BP08', 8;
-	EXEC THEMNV N'Pamela Sparks', '1971-04-01', N'Nam' , '2023-05-24', 'BP02', 9;
-	EXEC THEMNV N'Jacob Smith', '1985-02-20', N'Nữ' , '2021-12-17', 'BP06', 7;
-	EXEC THEMNV N'Timothy Newton', '2002-07-31', N'Nam' , '2024-09-22', 'BP01', 10;
-	EXEC THEMNV N'Cindy Jones', '1997-06-30', N'Nữ' , '2020-05-13', 'BP03', 8;
-	EXEC THEMNV N'Christopher Horne', '1999-09-22', N'Nữ' , '2021-08-11', 'BP04', 14;
-	EXEC THEMNV N'Sarah Walker', '1985-12-27', N'Nam' , '2020-03-25', 'BP01', 14;
-	EXEC THEMNV N'Virginia Wyatt', '1982-11-13', N'Nữ' , '2022-08-13', 'BP02', 2;
-	EXEC THEMNV N'Glenn Chung', '1978-11-16', N'Nữ' , '2021-05-12', 'BP10', 12;
-	EXEC THEMNV N'Frank Nguyen', '1964-06-06', N'Nam' , '2023-04-14', 'BP03', 13;
-	EXEC THEMNV N'Pamela Alvarez', '1992-05-28', N'Nam' , '2024-02-11', 'BP03', 9;
-	EXEC THEMNV N'Jacob Johnson', '1995-10-17', N'Nữ' , '2021-11-26', 'BP05', 10;
-	EXEC THEMNV N'Karen Rush', '1969-01-24', N'Nam' , '2021-06-26', 'BP09', 5;
-	EXEC THEMNV N'Amanda Campos', '1985-09-14', N'Nam' , '2021-08-09', 'BP10', 5;
-	EXEC THEMNV N'Paula Miller', '2001-06-30', N'Nam' , '2023-12-11', 'BP04', 3;
-	EXEC THEMNV N'Marcus Cook', '2001-07-19', N'Nam' , '2020-05-18', 'BP02', 12;
-	EXEC THEMNV N'Caitlin Wells', '1994-11-22', N'Nam' , '2024-10-28', 'BP10', 7;
-	EXEC THEMNV N'Darlene Guerra', '1984-08-10', N'Nữ' , '2022-05-13', 'BP01', 6;
-	EXEC THEMNV N'Mr. William Wright', '1985-07-01', N'Nữ' , '2020-02-04', 'BP06', 12;
-	EXEC THEMNV N'Jared Green', '1975-05-26', N'Nam' , '2024-10-19', 'BP08', 1;
-	EXEC THEMNV N'Brian Bailey', '1968-01-17', N'Nữ' , '2022-08-07', 'BP09', 15;
-	EXEC THEMNV N'Timothy Espinoza', '1990-12-30', N'Nam' , '2021-02-11', 'BP04', 14;
-	EXEC THEMNV N'Terry Fowler', '1991-01-27', N'Nữ' , '2023-07-05', 'BP06', 1;
-	EXEC THEMNV N'Emily Shelton DDS', '1991-12-11', N'Nữ' , '2020-02-10', 'BP06', 10;
-	EXEC THEMNV N'Raymond Clark', '1988-12-21', N'Nam' , '2021-12-07', 'BP04', 2;
-	EXEC THEMNV N'Mr. Samuel Blackwell DDS', '2000-10-30', N'Nam' , '2020-08-15', 'BP04', 9;        
-	EXEC THEMNV N'Stephanie Davis', '1983-01-25', N'Nam' , '2020-02-25', 'BP05', 12;
-	EXEC THEMNV N'Susan Cline', '1991-03-03', N'Nam' , '2022-08-13', 'BP01', 15;
-	EXEC THEMNV N'Jacqueline Walker', '1989-10-20', N'Nam' , '2020-08-19', 'BP06', 4;
-	EXEC THEMNV N'Brian Wilson', '1980-07-20', N'Nam' , '2023-09-08', 'BP06', 5;
-	EXEC THEMNV N'Kimberly Little', '1970-06-11', N'Nam' , '2024-10-17', 'BP10', 7;
-	EXEC THEMNV N'Barbara Hogan', '2002-07-30', N'Nam' , '2021-08-01', 'BP07', 11;
-	EXEC THEMNV N'Jeanette Thomas', '1984-08-12', N'Nữ' , '2021-11-07', 'BP05', 5;
-	EXEC THEMNV N'Alicia Sharp', '1975-05-24', N'Nữ' , '2024-07-04', 'BP10', 4;
-	EXEC THEMNV N'Jennifer Lambert', '1980-02-27', N'Nữ' , '2021-02-20', 'BP02', 6;
-	EXEC THEMNV N'Jennifer Hall', '1965-11-23', N'Nữ' , '2024-01-04', 'BP06', 2;
-	EXEC THEMNV N'Marcus Garrett DDS', '1985-07-19', N'Nam' , '2021-05-05', 'BP05', 14;
-	EXEC THEMNV N'Bryan Riley', '1983-03-27', N'Nữ' , '2024-02-22', 'BP05', 14;
-	EXEC THEMNV N'Jeffrey Johnson', '1995-06-26', N'Nữ' , '2023-08-11', 'BP02', 8;
-	EXEC THEMNV N'Gregory Williams', '1993-05-18', N'Nữ' , '2023-03-08', 'BP06', 11;
-	EXEC THEMNV N'Francisco Henry', '1984-09-06', N'Nữ' , '2020-07-01', 'BP05', 7;
-	EXEC THEMNV N'Chad Holland', '1967-11-28', N'Nữ' , '2020-07-26', 'BP10', 4;
-	EXEC THEMNV N'Holly Morales MD', '1987-11-30', N'Nữ' , '2024-04-28', 'BP06', 15;
-	EXEC THEMNV N'Carlos Weaver', '1992-05-23', N'Nam' , '2021-03-19', 'BP09', 11;
-	EXEC THEMNV N'Alexander Williams', '1980-12-29', N'Nam' , '2022-03-10', 'BP10', 3;
-	EXEC THEMNV N'John Keith', '1991-08-01', N'Nữ' , '2020-08-26', 'BP06', 5;
-	EXEC THEMNV N'Tyler Gray', '1993-02-11', N'Nữ' , '2021-02-18', 'BP10', 9;
-	EXEC THEMNV N'Ronald Tran', '1965-08-18', N'Nữ' , '2022-08-05', 'BP05', 9;
-	EXEC THEMNV N'Joseph Perry', '1972-10-22', N'Nam' , '2021-10-31', 'BP08', 1;
-	EXEC THEMNV N'Angelica Jackson', '1968-08-18', N'Nam' , '2021-08-20', 'BP04', 11;
-	EXEC THEMNV N'Patricia Brown', '1976-12-03', N'Nam' , '2022-03-10', 'BP02', 6;
-	EXEC THEMNV N'Susan Lindsey', '1985-11-26', N'Nam' , '2024-07-03', 'BP06', 13;
-	EXEC THEMNV N'Amanda Taylor', '1976-04-15', N'Nữ' , '2022-05-06', 'BP01', 3;
-	EXEC THEMNV N'Brandon Cox', '1964-02-29', N'Nam' , '2022-12-29', 'BP04', 4;
-	EXEC THEMNV N'Monica Cortez', '1985-05-16', N'Nữ' , '2022-05-14', 'BP06', 8;
-	EXEC THEMNV N'Erin Villa', '1985-01-20', N'Nữ' , '2024-09-11', 'BP04', 7;
-	EXEC THEMNV N'Mrs. Denise Hall', '1991-08-23', N'Nữ' , '2024-10-03', 'BP07', 1;
-	EXEC THEMNV N'William Stewart', '1971-09-29', N'Nữ' , '2022-08-29', 'BP02', 1;
-	EXEC THEMNV N'Belinda King', '1967-01-02', N'Nam' , '2023-05-11', 'BP09', 4;
-	EXEC THEMNV N'Matthew Glenn', '1973-04-01', N'Nam' , '2023-07-07', 'BP03', 1;
-	EXEC THEMNV N'Matthew Miller', '1970-09-25', N'Nữ' , '2021-06-05', 'BP05', 7;
-	EXEC THEMNV N'Robin Singleton', '1975-10-26', N'Nam' , '2022-10-17', 'BP06', 3;
-	EXEC THEMNV N'William Clark', '1994-11-09', N'Nữ' , '2023-05-06', 'BP03', 13;
-	EXEC THEMNV N'Kenneth Goodwin', '1970-12-10', N'Nam' , '2021-11-01', 'BP07', 14;
-	EXEC THEMNV N'Joseph Wagner', '1986-12-03', N'Nam' , '2021-09-09', 'BP09', 13;
-	EXEC THEMNV N'Courtney Sanders', '1975-09-21', N'Nam' , '2022-02-22', 'BP09', 9;
-	EXEC THEMNV N'Kara Jones', '1976-10-28', N'Nữ' , '2021-06-24', 'BP08', 9;
-	EXEC THEMNV N'Jacob Mack', '2000-04-19', N'Nam' , '2021-11-02', 'BP01', 6;
-	EXEC THEMNV N'Courtney Burke', '1966-01-13', N'Nữ' , '2021-04-08', 'BP09', 3;
-	EXEC THEMNV N'Stephen Vasquez', '1996-07-16', N'Nam' , '2023-12-01', 'BP05', 15;
-	EXEC THEMNV N'Daniel Ford', '1986-09-07', N'Nữ' , '2022-08-23', 'BP03', 12;
-	EXEC THEMNV N'Jeremy Larson', '1975-11-04', N'Nữ' , '2020-02-21', 'BP02', 8;
-	EXEC THEMNV N'Kristin Hunter', '1981-05-01', N'Nữ' , '2022-04-16', 'BP06', 3;
-	EXEC THEMNV N'Douglas Richardson', '1978-09-13', N'Nam' , '2023-03-05', 'BP04', 14;
-	EXEC THEMNV N'Sharon Owens', '1968-08-05', N'Nữ' , '2024-06-05', 'BP07', 5;
-	EXEC THEMNV N'Hannah Andrews', '1981-11-17', N'Nữ' , '2024-02-21', 'BP02', 9;
-	EXEC THEMNV N'Alan Moore', '1969-08-19', N'Nam' , '2022-05-10', 'BP08', 3;
-	EXEC THEMNV N'Michelle Lewis', '1986-07-28', N'Nữ' , '2023-07-08', 'BP06', 4;
-	EXEC THEMNV N'Jason Wallace', '1967-12-10', N'Nam' , '2021-06-19', 'BP01', 4;
-	EXEC THEMNV N'Diane Thomas', '1984-06-15', N'Nam' , '2021-07-04', 'BP06', 14;
-	EXEC THEMNV N'Seth Reyes', '1980-01-22', N'Nữ' , '2023-10-18', 'BP06', 12;
-	EXEC THEMNV N'Donna Lawrence', '1976-04-06', N'Nữ' , '2023-01-29', 'BP05', 7;
-	EXEC THEMNV N'Shelly Hicks', '1999-09-27', N'Nữ' , '2024-08-18', 'BP10', 13;
-	EXEC THEMNV N'Jeffrey Taylor', '1991-06-08', N'Nam' , '2022-12-16', 'BP05', 2;
-	EXEC THEMNV N'Brandon Cohen', '1964-10-13', N'Nữ' , '2024-06-20', 'BP02', 12;
-	EXEC THEMNV N'Mr. Noah Mendez', '1994-09-13', N'Nam' , '2023-07-27', 'BP08', 6;
-	EXEC THEMNV N'Vincent Martinez', '1985-08-27', N'Nam' , '2023-01-03', 'BP09', 9;
-	EXEC THEMNV N'Alexandra Wilson', '1987-04-26', N'Nam' , '2022-07-11', 'BP08', 5;
-	EXEC THEMNV N'Michele Pacheco', '2002-03-07', N'Nữ' , '2022-09-14', 'BP01', 14;
-	EXEC THEMNV N'Christopher Avila', '1964-09-27', N'Nữ' , '2020-12-22', 'BP01', 12;
-	EXEC THEMNV N'Carrie Landry', '1985-02-05', N'Nam' , '2022-12-24', 'BP07', 5;
-	EXEC THEMNV N'Jaime Hall', '1975-09-08', N'Nam' , '2022-09-13', 'BP07', 3;
-	EXEC THEMNV N'Anthony Freeman', '1977-08-08', N'Nữ' , '2021-05-27', 'BP05', 8;
-	EXEC THEMNV N'Amy Schwartz', '1969-04-24', N'Nam' , '2022-06-04', 'BP10', 11;
-	EXEC THEMNV N'Adam Thompson', '1985-01-11', N'Nam' , '2020-10-07', 'BP02', 8;
-	EXEC THEMNV N'Robert Holt', '1996-04-16', N'Nữ' , '2024-11-06', 'BP07', 15;
-	EXEC THEMNV N'Donna Galvan', '1973-05-17', N'Nữ' , '2021-01-14', 'BP07', 11;
-	EXEC THEMNV N'Cody Nichols', '1975-03-07', N'Nam' , '2021-11-25', 'BP03', 6;
-	EXEC THEMNV N'Tyrone Hall', '1980-04-04', N'Nam' , '2023-01-25', 'BP05', 6;
-	EXEC THEMNV N'Derrick Brown', '1996-02-28', N'Nữ' , '2022-11-25', 'BP06', 1;
-	EXEC THEMNV N'Karen Crawford', '1991-09-03', N'Nam' , '2023-10-26', 'BP07', 5;
-	EXEC THEMNV N'Gloria Andersen', '1993-07-12', N'Nam' , '2021-07-25', 'BP06', 11;
-	EXEC THEMNV N'Lori Jones', '1973-08-05', N'Nữ' , '2023-04-30', 'BP08', 10;
-	EXEC THEMNV N'Bob Fernandez', '1978-06-19', N'Nam' , '2022-09-29', 'BP01', 1;
-	EXEC THEMNV N'Diana Barton', '1992-10-03', N'Nữ' , '2024-04-26', 'BP05', 11;
-	EXEC THEMNV N'Joy Simpson', '1983-12-08', N'Nam' , '2024-01-14', 'BP03', 7;
-	EXEC THEMNV N'Nicole Harper', '1984-10-02', N'Nam' , '2021-03-25', 'BP04', 15;
-	EXEC THEMNV N'Amber Goodwin', '1964-07-11', N'Nam' , '2020-11-04', 'BP10', 7;
-	EXEC THEMNV N'Cole Kennedy', '1975-12-13', N'Nam' , '2023-10-15', 'BP07', 6;
-	EXEC THEMNV N'James Taylor', '1987-03-20', N'Nữ' , '2023-01-04', 'BP03', 2;
-	EXEC THEMNV N'Lauren Hendricks', '1995-11-27', N'Nam' , '2023-10-29', 'BP01', 4;
-	EXEC THEMNV N'Jessica Sweeney', '1967-08-05', N'Nam' , '2020-12-15', 'BP04', 13;
-	EXEC THEMNV N'John Klein', '1971-10-12', N'Nữ' , '2021-04-12', 'BP04', 2;
-	EXEC THEMNV N'Lawrence Evans', '1997-08-18', N'Nam' , '2024-11-07', 'BP03', 5;
-	EXEC THEMNV N'Joshua Moore', '1970-10-04', N'Nữ' , '2024-11-25', 'BP09', 10;
-	EXEC THEMNV N'Michelle Cummings', '1985-06-04', N'Nữ' , '2022-02-16', 'BP09', 10;
-	EXEC THEMNV N'Lauren Peck', '1971-02-16', N'Nam' , '2023-06-28', 'BP10', 1;
-	EXEC THEMNV N'Alyssa Sullivan', '1968-04-26', N'Nam' , '2024-02-20', 'BP06', 9;
-	EXEC THEMNV N'Hannah Alexander', '1976-03-04', N'Nam' , '2020-04-27', 'BP07', 4;
-	EXEC THEMNV N'Heather Davis', '1974-05-16', N'Nữ' , '2023-12-30', 'BP02', 4;
-	EXEC THEMNV N'Gordon Taylor', '1974-11-07', N'Nữ' , '2024-10-17', 'BP02', 8;
-	EXEC THEMNV N'Matthew Rodriguez', '1977-02-04', N'Nam' , '2022-04-28', 'BP08', 8;
-	EXEC THEMNV N'Frank Lopez', '1985-01-22', N'Nữ' , '2022-03-25', 'BP04', 9;
-	EXEC THEMNV N'Christina Dunn', '1977-06-11', N'Nam' , '2021-09-26', 'BP10', 2;
-	EXEC THEMNV N'Cynthia Simmons', '1989-01-01', N'Nam' , '2022-05-06', 'BP05', 13;
-	EXEC THEMNV N'Susan Carter', '1992-07-01', N'Nữ' , '2021-11-25', 'BP05', 2;
-	EXEC THEMNV N'Joseph Herrera', '1964-11-05', N'Nữ' , '2022-03-04', 'BP07', 12;
-	EXEC THEMNV N'Tamara Henderson', '1964-01-05', N'Nam' , '2024-09-28', 'BP10', 6;
-	EXEC THEMNV N'Brenda Weiss', '1978-10-11', N'Nam' , '2020-04-30', 'BP01', 9;
-	EXEC THEMNV N'Angelica Gibson', '1964-05-18', N'Nữ' , '2020-09-26', 'BP06', 13;
-	EXEC THEMNV N'Ann Norton', '1995-04-11', N'Nam' , '2023-02-08', 'BP09', 5;
-	EXEC THEMNV N'Megan Hopkins', '1988-11-19', N'Nam' , '2022-06-17', 'BP01', 15;
-	EXEC THEMNV N'Sandra Gilmore', '1984-05-06', N'Nữ' , '2021-05-19', 'BP08', 11;
-	EXEC THEMNV N'Mary Collins', '1987-10-27', N'Nữ' , '2021-05-20', 'BP07', 1;
-	EXEC THEMNV N'Jesse Zavala', '1983-11-17', N'Nữ' , '2023-01-01', 'BP06', 11;
-	EXEC THEMNV N'Rachel Roy', '2002-05-05', N'Nữ' , '2021-05-04', 'BP03', 13;
-	EXEC THEMNV N'David Price', '1974-08-06', N'Nam' , '2023-07-13', 'BP05', 13;
-	EXEC THEMNV N'Jason Cantrell', '1997-12-20', N'Nam' , '2021-11-10', 'BP08', 11;
-	EXEC THEMNV N'James Wall', '1970-02-24', N'Nữ' , '2021-07-12', 'BP10', 14;
-	EXEC THEMNV N'Jamie Jordan', '1969-01-20', N'Nữ' , '2023-07-14', 'BP06', 10;
-	EXEC THEMNV N'Jerome Flores Jr.', '1964-06-27', N'Nữ' , '2023-01-06', 'BP07', 7;
-	EXEC THEMNV N'Richard Edwards', '1971-01-01', N'Nam' , '2021-06-05', 'BP04', 13;
-	EXEC THEMNV N'Dustin Kelley', '1977-11-19', N'Nam' , '2023-11-01', 'BP07', 14;
-	EXEC THEMNV N'Timothy Kramer', '1994-06-12', N'Nữ' , '2022-03-19', 'BP09', 15;
-	EXEC THEMNV N'Andrea Byrd', '1968-03-10', N'Nam' , '2020-03-10', 'BP06', 3;
-	EXEC THEMNV N'Sara Roach', '1975-07-28', N'Nữ' , '2021-02-07', 'BP04', 1;
-	EXEC THEMNV N'Shelley Miller', '2001-08-31', N'Nam' , '2023-09-05', 'BP09', 3;
-	EXEC THEMNV N'Ronnie Wallace', '1964-02-18', N'Nữ' , '2020-03-07', 'BP04', 8;
-	EXEC THEMNV N'Sarah Mills', '1967-12-08', N'Nam' , '2023-02-01', 'BP01', 14;
-	EXEC THEMNV N'Linda Howard', '1996-11-15', N'Nam' , '2021-06-29', 'BP04', 15;
-	EXEC THEMNV N'Austin Gomez', '1972-11-15', N'Nam' , '2020-03-18', 'BP05', 4;
-	EXEC THEMNV N'Taylor Joseph', '2000-06-24', N'Nam' , '2020-01-20', 'BP09', 8;
-	EXEC THEMNV N'Thomas Villa', '1965-01-16', N'Nam' , '2022-11-10', 'BP01', 15;
-	EXEC THEMNV N'Mark Larson', '1976-05-26', N'Nam' , '2024-08-07', 'BP05', 10;
-	EXEC THEMNV N'Adam Carr', '1995-12-01', N'Nữ' , '2021-01-21', 'BP01', 10;
-	EXEC THEMNV N'Amanda Shields', '1974-04-27', N'Nữ' , '2020-09-24', 'BP03', 7;
-	EXEC THEMNV N'Shelby Benton', '1980-06-16', N'Nữ' , '2022-05-24', 'BP05', 10;
-	EXEC THEMNV N'Brett Joseph', '1976-05-05', N'Nữ' , '2024-01-11', 'BP06', 14;
-	EXEC THEMNV N'Joseph Gordon', '1988-11-22', N'Nữ' , '2023-06-18', 'BP01', 7;
-	EXEC THEMNV N'Nicole Miller', '1996-09-02', N'Nam' , '2020-05-11', 'BP09', 10;
-	EXEC THEMNV N'Misty Norman', '1987-09-29', N'Nữ' , '2020-08-08', 'BP08', 9;
-	EXEC THEMNV N'Krista Cooper', '1988-05-18', N'Nam' , '2023-03-14', 'BP10', 3;
-	EXEC THEMNV N'Alyssa Jones', '1971-01-13', N'Nam' , '2024-03-05', 'BP05', 2;
-	EXEC THEMNV N'Nicole Simon', '1981-02-27', N'Nam' , '2021-08-16', 'BP08', 12;
-	EXEC THEMNV N'Cassandra Nelson', '1980-08-29', N'Nữ' , '2020-11-17', 'BP01', 6;
-	EXEC THEMNV N'Dennis Martinez', '1980-05-08', N'Nữ' , '2021-01-12', 'BP10', 3;
-	EXEC THEMNV N'Cheyenne Molina', '1969-01-11', N'Nữ' , '2024-03-14', 'BP05', 12;
-	EXEC THEMNV N'Andrew Anderson', '1993-10-08', N'Nam' , '2024-08-31', 'BP06', 7;
-	EXEC THEMNV N'Nicholas Bryant', '1983-05-31', N'Nam' , '2022-09-28', 'BP01', 2;
-	EXEC THEMNV N'Curtis Chapman', '1978-05-17', N'Nữ' , '2022-12-11', 'BP08', 1;
-	EXEC THEMNV N'Heidi Pearson', '1987-03-01', N'Nam' , '2021-08-01', 'BP01', 5;
-	EXEC THEMNV N'Joel Oliver', '1989-10-08', N'Nam' , '2024-09-10', 'BP07', 1;
-	EXEC THEMNV N'Mindy Williams', '1987-04-16', N'Nam' , '2024-09-19', 'BP02', 6;
-	EXEC THEMNV N'Dustin Lambert', '1968-02-19', N'Nam' , '2020-04-11', 'BP10', 15;
-	EXEC THEMNV N'Mark Garcia', '1972-10-30', N'Nữ' , '2023-09-15', 'BP03', 14;
-	EXEC THEMNV N'Kristina Rose', '1977-06-25', N'Nam' , '2024-11-16', 'BP06', 4;
-	EXEC THEMNV N'Lacey Sweeney', '1995-01-24', N'Nam' , '2022-10-27', 'BP10', 10;
-	EXEC THEMNV N'Darius Ross', '1965-11-11', N'Nữ' , '2022-03-17', 'BP03', 12;
-	EXEC THEMNV N'Ann Carroll', '1965-04-20', N'Nam' , '2020-05-27', 'BP07', 11;
-	EXEC THEMNV N'Kaitlyn Ramirez', '1999-10-10', N'Nam' , '2021-12-07', 'BP08', 13;
-	EXEC THEMNV N'Dean Cook', '2002-02-09', N'Nam' , '2022-04-26', 'BP03', 11;
-	EXEC THEMNV N'Johnathan Hess', '1982-11-24', N'Nam' , '2023-06-15', 'BP05', 14;
-	EXEC THEMNV N'Anthony Bates', '1974-02-27', N'Nữ' , '2024-04-03', 'BP10', 4;
-	EXEC THEMNV N'Thomas Brooks', '1988-10-13', N'Nữ' , '2022-12-22', 'BP01', 14;
-	EXEC THEMNV N'Nicole Baker', '1966-02-19', N'Nam' , '2022-11-21', 'BP08', 4;
-	EXEC THEMNV N'Matthew Lara', '1987-09-02', N'Nam' , '2020-12-21', 'BP04', 12;
-	EXEC THEMNV N'Susan Hill', '1988-10-16', N'Nữ' , '2020-10-14', 'BP09', 1;
-	EXEC THEMNV N'Robert Jackson', '1966-06-01', N'Nữ' , '2022-05-07', 'BP06', 2;
-	EXEC THEMNV N'Zachary Myers', '1991-01-18', N'Nam' , '2024-03-17', 'BP01', 8;
-	EXEC THEMNV N'Wesley Morrison', '1996-06-26', N'Nữ' , '2021-08-10', 'BP08', 6;
-	EXEC THEMNV N'Johnny Webb', '1964-03-17', N'Nữ' , '2023-06-27', 'BP10', 5;
-	EXEC THEMNV N'Jason King', '2002-11-19', N'Nam' , '2020-02-28', 'BP08', 14;
-	EXEC THEMNV N'Edward James', '1983-05-06', N'Nữ' , '2024-07-15', 'BP09', 10;
-	EXEC THEMNV N'Carly Fernandez', '1972-09-02', N'Nam' , '2024-08-30', 'BP06', 9;
-	EXEC THEMNV N'Jerome Cooper', '1995-02-06', N'Nữ' , '2024-05-04', 'BP01', 4;
-	EXEC THEMNV N'Tiffany Garrison', '1976-11-30', N'Nam' , '2024-07-14', 'BP09', 2;
-	EXEC THEMNV N'Patrick Bailey', '1999-04-27', N'Nữ' , '2020-08-31', 'BP10', 9;
-	EXEC THEMNV N'James Gutierrez', '1998-08-30', N'Nữ' , '2024-11-27', 'BP02', 9;
-	EXEC THEMNV N'Julie Bird', '1998-11-29', N'Nam' , '2024-04-25', 'BP01', 6;
-	EXEC THEMNV N'Terri Peterson', '1965-03-28', N'Nữ' , '2024-09-10', 'BP04', 15;
-	EXEC THEMNV N'Danielle Garcia', '1987-04-01', N'Nữ' , '2022-09-28', 'BP06', 7;
-	EXEC THEMNV N'James Parks', '1994-02-21', N'Nam' , '2024-06-22', 'BP01', 2;
-	EXEC THEMNV N'Nancy Peters', '1986-01-31', N'Nam' , '2024-02-24', 'BP09', 7;
-	EXEC THEMNV N'Heather Webb', '1968-10-05', N'Nữ' , '2021-07-15', 'BP06', 15;
-	EXEC THEMNV N'Savannah Nelson', '2001-02-25', N'Nam' , '2021-03-09', 'BP07', 7;
-	EXEC THEMNV N'Christine Ware', '1972-11-16', N'Nam' , '2020-07-12', 'BP07', 3;
-	EXEC THEMNV N'Jason Thompson', '1984-01-25', N'Nam' , '2024-05-22', 'BP05', 8;
-	EXEC THEMNV N'Michelle Hoffman', '1992-07-25', N'Nam' , '2023-09-17', 'BP10', 1;
-	EXEC THEMNV N'Brittany Rodriguez', '1990-03-22', N'Nữ' , '2022-06-09', 'BP07', 6;
-	EXEC THEMNV N'Shannon Meyer', '1979-08-18', N'Nam' , '2020-10-02', 'BP10', 7;
-	EXEC THEMNV N'Lisa Melton', '1965-11-17', N'Nữ' , '2022-03-16', 'BP08', 5;
-	EXEC THEMNV N'Angela Castaneda MD', '1985-05-05', N'Nữ' , '2023-05-23', 'BP08', 1;
-	EXEC THEMNV N'Angelica Evans', '1970-05-20', N'Nữ' , '2024-06-08', 'BP05', 3;
-	EXEC THEMNV N'Debra Adams', '1991-02-17', N'Nữ' , '2021-04-02', 'BP09', 14;
-	EXEC THEMNV N'Ronald Gates', '1997-05-13', N'Nữ' , '2023-11-05', 'BP04', 13;
-	EXEC THEMNV N'Olivia Wagner', '1979-03-01', N'Nữ' , '2020-09-07', 'BP10', 8;
-	EXEC THEMNV N'Mary Costa', '1991-12-08', N'Nữ' , '2023-04-09', 'BP07', 8;
-	EXEC THEMNV N'Amanda Brown', '1965-10-29', N'Nam' , '2022-09-24', 'BP03', 4;
-	EXEC THEMNV N'Andrew Morris', '1969-06-13', N'Nam' , '2021-05-31', 'BP08', 6;
-	EXEC THEMNV N'Jill Mcmahon', '1991-08-04', N'Nam' , '2020-03-30', 'BP06', 10;
-	EXEC THEMNV N'Thomas Hernandez', '2001-01-14', N'Nam' , '2023-01-29', 'BP05', 12;
-	EXEC THEMNV N'Claudia Griffin', '1991-05-15', N'Nam' , '2023-06-09', 'BP06', 13;
-	EXEC THEMNV N'Nicole Foster', '1977-03-17', N'Nam' , '2022-05-20', 'BP08', 11;
-	EXEC THEMNV N'Emily Miller', '1971-09-19', N'Nam' , '2022-09-27', 'BP03', 13;
-	EXEC THEMNV N'Jeffery Woodard', '1964-12-02', N'Nữ' , '2024-09-28', 'BP10', 5;
-	EXEC THEMNV N'Crystal Reed', '1967-09-11', N'Nam' , '2022-11-26', 'BP01', 5;
-	EXEC THEMNV N'Patricia Massey', '2001-05-04', N'Nữ' , '2020-05-18', 'BP08', 12;
-	EXEC THEMNV N'Patrick Wilson', '1967-09-28', N'Nữ' , '2023-11-25', 'BP03', 2;
-	EXEC THEMNV N'Dr. Donald Kim', '1965-08-14', N'Nam' , '2023-10-06', 'BP03', 5;
-	EXEC THEMNV N'Donald Lewis', '1998-12-17', N'Nữ' , '2023-03-11', 'BP07', 4;
-	EXEC THEMNV N'Yesenia Avila', '1965-11-28', N'Nam' , '2020-04-27', 'BP09', 3;
-	EXEC THEMNV N'Nicholas Torres', '1983-06-01', N'Nữ' , '2024-11-07', 'BP09', 12;
-	EXEC THEMNV N'Brittany Gould', '1993-03-12', N'Nữ' , '2024-01-01', 'BP05', 5;
-	EXEC THEMNV N'Stefanie Cobb', '1993-12-19', N'Nữ' , '2021-07-26', 'BP08', 14;
-	EXEC THEMNV N'Regina Holden', '1987-07-04', N'Nam' , '2021-09-04', 'BP02', 8;
-	EXEC THEMNV N'Kimberly Marsh', '1981-01-11', N'Nữ' , '2020-01-19', 'BP04', 8;
-	EXEC THEMNV N'Tracy Prince', '1994-07-14', N'Nữ' , '2022-12-20', 'BP07', 12;
-	EXEC THEMNV N'Matthew Fernandez', '1964-05-29', N'Nam' , '2022-01-11', 'BP09', 14;
-	EXEC THEMNV N'Robert Cox', '1967-08-14', N'Nữ' , '2022-02-25', 'BP09', 6;
-	EXEC THEMNV N'Jeremy Kelly', '1995-11-23', N'Nam' , '2021-11-06', 'BP08', 1;
-	EXEC THEMNV N'Laura Holt', '1971-08-31', N'Nam' , '2022-03-06', 'BP05', 10;
-	EXEC THEMNV N'Paul Mitchell', '1988-10-21', N'Nữ' , '2020-09-19', 'BP03', 12;
-	EXEC THEMNV N'Michael Rodriguez', '1977-05-05', N'Nữ' , '2020-12-01', 'BP08', 5;
-	EXEC THEMNV N'David Norris', '1970-09-30', N'Nam' , '2022-02-01', 'BP05', 8;
-	EXEC THEMNV N'Debra Austin', '1968-07-06', N'Nam' , '2020-10-03', 'BP10', 6;
-	EXEC THEMNV N'Isaac Knight', '1974-04-18', N'Nữ' , '2024-01-24', 'BP03', 2;
-	EXEC THEMNV N'Megan Johnson', '1996-06-21', N'Nam' , '2024-03-03', 'BP05', 10;
-	EXEC THEMNV N'Crystal Cervantes', '1999-04-05', N'Nam' , '2023-10-29', 'BP09', 9;
-	EXEC THEMNV N'Daniel Wu', '1971-08-11', N'Nữ' , '2020-12-20', 'BP10', 9;
-	EXEC THEMNV N'Susan Flores', '1991-05-06', N'Nữ' , '2021-02-11', 'BP04', 2;
-	EXEC THEMNV N'Jason Edwards DVM', '1974-11-11', N'Nữ' , '2023-05-31', 'BP03', 7;
-	EXEC THEMNV N'Mark Jones', '1987-05-11', N'Nữ' , '2021-07-07', 'BP04', 7;
-	EXEC THEMNV N'Marisa Williams', '2000-02-08', N'Nam' , '2021-09-02', 'BP07', 13;
-	EXEC THEMNV N'Danielle Chavez', '1975-01-09', N'Nam' , '2021-06-29', 'BP03', 3;
-	EXEC THEMNV N'Janet Lee', '1968-04-20', N'Nữ' , '2023-06-10', 'BP07', 1;
-	EXEC THEMNV N'Brittany Jones', '1975-01-03', N'Nam' , '2024-11-05', 'BP01', 15;
-	EXEC THEMNV N'Michael Anderson', '1985-05-18', N'Nữ' , '2022-10-10', 'BP07', 3;
-	EXEC THEMNV N'Christopher Hall', '1967-06-20', N'Nam' , '2022-02-05', 'BP07', 9;
-	EXEC THEMNV N'Timothy Brock', '1981-10-20', N'Nam' , '2024-05-08', 'BP10', 6;
-	EXEC THEMNV N'Kayla White', '2002-02-26', N'Nam' , '2024-04-30', 'BP07', 9;
-	EXEC THEMNV N'Rachel Benjamin', '1970-02-06', N'Nữ' , '2022-04-12', 'BP06', 10;
-	EXEC THEMNV N'Michael Perez', '1992-01-17', N'Nữ' , '2021-02-04', 'BP10', 11;
-	EXEC THEMNV N'Laurie Mendez', '1964-12-04', N'Nữ' , '2023-05-06', 'BP06', 11;
-	EXEC THEMNV N'Helen Mendoza', '1971-08-11', N'Nữ' , '2022-01-17', 'BP02', 15;
-	EXEC THEMNV N'Robert Barrett', '1971-02-25', N'Nữ' , '2023-09-02', 'BP03', 11;
-	EXEC THEMNV N'Steven Phillips', '1997-06-07', N'Nam' , '2021-07-05', 'BP01', 3;
-	EXEC THEMNV N'Tiffany Henderson', '1972-10-05', N'Nữ' , '2023-04-27', 'BP01', 14;
-	EXEC THEMNV N'Jacqueline Henderson', '1984-11-21', N'Nữ' , '2021-12-29', 'BP08', 15;
-	EXEC THEMNV N'Destiny Perez', '1992-08-30', N'Nữ' , '2023-08-20', 'BP03', 4;
-	EXEC THEMNV N'Kathryn Robinson', '1986-11-27', N'Nam' , '2022-05-05', 'BP02', 13;
-	EXEC THEMNV N'Michael James', '1984-09-04', N'Nam' , '2024-10-13', 'BP08', 1;
-	EXEC THEMNV N'Crystal Sandoval', '2000-09-23', N'Nữ' , '2022-07-14', 'BP04', 2;
-	EXEC THEMNV N'Shawn Henry', '1994-07-12', N'Nữ' , '2020-11-18', 'BP01', 8;
-	EXEC THEMNV N'Ronald Peters', '1983-10-12', N'Nam' , '2024-02-18', 'BP10', 7;
-	EXEC THEMNV N'Diane Sweeney', '1968-07-03', N'Nữ' , '2020-10-22', 'BP10', 4;
-	EXEC THEMNV N'Kelly Stanley', '1977-06-10', N'Nam' , '2023-09-27', 'BP04', 15;
-	EXEC THEMNV N'Amber Green', '1980-01-09', N'Nam' , '2021-07-18', 'BP06', 2;
-	EXEC THEMNV N'Shane Garcia', '1965-04-13', N'Nữ' , '2024-04-25', 'BP08', 3;
-	EXEC THEMNV N'Emily Swanson', '1970-05-15', N'Nữ' , '2024-01-25', 'BP04', 13;
-	EXEC THEMNV N'Brian Johnson', '1978-07-16', N'Nam' , '2022-05-23', 'BP04', 1;
-	EXEC THEMNV N'Frances Perez', '1972-03-07', N'Nữ' , '2020-12-23', 'BP04', 5;
-	EXEC THEMNV N'John Cunningham', '1975-08-18', N'Nữ' , '2024-05-24', 'BP01', 6;
-	EXEC THEMNV N'Benjamin Nelson', '1964-11-16', N'Nữ' , '2021-10-19', 'BP02', 10;
-	EXEC THEMNV N'Sarah Gonzales', '1987-12-07', N'Nữ' , '2022-10-15', 'BP05', 15;
-	EXEC THEMNV N'Michael Spencer', '1970-04-27', N'Nữ' , '2023-07-07', 'BP03', 9;
-	EXEC THEMNV N'Cynthia Rocha', '1983-12-21', N'Nữ' , '2021-12-07', 'BP01', 12;
-	EXEC THEMNV N'Christine Hanson MD', '1994-09-07', N'Nữ' , '2021-08-13', 'BP08', 15;
-	EXEC THEMNV N'Alexander White', '1974-09-12', N'Nam' , '2020-09-20', 'BP08', 12;
-	EXEC THEMNV N'Sharon Brooks DDS', '1992-10-04', N'Nữ' , '2022-04-13', 'BP01', 14;
-	EXEC THEMNV N'Thomas Daniels', '1964-12-30', N'Nữ' , '2020-07-10', 'BP08', 6;
-	EXEC THEMNV N'Mr. Jacob Coleman Jr.', '1991-12-18', N'Nữ' , '2022-01-29', 'BP04', 15;
-	EXEC THEMNV N'Julie Jenkins', '1985-11-02', N'Nam' , '2021-12-16', 'BP09', 9;
-	EXEC THEMNV N'Dominique Carter', '1987-11-14', N'Nam' , '2024-05-24', 'BP04', 12;
-	EXEC THEMNV N'Shannon Brown', '1971-04-23', N'Nữ' , '2021-09-09', 'BP01', 8;
-	EXEC THEMNV N'Jessica Velasquez', '1964-09-21', N'Nữ' , '2020-05-28', 'BP06', 11;
-	EXEC THEMNV N'Jennifer Clark', '1973-02-20', N'Nam' , '2022-06-26', 'BP06', 5;
-	EXEC THEMNV N'Dawn Baird', '1975-04-18', N'Nữ' , '2023-08-02', 'BP08', 13;
-	EXEC THEMNV N'Paul Morgan', '1995-09-07', N'Nữ' , '2021-08-01', 'BP04', 14;
-	EXEC THEMNV N'Christopher Hall', '1982-03-23', N'Nữ' , '2020-06-28', 'BP01', 14;
-	EXEC THEMNV N'Stanley Newman', '1989-04-05', N'Nam' , '2024-06-01', 'BP05', 7;
-	EXEC THEMNV N'James Wang', '1996-07-26', N'Nam' , '2021-03-23', 'BP08', 13;
-	EXEC THEMNV N'Bryce Frederick', '1974-09-14', N'Nam' , '2020-09-23', 'BP03', 15;
-	EXEC THEMNV N'Julie Patterson', '2000-06-26', N'Nữ' , '2022-06-29', 'BP02', 14;
-	EXEC THEMNV N'Frank Boyd', '1979-12-17', N'Nam' , '2023-12-16', 'BP10', 11;
-	EXEC THEMNV N'Sheila Whitaker', '1972-10-04', N'Nam' , '2023-01-21', 'BP07', 9;
-	EXEC THEMNV N'Adam Kemp', '1983-11-14', N'Nam' , '2021-12-24', 'BP08', 12;
-	EXEC THEMNV N'Ricky Robertson', '1998-08-22', N'Nam' , '2020-08-11', 'BP10', 14;
-	EXEC THEMNV N'Christopher Romero', '1977-10-01', N'Nam' , '2021-05-13', 'BP10', 1;
-	EXEC THEMNV N'Tracey Allen', '1987-01-26', N'Nam' , '2021-04-29', 'BP07', 4;
-	EXEC THEMNV N'Gail Chapman', '1979-06-09', N'Nữ' , '2021-11-13', 'BP05', 5;
-	EXEC THEMNV N'Jacob Anderson', '2001-07-03', N'Nữ' , '2020-01-22', 'BP08', 3;
-	EXEC THEMNV N'Michelle Compton', '1983-05-16', N'Nam' , '2022-05-30', 'BP02', 4;
-	EXEC THEMNV N'Ashley May', '1979-11-28', N'Nữ' , '2022-10-07', 'BP08', 6;
-	EXEC THEMNV N'Barbara Williams', '1977-08-01', N'Nam' , '2023-09-06', 'BP09', 4;
-	EXEC THEMNV N'Robert Duncan', '1978-01-21', N'Nam' , '2024-10-16', 'BP04', 8;
-	EXEC THEMNV N'Trevor Jackson', '1985-07-22', N'Nữ' , '2020-05-05', 'BP04', 8;
-	EXEC THEMNV N'Crystal Franco', '1998-07-15', N'Nam' , '2020-07-15', 'BP02', 9;
-	EXEC THEMNV N'Kyle Perez', '1998-04-23', N'Nam' , '2024-07-12', 'BP10', 11;
-	EXEC THEMNV N'Alexis Duffy', '1968-04-10', N'Nam' , '2021-01-16', 'BP01', 14;
-	EXEC THEMNV N'Kristin Pena', '1979-07-25', N'Nam' , '2021-05-22', 'BP10', 6;
-	EXEC THEMNV N'Timothy Thomas', '1998-03-16', N'Nữ' , '2023-07-18', 'BP10', 2;
-	EXEC THEMNV N'Mrs. Michelle Thornton MD', '1965-10-18', N'Nam' , '2023-03-25', 'BP06', 10;       
-	EXEC THEMNV N'Samantha White', '1982-09-22', N'Nữ' , '2022-04-24', 'BP05', 4;
-	EXEC THEMNV N'Daniel Stevens', '1982-11-04', N'Nữ' , '2021-01-03', 'BP05', 5;
-	EXEC THEMNV N'Matthew Flowers', '1968-11-08', N'Nam' , '2020-01-14', 'BP04', 13;
-	EXEC THEMNV N'Michael Leonard', '1986-07-30', N'Nam' , '2023-10-12', 'BP01', 12;
-	EXEC THEMNV N'Michael Abbott DDS', '1973-03-04', N'Nam' , '2020-04-18', 'BP03', 9;
-	EXEC THEMNV N'Patricia Fowler', '1975-05-13', N'Nữ' , '2020-11-01', 'BP07', 13;
-	EXEC THEMNV N'Lisa Jones', '1992-01-25', N'Nữ' , '2024-09-04', 'BP03', 3;
-	EXEC THEMNV N'Lynn Hubbard', '1998-10-19', N'Nữ' , '2020-08-25', 'BP06', 5;
-	EXEC THEMNV N'Micheal Olson', '1988-11-25', N'Nữ' , '2021-11-11', 'BP04', 11;
-	EXEC THEMNV N'Melissa Brown', '1978-07-10', N'Nam' , '2020-07-08', 'BP06', 3;
-	EXEC THEMNV N'Keith Sanchez', '1979-10-25', N'Nam' , '2021-11-01', 'BP07', 11;
-	EXEC THEMNV N'Shirley Smith', '1976-08-23', N'Nam' , '2024-09-04', 'BP04', 10;
-	EXEC THEMNV N'Karen Robinson', '1976-08-15', N'Nữ' , '2022-05-19', 'BP09', 3;
-	EXEC THEMNV N'Olivia Rodriguez', '1969-02-02', N'Nữ' , '2021-10-20', 'BP09', 12;
-	EXEC THEMNV N'Megan Henry', '1994-08-07', N'Nữ' , '2020-02-13', 'BP10', 11;
-	EXEC THEMNV N'Brandon Torres', '1981-04-21', N'Nam' , '2024-11-18', 'BP03', 7;
-	EXEC THEMNV N'Benjamin Murray', '1996-07-04', N'Nam' , '2021-11-02', 'BP04', 7;
-	EXEC THEMNV N'Susan Faulkner', '1976-05-26', N'Nữ' , '2020-12-14', 'BP03', 1;
-	EXEC THEMNV N'Amanda Scott', '1993-03-31', N'Nữ' , '2021-02-20', 'BP06', 9;
-	EXEC THEMNV N'Amanda Li', '1997-02-06', N'Nữ' , '2021-03-27', 'BP01', 3;
-	EXEC THEMNV N'Misty Campos', '1974-01-06', N'Nữ' , '2020-06-19', 'BP02', 2;
-	EXEC THEMNV N'Elizabeth Rogers', '1970-10-19', N'Nam' , '2020-01-14', 'BP07', 13;
-	EXEC THEMNV N'Erica Evans', '1988-12-01', N'Nam' , '2021-12-04', 'BP06', 9;
-	EXEC THEMNV N'Shannon Sanchez', '1973-10-23', N'Nam' , '2023-02-12', 'BP02', 8;
-	EXEC THEMNV N'Richard Eaton', '1974-12-18', N'Nữ' , '2021-11-02', 'BP02', 12;
-	EXEC THEMNV N'Albert Vaughn', '1974-11-23', N'Nam' , '2021-03-06', 'BP10', 10;
-	EXEC THEMNV N'John Hodge', '1983-10-26', N'Nam' , '2023-05-16', 'BP09', 7;
-	EXEC THEMNV N'Donna Montes', '1986-01-01', N'Nam' , '2022-02-11', 'BP03', 4;
-	EXEC THEMNV N'Kayla Bowers', '1990-02-14', N'Nam' , '2024-03-03', 'BP05', 10;
-	EXEC THEMNV N'Aaron Watts', '2001-08-05', N'Nam' , '2020-06-13', 'BP08', 14;
-	EXEC THEMNV N'John Munoz', '1985-08-04', N'Nam' , '2021-05-17', 'BP08', 12;
-	EXEC THEMNV N'Barry Pratt', '1975-08-02', N'Nam' , '2020-05-23', 'BP10', 1;
-	EXEC THEMNV N'Alicia Becker', '1989-02-19', N'Nam' , '2022-10-04', 'BP01', 1;
-	EXEC THEMNV N'Lucas Gray', '1997-06-14', N'Nam' , '2023-02-06', 'BP07', 11;
-	EXEC THEMNV N'Jonathan Ochoa', '1985-02-12', N'Nữ' , '2021-08-31', 'BP05', 8;
-	EXEC THEMNV N'Adam Russell', '1993-12-02', N'Nữ' , '2024-03-16', 'BP02', 11;
-	EXEC THEMNV N'Amanda Hernandez', '2000-09-15', N'Nữ' , '2021-02-03', 'BP07', 10;
-	EXEC THEMNV N'Brandon Anderson', '1974-06-23', N'Nữ' , '2024-04-11', 'BP08', 15;
-	EXEC THEMNV N'Marissa Evans', '2002-09-29', N'Nam' , '2021-12-10', 'BP09', 1;
-	EXEC THEMNV N'Bill Fowler', '1980-12-31', N'Nữ' , '2021-10-22', 'BP10', 13;
-	EXEC THEMNV N'Mrs. Margaret Walters', '2002-05-21', N'Nữ' , '2020-05-18', 'BP02', 13;
-	EXEC THEMNV N'Paul Frazier', '1965-03-29', N'Nữ' , '2021-02-07', 'BP04', 6;
-	EXEC THEMNV N'Mr. Steven Faulkner', '1983-11-27', N'Nữ' , '2021-06-30', 'BP06', 5;
-	EXEC THEMNV N'Danny Murphy', '1976-02-02', N'Nữ' , '2020-03-31', 'BP03', 8;
-	EXEC THEMNV N'Elizabeth Lane', '1986-08-24', N'Nam' , '2023-10-03', 'BP07', 2;
-	EXEC THEMNV N'Edward Daniels', '1975-12-30', N'Nam' , '2022-04-04', 'BP05', 11;
-	EXEC THEMNV N'Jonathan Martin', '1970-04-12', N'Nữ' , '2021-04-14', 'BP06', 7;
-	EXEC THEMNV N'George Brown', '1971-02-14', N'Nữ' , '2024-11-11', 'BP10', 2;
-	EXEC THEMNV N'Ronald Mcintyre', '1999-03-03', N'Nữ' , '2022-10-04', 'BP09', 6;
+-- =======================
+-- Thêm dữ liệu vào bảng ChiNhanh
+-- =======================
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 1', N'123 Lê Lợi, Quận 1', '08:00:00', '22:00:00', '0507390754', 1, 0, NULL, 3, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 2', N'456 Nguyễn Trãi, Quận 5', '08:00:00', '22:00:00', '0646740590', 0, 0, NULL, 6, 1);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 3', N'789 Hà Nội, Quận 3', '08:00:00', '22:00:00', '0982027393', 0, 1, NULL, 1, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 4', N'12 Nguyễn Du, Quận 1', '08:00:00', '22:00:00', '0977972265', 1, 1, NULL, 6, 1);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 5', N'56 Lý Thường Kiệt, Quận 10', '08:00:00', '22:00:00', '0814330690', 1, 0, NULL, 4, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 6', N'34 Trần Hưng Đạo, Quận 1', '08:00:00', '22:00:00', '0171756309', 0, 1, NULL, 6, 1);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 7', N'98 Lê Văn Sỹ, Quận 3', '08:00:00', '22:00:00', '0621825994', 1, 0, NULL, 5, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 8', N'2 Nguyễn Thị Minh Khai, Quận 1', '08:00:00', '22:00:00', '0181690805', 0, 1, NULL, 3, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 9', N'101 Cộng Hòa, Tân Bình', '08:00:00', '22:00:00', '0677018293', 1, 1, NULL, 2, 1);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 10', N'150 Phan Xích Long, Phú Nhuận', '08:00:00', '22:00:00', '0669598958', 0, 0, NULL, 1, 1);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 11', N'300 Đường Láng, Quận Đống Đa', '08:00:00', '22:00:00', '0682773362', 0, 1, NULL, 3, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 12', N'450 Phạm Văn Đồng, Cầu Giấy', '08:00:00', '22:00:00', '0988564246', 0, 0, NULL, 2, 1);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 13', N'100 Nguyễn Hoàng, Quận Nam Từ Liêm', '08:00:00', '22:00:00', '0426806530', 1, 1, NULL, 6, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 14', N'25 Lê Đức Thọ, Mỹ Đình', '08:00:00', '22:00:00', '0914460242', 1, 0, NULL, 4, 0);
+INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 15', N'1 Đại Cồ Việt, Hai Bà Trưng', '08:00:00', '22:00:00', '0298534272', 0, 1, NULL, 4, 0);
 
 	
 
-	-- =======================
-	-- Thêm dữ liệu vào bảng ChiNhanh
-	-- =======================
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 1', N'123 Lê Lợi, Quận 1', '08:00:00', '22:00:00', '0507390754', 1, 0, NULL, 3, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 2', N'456 Nguyễn Trãi, Quận 5', '08:00:00', '22:00:00', '0646740590', 0, 0, NULL, 6, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 3', N'789 Hà Nội, Quận 3', '08:00:00', '22:00:00', '0982027393', 0, 1, NULL, 1, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 4', N'12 Nguyễn Du, Quận 1', '08:00:00', '22:00:00', '0977972265', 1, 1, NULL, 6, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 5', N'56 Lý Thường Kiệt, Quận 10', '08:00:00', '22:00:00', '0814330690', 1, 0, NULL, 4, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 6', N'34 Trần Hưng Đạo, Quận 1', '08:00:00', '22:00:00', '0171756309', 0, 1, NULL, 6, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 7', N'98 Lê Văn Sỹ, Quận 3', '08:00:00', '22:00:00', '0621825994', 1, 0, NULL, 5, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 8', N'2 Nguyễn Thị Minh Khai, Quận 1', '08:00:00', '22:00:00', '0181690805', 0, 1, NULL, 3, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 9', N'101 Cộng Hòa, Tân Bình', '08:00:00', '22:00:00', '0677018293', 1, 1, NULL, 2, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 10', N'150 Phan Xích Long, Phú Nhuận', '08:00:00', '22:00:00', '0669598958', 0, 0, NULL, 1, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 11', N'300 Đường Láng, Quận Đống Đa', '08:00:00', '22:00:00', '0682773362', 0, 1, NULL, 3, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 12', N'450 Phạm Văn Đồng, Cầu Giấy', '08:00:00', '22:00:00', '0988564246', 0, 0, NULL, 2, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 13', N'100 Nguyễn Hoàng, Quận Nam Từ Liêm', '08:00:00', '22:00:00', '0426806530', 1, 1, NULL, 6, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 14', N'25 Lê Đức Thọ, Mỹ Đình', '08:00:00', '22:00:00', '0914460242', 1, 0, NULL, 4, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 15', N'1 Đại Cồ Việt, Hai Bà Trưng', '08:00:00', '22:00:00', '0298534272', 0, 1, NULL, 4, 0);
+-- =======================
+-- Thêm dữ liệu vào bảng NhanVien
+-- =======================
+EXEC THEMNV N'Stephen Walsh', '1998-06-02', N'Nam' , '2023-09-09', 'BP02', 8;
+EXEC THEMNV N'Jimmy Navarro', '1980-11-23', N'Nam' , '2022-05-05', 'BP02', 5;
+EXEC THEMNV N'Kelsey Oneal', '1996-07-10', N'Nam' , '2021-06-18', 'BP07', 9;
+EXEC THEMNV N'Patty Frederick', '1970-06-03', N'Nam' , '2021-02-13', 'BP08', 1;
+EXEC THEMNV N'Linda Cook', '1980-05-20', N'Nam' , '2024-05-23', 'BP06', 14;
+EXEC THEMNV N'Brian Cox', '1985-11-30', N'Nữ' , '2023-09-10', 'BP01', 10;
+EXEC THEMNV N'Aaron Boyd', '1973-03-02', N'Nam' , '2021-07-13', 'BP01', 6;
+EXEC THEMNV N'Melissa Wiley', '2001-04-18', N'Nam' , '2020-08-31', 'BP04', 4;
+EXEC THEMNV N'Chad Graves', '2001-06-26', N'Nữ' , '2023-01-31', 'BP02', 9;
+EXEC THEMNV N'Robert Morgan', '1963-12-28', N'Nữ' , '2020-11-02', 'BP10', 1;
+EXEC THEMNV N'Theresa Landry', '1987-06-23', N'Nữ' , '2022-11-03', 'BP07', 8;
+EXEC THEMNV N'Theodore Davis', '1994-04-03', N'Nữ' , '2022-10-07', 'BP10', 14;
+EXEC THEMNV N'Adrian Palmer', '1969-07-27', N'Nam' , '2020-05-13', 'BP01', 9;
+EXEC THEMNV N'Joshua Lawson', '1974-12-31', N'Nữ' , '2020-06-29', 'BP07', 5;
+EXEC THEMNV N'Stephanie Scott', '1968-12-26', N'Nữ' , '2024-11-15', 'BP04', 8;
+EXEC THEMNV N'Christina Bush', '1971-02-08', N'Nữ' , '2023-12-01', 'BP01', 11;
+EXEC THEMNV N'Kenneth Hernandez', '1996-03-29', N'Nữ' , '2024-02-03', 'BP02', 2;
+EXEC THEMNV N'Patrick Wilkerson Jr.', '1996-09-28', N'Nam' , '2023-10-22', 'BP02', 9;
+EXEC THEMNV N'Jared Harris', '2002-08-11', N'Nam' , '2023-03-28', 'BP03', 15;
+EXEC THEMNV N'Jessica Glass', '1996-01-08', N'Nữ' , '2022-11-25', 'BP10', 14;
+EXEC THEMNV N'Steven Foster', '1983-01-01', N'Nam' , '2021-02-17', 'BP06', 3;
+EXEC THEMNV N'Susan Lawrence', '1990-05-11', N'Nữ' , '2020-08-02', 'BP10', 8;
+EXEC THEMNV N'Benjamin Cameron', '1992-08-10', N'Nam' , '2021-10-11', 'BP04', 14;
+EXEC THEMNV N'Justin Thomas', '1995-09-26', N'Nữ' , '2021-07-25', 'BP08', 15;
+EXEC THEMNV N'Brittany Powell', '1971-02-16', N'Nữ' , '2020-05-26', 'BP03', 6;
+EXEC THEMNV N'Stephanie Graham', '1982-03-07', N'Nữ' , '2020-04-04', 'BP02', 7;
+EXEC THEMNV N'Douglas Garrison', '1965-05-05', N'Nam' , '2021-04-21', 'BP06', 7;
+EXEC THEMNV N'Renee Berry', '1977-03-17', N'Nữ' , '2021-09-18', 'BP09', 7;
+EXEC THEMNV N'Andrew Perez', '1988-11-26', N'Nam' , '2024-04-17', 'BP01', 15;
+EXEC THEMNV N'Mindy Williams', '1965-09-16', N'Nữ' , '2021-01-03', 'BP06', 8;
+EXEC THEMNV N'Jeremy Castaneda', '1989-11-06', N'Nữ' , '2020-11-04', 'BP06', 10;
+EXEC THEMNV N'Jenna Smith', '1973-07-10', N'Nữ' , '2024-02-02', 'BP06', 5;
+EXEC THEMNV N'Holly Zimmerman', '1970-01-25', N'Nam' , '2022-04-26', 'BP07', 14;
+EXEC THEMNV N'Harry Cowan', '1984-05-17', N'Nam' , '2024-09-05', 'BP09', 12;
+EXEC THEMNV N'Tracy Johnson', '1965-08-25', N'Nam' , '2024-11-05', 'BP05', 12;
+EXEC THEMNV N'Angela Perez', '1990-05-26', N'Nam' , '2021-10-09', 'BP06', 1;
+EXEC THEMNV N'Kathy Little', '1976-11-28', N'Nữ' , '2020-01-31', 'BP03', 11;
+EXEC THEMNV N'Jeremiah Stevens', '1983-01-24', N'Nam' , '2024-06-11', 'BP07', 9;
+EXEC THEMNV N'Ryan Sanford', '1984-06-26', N'Nam' , '2021-02-07', 'BP08', 13;
+EXEC THEMNV N'Larry Wright', '1966-10-13', N'Nam' , '2021-11-01', 'BP03', 10;
+EXEC THEMNV N'John Johnson', '1977-11-30', N'Nữ' , '2020-01-11', 'BP08', 3;
+EXEC THEMNV N'Paul Dixon', '1972-01-15', N'Nữ' , '2024-02-07', 'BP05', 11;
+EXEC THEMNV N'Deborah Fitzgerald', '2000-07-10', N'Nam' , '2021-09-17', 'BP10', 9;
+EXEC THEMNV N'Erin Davidson', '1979-06-05', N'Nữ' , '2022-11-28', 'BP10', 5;
+EXEC THEMNV N'Christopher Scott', '1983-06-23', N'Nam' , '2021-03-25', 'BP09', 11;
+EXEC THEMNV N'Michael Hansen', '1998-06-14', N'Nữ' , '2020-07-21', 'BP07', 4;
+EXEC THEMNV N'Scott Juarez', '1983-01-23', N'Nữ' , '2020-08-31', 'BP09', 2;
+EXEC THEMNV N'Jennifer Ferrell', '1969-09-08', N'Nữ' , '2020-05-28', 'BP10', 3;
+EXEC THEMNV N'Alexander Jones', '1972-05-13', N'Nữ' , '2022-10-16', 'BP02', 5;
+EXEC THEMNV N'Tammy Flores', '1995-04-01', N'Nữ' , '2020-09-29', 'BP07', 6;
+EXEC THEMNV N'Brett Lopez', '1997-02-28', N'Nữ' , '2022-03-08', 'BP05', 5;
+EXEC THEMNV N'Ronald Ramirez', '1975-11-16', N'Nam' , '2022-08-03', 'BP02', 6;
+EXEC THEMNV N'Charles Moore', '1978-09-07', N'Nữ' , '2022-03-04', 'BP01', 13;
+EXEC THEMNV N'Madison Ruiz', '1976-07-18', N'Nữ' , '2020-08-19', 'BP09', 14;
+EXEC THEMNV N'Barbara Martinez', '1991-04-14', N'Nữ' , '2022-02-23', 'BP08', 4;
+EXEC THEMNV N'Alicia Hurley', '1976-10-28', N'Nữ' , '2020-05-08', 'BP07', 3;
+EXEC THEMNV N'Johnny Lambert', '1990-11-16', N'Nam' , '2021-04-05', 'BP10', 13;
+EXEC THEMNV N'Eric Horn', '2002-09-20', N'Nữ' , '2021-12-20', 'BP07', 4;
+EXEC THEMNV N'Rebecca Martinez', '1969-07-28', N'Nam' , '2023-08-24', 'BP05', 8;
+EXEC THEMNV N'Alexandra Brown', '2000-10-14', N'Nữ' , '2020-10-20', 'BP01', 13;
+EXEC THEMNV N'Grant Cooper', '1980-09-25', N'Nữ' , '2020-03-14', 'BP05', 15;
+EXEC THEMNV N'Holly Taylor PhD', '1979-12-22', N'Nữ' , '2023-03-30', 'BP04', 6;
+EXEC THEMNV N'Denise Daugherty', '1975-05-05', N'Nữ' , '2023-12-04', 'BP09', 4;
+EXEC THEMNV N'Matthew Stevenson', '1975-01-31', N'Nữ' , '2023-03-03', 'BP03', 7;
+EXEC THEMNV N'Jessica Cantu', '1971-03-27', N'Nam' , '2024-08-15', 'BP07', 15;
+EXEC THEMNV N'Nathan Herrera', '1991-11-26', N'Nữ' , '2020-11-04', 'BP01', 4;
+EXEC THEMNV N'Rodney Gutierrez', '2000-10-10', N'Nữ' , '2022-05-10', 'BP01', 12;
+EXEC THEMNV N'Angela Bray MD', '1985-11-12', N'Nam' , '2022-11-14', 'BP10', 7;
+EXEC THEMNV N'Mercedes Davenport', '1993-06-04', N'Nam' , '2024-04-24', 'BP09', 13;
+EXEC THEMNV N'Brandon Snyder', '1968-05-23', N'Nam' , '2024-01-16', 'BP02', 13;
+EXEC THEMNV N'Christopher Larson', '1992-10-05', N'Nữ' , '2024-02-16', 'BP03', 3;
+EXEC THEMNV N'Vincent Hardy', '2001-11-27', N'Nam' , '2020-03-07', 'BP05', 9;
+EXEC THEMNV N'Benjamin Winters', '1966-09-18', N'Nam' , '2024-11-21', 'BP04', 2;
+EXEC THEMNV N'Daniel Avila', '1986-09-19', N'Nam' , '2021-10-29', 'BP08', 2;
+EXEC THEMNV N'Donald Murphy', '2002-01-10', N'Nữ' , '2023-08-27', 'BP10', 6;
+EXEC THEMNV N'Michael Hall', '1975-10-05', N'Nam' , '2024-03-28', 'BP02', 10;
+EXEC THEMNV N'Sara Keller', '1995-08-08', N'Nữ' , '2023-03-01', 'BP02', 12;
+EXEC THEMNV N'Kimberly Huerta', '1976-02-17', N'Nam' , '2023-11-29', 'BP03', 11;
+EXEC THEMNV N'Megan Gregory', '1965-09-19', N'Nam' , '2023-06-12', 'BP04', 7;
+EXEC THEMNV N'Candice Kennedy', '2001-09-04', N'Nam' , '2021-05-27', 'BP06', 15;
+EXEC THEMNV N'Jessica Washington', '1977-01-03', N'Nữ' , '2024-06-17', 'BP07', 1;
+EXEC THEMNV N'Jerry Moore', '1977-10-19', N'Nam' , '2024-07-09', 'BP06', 1;
+EXEC THEMNV N'Mr. Adam Patel', '1974-05-13', N'Nữ' , '2024-03-28', 'BP03', 4;
+EXEC THEMNV N'Christopher Stevens', '1987-06-22', N'Nữ' , '2023-02-22', 'BP02', 3;
+EXEC THEMNV N'Sara Baker', '1980-03-03', N'Nam' , '2024-04-17', 'BP06', 8;
+EXEC THEMNV N'Emma Sanchez', '2001-07-27', N'Nam' , '2020-10-07', 'BP03', 10;
+EXEC THEMNV N'Jonathan Patterson', '1977-04-28', N'Nữ' , '2021-09-12', 'BP04', 5;
+EXEC THEMNV N'Juan Garcia', '1999-05-04', N'Nữ' , '2020-10-03', 'BP05', 6;
+EXEC THEMNV N'Mark Rogers', '1971-11-04', N'Nam' , '2024-10-05', 'BP02', 15;
+EXEC THEMNV N'Jane King', '1965-07-16', N'Nam' , '2023-04-16', 'BP09', 3;
+EXEC THEMNV N'James Dunn', '1976-08-07', N'Nam' , '2024-09-13', 'BP08', 2;
+EXEC THEMNV N'Jennifer Carey', '1983-09-20', N'Nữ' , '2020-11-15', 'BP02', 10;
+EXEC THEMNV N'Timothy Sullivan', '1966-05-12', N'Nữ' , '2021-11-22', 'BP08', 12;
+EXEC THEMNV N'Ryan Sullivan', '1965-04-21', N'Nữ' , '2022-11-17', 'BP08', 2;
+EXEC THEMNV N'John Rhodes', '1966-02-05', N'Nữ' , '2022-08-28', 'BP05', 11;
+EXEC THEMNV N'Emma Mann DDS', '1974-12-13', N'Nữ' , '2020-01-09', 'BP08', 2;
+EXEC THEMNV N'Lisa Price', '1984-02-25', N'Nam' , '2021-05-02', 'BP08', 12;
+EXEC THEMNV N'Angela Bailey', '1969-05-04', N'Nữ' , '2024-04-21', 'BP01', 1;
+EXEC THEMNV N'Karen Stone', '1976-05-30', N'Nữ' , '2023-10-20', 'BP07', 10;
+EXEC THEMNV N'Ryan Young', '1996-03-15', N'Nữ' , '2023-09-19', 'BP07', 11;
+EXEC THEMNV N'Miranda Gates', '1993-05-18', N'Nam' , '2021-03-04', 'BP07', 13;
+EXEC THEMNV N'Evan Jones', '1986-05-19', N'Nam' , '2020-08-10', 'BP09', 5;
+EXEC THEMNV N'Mary Jones', '1964-04-18', N'Nam' , '2021-02-17', 'BP08', 11;
+EXEC THEMNV N'Jennifer Brown', '1968-03-23', N'Nam' , '2021-08-08', 'BP04', 15;
+EXEC THEMNV N'Timothy Cross', '1992-03-26', N'Nữ' , '2020-11-03', 'BP09', 1;
+EXEC THEMNV N'Paul Smith', '1973-06-05', N'Nữ' , '2021-07-06', 'BP09', 2;
+EXEC THEMNV N'Amber Conley', '1994-05-18', N'Nữ' , '2021-04-15', 'BP05', 7;
+EXEC THEMNV N'Joseph Gordon', '1988-11-05', N'Nữ' , '2022-08-20', 'BP08', 10;
+EXEC THEMNV N'Kristina Robinson', '1974-02-25', N'Nam' , '2021-02-07', 'BP02', 6;
+EXEC THEMNV N'Jessica Mason', '1997-08-09', N'Nam' , '2023-03-28', 'BP08', 10;
+EXEC THEMNV N'Charles Miller', '1972-09-07', N'Nữ' , '2021-08-27', 'BP07', 2;
+EXEC THEMNV N'Judy Perkins', '1985-07-13', N'Nữ' , '2022-10-21', 'BP04', 4;
+EXEC THEMNV N'Briana Williams', '1976-07-20', N'Nữ' , '2024-08-09', 'BP09', 7;
+EXEC THEMNV N'Steven Dodson', '1968-07-28', N'Nữ' , '2024-10-13', 'BP04', 6;
+EXEC THEMNV N'Daniel Phillips', '1984-02-10', N'Nam' , '2022-02-16', 'BP05', 12;
+EXEC THEMNV N'Cody Phillips', '1993-08-18', N'Nam' , '2020-12-04', 'BP08', 8;
+EXEC THEMNV N'Ryan Smith', '1998-05-31', N'Nam' , '2023-04-12', 'BP02', 3;
+EXEC THEMNV N'Michelle Sosa', '1964-11-22', N'Nữ' , '2023-05-13', 'BP05', 15;
+EXEC THEMNV N'Rebecca Collins', '1991-05-19', N'Nam' , '2020-01-19', 'BP05', 7;
+EXEC THEMNV N'Jill George', '1977-03-07', N'Nam' , '2024-06-03', 'BP06', 14;
+EXEC THEMNV N'Richard Perkins', '1969-09-26', N'Nữ' , '2024-11-09', 'BP03', 11;
+EXEC THEMNV N'Lawrence Lambert', '1980-12-25', N'Nam' , '2024-10-01', 'BP06', 10;
+EXEC THEMNV N'Melissa Leon', '1988-03-12', N'Nữ' , '2020-10-11', 'BP08', 8;
+EXEC THEMNV N'Michael Ortiz', '1986-10-16', N'Nam' , '2023-05-15', 'BP09', 10;
+EXEC THEMNV N'Jason Black', '1975-01-10', N'Nam' , '2024-08-15', 'BP07', 6;
+EXEC THEMNV N'Amy Anderson', '1965-07-06', N'Nam' , '2022-06-18', 'BP02', 13;
+EXEC THEMNV N'Amy Alexander', '1994-04-14', N'Nam' , '2021-04-06', 'BP04', 3;
+EXEC THEMNV N'Frederick Baxter', '1992-01-13', N'Nữ' , '2022-05-04', 'BP05', 2;
+EXEC THEMNV N'Jose Murphy', '2000-02-06', N'Nữ' , '2020-01-06', 'BP07', 10;
+EXEC THEMNV N'Blake Black', '1971-10-12', N'Nam' , '2023-08-28', 'BP08', 8;
+EXEC THEMNV N'Pamela Sparks', '1971-04-01', N'Nam' , '2023-05-24', 'BP02', 9;
+EXEC THEMNV N'Jacob Smith', '1985-02-20', N'Nữ' , '2021-12-17', 'BP06', 7;
+EXEC THEMNV N'Timothy Newton', '2002-07-31', N'Nam' , '2024-09-22', 'BP01', 10;
+EXEC THEMNV N'Cindy Jones', '1997-06-30', N'Nữ' , '2020-05-13', 'BP03', 8;
+EXEC THEMNV N'Christopher Horne', '1999-09-22', N'Nữ' , '2021-08-11', 'BP04', 14;
+EXEC THEMNV N'Sarah Walker', '1985-12-27', N'Nam' , '2020-03-25', 'BP01', 14;
+EXEC THEMNV N'Virginia Wyatt', '1982-11-13', N'Nữ' , '2022-08-13', 'BP02', 2;
+EXEC THEMNV N'Glenn Chung', '1978-11-16', N'Nữ' , '2021-05-12', 'BP10', 12;
+EXEC THEMNV N'Frank Nguyen', '1964-06-06', N'Nam' , '2023-04-14', 'BP03', 13;
+EXEC THEMNV N'Pamela Alvarez', '1992-05-28', N'Nam' , '2024-02-11', 'BP03', 9;
+EXEC THEMNV N'Jacob Johnson', '1995-10-17', N'Nữ' , '2021-11-26', 'BP05', 10;
+EXEC THEMNV N'Karen Rush', '1969-01-24', N'Nam' , '2021-06-26', 'BP09', 5;
+EXEC THEMNV N'Amanda Campos', '1985-09-14', N'Nam' , '2021-08-09', 'BP10', 5;
+EXEC THEMNV N'Paula Miller', '2001-06-30', N'Nam' , '2023-12-11', 'BP04', 3;
+EXEC THEMNV N'Marcus Cook', '2001-07-19', N'Nam' , '2020-05-18', 'BP02', 12;
+EXEC THEMNV N'Caitlin Wells', '1994-11-22', N'Nam' , '2024-10-28', 'BP10', 7;
+EXEC THEMNV N'Darlene Guerra', '1984-08-10', N'Nữ' , '2022-05-13', 'BP01', 6;
+EXEC THEMNV N'Mr. William Wright', '1985-07-01', N'Nữ' , '2020-02-04', 'BP06', 12;
+EXEC THEMNV N'Jared Green', '1975-05-26', N'Nam' , '2024-10-19', 'BP08', 1;
+EXEC THEMNV N'Brian Bailey', '1968-01-17', N'Nữ' , '2022-08-07', 'BP09', 15;
+EXEC THEMNV N'Timothy Espinoza', '1990-12-30', N'Nam' , '2021-02-11', 'BP04', 14;
+EXEC THEMNV N'Terry Fowler', '1991-01-27', N'Nữ' , '2023-07-05', 'BP06', 1;
+EXEC THEMNV N'Emily Shelton DDS', '1991-12-11', N'Nữ' , '2020-02-10', 'BP06', 10;
+EXEC THEMNV N'Raymond Clark', '1988-12-21', N'Nam' , '2021-12-07', 'BP04', 2;
+EXEC THEMNV N'Mr. Samuel Blackwell DDS', '2000-10-30', N'Nam' , '2020-08-15', 'BP04', 9;        
+EXEC THEMNV N'Stephanie Davis', '1983-01-25', N'Nam' , '2020-02-25', 'BP05', 12;
+EXEC THEMNV N'Susan Cline', '1991-03-03', N'Nam' , '2022-08-13', 'BP01', 15;
+EXEC THEMNV N'Jacqueline Walker', '1989-10-20', N'Nam' , '2020-08-19', 'BP06', 4;
+EXEC THEMNV N'Brian Wilson', '1980-07-20', N'Nam' , '2023-09-08', 'BP06', 5;
+EXEC THEMNV N'Kimberly Little', '1970-06-11', N'Nam' , '2024-10-17', 'BP10', 7;
+EXEC THEMNV N'Barbara Hogan', '2002-07-30', N'Nam' , '2021-08-01', 'BP07', 11;
+EXEC THEMNV N'Jeanette Thomas', '1984-08-12', N'Nữ' , '2021-11-07', 'BP05', 5;
+EXEC THEMNV N'Alicia Sharp', '1975-05-24', N'Nữ' , '2024-07-04', 'BP10', 4;
+EXEC THEMNV N'Jennifer Lambert', '1980-02-27', N'Nữ' , '2021-02-20', 'BP02', 6;
+EXEC THEMNV N'Jennifer Hall', '1965-11-23', N'Nữ' , '2024-01-04', 'BP06', 2;
+EXEC THEMNV N'Marcus Garrett DDS', '1985-07-19', N'Nam' , '2021-05-05', 'BP05', 14;
+EXEC THEMNV N'Bryan Riley', '1983-03-27', N'Nữ' , '2024-02-22', 'BP05', 14;
+EXEC THEMNV N'Jeffrey Johnson', '1995-06-26', N'Nữ' , '2023-08-11', 'BP02', 8;
+EXEC THEMNV N'Gregory Williams', '1993-05-18', N'Nữ' , '2023-03-08', 'BP06', 11;
+EXEC THEMNV N'Francisco Henry', '1984-09-06', N'Nữ' , '2020-07-01', 'BP05', 7;
+EXEC THEMNV N'Chad Holland', '1967-11-28', N'Nữ' , '2020-07-26', 'BP10', 4;
+EXEC THEMNV N'Holly Morales MD', '1987-11-30', N'Nữ' , '2024-04-28', 'BP06', 15;
+EXEC THEMNV N'Carlos Weaver', '1992-05-23', N'Nam' , '2021-03-19', 'BP09', 11;
+EXEC THEMNV N'Alexander Williams', '1980-12-29', N'Nam' , '2022-03-10', 'BP10', 3;
+EXEC THEMNV N'John Keith', '1991-08-01', N'Nữ' , '2020-08-26', 'BP06', 5;
+EXEC THEMNV N'Tyler Gray', '1993-02-11', N'Nữ' , '2021-02-18', 'BP10', 9;
+EXEC THEMNV N'Ronald Tran', '1965-08-18', N'Nữ' , '2022-08-05', 'BP05', 9;
+EXEC THEMNV N'Joseph Perry', '1972-10-22', N'Nam' , '2021-10-31', 'BP08', 1;
+EXEC THEMNV N'Angelica Jackson', '1968-08-18', N'Nam' , '2021-08-20', 'BP04', 11;
+EXEC THEMNV N'Patricia Brown', '1976-12-03', N'Nam' , '2022-03-10', 'BP02', 6;
+EXEC THEMNV N'Susan Lindsey', '1985-11-26', N'Nam' , '2024-07-03', 'BP06', 13;
+EXEC THEMNV N'Amanda Taylor', '1976-04-15', N'Nữ' , '2022-05-06', 'BP01', 3;
+EXEC THEMNV N'Brandon Cox', '1964-02-29', N'Nam' , '2022-12-29', 'BP04', 4;
+EXEC THEMNV N'Monica Cortez', '1985-05-16', N'Nữ' , '2022-05-14', 'BP06', 8;
+EXEC THEMNV N'Erin Villa', '1985-01-20', N'Nữ' , '2024-09-11', 'BP04', 7;
+EXEC THEMNV N'Mrs. Denise Hall', '1991-08-23', N'Nữ' , '2024-10-03', 'BP07', 1;
+EXEC THEMNV N'William Stewart', '1971-09-29', N'Nữ' , '2022-08-29', 'BP02', 1;
+EXEC THEMNV N'Belinda King', '1967-01-02', N'Nam' , '2023-05-11', 'BP09', 4;
+EXEC THEMNV N'Matthew Glenn', '1973-04-01', N'Nam' , '2023-07-07', 'BP03', 1;
+EXEC THEMNV N'Matthew Miller', '1970-09-25', N'Nữ' , '2021-06-05', 'BP05', 7;
+EXEC THEMNV N'Robin Singleton', '1975-10-26', N'Nam' , '2022-10-17', 'BP06', 3;
+EXEC THEMNV N'William Clark', '1994-11-09', N'Nữ' , '2023-05-06', 'BP03', 13;
+EXEC THEMNV N'Kenneth Goodwin', '1970-12-10', N'Nam' , '2021-11-01', 'BP07', 14;
+EXEC THEMNV N'Joseph Wagner', '1986-12-03', N'Nam' , '2021-09-09', 'BP09', 13;
+EXEC THEMNV N'Courtney Sanders', '1975-09-21', N'Nam' , '2022-02-22', 'BP09', 9;
+EXEC THEMNV N'Kara Jones', '1976-10-28', N'Nữ' , '2021-06-24', 'BP08', 9;
+EXEC THEMNV N'Jacob Mack', '2000-04-19', N'Nam' , '2021-11-02', 'BP01', 6;
+EXEC THEMNV N'Courtney Burke', '1966-01-13', N'Nữ' , '2021-04-08', 'BP09', 3;
+EXEC THEMNV N'Stephen Vasquez', '1996-07-16', N'Nam' , '2023-12-01', 'BP05', 15;
+EXEC THEMNV N'Daniel Ford', '1986-09-07', N'Nữ' , '2022-08-23', 'BP03', 12;
+EXEC THEMNV N'Jeremy Larson', '1975-11-04', N'Nữ' , '2020-02-21', 'BP02', 8;
+EXEC THEMNV N'Kristin Hunter', '1981-05-01', N'Nữ' , '2022-04-16', 'BP06', 3;
+EXEC THEMNV N'Douglas Richardson', '1978-09-13', N'Nam' , '2023-03-05', 'BP04', 14;
+EXEC THEMNV N'Sharon Owens', '1968-08-05', N'Nữ' , '2024-06-05', 'BP07', 5;
+EXEC THEMNV N'Hannah Andrews', '1981-11-17', N'Nữ' , '2024-02-21', 'BP02', 9;
+EXEC THEMNV N'Alan Moore', '1969-08-19', N'Nam' , '2022-05-10', 'BP08', 3;
+EXEC THEMNV N'Michelle Lewis', '1986-07-28', N'Nữ' , '2023-07-08', 'BP06', 4;
+EXEC THEMNV N'Jason Wallace', '1967-12-10', N'Nam' , '2021-06-19', 'BP01', 4;
+EXEC THEMNV N'Diane Thomas', '1984-06-15', N'Nam' , '2021-07-04', 'BP06', 14;
+EXEC THEMNV N'Seth Reyes', '1980-01-22', N'Nữ' , '2023-10-18', 'BP06', 12;
+EXEC THEMNV N'Donna Lawrence', '1976-04-06', N'Nữ' , '2023-01-29', 'BP05', 7;
+EXEC THEMNV N'Shelly Hicks', '1999-09-27', N'Nữ' , '2024-08-18', 'BP10', 13;
+EXEC THEMNV N'Jeffrey Taylor', '1991-06-08', N'Nam' , '2022-12-16', 'BP05', 2;
+EXEC THEMNV N'Brandon Cohen', '1964-10-13', N'Nữ' , '2024-06-20', 'BP02', 12;
+EXEC THEMNV N'Mr. Noah Mendez', '1994-09-13', N'Nam' , '2023-07-27', 'BP08', 6;
+EXEC THEMNV N'Vincent Martinez', '1985-08-27', N'Nam' , '2023-01-03', 'BP09', 9;
+EXEC THEMNV N'Alexandra Wilson', '1987-04-26', N'Nam' , '2022-07-11', 'BP08', 5;
+EXEC THEMNV N'Michele Pacheco', '2002-03-07', N'Nữ' , '2022-09-14', 'BP01', 14;
+EXEC THEMNV N'Christopher Avila', '1964-09-27', N'Nữ' , '2020-12-22', 'BP01', 12;
+EXEC THEMNV N'Carrie Landry', '1985-02-05', N'Nam' , '2022-12-24', 'BP07', 5;
+EXEC THEMNV N'Jaime Hall', '1975-09-08', N'Nam' , '2022-09-13', 'BP07', 3;
+EXEC THEMNV N'Anthony Freeman', '1977-08-08', N'Nữ' , '2021-05-27', 'BP05', 8;
+EXEC THEMNV N'Amy Schwartz', '1969-04-24', N'Nam' , '2022-06-04', 'BP10', 11;
+EXEC THEMNV N'Adam Thompson', '1985-01-11', N'Nam' , '2020-10-07', 'BP02', 8;
+EXEC THEMNV N'Robert Holt', '1996-04-16', N'Nữ' , '2024-11-06', 'BP07', 15;
+EXEC THEMNV N'Donna Galvan', '1973-05-17', N'Nữ' , '2021-01-14', 'BP07', 11;
+EXEC THEMNV N'Cody Nichols', '1975-03-07', N'Nam' , '2021-11-25', 'BP03', 6;
+EXEC THEMNV N'Tyrone Hall', '1980-04-04', N'Nam' , '2023-01-25', 'BP05', 6;
+EXEC THEMNV N'Derrick Brown', '1996-02-28', N'Nữ' , '2022-11-25', 'BP06', 1;
+EXEC THEMNV N'Karen Crawford', '1991-09-03', N'Nam' , '2023-10-26', 'BP07', 5;
+EXEC THEMNV N'Gloria Andersen', '1993-07-12', N'Nam' , '2021-07-25', 'BP06', 11;
+EXEC THEMNV N'Lori Jones', '1973-08-05', N'Nữ' , '2023-04-30', 'BP08', 10;
+EXEC THEMNV N'Bob Fernandez', '1978-06-19', N'Nam' , '2022-09-29', 'BP01', 1;
+EXEC THEMNV N'Diana Barton', '1992-10-03', N'Nữ' , '2024-04-26', 'BP05', 11;
+EXEC THEMNV N'Joy Simpson', '1983-12-08', N'Nam' , '2024-01-14', 'BP03', 7;
+EXEC THEMNV N'Nicole Harper', '1984-10-02', N'Nam' , '2021-03-25', 'BP04', 15;
+EXEC THEMNV N'Amber Goodwin', '1964-07-11', N'Nam' , '2020-11-04', 'BP10', 7;
+EXEC THEMNV N'Cole Kennedy', '1975-12-13', N'Nam' , '2023-10-15', 'BP07', 6;
+EXEC THEMNV N'James Taylor', '1987-03-20', N'Nữ' , '2023-01-04', 'BP03', 2;
+EXEC THEMNV N'Lauren Hendricks', '1995-11-27', N'Nam' , '2023-10-29', 'BP01', 4;
+EXEC THEMNV N'Jessica Sweeney', '1967-08-05', N'Nam' , '2020-12-15', 'BP04', 13;
+EXEC THEMNV N'John Klein', '1971-10-12', N'Nữ' , '2021-04-12', 'BP04', 2;
+EXEC THEMNV N'Lawrence Evans', '1997-08-18', N'Nam' , '2024-11-07', 'BP03', 5;
+EXEC THEMNV N'Joshua Moore', '1970-10-04', N'Nữ' , '2024-11-25', 'BP09', 10;
+EXEC THEMNV N'Michelle Cummings', '1985-06-04', N'Nữ' , '2022-02-16', 'BP09', 10;
+EXEC THEMNV N'Lauren Peck', '1971-02-16', N'Nam' , '2023-06-28', 'BP10', 1;
+EXEC THEMNV N'Alyssa Sullivan', '1968-04-26', N'Nam' , '2024-02-20', 'BP06', 9;
+EXEC THEMNV N'Hannah Alexander', '1976-03-04', N'Nam' , '2020-04-27', 'BP07', 4;
+EXEC THEMNV N'Heather Davis', '1974-05-16', N'Nữ' , '2023-12-30', 'BP02', 4;
+EXEC THEMNV N'Gordon Taylor', '1974-11-07', N'Nữ' , '2024-10-17', 'BP02', 8;
+EXEC THEMNV N'Matthew Rodriguez', '1977-02-04', N'Nam' , '2022-04-28', 'BP08', 8;
+EXEC THEMNV N'Frank Lopez', '1985-01-22', N'Nữ' , '2022-03-25', 'BP04', 9;
+EXEC THEMNV N'Christina Dunn', '1977-06-11', N'Nam' , '2021-09-26', 'BP10', 2;
+EXEC THEMNV N'Cynthia Simmons', '1989-01-01', N'Nam' , '2022-05-06', 'BP05', 13;
+EXEC THEMNV N'Susan Carter', '1992-07-01', N'Nữ' , '2021-11-25', 'BP05', 2;
+EXEC THEMNV N'Joseph Herrera', '1964-11-05', N'Nữ' , '2022-03-04', 'BP07', 12;
+EXEC THEMNV N'Tamara Henderson', '1964-01-05', N'Nam' , '2024-09-28', 'BP10', 6;
+EXEC THEMNV N'Brenda Weiss', '1978-10-11', N'Nam' , '2020-04-30', 'BP01', 9;
+EXEC THEMNV N'Angelica Gibson', '1964-05-18', N'Nữ' , '2020-09-26', 'BP06', 13;
+EXEC THEMNV N'Ann Norton', '1995-04-11', N'Nam' , '2023-02-08', 'BP09', 5;
+EXEC THEMNV N'Megan Hopkins', '1988-11-19', N'Nam' , '2022-06-17', 'BP01', 15;
+EXEC THEMNV N'Sandra Gilmore', '1984-05-06', N'Nữ' , '2021-05-19', 'BP08', 11;
+EXEC THEMNV N'Mary Collins', '1987-10-27', N'Nữ' , '2021-05-20', 'BP07', 1;
+EXEC THEMNV N'Jesse Zavala', '1983-11-17', N'Nữ' , '2023-01-01', 'BP06', 11;
+EXEC THEMNV N'Rachel Roy', '2002-05-05', N'Nữ' , '2021-05-04', 'BP03', 13;
+EXEC THEMNV N'David Price', '1974-08-06', N'Nam' , '2023-07-13', 'BP05', 13;
+EXEC THEMNV N'Jason Cantrell', '1997-12-20', N'Nam' , '2021-11-10', 'BP08', 11;
+EXEC THEMNV N'James Wall', '1970-02-24', N'Nữ' , '2021-07-12', 'BP10', 14;
+EXEC THEMNV N'Jamie Jordan', '1969-01-20', N'Nữ' , '2023-07-14', 'BP06', 10;
+EXEC THEMNV N'Jerome Flores Jr.', '1964-06-27', N'Nữ' , '2023-01-06', 'BP07', 7;
+EXEC THEMNV N'Richard Edwards', '1971-01-01', N'Nam' , '2021-06-05', 'BP04', 13;
+EXEC THEMNV N'Dustin Kelley', '1977-11-19', N'Nam' , '2023-11-01', 'BP07', 14;
+EXEC THEMNV N'Timothy Kramer', '1994-06-12', N'Nữ' , '2022-03-19', 'BP09', 15;
+EXEC THEMNV N'Andrea Byrd', '1968-03-10', N'Nam' , '2020-03-10', 'BP06', 3;
+EXEC THEMNV N'Sara Roach', '1975-07-28', N'Nữ' , '2021-02-07', 'BP04', 1;
+EXEC THEMNV N'Shelley Miller', '2001-08-31', N'Nam' , '2023-09-05', 'BP09', 3;
+EXEC THEMNV N'Ronnie Wallace', '1964-02-18', N'Nữ' , '2020-03-07', 'BP04', 8;
+EXEC THEMNV N'Sarah Mills', '1967-12-08', N'Nam' , '2023-02-01', 'BP01', 14;
+EXEC THEMNV N'Linda Howard', '1996-11-15', N'Nam' , '2021-06-29', 'BP04', 15;
+EXEC THEMNV N'Austin Gomez', '1972-11-15', N'Nam' , '2020-03-18', 'BP05', 4;
+EXEC THEMNV N'Taylor Joseph', '2000-06-24', N'Nam' , '2020-01-20', 'BP09', 8;
+EXEC THEMNV N'Thomas Villa', '1965-01-16', N'Nam' , '2022-11-10', 'BP01', 15;
+EXEC THEMNV N'Mark Larson', '1976-05-26', N'Nam' , '2024-08-07', 'BP05', 10;
+EXEC THEMNV N'Adam Carr', '1995-12-01', N'Nữ' , '2021-01-21', 'BP01', 10;
+EXEC THEMNV N'Amanda Shields', '1974-04-27', N'Nữ' , '2020-09-24', 'BP03', 7;
+EXEC THEMNV N'Shelby Benton', '1980-06-16', N'Nữ' , '2022-05-24', 'BP05', 10;
+EXEC THEMNV N'Brett Joseph', '1976-05-05', N'Nữ' , '2024-01-11', 'BP06', 14;
+EXEC THEMNV N'Joseph Gordon', '1988-11-22', N'Nữ' , '2023-06-18', 'BP01', 7;
+EXEC THEMNV N'Nicole Miller', '1996-09-02', N'Nam' , '2020-05-11', 'BP09', 10;
+EXEC THEMNV N'Misty Norman', '1987-09-29', N'Nữ' , '2020-08-08', 'BP08', 9;
+EXEC THEMNV N'Krista Cooper', '1988-05-18', N'Nam' , '2023-03-14', 'BP10', 3;
+EXEC THEMNV N'Alyssa Jones', '1971-01-13', N'Nam' , '2024-03-05', 'BP05', 2;
+EXEC THEMNV N'Nicole Simon', '1981-02-27', N'Nam' , '2021-08-16', 'BP08', 12;
+EXEC THEMNV N'Cassandra Nelson', '1980-08-29', N'Nữ' , '2020-11-17', 'BP01', 6;
+EXEC THEMNV N'Dennis Martinez', '1980-05-08', N'Nữ' , '2021-01-12', 'BP10', 3;
+EXEC THEMNV N'Cheyenne Molina', '1969-01-11', N'Nữ' , '2024-03-14', 'BP05', 12;
+EXEC THEMNV N'Andrew Anderson', '1993-10-08', N'Nam' , '2024-08-31', 'BP06', 7;
+EXEC THEMNV N'Nicholas Bryant', '1983-05-31', N'Nam' , '2022-09-28', 'BP01', 2;
+EXEC THEMNV N'Curtis Chapman', '1978-05-17', N'Nữ' , '2022-12-11', 'BP08', 1;
+EXEC THEMNV N'Heidi Pearson', '1987-03-01', N'Nam' , '2021-08-01', 'BP01', 5;
+EXEC THEMNV N'Joel Oliver', '1989-10-08', N'Nam' , '2024-09-10', 'BP07', 1;
+EXEC THEMNV N'Mindy Williams', '1987-04-16', N'Nam' , '2024-09-19', 'BP02', 6;
+EXEC THEMNV N'Dustin Lambert', '1968-02-19', N'Nam' , '2020-04-11', 'BP10', 15;
+EXEC THEMNV N'Mark Garcia', '1972-10-30', N'Nữ' , '2023-09-15', 'BP03', 14;
+EXEC THEMNV N'Kristina Rose', '1977-06-25', N'Nam' , '2024-11-16', 'BP06', 4;
+EXEC THEMNV N'Lacey Sweeney', '1995-01-24', N'Nam' , '2022-10-27', 'BP10', 10;
+EXEC THEMNV N'Darius Ross', '1965-11-11', N'Nữ' , '2022-03-17', 'BP03', 12;
+EXEC THEMNV N'Ann Carroll', '1965-04-20', N'Nam' , '2020-05-27', 'BP07', 11;
+EXEC THEMNV N'Kaitlyn Ramirez', '1999-10-10', N'Nam' , '2021-12-07', 'BP08', 13;
+EXEC THEMNV N'Dean Cook', '2002-02-09', N'Nam' , '2022-04-26', 'BP03', 11;
+EXEC THEMNV N'Johnathan Hess', '1982-11-24', N'Nam' , '2023-06-15', 'BP05', 14;
+EXEC THEMNV N'Anthony Bates', '1974-02-27', N'Nữ' , '2024-04-03', 'BP10', 4;
+EXEC THEMNV N'Thomas Brooks', '1988-10-13', N'Nữ' , '2022-12-22', 'BP01', 14;
+EXEC THEMNV N'Nicole Baker', '1966-02-19', N'Nam' , '2022-11-21', 'BP08', 4;
+EXEC THEMNV N'Matthew Lara', '1987-09-02', N'Nam' , '2020-12-21', 'BP04', 12;
+EXEC THEMNV N'Susan Hill', '1988-10-16', N'Nữ' , '2020-10-14', 'BP09', 1;
+EXEC THEMNV N'Robert Jackson', '1966-06-01', N'Nữ' , '2022-05-07', 'BP06', 2;
+EXEC THEMNV N'Zachary Myers', '1991-01-18', N'Nam' , '2024-03-17', 'BP01', 8;
+EXEC THEMNV N'Wesley Morrison', '1996-06-26', N'Nữ' , '2021-08-10', 'BP08', 6;
+EXEC THEMNV N'Johnny Webb', '1964-03-17', N'Nữ' , '2023-06-27', 'BP10', 5;
+EXEC THEMNV N'Jason King', '2002-11-19', N'Nam' , '2020-02-28', 'BP08', 14;
+EXEC THEMNV N'Edward James', '1983-05-06', N'Nữ' , '2024-07-15', 'BP09', 10;
+EXEC THEMNV N'Carly Fernandez', '1972-09-02', N'Nam' , '2024-08-30', 'BP06', 9;
+EXEC THEMNV N'Jerome Cooper', '1995-02-06', N'Nữ' , '2024-05-04', 'BP01', 4;
+EXEC THEMNV N'Tiffany Garrison', '1976-11-30', N'Nam' , '2024-07-14', 'BP09', 2;
+EXEC THEMNV N'Patrick Bailey', '1999-04-27', N'Nữ' , '2020-08-31', 'BP10', 9;
+EXEC THEMNV N'James Gutierrez', '1998-08-30', N'Nữ' , '2024-11-27', 'BP02', 9;
+EXEC THEMNV N'Julie Bird', '1998-11-29', N'Nam' , '2024-04-25', 'BP01', 6;
+EXEC THEMNV N'Terri Peterson', '1965-03-28', N'Nữ' , '2024-09-10', 'BP04', 15;
+EXEC THEMNV N'Danielle Garcia', '1987-04-01', N'Nữ' , '2022-09-28', 'BP06', 7;
+EXEC THEMNV N'James Parks', '1994-02-21', N'Nam' , '2024-06-22', 'BP01', 2;
+EXEC THEMNV N'Nancy Peters', '1986-01-31', N'Nam' , '2024-02-24', 'BP09', 7;
+EXEC THEMNV N'Heather Webb', '1968-10-05', N'Nữ' , '2021-07-15', 'BP06', 15;
+EXEC THEMNV N'Savannah Nelson', '2001-02-25', N'Nam' , '2021-03-09', 'BP07', 7;
+EXEC THEMNV N'Christine Ware', '1972-11-16', N'Nam' , '2020-07-12', 'BP07', 3;
+EXEC THEMNV N'Jason Thompson', '1984-01-25', N'Nam' , '2024-05-22', 'BP05', 8;
+EXEC THEMNV N'Michelle Hoffman', '1992-07-25', N'Nam' , '2023-09-17', 'BP10', 1;
+EXEC THEMNV N'Brittany Rodriguez', '1990-03-22', N'Nữ' , '2022-06-09', 'BP07', 6;
+EXEC THEMNV N'Shannon Meyer', '1979-08-18', N'Nam' , '2020-10-02', 'BP10', 7;
+EXEC THEMNV N'Lisa Melton', '1965-11-17', N'Nữ' , '2022-03-16', 'BP08', 5;
+EXEC THEMNV N'Angela Castaneda MD', '1985-05-05', N'Nữ' , '2023-05-23', 'BP08', 1;
+EXEC THEMNV N'Angelica Evans', '1970-05-20', N'Nữ' , '2024-06-08', 'BP05', 3;
+EXEC THEMNV N'Debra Adams', '1991-02-17', N'Nữ' , '2021-04-02', 'BP09', 14;
+EXEC THEMNV N'Ronald Gates', '1997-05-13', N'Nữ' , '2023-11-05', 'BP04', 13;
+EXEC THEMNV N'Olivia Wagner', '1979-03-01', N'Nữ' , '2020-09-07', 'BP10', 8;
+EXEC THEMNV N'Mary Costa', '1991-12-08', N'Nữ' , '2023-04-09', 'BP07', 8;
+EXEC THEMNV N'Amanda Brown', '1965-10-29', N'Nam' , '2022-09-24', 'BP03', 4;
+EXEC THEMNV N'Andrew Morris', '1969-06-13', N'Nam' , '2021-05-31', 'BP08', 6;
+EXEC THEMNV N'Jill Mcmahon', '1991-08-04', N'Nam' , '2020-03-30', 'BP06', 10;
+EXEC THEMNV N'Thomas Hernandez', '2001-01-14', N'Nam' , '2023-01-29', 'BP05', 12;
+EXEC THEMNV N'Claudia Griffin', '1991-05-15', N'Nam' , '2023-06-09', 'BP06', 13;
+EXEC THEMNV N'Nicole Foster', '1977-03-17', N'Nam' , '2022-05-20', 'BP08', 11;
+EXEC THEMNV N'Emily Miller', '1971-09-19', N'Nam' , '2022-09-27', 'BP03', 13;
+EXEC THEMNV N'Jeffery Woodard', '1964-12-02', N'Nữ' , '2024-09-28', 'BP10', 5;
+EXEC THEMNV N'Crystal Reed', '1967-09-11', N'Nam' , '2022-11-26', 'BP01', 5;
+EXEC THEMNV N'Patricia Massey', '2001-05-04', N'Nữ' , '2020-05-18', 'BP08', 12;
+EXEC THEMNV N'Patrick Wilson', '1967-09-28', N'Nữ' , '2023-11-25', 'BP03', 2;
+EXEC THEMNV N'Dr. Donald Kim', '1965-08-14', N'Nam' , '2023-10-06', 'BP03', 5;
+EXEC THEMNV N'Donald Lewis', '1998-12-17', N'Nữ' , '2023-03-11', 'BP07', 4;
+EXEC THEMNV N'Yesenia Avila', '1965-11-28', N'Nam' , '2020-04-27', 'BP09', 3;
+EXEC THEMNV N'Nicholas Torres', '1983-06-01', N'Nữ' , '2024-11-07', 'BP09', 12;
+EXEC THEMNV N'Brittany Gould', '1993-03-12', N'Nữ' , '2024-01-01', 'BP05', 5;
+EXEC THEMNV N'Stefanie Cobb', '1993-12-19', N'Nữ' , '2021-07-26', 'BP08', 14;
+EXEC THEMNV N'Regina Holden', '1987-07-04', N'Nam' , '2021-09-04', 'BP02', 8;
+EXEC THEMNV N'Kimberly Marsh', '1981-01-11', N'Nữ' , '2020-01-19', 'BP04', 8;
+EXEC THEMNV N'Tracy Prince', '1994-07-14', N'Nữ' , '2022-12-20', 'BP07', 12;
+EXEC THEMNV N'Matthew Fernandez', '1964-05-29', N'Nam' , '2022-01-11', 'BP09', 14;
+EXEC THEMNV N'Robert Cox', '1967-08-14', N'Nữ' , '2022-02-25', 'BP09', 6;
+EXEC THEMNV N'Jeremy Kelly', '1995-11-23', N'Nam' , '2021-11-06', 'BP08', 1;
+EXEC THEMNV N'Laura Holt', '1971-08-31', N'Nam' , '2022-03-06', 'BP05', 10;
+EXEC THEMNV N'Paul Mitchell', '1988-10-21', N'Nữ' , '2020-09-19', 'BP03', 12;
+EXEC THEMNV N'Michael Rodriguez', '1977-05-05', N'Nữ' , '2020-12-01', 'BP08', 5;
+EXEC THEMNV N'David Norris', '1970-09-30', N'Nam' , '2022-02-01', 'BP05', 8;
+EXEC THEMNV N'Debra Austin', '1968-07-06', N'Nam' , '2020-10-03', 'BP10', 6;
+EXEC THEMNV N'Isaac Knight', '1974-04-18', N'Nữ' , '2024-01-24', 'BP03', 2;
+EXEC THEMNV N'Megan Johnson', '1996-06-21', N'Nam' , '2024-03-03', 'BP05', 10;
+EXEC THEMNV N'Crystal Cervantes', '1999-04-05', N'Nam' , '2023-10-29', 'BP09', 9;
+EXEC THEMNV N'Daniel Wu', '1971-08-11', N'Nữ' , '2020-12-20', 'BP10', 9;
+EXEC THEMNV N'Susan Flores', '1991-05-06', N'Nữ' , '2021-02-11', 'BP04', 2;
+EXEC THEMNV N'Jason Edwards DVM', '1974-11-11', N'Nữ' , '2023-05-31', 'BP03', 7;
+EXEC THEMNV N'Mark Jones', '1987-05-11', N'Nữ' , '2021-07-07', 'BP04', 7;
+EXEC THEMNV N'Marisa Williams', '2000-02-08', N'Nam' , '2021-09-02', 'BP07', 13;
+EXEC THEMNV N'Danielle Chavez', '1975-01-09', N'Nam' , '2021-06-29', 'BP03', 3;
+EXEC THEMNV N'Janet Lee', '1968-04-20', N'Nữ' , '2023-06-10', 'BP07', 1;
+EXEC THEMNV N'Brittany Jones', '1975-01-03', N'Nam' , '2024-11-05', 'BP01', 15;
+EXEC THEMNV N'Michael Anderson', '1985-05-18', N'Nữ' , '2022-10-10', 'BP07', 3;
+EXEC THEMNV N'Christopher Hall', '1967-06-20', N'Nam' , '2022-02-05', 'BP07', 9;
+EXEC THEMNV N'Timothy Brock', '1981-10-20', N'Nam' , '2024-05-08', 'BP10', 6;
+EXEC THEMNV N'Kayla White', '2002-02-26', N'Nam' , '2024-04-30', 'BP07', 9;
+EXEC THEMNV N'Rachel Benjamin', '1970-02-06', N'Nữ' , '2022-04-12', 'BP06', 10;
+EXEC THEMNV N'Michael Perez', '1992-01-17', N'Nữ' , '2021-02-04', 'BP10', 11;
+EXEC THEMNV N'Laurie Mendez', '1964-12-04', N'Nữ' , '2023-05-06', 'BP06', 11;
+EXEC THEMNV N'Helen Mendoza', '1971-08-11', N'Nữ' , '2022-01-17', 'BP02', 15;
+EXEC THEMNV N'Robert Barrett', '1971-02-25', N'Nữ' , '2023-09-02', 'BP03', 11;
+EXEC THEMNV N'Steven Phillips', '1997-06-07', N'Nam' , '2021-07-05', 'BP01', 3;
+EXEC THEMNV N'Tiffany Henderson', '1972-10-05', N'Nữ' , '2023-04-27', 'BP01', 14;
+EXEC THEMNV N'Jacqueline Henderson', '1984-11-21', N'Nữ' , '2021-12-29', 'BP08', 15;
+EXEC THEMNV N'Destiny Perez', '1992-08-30', N'Nữ' , '2023-08-20', 'BP03', 4;
+EXEC THEMNV N'Kathryn Robinson', '1986-11-27', N'Nam' , '2022-05-05', 'BP02', 13;
+EXEC THEMNV N'Michael James', '1984-09-04', N'Nam' , '2024-10-13', 'BP08', 1;
+EXEC THEMNV N'Crystal Sandoval', '2000-09-23', N'Nữ' , '2022-07-14', 'BP04', 2;
+EXEC THEMNV N'Shawn Henry', '1994-07-12', N'Nữ' , '2020-11-18', 'BP01', 8;
+EXEC THEMNV N'Ronald Peters', '1983-10-12', N'Nam' , '2024-02-18', 'BP10', 7;
+EXEC THEMNV N'Diane Sweeney', '1968-07-03', N'Nữ' , '2020-10-22', 'BP10', 4;
+EXEC THEMNV N'Kelly Stanley', '1977-06-10', N'Nam' , '2023-09-27', 'BP04', 15;
+EXEC THEMNV N'Amber Green', '1980-01-09', N'Nam' , '2021-07-18', 'BP06', 2;
+EXEC THEMNV N'Shane Garcia', '1965-04-13', N'Nữ' , '2024-04-25', 'BP08', 3;
+EXEC THEMNV N'Emily Swanson', '1970-05-15', N'Nữ' , '2024-01-25', 'BP04', 13;
+EXEC THEMNV N'Brian Johnson', '1978-07-16', N'Nam' , '2022-05-23', 'BP04', 1;
+EXEC THEMNV N'Frances Perez', '1972-03-07', N'Nữ' , '2020-12-23', 'BP04', 5;
+EXEC THEMNV N'John Cunningham', '1975-08-18', N'Nữ' , '2024-05-24', 'BP01', 6;
+EXEC THEMNV N'Benjamin Nelson', '1964-11-16', N'Nữ' , '2021-10-19', 'BP02', 10;
+EXEC THEMNV N'Sarah Gonzales', '1987-12-07', N'Nữ' , '2022-10-15', 'BP05', 15;
+EXEC THEMNV N'Michael Spencer', '1970-04-27', N'Nữ' , '2023-07-07', 'BP03', 9;
+EXEC THEMNV N'Cynthia Rocha', '1983-12-21', N'Nữ' , '2021-12-07', 'BP01', 12;
+EXEC THEMNV N'Christine Hanson MD', '1994-09-07', N'Nữ' , '2021-08-13', 'BP08', 15;
+EXEC THEMNV N'Alexander White', '1974-09-12', N'Nam' , '2020-09-20', 'BP08', 12;
+EXEC THEMNV N'Sharon Brooks DDS', '1992-10-04', N'Nữ' , '2022-04-13', 'BP01', 14;
+EXEC THEMNV N'Thomas Daniels', '1964-12-30', N'Nữ' , '2020-07-10', 'BP08', 6;
+EXEC THEMNV N'Mr. Jacob Coleman Jr.', '1991-12-18', N'Nữ' , '2022-01-29', 'BP04', 15;
+EXEC THEMNV N'Julie Jenkins', '1985-11-02', N'Nam' , '2021-12-16', 'BP09', 9;
+EXEC THEMNV N'Dominique Carter', '1987-11-14', N'Nam' , '2024-05-24', 'BP04', 12;
+EXEC THEMNV N'Shannon Brown', '1971-04-23', N'Nữ' , '2021-09-09', 'BP01', 8;
+EXEC THEMNV N'Jessica Velasquez', '1964-09-21', N'Nữ' , '2020-05-28', 'BP06', 11;
+EXEC THEMNV N'Jennifer Clark', '1973-02-20', N'Nam' , '2022-06-26', 'BP06', 5;
+EXEC THEMNV N'Dawn Baird', '1975-04-18', N'Nữ' , '2023-08-02', 'BP08', 13;
+EXEC THEMNV N'Paul Morgan', '1995-09-07', N'Nữ' , '2021-08-01', 'BP04', 14;
+EXEC THEMNV N'Christopher Hall', '1982-03-23', N'Nữ' , '2020-06-28', 'BP01', 14;
+EXEC THEMNV N'Stanley Newman', '1989-04-05', N'Nam' , '2024-06-01', 'BP05', 7;
+EXEC THEMNV N'James Wang', '1996-07-26', N'Nam' , '2021-03-23', 'BP08', 13;
+EXEC THEMNV N'Bryce Frederick', '1974-09-14', N'Nam' , '2020-09-23', 'BP03', 15;
+EXEC THEMNV N'Julie Patterson', '2000-06-26', N'Nữ' , '2022-06-29', 'BP02', 14;
+EXEC THEMNV N'Frank Boyd', '1979-12-17', N'Nam' , '2023-12-16', 'BP10', 11;
+EXEC THEMNV N'Sheila Whitaker', '1972-10-04', N'Nam' , '2023-01-21', 'BP07', 9;
+EXEC THEMNV N'Adam Kemp', '1983-11-14', N'Nam' , '2021-12-24', 'BP08', 12;
+EXEC THEMNV N'Ricky Robertson', '1998-08-22', N'Nam' , '2020-08-11', 'BP10', 14;
+EXEC THEMNV N'Christopher Romero', '1977-10-01', N'Nam' , '2021-05-13', 'BP10', 1;
+EXEC THEMNV N'Tracey Allen', '1987-01-26', N'Nam' , '2021-04-29', 'BP07', 4;
+EXEC THEMNV N'Gail Chapman', '1979-06-09', N'Nữ' , '2021-11-13', 'BP05', 5;
+EXEC THEMNV N'Jacob Anderson', '2001-07-03', N'Nữ' , '2020-01-22', 'BP08', 3;
+EXEC THEMNV N'Michelle Compton', '1983-05-16', N'Nam' , '2022-05-30', 'BP02', 4;
+EXEC THEMNV N'Ashley May', '1979-11-28', N'Nữ' , '2022-10-07', 'BP08', 6;
+EXEC THEMNV N'Barbara Williams', '1977-08-01', N'Nam' , '2023-09-06', 'BP09', 4;
+EXEC THEMNV N'Robert Duncan', '1978-01-21', N'Nam' , '2024-10-16', 'BP04', 8;
+EXEC THEMNV N'Trevor Jackson', '1985-07-22', N'Nữ' , '2020-05-05', 'BP04', 8;
+EXEC THEMNV N'Crystal Franco', '1998-07-15', N'Nam' , '2020-07-15', 'BP02', 9;
+EXEC THEMNV N'Kyle Perez', '1998-04-23', N'Nam' , '2024-07-12', 'BP10', 11;
+EXEC THEMNV N'Alexis Duffy', '1968-04-10', N'Nam' , '2021-01-16', 'BP01', 14;
+EXEC THEMNV N'Kristin Pena', '1979-07-25', N'Nam' , '2021-05-22', 'BP10', 6;
+EXEC THEMNV N'Timothy Thomas', '1998-03-16', N'Nữ' , '2023-07-18', 'BP10', 2;
+EXEC THEMNV N'Mrs. Michelle Thornton MD', '1965-10-18', N'Nam' , '2023-03-25', 'BP06', 10;       
+EXEC THEMNV N'Samantha White', '1982-09-22', N'Nữ' , '2022-04-24', 'BP05', 4;
+EXEC THEMNV N'Daniel Stevens', '1982-11-04', N'Nữ' , '2021-01-03', 'BP05', 5;
+EXEC THEMNV N'Matthew Flowers', '1968-11-08', N'Nam' , '2020-01-14', 'BP04', 13;
+EXEC THEMNV N'Michael Leonard', '1986-07-30', N'Nam' , '2023-10-12', 'BP01', 12;
+EXEC THEMNV N'Michael Abbott DDS', '1973-03-04', N'Nam' , '2020-04-18', 'BP03', 9;
+EXEC THEMNV N'Patricia Fowler', '1975-05-13', N'Nữ' , '2020-11-01', 'BP07', 13;
+EXEC THEMNV N'Lisa Jones', '1992-01-25', N'Nữ' , '2024-09-04', 'BP03', 3;
+EXEC THEMNV N'Lynn Hubbard', '1998-10-19', N'Nữ' , '2020-08-25', 'BP06', 5;
+EXEC THEMNV N'Micheal Olson', '1988-11-25', N'Nữ' , '2021-11-11', 'BP04', 11;
+EXEC THEMNV N'Melissa Brown', '1978-07-10', N'Nam' , '2020-07-08', 'BP06', 3;
+EXEC THEMNV N'Keith Sanchez', '1979-10-25', N'Nam' , '2021-11-01', 'BP07', 11;
+EXEC THEMNV N'Shirley Smith', '1976-08-23', N'Nam' , '2024-09-04', 'BP04', 10;
+EXEC THEMNV N'Karen Robinson', '1976-08-15', N'Nữ' , '2022-05-19', 'BP09', 3;
+EXEC THEMNV N'Olivia Rodriguez', '1969-02-02', N'Nữ' , '2021-10-20', 'BP09', 12;
+EXEC THEMNV N'Megan Henry', '1994-08-07', N'Nữ' , '2020-02-13', 'BP10', 11;
+EXEC THEMNV N'Brandon Torres', '1981-04-21', N'Nam' , '2024-11-18', 'BP03', 7;
+EXEC THEMNV N'Benjamin Murray', '1996-07-04', N'Nam' , '2021-11-02', 'BP04', 7;
+EXEC THEMNV N'Susan Faulkner', '1976-05-26', N'Nữ' , '2020-12-14', 'BP03', 1;
+EXEC THEMNV N'Amanda Scott', '1993-03-31', N'Nữ' , '2021-02-20', 'BP06', 9;
+EXEC THEMNV N'Amanda Li', '1997-02-06', N'Nữ' , '2021-03-27', 'BP01', 3;
+EXEC THEMNV N'Misty Campos', '1974-01-06', N'Nữ' , '2020-06-19', 'BP02', 2;
+EXEC THEMNV N'Elizabeth Rogers', '1970-10-19', N'Nam' , '2020-01-14', 'BP07', 13;
+EXEC THEMNV N'Erica Evans', '1988-12-01', N'Nam' , '2021-12-04', 'BP06', 9;
+EXEC THEMNV N'Shannon Sanchez', '1973-10-23', N'Nam' , '2023-02-12', 'BP02', 8;
+EXEC THEMNV N'Richard Eaton', '1974-12-18', N'Nữ' , '2021-11-02', 'BP02', 12;
+EXEC THEMNV N'Albert Vaughn', '1974-11-23', N'Nam' , '2021-03-06', 'BP10', 10;
+EXEC THEMNV N'John Hodge', '1983-10-26', N'Nam' , '2023-05-16', 'BP09', 7;
+EXEC THEMNV N'Donna Montes', '1986-01-01', N'Nam' , '2022-02-11', 'BP03', 4;
+EXEC THEMNV N'Kayla Bowers', '1990-02-14', N'Nam' , '2024-03-03', 'BP05', 10;
+EXEC THEMNV N'Aaron Watts', '2001-08-05', N'Nam' , '2020-06-13', 'BP08', 14;
+EXEC THEMNV N'John Munoz', '1985-08-04', N'Nam' , '2021-05-17', 'BP08', 12;
+EXEC THEMNV N'Barry Pratt', '1975-08-02', N'Nam' , '2020-05-23', 'BP10', 1;
+EXEC THEMNV N'Alicia Becker', '1989-02-19', N'Nam' , '2022-10-04', 'BP01', 1;
+EXEC THEMNV N'Lucas Gray', '1997-06-14', N'Nam' , '2023-02-06', 'BP07', 11;
+EXEC THEMNV N'Jonathan Ochoa', '1985-02-12', N'Nữ' , '2021-08-31', 'BP05', 8;
+EXEC THEMNV N'Adam Russell', '1993-12-02', N'Nữ' , '2024-03-16', 'BP02', 11;
+EXEC THEMNV N'Amanda Hernandez', '2000-09-15', N'Nữ' , '2021-02-03', 'BP07', 10;
+EXEC THEMNV N'Brandon Anderson', '1974-06-23', N'Nữ' , '2024-04-11', 'BP08', 15;
+EXEC THEMNV N'Marissa Evans', '2002-09-29', N'Nam' , '2021-12-10', 'BP09', 1;
+EXEC THEMNV N'Bill Fowler', '1980-12-31', N'Nữ' , '2021-10-22', 'BP10', 13;
+EXEC THEMNV N'Mrs. Margaret Walters', '2002-05-21', N'Nữ' , '2020-05-18', 'BP02', 13;
+EXEC THEMNV N'Paul Frazier', '1965-03-29', N'Nữ' , '2021-02-07', 'BP04', 6;
+EXEC THEMNV N'Mr. Steven Faulkner', '1983-11-27', N'Nữ' , '2021-06-30', 'BP06', 5;
+EXEC THEMNV N'Danny Murphy', '1976-02-02', N'Nữ' , '2020-03-31', 'BP03', 8;
+EXEC THEMNV N'Elizabeth Lane', '1986-08-24', N'Nam' , '2023-10-03', 'BP07', 2;
+EXEC THEMNV N'Edward Daniels', '1975-12-30', N'Nam' , '2022-04-04', 'BP05', 11;
+EXEC THEMNV N'Jonathan Martin', '1970-04-12', N'Nữ' , '2021-04-14', 'BP06', 7;
+EXEC THEMNV N'George Brown', '1971-02-14', N'Nữ' , '2024-11-11', 'BP10', 2;
+EXEC THEMNV N'Ronald Mcintyre', '1999-03-03', N'Nữ' , '2022-10-04', 'BP09', 6;
 
+-- =======================
+-- Thêm nhân viên quản lý vào bảng chi nhánh
+-- =======================
 	
-	
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0004'
+WHERE MaChiNhanh = 1
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0213'
+WHERE MaChiNhanh = 2
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0342'
+WHERE MaChiNhanh = 3
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0280'
+WHERE MaChiNhanh = 4
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0439'
+WHERE MaChiNhanh = 5
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0088'
+WHERE MaChiNhanh = 6
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0107'
+WHERE MaChiNhanh = 7
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0222'
+WHERE MaChiNhanh = 8
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0072'
+WHERE MaChiNhanh = 9
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0141'
+WHERE MaChiNhanh = 10
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0042'
+WHERE MaChiNhanh = 11
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0035'
+WHERE MaChiNhanh = 12
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0254'
+WHERE MaChiNhanh = 13
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0166'
+WHERE MaChiNhanh = 14
+
+UPDATE ChiNhanh
+SET NhanVienQuanLy = 'NV0061'
+WHERE MaChiNhanh = 15
 
 
-	--THÊM NHÂN VIÊN QUẢN LÝ VÀO CHI NHÁNH
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0081'
-	WHERE MaChiNhanh = 1
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0499'
-	WHERE MaChiNhanh = 2
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0342'
-	WHERE MaChiNhanh = 3
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0083'
-	WHERE MaChiNhanh = 4
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0044'
-	WHERE MaChiNhanh = 5
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0442'
-	WHERE MaChiNhanh = 6
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0113'
-	WHERE MaChiNhanh = 7
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0222'
-	WHERE MaChiNhanh = 8
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0196'
-	WHERE MaChiNhanh = 9
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0370'
-	WHERE MaChiNhanh = 10
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0095'
-	WHERE MaChiNhanh = 11
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0138'
-	WHERE MaChiNhanh = 12
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0194'
-	WHERE MaChiNhanh = 13
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0203'
-	WHERE MaChiNhanh = 14
-
-	UPDATE ChiNhanh
-	SET NhanVienQuanLy = 'NV0303'
-	WHERE MaChiNhanh = 15
-
-
-
-
+-- =======================
+-- Thêm dữ liệu vào bảng Ban
+-- =======================
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (1, 1, 0, 9);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (2, 1, 0, 14);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (3, 1, 0, 9);
@@ -1407,10 +1406,6 @@ INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (37, 15, 0, 2);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (38, 15, 0, 13);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (39, 15, 0, 15);
 INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (40, 15, 0, 12);
-
-
-	
-
 
 	
 
