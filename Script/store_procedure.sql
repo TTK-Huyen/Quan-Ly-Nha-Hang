@@ -1058,12 +1058,7 @@ use qlnhahang
 go
 --SP THÊM THÔNG TIN THẺ KHÁCH HÀNG 
 CREATE PROC THEMTHEKH
-<<<<<<< HEAD
-	(@MAKHACHHANG BIGINT, 
-	@NHANVIENLAP CHAR(6))
-=======
 	@SODIENTHOAI char(10), @NHANVIENLAP CHAR(6) 
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
 AS
 BEGIN
 	--Kiểm tra mã khách hàng có tồn tại không
@@ -1102,9 +1097,9 @@ GO
 
 
 CREATE PROCEDURE CAPNHAT_THEKHACHHANG
-<<<<<<< HEAD
+
 	(@MASOTHE CHAR(12), 
-	@MAKHACHHANG BIGINT, 
+	@SODIENTHOAI char(10), 
 	@NGAYLAP DATE, 
 	@NHANVIENLAP CHAR(6), 
 	@TRANGTHAITHE BIT , 
@@ -1112,9 +1107,7 @@ CREATE PROCEDURE CAPNHAT_THEKHACHHANG
 	@DIEMTICHLUY INT, 
 	@NGAYDATTHE DATE, 
 	@LOAITHE NVARCHAR(20))
-=======
-	@MASOTHE CHAR(12), @SODIENTHOAI char(10), @NGAYLAP DATE, @NHANVIENLAP CHAR(6), @TRANGTHAITHE BIT , @DIEMHIENTAI INT, @DIEMTICHLUY INT, @NGAYDATTHE DATE, @LOAITHE NVARCHAR(20)
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
+
 AS
 BEGIN
 	--Kiểm tra mã số thẻ khách hàng có tồn tại không
@@ -1245,9 +1238,8 @@ END;
 
 --3. QUẢN LÝ THÔNG TIN CÁ NHÂN
 ----NOTE THÊM CHỈNH SỬA SOCCCD
-CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN 
-		(@MaKhachHang BIGINT, 
-		@SoDienThoai CHAR(10),
+CREATE PROCEDURE SP_CAPNHAT_THONGTINCANHAN  
+		(@SoDienThoai CHAR(10),
 		@Email VARCHAR(255), 
 		@GioiTinh NVARCHAR(4))
 AS
@@ -1262,7 +1254,7 @@ BEGIN
 	SET SoDienThoai = COALESCE(@SoDienThoai, SoDienThoai),
 		Email = COALESCE(@Email, Email),
 		GioiTinh = COALESCE (@GioiTinh, GioiTinh)
-	WHERE MaKhachHang = @MaKhachHang;
+	WHERE SoDienThoai = @SoDienThoai;
 END;
 GO
 --4. ĐẶT BÀN TRỰC TUYẾN -- khi khách hàng đến, nhân viên sẽ kiểm tra các phiếu đặt món của khách hàng mà chưa có hóa đơn
@@ -1270,17 +1262,11 @@ GO
 
 
 CREATE PROCEDURE SP_DATBAN_TRUCTUYEN
-<<<<<<< HEAD
-   (@MaKhachHang BIGINT, 
+   (@SoDienThoai char(10), 
 	@MaChiNhanh TINYINT, 
 	@SoLuongKhach TINYINT,
 	@GioDen DATETIME, 
 	@GhiChu NVARCHAR(255))
-=======
-	@SoDienThoai char(10),@MaChiNhanh TINYINT, @SoLuongKhach TINYINT,
-	@GioDen DATETIME, @GhiChu NVARCHAR(255)
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
-
 AS
 BEGIN
 	IF NOT EXISTS (SELECT 1 FROM KhachHang WHERE SoDienThoai = @SoDienThoai)
@@ -1401,11 +1387,7 @@ END;
 GO
 --8. THEO DÕI LỊCH SỬ ĐẶT BÀN
 CREATE PROCEDURE SP_LICHSU_DATBAN
-<<<<<<< HEAD
-	(@MaKhachHang BIGINT)
-=======
 	@SoDienThoai char(10)
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
 AS
 BEGIN
 	SELECT MaDatTruoc, SoDienThoai, SoLuongKhach, GioDen, GhiChu
@@ -1416,11 +1398,7 @@ GO
 --9. THEO DÕI LỊCH SỬ ĐẶT MÓN
 
 CREATE PROCEDURE SP_LICHSU_DATMON
-<<<<<<< HEAD
-	(@MaKhachHang BIGINT)
-=======
 	@SoDienThoai char(10)
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
 AS
 BEGIN 
 	SELECT PD.MaPhieu, CTP.MaMon, CTP.SoLuong
@@ -1433,11 +1411,7 @@ GO
 
 --10. XEM THÔNG TIN THẺ THÀNH VIÊN
 CREATE PROCEDURE SP_XEMTHONGTIN_THETHANHVIEN
-<<<<<<< HEAD
     (@MaKhachHang BIGINT)
-=======
-   @SoDienThoai char(10)
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
 AS
 BEGIN
     SELECT LoaiThe, DiemHienTai, DiemTichLuy
