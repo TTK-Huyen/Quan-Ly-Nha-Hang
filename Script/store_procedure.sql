@@ -342,7 +342,7 @@ GO
     @SoLuongKhach TINYINT,
     @GioDen DATETIME,
     @GhiChu NVARCHAR(255),
-    @NhanVienLap CHAR(6) = NULL -- Cho phép NULL
+    @NhanVienLap CHAR(6) = NULL-- Cho phép NULL
 AS
 BEGIN
     BEGIN TRANSACTION;
@@ -611,6 +611,7 @@ BEGIN
     PRINT N'Cảm ơn quý khách đã sử dụng dịch vụ. Hẹn gặp lại!'
 END;
 GO
+
 
 --SP XEM THÔNG TIN NHÂN VIÊN CHÍNH MÌNH -- LIÊN QUAN ĐẾN PHÂN QUYỀN
 
@@ -1181,7 +1182,7 @@ BEGIN
 	SET SoDienThoai = COALESCE(@SoDienThoai, SoDienThoai),
 		Email = COALESCE(@Email, Email),
 		GioiTinh = COALESCE (@GioiTinh, GioiTinh)
-	WHERE MaKhachHang = @MaKhachHang;
+	WHERE SoDienThoai = @SoDienThoai;
 END;
 GO
 --4. ĐẶT BÀN TRỰC TUYẾN -- khi khách hàng đến, nhân viên sẽ kiểm tra các phiếu đặt món của khách hàng mà chưa có hóa đơn
@@ -1402,10 +1403,10 @@ END;
 GO
 
 CREATE OR ALTER PROCEDURE SP_THONGKEDOANHTHU_MONAN
-    @NGAYBATDAU DATE,       -- Ngày bắt đầu thống kê
+    (@NGAYBATDAU DATE,       -- Ngày bắt đầu thống kê
     @NGAYKETHUC DATE,       -- Ngày kết thúc thống kê
     @MACHINHANH TINYINT,    -- Mã chi nhánh cần thống kê
-    @MAKHUVUC TINYINT       -- Mã khu vực cần thống kê
+    @MAKHUVUC TINYINT)      -- Mã khu vực cần thống kê
 AS
 BEGIN
     -- Kiểm tra logic: Ngày bắt đầu phải nhỏ hơn ngày kết thúc
