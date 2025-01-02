@@ -6,7 +6,7 @@
 		EXEC SP_THONGKEDOANHTHU_MONAN  '2023-01-01','2023-12-31', '12', '2';--CHUA CHAJY DUOC 
 		
 	--2. In hóa đơn khi khách hàng yêu cầu -- Huyền
-		EXEC INHOADON 2
+		EXEC INHOADON '2'
 
 	--3. XOA THE KHASCH HÀNG KHI KHÁCH HÀNG BÁO MẤT THẺ -- Huyền
 		EXEC XOATHEKH '123456000001', 'Pham Thi Phuc', '0982712434'
