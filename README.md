@@ -10,76 +10,18 @@ Cơ sở dữ liệu QLNHAHANG được thiết kế để hỗ trợ hệ thố
 2. Thứ tự thêm dữ liệu vào các bảng
 Mở SQL và chạy file createdb.sql, store_procedures.sql, store_trigger.sql
 
-Để tránh xung đột khoá ngoại (Foreign Key), vui lòng thêm dữ liệu theo thứ tự sau:
+1. Chạy file ADD_DATA.sql trong folder Data
 
-1. KhuVuc_ThucDon
+2. Chạy file KhachHang.sql, TheKhachHang.sql
 
-Thông tin khu vực thực đơn.
+3. PhieuDatMon
 
-MucThucDon
+4. DatTruoc
 
-Danh mục thực đơn.
+5. ChiTietPhieu
 
-Mon
+6. EXEC_HoaDon
 
-Danh sách các món ăn.
+7. DanhGia
 
-ThucDon_Mon
 
-Quan hệ giữa thực đơn và món ăn.
-
-BoPhan
-
-Danh sách bộ phận trong nhà hàng.
-
-NhanVien
-
-Thông tin nhân viên, liên kết với BoPhan.
-
-ChiNhanh
-
-Thông tin các chi nhánh, liên kết với NhanVien (Quản lý chi nhánh).
-
-LichSuLamViec
-
-Lịch sử làm việc của nhân viên.
-
-Ban
-
-Thông tin bàn ăn, liên kết với ChiNhanh.
-
-KhachHang
-
-Thông tin khách hàng.
-
-TheKhachHang
-
-Thẻ khách hàng, liên kết với KhachHang.
-
-PhieuDatMon
-
-Phiếu đặt món ăn, liên kết với KhachHang, Ban, và NhanVien.
-
-ChiTietPhieu
-
-Chi tiết phiếu đặt món, liên kết với PhieuDatMon và Mon.
-
-DanhGia
-
-Đánh giá món ăn, liên kết với KhachHang và Mon.
-
-HoaDon
-
-Hóa đơn thanh toán, liên kết với PhieuDatMon và NhanVien.
-
-DatTruoc
-
-Đặt trước bàn ăn, liên kết với KhachHang và Ban.
-
-ThongTinTruyCap
-
-Thông tin truy cập hệ thống.
-
-Users
-
-Thông tin người dùng hệ thống.
