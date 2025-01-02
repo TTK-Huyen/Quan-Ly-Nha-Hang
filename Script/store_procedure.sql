@@ -603,14 +603,10 @@ BEGIN
 END;
 GO
 
-<<<<<<< HEAD
-CREATE PROC INHOADON
-		(@MaPhieu BIGINT)
-=======
 
 CREATE PROC INHOADON
-    @MaPhieu BIGINT
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
+		(@MaPhieu BIGINT)
+
 AS
 BEGIN
     -- Kiểm tra mã phiếu
@@ -658,10 +654,7 @@ BEGIN
 END;
 GO
 
-<<<<<<< HEAD
 
-=======
->>>>>>> e6e0378f5c388d9a4938c1dc827cd5d26ccb8cf2
 --SP XEM THÔNG TIN NHÂN VIÊN CHÍNH MÌNH -- LIÊN QUAN ĐẾN PHÂN QUYỀN
 
 
@@ -1411,7 +1404,7 @@ GO
 
 --10. XEM THÔNG TIN THẺ THÀNH VIÊN
 CREATE PROCEDURE SP_XEMTHONGTIN_THETHANHVIEN
-    (@MaKhachHang BIGINT)
+    (@SoDienThoai BIGINT)
 AS
 BEGIN
     SELECT LoaiThe, DiemHienTai, DiemTichLuy
