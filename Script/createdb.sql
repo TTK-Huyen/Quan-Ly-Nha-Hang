@@ -9,7 +9,7 @@ GO
 USE QLNHAHANG
 GO
 
-select * from users
+
 CREATE TABLE ChiNhanh
 (
 	MaChiNhanh TINYINT IDENTITY(1,1),
@@ -153,7 +153,7 @@ CREATE TABLE ChiTietPhieu (
     GhiChu NVARCHAR(200), -- Ghi chú bổ sung.
     PRIMARY KEY (MaPhieu, MaMon), -- Kết hợp 2 cột làm khóa chính.
 );
-SELECT * FROM PhieuDatMon
+
 CREATE TABLE DanhGia (
     MaPhieu INT PRIMARY KEY, -- Khóa chính và liên kết từ `PhieuDatMon`.
     DiemPhucVu TINYINT NOT NULL CHECK (DiemPhucVu BETWEEN 1 AND 5), -- Điểm đánh giá (1-5).

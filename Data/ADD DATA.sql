@@ -1,6 +1,203 @@
 
 	USE QLNHAHANG;
 	
+	-- =======================
+	-- Thêm dữ liệu vào bảng KhuVuc
+	-- =======================
+	
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon) VALUES (N'Hồ Chí Minh',N'Thực đơn khu vực 1');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hà Nội',N'Thực đơn khu vực 2');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Đà Nẵng',N'Thực đơn khu vực 3');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hải Phòng',N'Thực đơn khu vực 4');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Cần Thơ',N'Thực đơn khu vực 5');
+	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Vũng Tàu',N'Thực đơn khu vực 6');
+
+	-- =======================
+	-- Thêm dữ liệu vào bảng MucThucDon
+	-- =======================
+
+	INSERT INTO MucThucDon (TenMuc) VALUES (N'Khai Vị');
+	INSERT INTO MucThucDon (TenMuc) VALUES ('Sashimi Combo');
+	INSERT INTO MucThucDon (TenMuc) VALUES ('Nigiri');
+	INSERT INTO MucThucDon (TenMuc) VALUES ('Tempura');
+	INSERT INTO MucThucDon (TenMuc) VALUES ('Udon');
+	INSERT INTO MucThucDon (TenMuc) VALUES ('Hotpot');
+	INSERT INTO MucThucDon (TenMuc) VALUES ('Lunch Set');
+	INSERT INTO MucThucDon (TenMuc) VALUES (N'Món Nước');
+
+	-- =======================
+	-- Thêm dữ liệu vào bảng Mon
+	-- =======================
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (1, N'Trứng hấp', 273929, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp miso', 65538, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp chay', 157860, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Trứng cá hồi', 226364, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Salad rong biển', 70572, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Edamame (đậu nành luộc)', 125203, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi tổng hợp', 282189, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá hồi đặc biệt', 160193, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá ngừ', 51196, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi sò điệp', 104902, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi bạch tuộc', 144896, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá ngừ', 122333, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá hồi', 134011, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri lườn cá hồi nướng sốt', 258341, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri trứng tôm', 197801, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri bạch tuộc', 67726, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá chình Nhật', 101545, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura tôm', 294657, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura rau củ tổng hợp', 258563, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura cá', 218529, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon nóng', 103737, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon lạnh', 168482, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon hải sản', 244150, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Shabu-shabu', 191337, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu sukiyaki', 132277, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu hải sản Nhật Bản', 102552, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sushi', 224502, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sashimi', 106976, 1);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set cơm lươn Nhật', 102608, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Trà xanh Nhật', 246012, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép táo', 256113, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép cam', 199634, 0);
+	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Rượu sake Nhật', 109987, 0);
+
+	-- =======================
+	-- Thêm dữ liệu vào bảng ThucDon_Mon
+	-- =======================
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 25);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 13);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 27);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 32);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 30);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 15);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 4);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 21);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 22);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 12);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 31);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 10);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 8);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 3);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 7);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 4);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 27);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 31);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 6);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 22);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 2);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 10);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 33);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 32);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 16);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 24);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 17);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 19);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 9);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 23);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 21);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 3);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 30);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 20);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 25);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 7);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 11);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 8);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 26);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 15);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 22);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 6);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 21);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 33);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 19);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 8);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 18);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 16);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 32);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 9);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 7);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 26);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 12);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 17);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 1);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 29);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 4);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 13);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 5);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 31);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 18);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 23);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 13);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 16);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 26);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 27);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 1);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 3);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 7);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 29);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 6);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 21);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 19);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 28);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 4);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 5);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 17);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 9);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 20);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 25);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 2);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 30);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 22);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 33);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 11);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 15);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 12);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 24);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 10);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 32);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 14);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 33);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 6);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 20);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 8);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 28);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 14);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 3);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 29);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 24);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 9);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 12);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 25);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 6);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 7);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 31);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 1);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 9);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 32);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 19);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 24);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 30);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 18);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 16);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 14);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 5);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 27);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 13);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 11);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 29);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 2);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 20);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 33);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 22);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 17);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 28);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 8);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 26);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 10);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 23);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 3);
+	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 15);
+
 
 	-- =======================
 	-- Thêm dữ liệu vào bảng BoPhan
@@ -18,39 +215,8 @@
 
 
 	-- =======================
-	-- Thêm dữ liệu vào bảng KhuVuc
+	-- Thêm dữ liệu vào bảng NhanVien
 	-- =======================
-	
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon) VALUES (N'Hồ Chí Minh',N'Thực đơn khu vực 1');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hà Nội',N'Thực đơn khu vực 2');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Đà Nẵng',N'Thực đơn khu vực 3');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Hải Phòng',N'Thực đơn khu vực 4');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Cần Thơ',N'Thực đơn khu vực 5');
-	INSERT INTO KhuVuc_ThucDon (TenKhuVuc, TenThucDon)VALUES (N'Vũng Tàu',N'Thực đơn khu vực 6');
-
-	
-
-	-- =======================
-	-- Thêm dữ liệu vào bảng ChiNhanh
-	-- =======================
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 1', N'123 Lê Lợi, Quận 1', '08:00:00', '22:00:00', '0507390754', 1, 0, NULL, 3, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 2', N'456 Nguyễn Trãi, Quận 5', '08:00:00', '22:00:00', '0646740590', 0, 0, NULL, 6, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 3', N'789 Hà Nội, Quận 3', '08:00:00', '22:00:00', '0982027393', 0, 1, NULL, 1, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 4', N'12 Nguyễn Du, Quận 1', '08:00:00', '22:00:00', '0977972265', 1, 1, NULL, 6, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 5', N'56 Lý Thường Kiệt, Quận 10', '08:00:00', '22:00:00', '0814330690', 1, 0, NULL, 4, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 6', N'34 Trần Hưng Đạo, Quận 1', '08:00:00', '22:00:00', '0171756309', 0, 1, NULL, 6, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 7', N'98 Lê Văn Sỹ, Quận 3', '08:00:00', '22:00:00', '0621825994', 1, 0, NULL, 5, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 8', N'2 Nguyễn Thị Minh Khai, Quận 1', '08:00:00', '22:00:00', '0181690805', 0, 1, NULL, 3, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 9', N'101 Cộng Hòa, Tân Bình', '08:00:00', '22:00:00', '0677018293', 1, 1, NULL, 2, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 10', N'150 Phan Xích Long, Phú Nhuận', '08:00:00', '22:00:00', '0669598958', 0, 0, NULL, 1, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 11', N'300 Đường Láng, Quận Đống Đa', '08:00:00', '22:00:00', '0682773362', 0, 1, NULL, 3, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 12', N'450 Phạm Văn Đồng, Cầu Giấy', '08:00:00', '22:00:00', '0988564246', 0, 0, NULL, 2, 1);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 13', N'100 Nguyễn Hoàng, Quận Nam Từ Liêm', '08:00:00', '22:00:00', '0426806530', 1, 1, NULL, 6, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 14', N'25 Lê Đức Thọ, Mỹ Đình', '08:00:00', '22:00:00', '0914460242', 1, 0, NULL, 4, 0);
-	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 15', N'1 Đại Cồ Việt, Hai Bà Trưng', '08:00:00', '22:00:00', '0298534272', 0, 1, NULL, 4, 0);
-
-	select * from ChiNhanh
-	--Thêm data bảng nhân viên bằng sp
 	EXEC THEMNV N'Stephen Walsh', '1998-06-02', N'Nam' , '2023-09-09', 'BP02', 8;
 	EXEC THEMNV N'Jimmy Navarro', '1980-11-23', N'Nam' , '2022-05-05', 'BP02', 5;
 	EXEC THEMNV N'Kelsey Oneal', '1996-07-10', N'Nam' , '2021-06-18', 'BP07', 9;
@@ -551,6 +717,30 @@
 	EXEC THEMNV N'Jonathan Martin', '1970-04-12', N'Nữ' , '2021-04-14', 'BP06', 7;
 	EXEC THEMNV N'George Brown', '1971-02-14', N'Nữ' , '2024-11-11', 'BP10', 2;
 	EXEC THEMNV N'Ronald Mcintyre', '1999-03-03', N'Nữ' , '2022-10-04', 'BP09', 6;
+
+	
+
+	-- =======================
+	-- Thêm dữ liệu vào bảng ChiNhanh
+	-- =======================
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 1', N'123 Lê Lợi, Quận 1', '08:00:00', '22:00:00', '0507390754', 1, 0, NULL, 3, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 2', N'456 Nguyễn Trãi, Quận 5', '08:00:00', '22:00:00', '0646740590', 0, 0, NULL, 6, 1);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 3', N'789 Hà Nội, Quận 3', '08:00:00', '22:00:00', '0982027393', 0, 1, NULL, 1, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 4', N'12 Nguyễn Du, Quận 1', '08:00:00', '22:00:00', '0977972265', 1, 1, NULL, 6, 1);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 5', N'56 Lý Thường Kiệt, Quận 10', '08:00:00', '22:00:00', '0814330690', 1, 0, NULL, 4, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 6', N'34 Trần Hưng Đạo, Quận 1', '08:00:00', '22:00:00', '0171756309', 0, 1, NULL, 6, 1);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 7', N'98 Lê Văn Sỹ, Quận 3', '08:00:00', '22:00:00', '0621825994', 1, 0, NULL, 5, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 8', N'2 Nguyễn Thị Minh Khai, Quận 1', '08:00:00', '22:00:00', '0181690805', 0, 1, NULL, 3, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 9', N'101 Cộng Hòa, Tân Bình', '08:00:00', '22:00:00', '0677018293', 1, 1, NULL, 2, 1);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 10', N'150 Phan Xích Long, Phú Nhuận', '08:00:00', '22:00:00', '0669598958', 0, 0, NULL, 1, 1);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 11', N'300 Đường Láng, Quận Đống Đa', '08:00:00', '22:00:00', '0682773362', 0, 1, NULL, 3, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 12', N'450 Phạm Văn Đồng, Cầu Giấy', '08:00:00', '22:00:00', '0988564246', 0, 0, NULL, 2, 1);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 13', N'100 Nguyễn Hoàng, Quận Nam Từ Liêm', '08:00:00', '22:00:00', '0426806530', 1, 1, NULL, 6, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 14', N'25 Lê Đức Thọ, Mỹ Đình', '08:00:00', '22:00:00', '0914460242', 1, 0, NULL, 4, 0);
+	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 15', N'1 Đại Cồ Việt, Hai Bà Trưng', '08:00:00', '22:00:00', '0298534272', 0, 1, NULL, 4, 0);
+
+	
+	
 
 
 	--THÊM NHÂN VIÊN QUẢN LÝ VÀO CHI NHÁNH
@@ -1220,182 +1410,9 @@ INSERT INTO Ban (MaSoBan, MaChiNhanh, TrangThai, SucChua) VALUES (40, 15, 0, 12)
 select * from chinhanh
 
 
-	--Thêm dữ liệu bảng MucThucDon
-	INSERT INTO MucThucDon (TenMuc) VALUES (N'Khai Vị');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Sashimi Combo');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Nigiri');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Tempura');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Udon');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Hotpot');
-	INSERT INTO MucThucDon (TenMuc) VALUES ('Lunch Set');
-	INSERT INTO MucThucDon (TenMuc) VALUES (N'Món Nước');
+	
 
 
-	--Thêm dữ liệu bảng Mon
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES (1, N'Trứng hấp', 273929, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp miso', 65538, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Súp chay', 157860, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Trứng cá hồi', 226364, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Salad rong biển', 70572, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 1, N'Edamame (đậu nành luộc)', 125203, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi tổng hợp', 282189, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá hồi đặc biệt', 160193, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi cá ngừ', 51196, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi sò điệp', 104902, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 2, N'Sashimi bạch tuộc', 144896, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá ngừ', 122333, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá hồi', 134011, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri lườn cá hồi nướng sốt', 258341, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri trứng tôm', 197801, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri bạch tuộc', 67726, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 3, N'Nigiri cá chình Nhật', 101545, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura tôm', 294657, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura rau củ tổng hợp', 258563, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 4, N'Tempura cá', 218529, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon nóng', 103737, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon lạnh', 168482, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 5, N'Udon hải sản', 244150, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Shabu-shabu', 191337, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu sukiyaki', 132277, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 6, N'Lẩu hải sản Nhật Bản', 102552, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sushi', 224502, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set sashimi', 106976, 1);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 7, N'Lunch set cơm lươn Nhật', 102608, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Trà xanh Nhật', 246012, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép táo', 256113, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Nước ép cam', 199634, 0);
-	INSERT INTO Mon (  MaMuc, TenMon, GiaHienTai, GiaoHang) VALUES ( 8, N'Rượu sake Nhật', 109987, 0);
+	
 
-	--Thêm thực đơn món
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 15);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (1, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 2);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 23);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 11);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (2, 15);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 18);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 1);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (3, 5);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 18);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 23);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 1);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 21);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 28);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 4);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 5);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 2);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 11);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 15);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (4, 14);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 28);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 14);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 3);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (5, 12);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 25);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 6);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 7);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 31);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 1);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 9);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 32);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 19);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 24);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 30);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 18);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 16);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 14);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 5);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 27);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 13);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 11);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 29);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 2);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 20);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 33);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 22);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 17);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 28);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 8);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 26);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 10);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 23);
-	INSERT INTO ThucDon_Mon (MaKhuVuc, MaMon) VALUES (6, 3);
-	INSERT INTO ThucDon	_Mon (MaKhuVuc, MaMon) VALUES (6, 15);
+	
