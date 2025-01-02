@@ -438,19 +438,19 @@ app.get('/api/chinhanh', async (req, res) => {
 
 
 app.get('/api/ChiNhanh', async (req, res) => {
-    const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
     try {
+        const { maKhuVuc } = req.query; // Lấy tham số MaKhuVuc
+
         const pool = await sql.connect(config);
-        let query = 'SELECT * FROM ChiNhanh'; // Truy vấn mặc định
+        let query = 'SELECT MaChiNhanh, TenChiNhanh FROM ChiNhanh';
 
         if (maKhuVuc) {
-            // Nếu có MaKhuVuc, thêm điều kiện lọc
             query += ' WHERE MaKhuVuc = @MaKhuVuc';
         }
 
         const request = pool.request();
         if (maKhuVuc) {
-            request.input('MaKhuVuc', sql.TinyInt, maKhuVuc); // Khai báo đúng tên biến
+            request.input('MaKhuVuc', sql.TINYINT, maKhuVuc);
         }
 
         const result = await request.query(query);
@@ -486,15 +486,35 @@ app.get('/api/KhuVuc', async (req, res) => {
     }
 });
 
-app.get('/api/Mon', async (req,res) => {
-    try{
+app.get('/api/Mon', async (req, res) => {
+    const { maChiNhanh } = req.query;
+    try {
         const pool = await sql.connect(config);
-        const result = await pool.request()
-            .query('SELECT MaMon, TenMon FROM Mon order by MaMon');
-        res.json(result.recordset);
-    }catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Lỗi khi lấy danh sách món ănăn' });
+        let query = `
+            SELECT MaMon, TenMon, GiaHienTai
+            FROM Mon
+        `;
+
+        if (maChiNhanh) {
+            query += `
+                WHERE MaMon IN (
+                    SELECT MaMon
+                    FROM ThucDon_Mon
+                    WHERE MaChiNhanh = @MaChiNhanh
+                )
+            `;
+        }
+
+        const request = pool.request();
+        if (maChiNhanh) {
+            request.input('MaChiNhanh', sql.TINYINT, maChiNhanh);
+        }
+
+        const result = await request.query(query);
+        res.json(result.recordset); // Trả về danh sách món ăn
+    } catch (err) {
+        console.error('Error in /api/Mon:', err);
+        res.status(500).json({ error: 'Lỗi khi lấy danh sách món ăn.' });
     }
 });
 
