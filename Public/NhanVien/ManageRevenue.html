@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống Kê Doanh Thu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 0 5px;
+            font-size: 16px;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .total {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Thống Kê Doanh Thu</h1>
+    
+    <!-- Dropdown và nút chọn -->
+    <div class="controls">
+
+        <select id="MaChiNhanh" name="MaChiNhanh" required>
+            <option value="all" selected>Tất cả chi nhánh</option>
+        </select>
+
+
+        <select id="statisticType" onchange="updateInputField()">
+            <option value="day">Theo Ngày</option>
+            <option value="month">Theo Tháng</option>
+            <option value="quarter">Theo Quý</option>
+            <option value="year">Theo Năm</option>
+            <option value="dish">Theo Món Ăn</option>
+        </select>
+    
+        <!-- Vùng để hiển thị các input -->
+
+        <div id="inputField" style="margin-left: 10px;"></div>
+    
+        <button onclick="loadDoanhThu()">Xem Thống Kê</button>
+    </div>
+    
+    <!-- Bảng hiển thị thống kê -->
+    <table>
+        <thead>
+            <tr>
+                <th>Tiêu Chí</th>
+                <th>Thời Gian</th>
+                <th>Doanh Thu (VND)</th>
+            </tr>
+        </thead>
+        <tbody id="statisticsTable">
+            <!-- Dữ liệu sẽ được thêm ở đây -->
+            <tr>
+                <td>Chi Nhánh 1</td>
+                <td>2025-01</td>
+                <td>10,000,000</td>
+            </tr>
+            <tr>
+                <td>Chi Nhánh 2</td>
+                <td>2025-02</td>
+                <td>12,000,000</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2" class="total">Tổng Doanh Thu</td>
+                <td class="total">22,000,000</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+       
+        async function loadChiNhanh() {
+            try {
+                const response = await fetch('/api/ChiNhanh'); // Đường dẫn API
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const ChiNhanhList = await response.json();
+
+                const select = document.getElementById('MaChiNhanh');
+                select.innerHTML = '<option value="all" selected>Chọn chi nhánh</option>'; // Xóa tùy chọn cũ
+
+                ChiNhanhList.forEach(ChiNhanh => {
+                    const option = document.createElement('option');
+                    option.value = ChiNhanh.MaChiNhanh;
+                    option.textContent = `${ChiNhanh.MaChiNhanh} - ${ChiNhanh.TenChiNhanh} - ${ChiNhanh.DiaChi}`;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading ChiNhanh:', error);
+                alert('Không thể tải danh sách chi nhánh. Vui lòng thử lại.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadChiNhanh);
+
+        async function loadMon(){
+            try{
+                const response = await fetch('/api/Mon'); // Đường dẫn API
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const MonList = await response.json();
+                const select = document.getElementById('MaMon');
+                select.innerHTML = '<option value="all" selected>Chọn món </option>'; // Xóa tùy chọn cũ
+
+                MonList.forEach(Mon => {
+                    const option = document.createElement('option');
+                    option.value = Mon.MaMon;
+                    option.textContent = `${Mon.MaMon} - ${Mon.TenMon}`;
+                    select.appendChild(option);
+                });
+
+            }catch (error) {
+                console.error('Error loading Mon:', error);
+                alert('Không thể tải danh sách món ăn. Vui lòng thử lại.');
+            }
+        }
+
+        function updateInputField() {
+            const statisticType = document.getElementById("statisticType").value;
+            const inputField = document.getElementById("inputField");
+
+            // Xóa nội dung cũ
+            inputField.innerHTML = "";
+
+            if (statisticType === "day") {
+                inputField.innerHTML = `
+                    <label for="inputDate">Ngày:</label>
+                    <input type="date" id="inputDate" required>
+                `;
+            } else if (statisticType === "month") {
+                inputField.innerHTML = `
+                    <label for="inputMonth">Tháng:</label>
+                    <input type="month" id="inputMonth" required>
+                `;
+            } else if (statisticType === "quarter") {
+                inputField.innerHTML = `
+                    <label for="inputQuarter">Quý:</label>
+                    <select id="inputQuarter" required>
+                        <option value="1">Quý 1</option>
+                        <option value="2">Quý 2</option>
+                        <option value="3">Quý 3</option>
+                        <option value="4">Quý 4</option>
+                    </select>
+                    <label for="inputQuarterYear">Năm:</label>
+                    <input type="number" id="inputQuarterYear" min="2000" max="2100" placeholder="YYYY" required>
+                `;
+            } else if (statisticType === "year") {
+                inputField.innerHTML = `
+                    <label for="inputYear">Năm:</label>
+                    <input type="number" id="inputYear" min="2000" max="2100" placeholder="YYYY" required>
+                `;
+            } else if (statisticType === "dish") {
+                inputField.innerHTML = `
+                    <label for="MaMon">Mã món ăn:</label>
+                    <select id="MaMon" name="MaMon" required>
+                        <option value="" disabled selected>Chọn món</option>
+                    </select>
+                `;
+                // Gọi hàm loadMon để tải danh sách món khi loại là "dish"
+                loadMon();
+            }
+        }
+
+
+        async function loadDoanhThu() {
+            try {
+                const statisticType = document.getElementById("statisticType").value;
+                const branch = document.getElementById("MaChiNhanh").value;
+
+                let timeInput = "";
+                let dishInput = "";
+
+                if (statisticType === "day") {
+                    timeInput = document.getElementById("inputDate").value;
+                } else if (statisticType === "month") {
+                    timeInput = document.getElementById("inputMonth").value;
+                } else if (statisticType === "quarter") {
+                    const quarter = document.getElementById("inputQuarter").value;
+                    const year = document.getElementById("inputQuarterYear").value;
+                    if (!year) {
+                        alert("Vui lòng nhập năm cho quý!");
+                        return;
+                    }
+                    timeInput = `${year}-Q${quarter}`;
+                } else if (statisticType === "year") {
+                    timeInput = document.getElementById("inputYear").value;
+                } else if (statisticType === "dish") {
+                    dishInput = document.getElementById("MaMon").value;
+                    if (!dishInput) {
+                        alert("Vui lòng chọn món ăn!");
+                        return;
+                    }
+                }
+
+                const query = statisticType === "dish"
+                    ? `/api/doanhthu?Loai=dish&MaChiNhanh=${branch}&MaMon=${dishInput}`
+                    : `/api/doanhthu?Loai=${statisticType}&MaChiNhanh=${branch}&ThoiGian=${timeInput}`;
+
+                const response = await fetch(query);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                const doanhThu = data.TongDoanhThu ? data.TongDoanhThu.toLocaleString() : "0";
+
+                const statisticsTable = document.getElementById("statisticsTable");
+                statisticsTable.innerHTML = `
+                    <tr>
+                        <td>${branch === "all" ? "Tất cả chi nhánh" : branch}</td>
+                        <td>${statisticType === "dish" ? dishInput : timeInput}</td>
+                        <td>${doanhThu} VND</td>
+                    </tr>
+                `;
+
+                const totalCell = document.querySelector("tfoot .total");
+                totalCell.textContent = `${doanhThu} VND`;
+
+            } catch (error) {
+                console.error("Error loading doanh thu:", error);
+                alert("Không thể tải dữ liệu thống kê. Vui lòng thử lại.");
+            }
+        }
+
+
+
+    </script>
+</body>
+</html>

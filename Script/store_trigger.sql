@@ -600,54 +600,37 @@ END;
 GO
 
 
--- Sau khi thanh toán hóa đơn, nhờ khách hàng đánh giá. -- Cái này tui cũng nghĩ là nghiệp vụ thôi
-/*
-CREATE TRIGGER trg_RequestFeedback
-ON HoaDon
-AFTER INSERT
-AS
-BEGIN
-    PRINT 'Hóa đơn đã được thanh toán. Vui lòng nhờ khách hàng đánh giá dịch vụ.';
-END;
-GO
-*/
 
--- BANG DANH GIA
--- Cập nhật điểm của nhân viên khi thêm đánh giá.
 CREATE TRIGGER trg_UpdateEmployeeScore
 ON DanhGia
 AFTER INSERT
 AS
 BEGIN
-    UPDATE NhanVien
-    SET DiemSo = DiemSo + (
-        SELECT 
-            ISNULL(DiemPhucVu, 0) + ISNULL(DiemViTri, 0) + ISNULL(DiemChatLuong, 0) + ISNULL(DiemKhongGian, 0)
-        FROM inserted dg
-        JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
-        WHERE NhanVien.MaNhanVien = pd.NhanVienLap
-    )
-    WHERE EXISTS (
-        SELECT 1
-        FROM inserted dg
-        JOIN PhieuDatMon pd ON dg.MaPhieu = pd.MaPhieu
-        WHERE NhanVien.MaNhanVien = pd.NhanVienLap
-    )
+	DECLARE @MAPHIEU BIGINT;
+	DECLARE @SOLUONG BIGINT;
 
+	SET @MAPHIEU = (SELECT i.MaPhieu
+	FROM inserted i)
+
+	SET @SOLUONG = (SELECT COUNT(*)
+	FROM DanhGia dg JOIN PhieuDatMon p ON dg.MaPhieu = p.MaPhieu
+	WHERE p.NhanVienLap = (SELECT NhanVienLap FROM PhieuDatMon WHERE MaPhieu = @MAPHIEU))
+	IF @SOLUONG = 0
+	begin
+		set @SOLUONG += 1;
+	end
+    UPDATE NhanVien
+    SET DiemSo = ((DiemSo * (@SOLUONG - 1)) +
+	(SELECT i.DiemPhucVu
+	FROM inserted i 
+	)) / @SOLUONG
 END;
 GO
 
---	Điểm phục vụ do khách hàng đánh giá là điểm của nhân viên lập phiếu. 
-CREATE TRIGGER trg_UpdateServiceScore
-ON DanhGia
-AFTER INSERT
-AS
-BEGIN
-    UPDATE NhanVien
-    SET DiemSo = DiemSo + (SELECT DiemPhucVu FROM inserted)
-    WHERE MaNhanVien = (SELECT NhanVienLap FROM PhieuDatMon WHERE MaPhieu = (SELECT MaPhieu FROM inserted));
-END;
-GO
+
+
+
+
 
 
 --BANG DAT CHO
@@ -785,3 +768,6 @@ BEGIN
     FROM INSERTED
 END
 GO
+INSERT INTO KhachHang (SoCCCD, SoDienThoai, Email, HoTen, GioiTinh) VALUES ('123456000001', '0982712434', 'pham.thi.phuc@hotmail.com', 'Pham Thi Phuc', 'Nam');
+delete from Users
+use QLNHAHANG
