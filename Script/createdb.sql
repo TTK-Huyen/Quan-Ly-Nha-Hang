@@ -8,6 +8,7 @@ CREATE DATABASE QLNHAHANG
 GO
 USE QLNHAHANG
 GO
+
 --insert into Users (Username, Password,Role) values ('user4', '123', 'khachhang')
 CREATE TABLE ChiNhanh
 (
