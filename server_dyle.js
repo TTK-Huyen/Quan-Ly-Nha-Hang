@@ -250,26 +250,27 @@ app.post('/api/addOrderForm', async (req, res) => {
     }
 });
 //lay
-app.post('/api/addCustomer', async(req,res) =>{
-    const {HoTen, SoDienThoai,Email,SoCCCD,GioiTinh} = req.body;
+app.post('/api/addCustomer', async (req, res) => {
+    console.log('Received request:', req.body); // Log yêu cầu
+    const { HoTen, SoDienThoai, Email, SoCCCD, GioiTinh } = req.body;
 
-    try{
+    try {
         const pool = await sql.connect(config);
-
         await pool.request()
             .input('HoTen', sql.NVarChar, HoTen)
             .input('SoDienThoai', sql.Char, SoDienThoai)
             .input('Email', sql.VarChar, Email)
             .input('SoCCCD', sql.Char, SoCCCD)
             .input('GioiTinh', sql.NVarChar, GioiTinh)
-            .execute('SP_DANGKI_TAIKHOAN')
-
-        res.json({message: 'Thêm khách hàng thành công!'});
-    }catch(err){
-        console.error(err);
+            .execute('SP_DANGKI_TAIKHOAN');
+        console.log('Thêm khách hàng thành công!');
+        res.json({ message: 'Thêm khách hàng thành công!' });
+    } catch (err) {
+        console.error('Lỗi server:', err); // Log lỗi server
         res.status(500).json({ error: err.message });
     }
 });
+
 
 
 
