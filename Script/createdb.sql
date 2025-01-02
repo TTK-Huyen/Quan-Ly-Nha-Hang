@@ -9,7 +9,6 @@ GO
 USE QLNHAHANG
 GO
 
-select * from users
 CREATE TABLE ChiNhanh
 (
 	MaChiNhanh TINYINT IDENTITY(1,1),
@@ -198,8 +197,6 @@ CREATE TABLE Users (
     Password NVARCHAR(255) NOT NULL,
     Role NVARCHAR(20) NOT NULL CHECK (Role IN ('khachhang', 'quanlychinhanh', 'quanlycongty', 'nhanvien')) -- Vai trò
 );
-
-
 
 -- ràng buộc constraint 
 ALTER TABLE ChiNhanh

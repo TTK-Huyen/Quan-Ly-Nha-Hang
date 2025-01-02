@@ -49,7 +49,7 @@
 	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 14', N'25 Lê Đức Thọ, Mỹ Đình', '08:00:00', '22:00:00', '0914460242', 1, 0, NULL, 4, 0);
 	INSERT INTO ChiNhanh (TenChiNhanh, DiaChi, ThoiGianMoCua, ThoiGianDongCua, SoDienThoai, BaiDoXeHoi, BaiDoXeMay, NhanVienQuanLy, MaKhuVuc, GiaoHang) VALUES (N'Chi Nhánh 15', N'1 Đại Cồ Việt, Hai Bà Trưng', '08:00:00', '22:00:00', '0298534272', 0, 1, NULL, 4, 0);
 
-	select * from ChiNhanh
+	
 	--Thêm data bảng nhân viên bằng sp
 	EXEC THEMNV N'Stephen Walsh', '1998-06-02', N'Nam' , '2023-09-09', 'BP02', 8;
 	EXEC THEMNV N'Jimmy Navarro', '1980-11-23', N'Nam' , '2022-05-05', 'BP02', 5;
