@@ -746,7 +746,7 @@ app.get('/api/customer-info', async (req, res) => {
     }
 });
 
-app.post('/api/addReservation', async (req, res) => {
+app.post('/api/addReservations', async (req, res) => {
     const {SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu } = req.body;
 
     // Log dữ liệu nhận được
@@ -771,7 +771,6 @@ app.post('/api/addReservation', async (req, res) => {
             .input('GhiChu', sql.NVarChar, GhiChu || null) // Ghi chú có thể để trống
             .execute('DAT_TRUOC');
             console.log({
-                MaKhachHang,
                 SoDienThoai,
                 MaChiNhanh,
                 SoLuongKhach,
