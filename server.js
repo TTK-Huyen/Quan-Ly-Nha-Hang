@@ -525,9 +525,6 @@ app.get('/api/getTenMuc', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-// API lấy chi nhánh cụ thể theo Mã Khu Vực và Mã Chi Nhánh
-=======
 app.get('/api/ChiNhanhKV', async (req, res) => {
     const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
     try {
@@ -553,7 +550,6 @@ app.get('/api/ChiNhanhKV', async (req, res) => {
 });
 
 // API lấy danh sách Chi Nhánh theo MaKhuVuc
->>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3
 app.get('/api/chinhanhkhuvuc', async (req, res) => {
     try {
         const { MaKhuVuc } = req.query; // Lấy tham số MaKhuVuc từ query string
@@ -705,11 +701,6 @@ app.post('/api/order', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.listen(port, () => {
-    console.log(`Server đang chạy tại http://localhost:${port}`);
-});
-=======
 // API lấy thông tin khách hàng
 app.get('/api/customer-info', async (req, res) => {
     const customerId = req.query.customerId;
@@ -791,4 +782,3 @@ app.post('/api/addReservation', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });
->>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3
