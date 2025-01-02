@@ -199,7 +199,7 @@ BEGIN
     IF EXISTS (
         SELECT 1 
         FROM TheKhachHang
-        WHERE MaKhachHang = (SELECT MaKhachHang FROM inserted)
+        WHERE SoDienThoai = (SELECT SoDienThoai FROM inserted)
           AND TrangThaiThe = 1
     )
     BEGIN
@@ -578,7 +578,7 @@ BEGIN
             FROM HoaDon h
             JOIN PhieuDatMon p ON h.MaPhieu = p.MaPhieu
 			JOIN KhachHang kh ON kh.SoDienThoai = p.SODIENTHOAI
-            WHERE kh.MaKhachHang = TheKhachHang.MaKhachHang
+            WHERE kh.SoDienThoai = TheKhachHang.SoDienThoai
               AND h.NgayLap >= TheKhachHang.NgayLap
 			  AND TheKhachHang.TrangThaiThe = 1
         )
@@ -587,14 +587,14 @@ BEGIN
         FROM inserted i
         JOIN PhieuDatMon p ON i.MaPhieu = p.MaPhieu
 		JOIN KhachHang kh ON kh.SoDienThoai = p.SODIENTHOAI
-        WHERE kh.MaKhachHang = TheKhachHang.MaKhachHang AND TheKhachHang.TrangThaiThe = 1
+        WHERE kh.MaKhachHang = TheKhachHang.SoDienThoai AND TheKhachHang.TrangThaiThe = 1
     )
     OR EXISTS (
         SELECT 1
         FROM deleted d
         JOIN PhieuDatMon p ON d.MaPhieu = p.MaPhieu
 		JOIN KhachHang kh ON kh.SoDienThoai = p.SODIENTHOAI
-        WHERE kh.MaKhachHang = TheKhachHang.MaKhachHang AND TheKhachHang.TrangThaiThe = 1
+        WHERE kh.MaKhachHang = TheKhachHang.SoDienThoai AND TheKhachHang.TrangThaiThe = 1
     );
 END;
 GO

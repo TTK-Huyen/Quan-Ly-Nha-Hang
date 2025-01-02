@@ -1,6 +1,5 @@
 USE MASTER
 GO
-ALTER DATABASE QLNHAHANG SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 IF DB_ID('QLNHAHANG') IS NOT NULL
 	DROP DATABASE QLNHAHANG
 GO
@@ -8,6 +7,7 @@ CREATE DATABASE QLNHAHANG
 GO
 USE QLNHAHANG
 GO
+
 
 CREATE TABLE ChiNhanh
 (
@@ -152,7 +152,7 @@ CREATE TABLE ChiTietPhieu (
     GhiChu NVARCHAR(200), -- Ghi chú bổ sung.
     PRIMARY KEY (MaPhieu, MaMon), -- Kết hợp 2 cột làm khóa chính.
 );
-SELECT * FROM PhieuDatMon
+
 CREATE TABLE DanhGia (
     MaPhieu INT PRIMARY KEY, -- Khóa chính và liên kết từ `PhieuDatMon`.
     DiemPhucVu TINYINT NOT NULL CHECK (DiemPhucVu BETWEEN 1 AND 5), -- Điểm đánh giá (1-5).
