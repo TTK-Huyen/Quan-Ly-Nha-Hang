@@ -554,6 +554,23 @@ app.get('/api/getPhieuDatMon', async (req, res) => {
     }
 });
 
+app.get('/api/getChiTietPhieu', async (req, res) => {
+    const { maPhieu } = req.query;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('maPhieu', sql.Int, maPhieu) // Đảm bảo truyền tham số đúng
+            .query('SELECT  c.MaPhieu, c.MaMon,c.SoLuong, c.GhiChu, m.TenMon FROM ChiTietPhieu c JOIN Mon m ON c.MaMon = m.MaMon WHERE c.MaPhieu = @maPhieu');
+        
+        console.log('Kết quả truy vấn:', result.recordset); // Log dữ liệu trả về
+        
+        res.json(result.recordset); // Trả về dữ liệu dưới dạng JSON
+    } catch (err) {
+        console.error('Lỗi truy vấn cơ sở dữ liệu:', err);
+        res.status(500).json({ error: 'Lỗi khi truy vấn cơ sở dữ liệu' });
+    }
+});
+
 app.get('/api/ChiNhanhKV', async (req, res) => {
     const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
     try {
