@@ -113,7 +113,6 @@ CREATE TABLE Ban (
     
 );
 
-
 CREATE TABLE KhachHang (
 	MaKhachHang INT IDENTITY(1,1) PRIMARY KEY, -- Mã định danh duy nhất cho khách hàng
 	SoCCCD CHAR(12) UNIQUE NOT NULL, --Số CCCD của khách hàng, giới hạn 12 kí tự và không trùng lặp
