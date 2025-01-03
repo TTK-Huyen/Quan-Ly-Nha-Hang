@@ -82,6 +82,7 @@
                         <td>${order.NhanVienLap || 'Chưa có nhân viên'}</td>
                         <td>${order.MaChiNhanh}</td>
                         <td>
+                            <button class="delete-btn" onclick="ShowOrder(${order.MaPhieu})">Xem</button>
                             <button class="edit-btn" onclick="editOrder(${order.MaPhieu})">Sửa</button>
                             <button class="delete-btn" onclick="deleteOrder(${order.MaPhieu})">Xóa</button>
                         </td>
@@ -97,6 +98,27 @@
         function editOrder(maPhieu) {
             alert('Chỉnh sửa phiếu có mã: ' + maPhieu);
             // Bạn có thể thêm logic để sửa dữ liệu của phiếu đặt món ở đây
+        }
+
+        function ShowOrder(maPhieu) {
+            // Thực hiện gọi API để lấy thông tin chi tiết phiếu
+            fetch(`/api/getChiTietPhieu?maPhieu=${maPhieu}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Lỗi khi tải dữ liệu chi tiết phiếu');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Log hoặc xử lý dữ liệu trả về (nếu cần)
+                    console.log('Dữ liệu chi tiết phiếu:', data);
+
+                    // Chuyển hướng đến trang ChiTietPhieu.html với tham số maPhieu
+                    window.location.href = `ManageDetailPDM.html?maPhieu=${maPhieu}`;
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                });
         }
 
         // Hàm xử lý xóa phiếu đặt món
