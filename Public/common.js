@@ -91,7 +91,6 @@ function fetchAndShowCustomerInfo() {
                 alert(`Lỗi: ${customer.error}`);
                 return;
             }
-
             // Cập nhật nội dung modal
             document.getElementById('modalCustomerName').textContent = customer.HoTen || 'Không xác định';
             document.getElementById('modalCustomerEmail').textContent = customer.Email || 'Không xác định';

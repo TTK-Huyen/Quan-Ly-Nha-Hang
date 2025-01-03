@@ -40,6 +40,8 @@ app.use(session({
 //     },
 // };
 
+
+// Cấu hình kết nối SQL Server
 const config = {
     server: '192.168.102.1', // Địa chỉ IP của máy chủ SQL Server
     port: 1433, // Cổng SQL Server
@@ -97,7 +99,8 @@ app.post('/login', async (req, res) => {
         const pool = await sql.connect(config);
         console.log("Kết nối database thành công!");
         // Kiểm tra thông tin đăng nhập trong database
-
+        console.log("Username:", username);
+        console.log("Password:", password);
         const result = await pool.request()
             .input('Username', sql.NVarChar, username)
             .input('Password', sql.NVarChar, password)
@@ -108,7 +111,7 @@ app.post('/login', async (req, res) => {
             `);
 
         const user = result.recordset[0];
-        console.log(result.recordset[0]);
+        console.log('Du lieu nhan ve: ', result);
         if (!user) {
             return res.status(401).json({ error: 'Tên đăng nhập hoặc mật khẩu không đúng' });
         }
@@ -128,7 +131,7 @@ app.post('/login', async (req, res) => {
         }
         res.json({ message: 'Đăng nhập thành công!', role: user.Role });
     } catch (err) {
-        console.error(err.message);
+        console.error('Loi:', err.message);
         res.status(500).json({ error: 'Lỗi server' });
     }
 });
@@ -611,7 +614,7 @@ app.get('/api/chinhanhkhuvuc_2', async (req, res) => {
             .input('MaKhuVuc', sql.TINYINT, MaKhuVuc)
             .input('MaChiNhanh', sql.TINYINT, MaChiNhanh)
             .query(query);
-
+            console.log('trave',result);
         // Trả về kết quả
         if (result.recordset.length > 0) {
             res.json(result.recordset[0]); // Trả về một đối tượng chi nhánh cụ thể
@@ -728,7 +731,7 @@ app.get('/api/customer-info', async (req, res) => {
 
         const query = `
             SELECT KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai, SUM(T.diemTichLuy + T.DiemHienTai) AS TongDiem 
-            FROM KhachHang KH JOIN THEKHACHHANG T ON KH.MaKhachHang = T.MaKhachHang
+            FROM KhachHang KH JOIN THEKHACHHANG T ON KH.SoDienThoai = T.SoDienThoai
             WHERE KH.SoDienThoai = @CustomerId
             GROUP BY KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai;
         `;

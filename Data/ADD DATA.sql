@@ -1,5 +1,14 @@
 
+<<<<<<< HEAD
 	USE QLNHAHANG;
+=======
+USE QLNHAHANG;
+GO
+
+-- =======================
+-- Thêm dữ liệu vào bảng KhuVuc
+-- =======================
+>>>>>>> 1507e120fbbaf044b7ed35e95cf7335e03d6f361
 	
 	-- =======================
 	-- Thêm dữ liệu vào bảng KhuVuc
