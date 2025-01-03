@@ -1,6 +1,7 @@
 
 USE QLNHAHANG;
 GO
+
 -- =======================
 -- Thêm dữ liệu vào bảng KhuVuc
 -- =======================

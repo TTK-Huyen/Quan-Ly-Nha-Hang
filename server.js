@@ -26,15 +26,16 @@ app.use(session({
 }));
 
 // Cấu hình kết nối SQL Server
+
+// Cấu hình kết nối SQL Server
 const config = {
-    server: 'LAPTOP-P8ETI0BS', // Địa chỉ IP của máy chủ SQL Server -- máy Huyền =)))
+    server: '192.168.102.1', // Địa chỉ IP của máy chủ SQL Server
     port: 1433, // Cổng SQL Server
     database: 'QLNHAHANG',
     user: 'sa',
-    password: '123456789',
+    password: '1928374650Vy',
     options: {
-        encrypt: true, // Không cần mã hóa
-        trustServerCertificate: true, // Bỏ qua xác thực chứng chỉ
+        encrypt: false, // Không cần mã hóa
         enableArithAbort: true, // Bật xử lý lỗi số học
         connectTimeout: 30000, // Thời gian chờ 30 giây
     },
@@ -84,7 +85,8 @@ app.post('/login', async (req, res) => {
         const pool = await sql.connect(config);
         console.log("Kết nối database thành công!");
         // Kiểm tra thông tin đăng nhập trong database
-
+        console.log("Username:", username);
+        console.log("Password:", password);
         const result = await pool.request()
             .input('Username', sql.NVarChar, username)
             .input('Password', sql.NVarChar, password)
@@ -95,7 +97,7 @@ app.post('/login', async (req, res) => {
             `);
 
         const user = result.recordset[0];
-        console.log(result.recordset[0]);
+        console.log('Du lieu nhan ve: ', result);
         if (!user) {
             return res.status(401).json({ error: 'Tên đăng nhập hoặc mật khẩu không đúng' });
         }
@@ -115,7 +117,7 @@ app.post('/login', async (req, res) => {
         }
         res.json({ message: 'Đăng nhập thành công!', role: user.Role });
     } catch (err) {
-        console.error(err.message);
+        console.error('Loi:', err.message);
         res.status(500).json({ error: 'Lỗi server' });
     }
 });
@@ -525,9 +527,6 @@ app.get('/api/getTenMuc', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-// API lấy chi nhánh cụ thể theo Mã Khu Vực và Mã Chi Nhánh
-=======
 app.get('/api/ChiNhanhKV', async (req, res) => {
     const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
     try {
@@ -553,7 +552,6 @@ app.get('/api/ChiNhanhKV', async (req, res) => {
 });
 
 // API lấy danh sách Chi Nhánh theo MaKhuVuc
->>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3
 app.get('/api/chinhanhkhuvuc', async (req, res) => {
     try {
         const { MaKhuVuc } = req.query; // Lấy tham số MaKhuVuc từ query string
@@ -601,7 +599,7 @@ app.get('/api/chinhanhkhuvuc_2', async (req, res) => {
             .input('MaKhuVuc', sql.TINYINT, MaKhuVuc)
             .input('MaChiNhanh', sql.TINYINT, MaChiNhanh)
             .query(query);
-
+            console.log('trave',result);
         // Trả về kết quả
         if (result.recordset.length > 0) {
             res.json(result.recordset[0]); // Trả về một đối tượng chi nhánh cụ thể
@@ -705,11 +703,6 @@ app.post('/api/order', async (req, res) => {
     }
 });
 
-<<<<<<< HEAD
-app.listen(port, () => {
-    console.log(`Server đang chạy tại http://localhost:${port}`);
-});
-=======
 // API lấy thông tin khách hàng
 app.get('/api/customer-info', async (req, res) => {
     const customerId = req.query.customerId;
@@ -723,7 +716,7 @@ app.get('/api/customer-info', async (req, res) => {
 
         const query = `
             SELECT KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai, SUM(T.diemTichLuy + T.DiemHienTai) AS TongDiem 
-            FROM KhachHang KH JOIN THEKHACHHANG T ON KH.MaKhachHang = T.MaKhachHang
+            FROM KhachHang KH JOIN THEKHACHHANG T ON KH.SoDienThoai = T.SoDienThoai
             WHERE KH.SoDienThoai = @CustomerId
             GROUP BY KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai;
         `;
@@ -791,4 +784,3 @@ app.post('/api/addReservation', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });
->>>>>>> 71ee052088ba4142d5ae752d821053316b5b75c3

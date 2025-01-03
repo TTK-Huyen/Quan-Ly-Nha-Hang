@@ -112,7 +112,6 @@ CREATE TABLE Ban (
     
 );
 
-
 CREATE TABLE KhachHang (
 	MaKhachHang INT IDENTITY(1,1) PRIMARY KEY, -- Mã định danh duy nhất cho khách hàng
 	SoCCCD CHAR(12) UNIQUE NOT NULL, --Số CCCD của khách hàng, giới hạn 12 kí tự và không trùng lặp
@@ -198,7 +197,8 @@ CREATE TABLE Users (
     Role NVARCHAR(20) NOT NULL CHECK (Role IN ('khachhang', 'quanlychinhanh', 'quanlycongty', 'nhanvien')) -- Vai trò
 );
 
-
+select* from ChiNhanh
+select* from KhuVuc_ThucDon
 
 -- ràng buộc constraint 
 ALTER TABLE ChiNhanh
