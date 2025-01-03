@@ -11,7 +11,43 @@
         input, select, button { width: 100%; margin-bottom: 15px; padding: 10px; font-size: 16px; }
         button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
         button:hover { background-color: #45a049; }
-        #message { text-align: center; margin-top: 20px; }
+        
+        /* Modal Styles */
+        #notificationModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            z-index: 1000;
+            width: 300px;
+            animation: fadeIn 0.5s, fadeOut 0.5s 1.5s;
+        }
+        #modalOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -38,8 +74,11 @@
 
         <button type="button" onclick="submitForm()">Thêm Khách Hàng</button>
     </form>
-    <div id="message"></div>
-
+    <div id="notificationModal">
+        <p id="notificationMessage"></p>
+    </div>
+    <div id="modalOverlay"></div>
+    
     <script>
         async function submitForm() {
             const formData = {
@@ -58,11 +97,35 @@
                 });
 
                 const result = await response.json();
-                document.getElementById('message').innerText = result.message || result.error;
+
+                if (response.ok) {
+                    showNotification(result.message || 'Thêm khách hàng thành công!');
+                } else {
+                    showNotification(result.error || 'Có lỗi xảy ra!');
+                }
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('message').innerText = 'Lỗi: Không thể thêm khách hàng.';
+                showNotification('Lỗi: Không thể thêm khách hàng.');
             }
+        }
+
+        function showNotification(message) {
+            const modal = document.getElementById('notificationModal');
+            const overlay = document.getElementById('modalOverlay');
+            const messageElement = document.getElementById('notificationMessage');
+
+            // Cập nhật thông báo
+            messageElement.innerText = message;
+
+            // Hiển thị modal và overlay
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+
+            // Tự động ẩn sau 2 giây
+            setTimeout(() => {
+                modal.style.display = 'none';
+                overlay.style.display = 'none';
+            }, 2000);
         }
     </script>
 </body>
