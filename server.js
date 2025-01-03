@@ -537,8 +537,20 @@ app.get('/api/getTenMuc', async (req, res) => {
             res.status(404).json({ error: 'Không tìm thấy tên mục.' });
         }
     } catch (err) {
-        console.error('Lỗi khi gọi API /api/getTenMuc:', err);
-        res.status(500).json({ error: 'Lỗi server.' });
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+    }
+});
+
+// API lấy thông tin phiếu đặt món
+app.get('/api/getPhieuDatMon', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request().query('SELECT * FROM PhieuDatMon');
+        res.json(result.recordset); // Trả về dữ liệu dưới dạng JSON
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Lỗi khi truy vấn cơ sở dữ liệu' });
     }
 });
 
