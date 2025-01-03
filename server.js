@@ -571,6 +571,23 @@ app.get('/api/getChiTietPhieu', async (req, res) => {
     }
 });
 
+app.get('/api/getDatTruoc', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            
+            .query('SELECT * FROM DatTruoc');
+        
+        console.log('Kết quả truy vấn:', result.recordset); // Log dữ liệu trả về
+        
+        res.json(result.recordset); // Trả về dữ liệu dưới dạng JSON
+    } catch (err) {
+        console.error('Lỗi truy vấn cơ sở dữ liệu:', err);
+        res.status(500).json({ error: 'Lỗi khi truy vấn cơ sở dữ liệu' });
+    }
+});
+
+
 app.get('/api/ChiNhanhKV', async (req, res) => {
     const { maKhuVuc } = req.query; // Lấy MaKhuVuc từ query string
     try {
