@@ -1,5 +1,3 @@
-
-
 // Hàm tải giỏ hàng từ sessionStorage
 function loadCartFromSessionStorage() {
     const savedCart = sessionStorage.getItem('cartItems');
@@ -72,70 +70,10 @@ async function loadBranchAndRegionInfo(maChiNhanh, maKhuVuc) {
 
 
 
+
+
+
 // Xử lý khi nhấn nút "Hoàn Tất Đặt Hàng"
 document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-
-    // Lấy thông tin từ sessionStorage
-    const cartItems = JSON.parse(sessionStorage.getItem('cartItems') || '[]');
-    const maChiNhanh = sessionStorage.getItem('maChiNhanh');
-    const maKhuVuc = sessionStorage.getItem('maKhuVuc');
-
-    // Lấy thông tin khách hàng từ form
-    const customerName = document.getElementById('customerName').value;
-    const customerPhone = document.getElementById('customerPhone').value;
-    const customerAddress = document.getElementById('customerAddress').value;
-
-    // Kiểm tra dữ liệu đọc được
-    console.log("Dữ liệu giỏ hàng:", cartItems);
-    console.log("Mã Chi Nhánh:", maChiNhanh);
-    console.log("Mã Khu Vực:", maKhuVuc);
-    console.log("Số Điện Thoại:", customerPhone);
-    console.log("Địa Chỉ Giao Hàng:", customerAddress);
-    console.log("Tên khách hàng:", customerName);
-
-    // Kiểm tra dữ liệu đầu vào
-    if (!cartItems.length || !maChiNhanh || !maKhuVuc) {
-        alert('Dữ liệu không đầy đủ. Vui lòng kiểm tra lại!');
-        return;
-    }
-
-    try {
-        // Gửi dữ liệu lên server
-        const response = await fetch('/api/order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                customerPhone,
-                maChiNhanh,
-                maKhuVuc,
-                cartItems,
-                customerAddress
-
-            }),
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-            // Hiển thị thông báo đặt hàng thành công
-            alert(`Đặt hàng thành công!`);
-
-            // Xóa thông tin giỏ hàng và khu vực/chi nhánh
-            sessionStorage.removeItem('cartItems');
-            sessionStorage.removeItem('maChiNhanh');
-            sessionStorage.removeItem('maKhuVuc');
-
-            // Điều hướng sang trang cảm ơn
-            window.location.href = '/home.html';
-        } else {
-            // Hiển thị lỗi nếu API trả về lỗi
-            alert(`Lỗi khi đặt hàng: ${result.error}`);
-        }
-    } catch (error) {
-        console.error('Lỗi khi gửi yêu cầu đặt hàng:', error);
-        alert('Không thể đặt hàng. Vui lòng thử lại sau.');
-    }
 });
