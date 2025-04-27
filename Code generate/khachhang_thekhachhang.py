@@ -42,7 +42,7 @@ def generate_combined_sql_files(khachhang_file, thekhachhang_file, total_records
             kh_file.write("-- Tạo dữ liệu bảng KhachHang\n")
             th_file.write("-- Tạo dữ liệu bảng TheKhachHang\n")
 
-            for _ in range(1, total_records):
+            for _ in range(total_records):
                 first_name = random.choice(first_names)
                 middle_name = random.choice(middle_names)
                 last_name = random.choice(last_names)
@@ -61,7 +61,7 @@ def generate_combined_sql_files(khachhang_file, thekhachhang_file, total_records
                 ngay_lap = datetime.now() - timedelta(days=random.randint(0, 365))
                 nhan_vien_lap = f"NV{random.randint(1, 501):04d}"
                 ngay_dat_the = ngay_lap + timedelta(days=random.randint(0, 30))
-                th_sql = f"INSERT INTO TheKhachHang (MaSoThe, SoDienThoai, NgayLap, NhanVienLap, NgayDatThe) VALUES ('{_}', '{phone}', '{ngay_lap.strftime('%Y-%m-%d %H:%M:%S')}', '{nhan_vien_lap}', '{ngay_dat_the.strftime('%Y-%m-%d %H:%M:%S')}');\n"
+                th_sql = f"INSERT INTO TheKhachHang (SoDienThoai, NgayLap, NhanVienLap, NgayDatThe) VALUES ('{phone}', '{ngay_lap.strftime('%Y-%m-%d %H:%M:%S')}', '{nhan_vien_lap}', '{ngay_dat_the.strftime('%Y-%m-%d %H:%M:%S')}');\n"
                 th_file.write(th_sql)
 
                 if _ % 10000 == 0 and _ > 0:

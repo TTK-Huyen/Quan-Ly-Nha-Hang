@@ -26,7 +26,7 @@ def generate_phieudatmon_and_danhgia(phieudatmon_file, danhgia_file, total_recor
 
                 # Tạo dữ liệu cho PhieuDatMon
                 ngay_lap = datetime.now() - timedelta(days=random.randint(0, 365))
-                nhan_vien_lap = f"NV{random.randint(1, 501):04d}"
+                nhan_vien_lap = f"NV{random.randint(1, 100):03d}"
                 ngay_dat_the = ngay_lap + timedelta(hours=random.randint(1, 24))
 
                 pdm_sql = f"INSERT INTO PhieuDatMon (SoDienThoai, NgayLap, NhanVienLap, NgayDatThe) VALUES ('{phone}', '{ngay_lap.strftime('%Y-%m-%d %H:%M:%S')}', '{nhan_vien_lap}', '{ngay_dat_the.strftime('%Y-%m-%d %H:%M:%S')}');\n"

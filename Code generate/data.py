@@ -1,23 +1,20 @@
 import random
 from datetime import datetime, timedelta
 
-# Hàm tạo dữ liệu bảng bàn
-def generate_ban_data(file_name):
-    try:
-        with open(file_name, "w", encoding="utf-8") as file:
-            file.write("-- Dữ liệu bảng Ban\n")
-            for chi_nhanh in range(1, 16):  # Mã chi nhánh từ 1 đến 15
-                for ma_ban in range(1, 41):  # Mã bàn từ 1 đến 40
-                    suc_chua = random.randint(2, 10)  # Sức chứa ngẫu nhiên từ 2 đến 10
-                    file.write(f"INSERT INTO Ban (MaSoBan, SucChua, MaChiNhanh) VALUES ({ma_ban}, {suc_chua}, {chi_nhanh});\n")
-            print(f"Tạo dữ liệu bảng Ban thành công, lưu vào {file_name}!")
-    except Exception as e:
-        print(f"Lỗi khi tạo dữ liệu bảng Ban: {e}")
+# Tạo danh sách bàn với sức chứa và chi nhánh
+def generate_ban_data():
+    ban_data = []
+    for chi_nhanh in range(1, 16):  # Mã chi nhánh từ 1 đến 15
+        for ma_ban in range(1, 41):  # Mã bàn từ 1 đến 40
+            suc_chua = random.randint(2, 10)  # Sức chứa ngẫu nhiên từ 2 đến 10
+            ban_data.append({"MaBan": ma_ban, "SucChua": suc_chua, "ChiNhanh": chi_nhanh})
+    return ban_data
 
 # Tìm bàn phù hợp
 def find_suitable_ban(so_luong_khach, ban_data, chi_nhanh):
     suitable_ban = [ban for ban in ban_data if ban["SucChua"] >= so_luong_khach and ban["ChiNhanh"] == chi_nhanh]
     return random.choice(suitable_ban)["MaBan"] if suitable_ban else None
+
 
 # Hàm tạo số điện thoại ngẫu nhiên
 def generate_random_phone(existing_phones):
@@ -35,7 +32,7 @@ def generate_phieu_dat_mon(ma_ban, so_dien_thoai, ma_phieu, ma_chi_nhanh, gio_de
 
 # Hàm tạo chi tiết phiếu
 def generate_chi_tiet_phieu(ma_phieu):
-    so_mon = random.randint(5, 10)  # 5 đến 10 dòng chi tiết phiếu
+    so_mon = random.randint(2, 5)  # 5 đến 10 dòng chi tiết phiếu
     chi_tiet = []
     used_ma_mon = set()
     for _ in range(so_mon):
@@ -53,11 +50,7 @@ def generate_chi_tiet_phieu(ma_phieu):
 def generate_data_with_constraints(total_reservations=100000):
     try:
         existing_phones = set()
-        ban_data = [
-            {"MaBan": ma_ban, "SucChua": random.randint(2, 10), "ChiNhanh": chi_nhanh}
-            for chi_nhanh in range(1, 16)
-            for ma_ban in range(1, 41)
-        ]
+        ban_data = generate_ban_data()
 
         with open("insert_dattruoc.sql", "w", encoding="utf-8") as dat_truoc_file, \
              open("insert_phieudatmon.sql", "w", encoding="utf-8") as phieu_file, \
@@ -96,8 +89,6 @@ def generate_data_with_constraints(total_reservations=100000):
         print(f"Lỗi khi tạo dữ liệu: {e}")
 
 # Gọi hàm tạo dữ liệu
-ban_output_file = "insert_ban.sql"
-generate_ban_data(ban_output_file)
 generate_data_with_constraints(total_reservations=100000)
 
 # Hàm tạo đánh giá
