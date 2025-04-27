@@ -337,3 +337,7 @@ GO
 INSERT INTO KhachHang (SoCCCD, SoDienThoai, Email, HoTen, GioiTinh) VALUES ('123456000001', '0982712434', 'pham.thi.phuc@hotmail.com', 'Pham Thi Phuc', 'Nam');
 delete from Users
 use QLNHAHANG
+go
+select * from phieudatmon
+SELECT * FROM PhieuDatMon where ngaylap > '2024-09-01' and  ngaylap < '2024-09-30'
+select * from Users
