@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Chi Tiết Phiếu</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh sách Chi Tiết Phiếu</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Phiếu</th>
+                <th>Mã Món</th>
+                <th>Tên Món</th>
+                <th>Số Lượng</th>
+                <th>Ghi Chú</th>
+                <th>Chỉnh Sửa</th>
+            </tr>
+        </thead>
+        <tbody id="orderTableBody">
+            <!-- Dữ liệu sẽ được thêm vào đây -->
+        </tbody>
+    </table>
+
+    <script>
+        // Hàm lấy dữ liệu từ API và hiển thị lên bảng
+        async function loadOrderForms() {
+            // Lấy tham số maPhieu từ URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const maPhieu = urlParams.get('maPhieu');
+
+            // Kiểm tra nếu maPhieu có tồn tại
+            if (maPhieu) {
+                // Gọi API để lấy chi tiết phiếu với maPhieu
+                fetch(`/api/getChiTietPhieu?maPhieu=${maPhieu}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Dữ liệu chi tiết phiếu:', data);
+                        
+                        // Hiển thị dữ liệu chi tiết vào bảng
+                        const tableBody = document.getElementById("orderTableBody");
+                        tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+                        data.forEach(detail => {
+                            const row = document.createElement("tr");
+                            row.innerHTML = ` 
+                                <td>${detail.MaMon}</td>
+                                <td>${detail.TenMon}</td>
+                                <td>${detail.SoLuong}</td>
+                                <td>${detail.GhiChu}</td>
+                                <td>
+                                    <button class="edit-btn" onclick="editDetail(${detail.MaMon})">Sửa</button>
+                                    <button class="delete-btn" onclick="deleteDetail(${detail.MaMon})">Xóa</button>
+                                </td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi lấy chi tiết phiếu:', error);
+                    });
+            } else {
+                console.error('Không có maPhieu trong URL');
+            }
+        }
+
+        // Hàm xử lý sửa chi tiết phiếu
+        function editDetail(maMon) {
+            alert('Chỉnh sửa chi tiết món có mã: ' + maMon);
+            // Bạn có thể thêm logic để sửa chi tiết món ở đây
+        }
+
+        // Hàm xử lý xóa chi tiết phiếu
+        function deleteDetail(maMon) {
+            const confirmed = confirm('Bạn có chắc muốn xóa chi tiết này không?');
+            if (confirmed) {
+                // Xử lý xóa chi tiết (gọi API xóa hoặc thao tác với cơ sở dữ liệu)
+                alert('Đã xóa món có mã: ' + maMon);
+                // Sau khi xóa, gọi lại loadOrderForms để cập nhật lại bảng
+                loadOrderForms();
+            }
+        }
+
+        // Gọi hàm loadOrderForms khi trang được tải
+        window.onload = loadOrderForms;
+    </script>
+</body>
+</html>

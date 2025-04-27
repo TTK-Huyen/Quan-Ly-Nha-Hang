@@ -207,16 +207,15 @@
 
         async function loadDoanhThu() {
             try {
-                const statisticType = document.getElementById("statisticType").value;
                 const branch = document.getElementById("MaChiNhanh").value;
+                const statisticType = document.getElementById("statisticType").value;
 
-                let timeInput = "";
-                let dishInput = "";
+                let value = "";
 
                 if (statisticType === "day") {
-                    timeInput = document.getElementById("inputDate").value;
+                    value = document.getElementById("inputDate").value;
                 } else if (statisticType === "month") {
-                    timeInput = document.getElementById("inputMonth").value;
+                    value = document.getElementById("inputMonth").value;
                 } else if (statisticType === "quarter") {
                     const quarter = document.getElementById("inputQuarter").value;
                     const year = document.getElementById("inputQuarterYear").value;
@@ -224,21 +223,19 @@
                         alert("Vui lòng nhập năm cho quý!");
                         return;
                     }
-                    timeInput = `${year}-Q${quarter}`;
+                    value = `${year}-Q${quarter}`;
                 } else if (statisticType === "year") {
-                    timeInput = document.getElementById("inputYear").value;
+                    value = document.getElementById("inputYear").value;
                 } else if (statisticType === "dish") {
-                    dishInput = document.getElementById("MaMon").value;
-                    if (!dishInput) {
+                    value = document.getElementById("MaMon").value;
+                    if (!value) {
                         alert("Vui lòng chọn món ăn!");
                         return;
                     }
                 }
 
-                const query = statisticType === "dish"
-                    ? `/api/doanhthu?Loai=dish&MaChiNhanh=${branch}&MaMon=${dishInput}`
-                    : `/api/doanhthu?Loai=${statisticType}&MaChiNhanh=${branch}&ThoiGian=${timeInput}`;
-
+                // Gửi yêu cầu đến API
+                const query = `/api/doanhthu?MaChiNhanh=${branch}&Loai=${statisticType}&Value=${value}`;
                 const response = await fetch(query);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -246,13 +243,14 @@
 
                 const data = await response.json();
 
+                // Hiển thị dữ liệu trong bảng
                 const doanhThu = data.TongDoanhThu ? data.TongDoanhThu.toLocaleString() : "0";
 
                 const statisticsTable = document.getElementById("statisticsTable");
                 statisticsTable.innerHTML = `
                     <tr>
                         <td>${branch === "all" ? "Tất cả chi nhánh" : branch}</td>
-                        <td>${statisticType === "dish" ? dishInput : timeInput}</td>
+                        <td>${value}</td>
                         <td>${doanhThu} VND</td>
                     </tr>
                 `;
@@ -266,6 +264,8 @@
             }
         }
 
+
+    
 
 
     </script>

@@ -65,7 +65,7 @@ nav ul li a:hover {
 
 .hero .btn {
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 5px 10px; /* Thu nhỏ khoảng cách bên trong nút */
     background-color: #E63946;
     color: white;
     border: none;
@@ -73,7 +73,9 @@ nav ul li a:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     text-decoration: none;
-    font-size: 1em;
+    font-size: 0.9em; /* Giảm kích thước chữ */
+    width: auto; /* Đặt chiều rộng tự động */
+    height: auto; /* Đặt chiều cao tự động */
 }
 
 .hero .btn:hover {
@@ -289,3 +291,20 @@ footer {
     border: 2px solid #E63946; /* Hiệu ứng hover */
 }
 
+
+#registerButton {
+    padding: 5px 15px; /* Thu nhỏ khoảng cách bên trong */
+    font-size: 0.8em; /* Giảm kích thước chữ */
+    width: auto; /* Đảm bảo chiều rộng tự động */
+    height: auto; /* Đảm bảo chiều cao tự động */
+    background-color: #E63946;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#registerButton:hover {
+    background-color: #F7C843;
+}

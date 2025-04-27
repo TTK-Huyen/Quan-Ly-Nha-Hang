@@ -1,5 +1,6 @@
 USE MASTER
 GO
+ALTER DATABASE QLNHAHANG SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 IF DB_ID('QLNHAHANG') IS NOT NULL
 	DROP DATABASE QLNHAHANG
 GO
@@ -8,7 +9,7 @@ GO
 USE QLNHAHANG
 GO
 
-
+--insert into Users (Username, Password,Role) values ('user4', '123', 'khachhang')
 CREATE TABLE ChiNhanh
 (
 	MaChiNhanh TINYINT IDENTITY(1,1),
@@ -112,7 +113,6 @@ CREATE TABLE Ban (
     
 );
 
-
 CREATE TABLE KhachHang (
 	MaKhachHang INT IDENTITY(1,1) PRIMARY KEY, -- Mã định danh duy nhất cho khách hàng
 	SoCCCD CHAR(12) UNIQUE NOT NULL, --Số CCCD của khách hàng, giới hạn 12 kí tự và không trùng lặp
@@ -124,7 +124,7 @@ CREATE TABLE KhachHang (
 
 CREATE TABLE TheKhachHang (
 	MaSoThe CHAR(10), -- Mã số thẻ
-	SoDienThoai CHAR(10) NOT NULL, -- Mã khách hàng, tham chiếu tới KhachHang
+	SoDienThoai char(10) NOT NULL, -- Mã khách hàng, tham chiếu tới KhachHang
 	NgayLap DATE DEFAULT GETDATE() NOT NULL, -- Ngày lập thẻ khách hàng
 	NhanVienLap CHAR(6), -- Mã nhân viên lập thẻ, tham chiếu tới NhanVien
 	TrangThaiThe BIT DEFAULT 1 CHECK (TrangThaiThe IN (0, 1)), -- Trạng thái thẻ khách hàng (0: đóng, 1: mở)
@@ -152,7 +152,6 @@ CREATE TABLE ChiTietPhieu (
     GhiChu NVARCHAR(200), -- Ghi chú bổ sung.
     PRIMARY KEY (MaPhieu, MaMon), -- Kết hợp 2 cột làm khóa chính.
 );
-
 CREATE TABLE DanhGia (
     MaPhieu INT PRIMARY KEY, -- Khóa chính và liên kết từ `PhieuDatMon`.
     DiemPhucVu TINYINT NOT NULL CHECK (DiemPhucVu BETWEEN 1 AND 5), -- Điểm đánh giá (1-5).
@@ -197,8 +196,6 @@ CREATE TABLE Users (
     Password NVARCHAR(255) NOT NULL,
     Role NVARCHAR(20) NOT NULL CHECK (Role IN ('khachhang', 'quanlychinhanh', 'quanlycongty', 'nhanvien')) -- Vai trò
 );
-
-
 
 -- ràng buộc constraint 
 ALTER TABLE ChiNhanh

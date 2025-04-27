@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Phiếu Đặt Món</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh sách Phiếu Đặt Món</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Mã Phiếu</th>
+                <th>Mã Số Bàn</th>
+                <th>Số Điện Thoại</th>
+                <th>Ngày Lập</th>
+                <th>Nhân Viên Lập</th>
+                <th>Mã Chi Nhánh</th>
+                <th>Chỉnh Sửa</th>
+            </tr>
+        </thead>
+        <tbody id="orderTableBody">
+            <!-- Dữ liệu sẽ được thêm vào đây -->
+        </tbody>
+    </table>
+
+    <script>
+        // Hàm lấy dữ liệu từ API và hiển thị lên bảng
+        async function loadOrderForms() {
+            try {
+                const response = await fetch('/api/getPhieuDatMon');
+                const data = await response.json();
+                
+                // Lấy đối tượng tbody để thêm các dòng vào bảng
+                const tableBody = document.getElementById('orderTableBody');
+
+                // Xóa tất cả các dòng hiện có
+                tableBody.innerHTML = '';
+
+                // Lặp qua các phiếu đặt món và tạo các dòng mới trong bảng
+                data.forEach(order => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${order.MaPhieu}</td>
+                        <td>${order.MaSoBan}</td>
+                        <td>${order.SODIENTHOAI}</td>
+                        <td>${order.NgayLap}</td>
+                        <td>${order.NhanVienLap || 'Chưa có nhân viên'}</td>
+                        <td>${order.MaChiNhanh}</td>
+                        <td>
+                            <button class="delete-btn" onclick="ShowOrder(${order.MaPhieu})">Xem</button>
+                            <button class="edit-btn" onclick="editOrder(${order.MaPhieu})">Sửa</button>
+                            <button class="delete-btn" onclick="deleteOrder(${order.MaPhieu})">Xóa</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Lỗi khi tải dữ liệu:', error);
+            }
+        }
+
+        // Hàm xử lý sửa phiếu đặt món
+        function editOrder(maPhieu) {
+            alert('Chỉnh sửa phiếu có mã: ' + maPhieu);
+            // Bạn có thể thêm logic để sửa dữ liệu của phiếu đặt món ở đây
+        }
+
+        function ShowOrder(maPhieu) {
+            // Thực hiện gọi API để lấy thông tin chi tiết phiếu
+            fetch(`/api/getChiTietPhieu?maPhieu=${maPhieu}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Lỗi khi tải dữ liệu chi tiết phiếu');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Log hoặc xử lý dữ liệu trả về (nếu cần)
+                    console.log('Dữ liệu chi tiết phiếu:', data);
+
+                    // Chuyển hướng đến trang ChiTietPhieu.html với tham số maPhieu
+                    window.location.href = `ManageDetailPDM.html?maPhieu=${maPhieu}`;
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                });
+        }
+
+        // Hàm xử lý xóa phiếu đặt món
+        function deleteOrder(maPhieu) {
+            const confirmed = confirm('Bạn có chắc muốn xóa phiếu này không?');
+            if (confirmed) {
+                // Xử lý xóa phiếu đặt món (gọi API xóa hoặc thao tác với cơ sở dữ liệu)
+                alert('Đã xóa phiếu có mã: ' + maPhieu);
+                // Sau khi xóa, gọi lại loadOrderForms để cập nhật lại bảng
+                loadOrderForms();
+            }
+        }
+
+        // Gọi hàm loadOrderForms khi trang được tải
+        window.onload = loadOrderForms;
+    </script>
+</body>
+</html>

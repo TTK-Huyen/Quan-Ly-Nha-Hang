@@ -26,15 +26,30 @@ app.use(session({
 }));
 
 // Cấu hình kết nối SQL Server
+// const config = {
+//     server: 'LAPTOP-P8ETI0BS', // Địa chỉ IP của máy chủ SQL Server -- máy Huyền =)))
+//     port: 1433, // Cổng SQL Server
+//     database: 'QLNHAHANG',
+//     user: 'sa',
+//     password: '123456789',
+//     options: {
+//         encrypt: true, // Không cần mã hóa
+//         trustServerCertificate: true, // Bỏ qua xác thực chứng chỉ
+//         enableArithAbort: true, // Bật xử lý lỗi số học
+//         connectTimeout: 30000, // Thời gian chờ 30 giây
+//     },
+// };
+
+
+// Cấu hình kết nối SQL Server
 const config = {
-    server: 'LAPTOP-P8ETI0BS', // Địa chỉ IP của máy chủ SQL Server -- máy Huyền =)))
+    server: '192.168.102.1', // Địa chỉ IP của máy chủ SQL Server
     port: 1433, // Cổng SQL Server
     database: 'QLNHAHANG',
     user: 'sa',
-    password: '123456789',
+    password: '1928374650Vy',
     options: {
-        encrypt: true, // Không cần mã hóa
-        trustServerCertificate: true, // Bỏ qua xác thực chứng chỉ
+        encrypt: false, // Không cần mã hóa
         enableArithAbort: true, // Bật xử lý lỗi số học
         connectTimeout: 30000, // Thời gian chờ 30 giây
     },
@@ -84,7 +99,8 @@ app.post('/login', async (req, res) => {
         const pool = await sql.connect(config);
         console.log("Kết nối database thành công!");
         // Kiểm tra thông tin đăng nhập trong database
-
+        console.log("Username:", username);
+        console.log("Password:", password);
         const result = await pool.request()
             .input('Username', sql.NVarChar, username)
             .input('Password', sql.NVarChar, password)
@@ -95,7 +111,7 @@ app.post('/login', async (req, res) => {
             `);
 
         const user = result.recordset[0];
-        console.log(result.recordset[0]);
+        console.log('Du lieu nhan ve: ', result);
         if (!user) {
             return res.status(401).json({ error: 'Tên đăng nhập hoặc mật khẩu không đúng' });
         }
@@ -115,7 +131,7 @@ app.post('/login', async (req, res) => {
         }
         res.json({ message: 'Đăng nhập thành công!', role: user.Role });
     } catch (err) {
-        console.error(err.message);
+        console.error('Loi:', err.message);
         res.status(500).json({ error: 'Lỗi server' });
     }
 });
@@ -375,8 +391,8 @@ app.get('/api/getTenMuc', async (req, res) => {
             res.status(404).json({ error: 'Không tìm thấy tên mục.' });
         }
     } catch (err) {
-        console.error('Lỗi khi gọi API /api/getTenMuc:', err);
-        res.status(500).json({ error: 'Lỗi server.' });
+        const pool = await sql.connect(config);
+        const result = await pool.request()
     }
 });
 
@@ -452,7 +468,7 @@ app.get('/api/chinhanhkhuvuc_2', async (req, res) => {
             .input('MaKhuVuc', sql.TINYINT, MaKhuVuc)
             .input('MaChiNhanh', sql.TINYINT, MaChiNhanh)
             .query(query);
-
+            console.log('trave',result);
         // Trả về kết quả
         if (result.recordset.length > 0) {
             res.json(result.recordset[0]); // Trả về một đối tượng chi nhánh cụ thể
@@ -569,7 +585,7 @@ app.get('/api/customer-info', async (req, res) => {
 
         const query = `
             SELECT KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai, SUM(T.diemTichLuy + T.DiemHienTai) AS TongDiem 
-            FROM KhachHang KH JOIN THEKHACHHANG T ON KH.MaKhachHang = T.MaKhachHang
+            FROM KhachHang KH JOIN THEKHACHHANG T ON KH.SoDienThoai = T.SoDienThoai
             WHERE KH.SoDienThoai = @CustomerId
             GROUP BY KH.HoTen, KH.SoCCCD, KH.Email, KH.SoDienThoai;
         `;
@@ -588,7 +604,7 @@ app.get('/api/customer-info', async (req, res) => {
     }
 });
 
-app.post('/api/addReservation', async (req, res) => {
+app.post('/api/addReservations', async (req, res) => {
     const {SoDienThoai, MaChiNhanh, SoLuongKhach, GioDen, GhiChu } = req.body;
 
     // Log dữ liệu nhận được
@@ -613,7 +629,6 @@ app.post('/api/addReservation', async (req, res) => {
             .input('GhiChu', sql.NVarChar, GhiChu || null) // Ghi chú có thể để trống
             .execute('DAT_TRUOC');
             console.log({
-                MaKhachHang,
                 SoDienThoai,
                 MaChiNhanh,
                 SoLuongKhach,
